@@ -25,11 +25,11 @@ import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 
-import static org.gradle.api.internal.artifacts.BaseRepositoryFactory.PLUGIN_PORTAL_OVERRIDE_URL_PROPERTY
 import static org.gradle.integtests.fixtures.RepoScriptBlockUtil.createMirrorInitScript
 import static org.gradle.integtests.fixtures.RepoScriptBlockUtil.gradlePluginRepositoryMirrorUrl
 
 abstract class AbstractSmokeTest extends Specification {
+    static final String PLUGIN_PORTAL_OVERRIDE_URL_PROPERTY = "org.gradle.internal.plugins.portal.url.override"
 
     static class TestedVersions {
         /**

@@ -37,10 +37,10 @@ import org.junit.Assume
 
 import java.util.regex.Pattern
 
-import static org.gradle.api.internal.artifacts.BaseRepositoryFactory.PLUGIN_PORTAL_OVERRIDE_URL_PROPERTY
 import static org.gradle.integtests.fixtures.RepoScriptBlockUtil.gradlePluginRepositoryMirrorUrl
 
 class CrossVersionPerformanceTestRunner extends PerformanceTestSpec {
+    private static final String PLUGIN_PORTAL_OVERRIDE_URL_PROPERTY = "org.gradle.internal.plugins.portal.url.override"
     private static final Pattern COMMA_OR_SEMICOLON = Pattern.compile('[;,]')
 
     GradleDistribution current

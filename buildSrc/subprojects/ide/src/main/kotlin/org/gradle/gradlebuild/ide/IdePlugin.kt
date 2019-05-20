@@ -117,13 +117,10 @@ open class IdePlugin : Plugin<Project> {
 
     private
     fun Project.configureIdeaForRootProject() {
-        apply(plugin = "org.jetbrains.gradle.plugin.idea-ext")
-        tasks.named("idea") {
-            doFirst {
-                throw RuntimeException("To import in IntelliJ, please follow the instructions here: https://github.com/gradle/gradle/blob/master/CONTRIBUTING.md#intellij")
-            }
+        if (gradle.startParameter.taskNames.isNotEmpty()) {
+            return // only apply IDEA plugins when syncing in IDEA
         }
-
+        apply(plugin = "org.jetbrains.gradle.plugin.idea-ext")
         val rootProject = this
         plugins.withType<IdeaPlugin> {
             with(model) {

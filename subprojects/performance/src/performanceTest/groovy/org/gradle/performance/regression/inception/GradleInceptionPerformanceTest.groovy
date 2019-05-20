@@ -23,7 +23,6 @@ import org.junit.experimental.categories.Category
 import spock.lang.Issue
 import spock.lang.Unroll
 
-import static org.gradle.api.internal.artifacts.BaseRepositoryFactory.PLUGIN_PORTAL_OVERRIDE_URL_PROPERTY
 import static org.gradle.integtests.fixtures.RepoScriptBlockUtil.createMirrorInitScript
 import static org.gradle.integtests.fixtures.RepoScriptBlockUtil.gradlePluginRepositoryMirrorUrl
 import static org.gradle.performance.generator.JavaTestProject.LARGE_JAVA_MULTI_PROJECT
@@ -43,6 +42,7 @@ import static org.gradle.performance.generator.JavaTestProject.MEDIUM_MONOLITHIC
  */
 @Issue('https://github.com/gradle/gradle-private/issues/1313')
 class GradleInceptionPerformanceTest extends AbstractCrossVersionPerformanceTest {
+    static final String PLUGIN_PORTAL_OVERRIDE_URL_PROPERTY = "org.gradle.internal.plugins.portal.url.override"
 
     static List<String> extraGradleBuildArguments() {
         ["-Djava9Home=${System.getProperty('java9Home')}",
