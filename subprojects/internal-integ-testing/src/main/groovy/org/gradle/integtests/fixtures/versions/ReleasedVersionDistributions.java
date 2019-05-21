@@ -16,7 +16,6 @@
 
 package org.gradle.integtests.fixtures.versions;
 
-import org.gradle.api.Transformer;
 import org.gradle.integtests.fixtures.executer.GradleDistribution;
 import org.gradle.integtests.fixtures.executer.IntegrationTestBuildContext;
 import org.gradle.internal.Factory;
@@ -85,7 +84,7 @@ public class ReleasedVersionDistributions {
 
     public List<GradleDistribution> getAll() {
         if (distributions == null) {
-            distributions = CollectionUtils.collect(getProperties().getProperty("versions").split("\\s+"), (Transformer<GradleDistribution, String>) buildContext::distribution);
+            distributions = CollectionUtils.collect(getProperties().getProperty("versions").split("\\s+"), buildContext::distribution);
         }
         return distributions;
     }

@@ -16,7 +16,6 @@
 
 package org.gradle.nativeplatform.internal.configure;
 
-import org.gradle.api.Transformer;
 import org.gradle.api.internal.file.FileCollectionFactory;
 import org.gradle.nativeplatform.BuildType;
 import org.gradle.nativeplatform.Flavor;

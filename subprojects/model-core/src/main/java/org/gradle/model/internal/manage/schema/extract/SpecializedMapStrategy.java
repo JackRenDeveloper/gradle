@@ -19,11 +19,9 @@ package org.gradle.model.internal.manage.schema.extract;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import org.gradle.api.Action;
 import org.gradle.internal.UncheckedException;
 import org.gradle.model.ModelMap;
 import org.gradle.model.internal.core.NodeBackedModelMap;
-import org.gradle.model.internal.manage.schema.ModelSchema;
 import org.gradle.model.internal.manage.schema.SpecializedMapSchema;
 import org.gradle.model.internal.type.ModelType;
 

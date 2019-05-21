@@ -16,7 +16,6 @@
 
 package org.gradle.api.internal;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSet;
 import groovy.lang.Closure;
@@ -75,9 +74,6 @@ import org.gradle.util.ConfigureUtil;
 import org.gradle.util.GFileUtils;
 import org.gradle.util.Path;
 
-import javax.annotation.Nullable;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;

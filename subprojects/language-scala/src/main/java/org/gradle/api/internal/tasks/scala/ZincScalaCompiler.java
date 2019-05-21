@@ -69,7 +69,7 @@ public class ZincScalaCompiler implements Compiler<ScalaJavaJointCompileSpec>, S
             com.typesafe.zinc.Compiler compiler = ZincScalaCompilerFactory.createParallelSafeCompiler(serviceRegistry, scalaClasspath, zincClasspath, logger, gradleUserHome);
             LOGGER.info("Initialized Zinc Scala compiler: {}", timer.getElapsed());
 
-            List<String> scalacOptions = new ZincScalaCompilerArgumentsGenerator().generate(spec);
+            List<String> scalacOptions = ZincScalaCompilerArgumentsGenerator.generate(spec);
             List<String> javacOptions = new JavaCompilerArgumentsBuilder(spec).includeClasspath(false).noEmptySourcePath().build();
             Inputs inputs = Inputs.create(ImmutableList.copyOf(spec.getCompileClasspath()), ImmutableList.copyOf(spec.getSourceFiles()), spec.getDestinationDir(),
                     scalacOptions, javacOptions, spec.getAnalysisFile(), spec.getAnalysisMap(), "mixed", getIncOptions(), true);

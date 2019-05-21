@@ -26,14 +26,14 @@ public class UnderDevelopmentGradleDistribution extends DefaultGradleDistributio
     }
 
     public UnderDevelopmentGradleDistribution(IntegrationTestBuildContext buildContext) {
-        this(buildContext, IntegrationTestBuildContext.getGradleHomeDir());
+        this(buildContext, buildContext.getGradleHomeDir());
     }
 
     public UnderDevelopmentGradleDistribution(IntegrationTestBuildContext buildContext, TestFile gradleHomeDir) {
         super(
-            IntegrationTestBuildContext.getVersion(),
+            buildContext.getVersion(),
             gradleHomeDir,
-            IntegrationTestBuildContext.getDistributionsDir().file(String.format("gradle-%s-bin.zip", IntegrationTestBuildContext.getVersion().getBaseVersion().getVersion()))
+            buildContext.getDistributionsDir().file(String.format("gradle-%s-bin.zip", buildContext.getVersion().getBaseVersion().getVersion()))
         );
     }
 
