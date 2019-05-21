@@ -69,12 +69,7 @@ public class ProjectBuilder {
      * @return The builder
      */
     public static ProjectBuilder builder() {
-        return DeprecationLogger.whileDisabled(new Factory<ProjectBuilder>() {
-                  @Override
-                  public ProjectBuilder create() {
-                      return new ProjectBuilder();
-                  }
-              });
+        return DeprecationLogger.whileDisabled(() -> new ProjectBuilder());
     }
 
     /**

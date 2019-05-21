@@ -56,12 +56,7 @@ public class BuildComparisonResult {
         if (!getUncomparedSourceOutcomes().isEmpty() || !getUncomparedTargetOutcomes().isEmpty()) {
             return false;
         } else {
-            return CollectionUtils.every(comparisons, new Spec<BuildOutcomeComparisonResult<?>>() {
-                @Override
-                public boolean isSatisfiedBy(BuildOutcomeComparisonResult<?> comparisonResult) {
-                    return comparisonResult.isOutcomesAreIdentical();
-                }
-            });
+            return CollectionUtils.every(comparisons, comparisonResult -> comparisonResult.isOutcomesAreIdentical());
         }
     }
 }

@@ -122,37 +122,19 @@ public class Daemon implements Stoppable {
 
             registryUpdater = new DaemonRegistryUpdater(daemonRegistry, daemonContext, token);
 
-            ShutdownHooks.addShutdownHook(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        daemonRegistry.remove(connectorAddress);
-                    } catch (Exception e) {
-                        LOGGER.debug("VM shutdown hook was unable to remove the daemon address from the registry. It will be cleaned up later.", e);
-                    }
+            ShutdownHooks.addShutdownHook(() -> {
+                try {
+                    daemonRegistry.remove(connectorAddress);
+                } catch (Exception e) {
+                    LOGGER.debug("VM shutdown hook was unable to remove the daemon address from the registry. It will be cleaned up later.", e);
                 }
             });
 
-            Runnable onStartCommand = new Runnable() {
-                @Override
-                public void run() {
-                    registryUpdater.onStartActivity();
-                }
-            };
+            Runnable onStartCommand = () -> registryUpdater.onStartActivity();
 
-            Runnable onFinishCommand = new Runnable() {
-                @Override
-                public void run() {
-                    registryUpdater.onCompleteActivity();
-                }
-            };
+            Runnable onFinishCommand = () -> registryUpdater.onCompleteActivity();
 
-            Runnable onCancelCommand = new Runnable() {
-                @Override
-                public void run() {
-                    registryUpdater.onCancel();
-                }
-            };
+            Runnable onCancelCommand = () -> registryUpdater.onCancel();
 
             // Start the pipeline in reverse order:
             // 1. mark daemon as running
@@ -162,12 +144,7 @@ public class Daemon implements Stoppable {
 
             stateCoordinator = new DaemonStateCoordinator(executorFactory, onStartCommand, onFinishCommand, onCancelCommand);
             connectionHandler = new DefaultIncomingConnectionHandler(commandExecuter, daemonContext, stateCoordinator, executorFactory, token);
-            Runnable connectionErrorHandler = new Runnable() {
-                @Override
-                public void run() {
-                    stateCoordinator.stop();
-                }
-            };
+            Runnable connectionErrorHandler = () -> stateCoordinator.stop();
             connectorAddress = connector.start(connectionHandler, connectionErrorHandler);
             LOGGER.debug("Daemon starting at: {}, with address: {}", new Date(), connectorAddress);
             registryUpdater.onStart(connectorAddress);

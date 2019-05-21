@@ -72,17 +72,14 @@ public class DefaultTemplateBasedStartScriptGenerator implements TemplateBasedSc
     }
 
     private String generateStartScriptContentFromTemplate(final Map<String, String> binding) {
-        return IoUtils.get(getTemplate().asReader(), new Transformer<String, Reader>() {
-            @Override
-            public String transform(Reader reader) {
-                try {
-                    SimpleTemplateEngine engine = new SimpleTemplateEngine();
-                    Template template = engine.createTemplate(reader);
-                    String output = template.make(binding).toString();
-                    return TextUtil.convertLineSeparators(output, lineSeparator);
-                } catch (IOException e) {
-                    throw new UncheckedIOException(e);
-                }
+        return IoUtils.get(getTemplate().asReader(), reader -> {
+            try {
+                SimpleTemplateEngine engine = new SimpleTemplateEngine();
+                Template template = engine.createTemplate(reader);
+                String output = template.make(binding).toString();
+                return TextUtil.convertLineSeparators(output, lineSeparator);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
             }
         });
     }

@@ -31,12 +31,7 @@ public class CoffeeScriptCompilerWorker implements CoffeeScriptCompilerProtocol 
 
     @Override
     public void process(SerializableCoffeeScriptCompileSpec spec) {
-        Scriptable coffeeScriptScope = parse(spec.getCoffeeScriptJs(), "UTF-8", new Action<Context>() {
-            @Override
-            public void execute(Context context) {
-                context.setOptimizationLevel(-1);
-            }
-        });
+        Scriptable coffeeScriptScope = parse(spec.getCoffeeScriptJs(), "UTF-8", context -> context.setOptimizationLevel(-1));
 
         String encoding = spec.getOptions().getEncoding();
 

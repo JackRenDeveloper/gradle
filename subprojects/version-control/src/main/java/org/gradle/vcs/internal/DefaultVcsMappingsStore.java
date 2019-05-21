@@ -71,12 +71,7 @@ public class DefaultVcsMappingsStore implements VcsMappingsStore, VcsResolver {
                 }
             }
             if (resolutions.size() > 1) {
-                Set<String> resolutionDisplayNames = CollectionUtils.collect(resolutions, new Transformer<String, VersionControlSpec>() {
-                    @Override
-                    public String transform(VersionControlSpec versionControlSpec) {
-                        return versionControlSpec.getDisplayName();
-                    }
-                });
+                Set<String> resolutionDisplayNames = CollectionUtils.collect(resolutions, versionControlSpec -> versionControlSpec.getDisplayName());
                 throw new GradleException("Conflicting external source dependency rules were found in nested builds for " + mapping.getRequested().getDisplayName() + ":\n  " + CollectionUtils.join("\n  ", resolutionDisplayNames));
             }
         }

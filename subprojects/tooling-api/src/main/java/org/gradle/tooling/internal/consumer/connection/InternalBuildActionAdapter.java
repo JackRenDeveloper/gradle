@@ -54,12 +54,7 @@ public class InternalBuildActionAdapter<T> implements InternalBuildAction<T>, In
     @Override
     public T execute(final InternalBuildController buildController) {
         ProtocolToModelAdapter protocolToModelAdapter = new ProtocolToModelAdapter(new ConsumerTargetTypeProvider());
-        BuildController buildControllerAdapter = new BuildControllerAdapter(protocolToModelAdapter, new InternalBuildControllerAdapter() {
-            @Override
-            public BuildResult<?> getModel(Object target, ModelIdentifier modelIdentifier, Object parameter) {
-                return buildController.getModel(target, modelIdentifier);
-            }
-        }, new ModelMapping(), rootDir);
+        BuildController buildControllerAdapter = new BuildControllerAdapter(protocolToModelAdapter, (target, modelIdentifier, parameter) -> buildController.getModel(target, modelIdentifier), new ModelMapping(), rootDir);
         buildControllerAdapter  = new BuildControllerWithoutParameterSupport(versionDetails, buildControllerAdapter);
         return action.execute(buildControllerAdapter);
     }
@@ -70,12 +65,7 @@ public class InternalBuildActionAdapter<T> implements InternalBuildAction<T>, In
     @Override
     public T execute(final InternalBuildControllerVersion2 buildController) {
         ProtocolToModelAdapter protocolToModelAdapter = new ProtocolToModelAdapter(new ConsumerTargetTypeProvider());
-        BuildController buildControllerAdapter = new BuildControllerAdapter(protocolToModelAdapter, new InternalBuildControllerAdapter() {
-            @Override
-            public BuildResult<?> getModel(Object target, ModelIdentifier modelIdentifier, Object parameter) {
-                return buildController.getModel(target, modelIdentifier, parameter);
-            }
-        }, new ModelMapping(), rootDir);
+        BuildController buildControllerAdapter = new BuildControllerAdapter(protocolToModelAdapter, (target, modelIdentifier, parameter) -> buildController.getModel(target, modelIdentifier, parameter), new ModelMapping(), rootDir);
         return action.execute(buildControllerAdapter);
     }
 }

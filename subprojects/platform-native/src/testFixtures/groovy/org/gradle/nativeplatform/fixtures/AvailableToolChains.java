@@ -70,12 +70,7 @@ import static org.gradle.nativeplatform.fixtures.msvcpp.VisualStudioVersion.VISU
 import static org.gradle.nativeplatform.fixtures.msvcpp.VisualStudioVersion.VISUALSTUDIO_2017;
 
 public class AvailableToolChains {
-    private static final Comparator<ToolChainCandidate> LATEST_RELEASED_FIRST = Collections.reverseOrder(new Comparator<ToolChainCandidate>() {
-        @Override
-        public int compare(ToolChainCandidate toolchain1, ToolChainCandidate toolchain2) {
-            return toolchain1.getVersion().compareTo(toolchain2.getVersion());
-        }
-    });
+    private static final Comparator<ToolChainCandidate> LATEST_RELEASED_FIRST = Collections.reverseOrder((toolchain1, toolchain2) -> toolchain1.getVersion().compareTo(toolchain2.getVersion()));
     private static List<ToolChainCandidate> toolChains;
 
     /**
@@ -173,12 +168,7 @@ public class AvailableToolChains {
     }
 
     static private VisualStudioVersion getVisualStudioVersion(final VersionNumber version) {
-        return CollectionUtils.findFirst(VisualStudioVersion.values(), new Spec<VisualStudioVersion>() {
-            @Override
-            public boolean isSatisfiedBy(VisualStudioVersion candidate) {
-                return candidate.getVersion().getMajor() == version.getMajor();
-            }
-        });
+        return CollectionUtils.findFirst(VisualStudioVersion.values(), candidate -> candidate.getVersion().getMajor() == version.getMajor());
     }
 
     static private List<ToolChainCandidate> findVisualCpps() {
@@ -267,12 +257,7 @@ public class AvailableToolChains {
 
         // On Linux, we assume swift is installed into /opt/swift
         File rootSwiftInstall = new File("/opt/swift");
-        File[] swiftCandidates = GUtil.elvis(rootSwiftInstall.listFiles(new FileFilter() {
-            @Override
-            public boolean accept(File swiftInstall) {
-                return swiftInstall.isDirectory() && !swiftInstall.getName().equals("latest");
-            }
-        }), new File[0]);
+        File[] swiftCandidates = GUtil.elvis(rootSwiftInstall.listFiles(swiftInstall -> swiftInstall.isDirectory() && !swiftInstall.getName().equals("latest")), new File[0]);
 
         for (File swiftInstall : swiftCandidates) {
             File swiftc = new File(swiftInstall, "/usr/bin/swiftc");

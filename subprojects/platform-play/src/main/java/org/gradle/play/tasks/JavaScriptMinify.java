@@ -162,12 +162,7 @@ public class JavaScriptMinify extends SourceTask {
 
             // Copy the raw form
             FileOperations fileOperations = ((ProjectInternal) getProject()).getFileOperations();
-            fileOperations.copy(new Action<CopySpec>() {
-                @Override
-                public void execute(CopySpec copySpec) {
-                    copySpec.from(fileDetails.getFile()).into(outputFileDir);
-                }
-            });
+            fileOperations.copy(copySpec -> copySpec.from(fileDetails.getFile()).into(outputFileDir));
 
             // Capture the relative file
             relativeFiles.add(new RelativeFile(fileDetails.getFile(), fileDetails.getRelativePath()));

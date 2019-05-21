@@ -42,18 +42,14 @@ public class NotifySend implements Announcer {
             throw new AnnouncerUnavailableException("Could not find 'notify-send' in the path.");
         }
 
-        processOperations.exec(new Action<ExecSpec>() {
-            @Override
-            public void execute(ExecSpec execSpec) {
-                execSpec.executable(exe);
-                File icon = iconProvider.getIcon(32, 32);
-                if (icon != null) {
-                    execSpec.args("-i", icon.getAbsolutePath());
-                }
-                execSpec.args("--hint=int:transient:1");
-                execSpec.args(title, message);
+        processOperations.exec(execSpec -> {
+            execSpec.executable(exe);
+            File icon = iconProvider.getIcon(32, 32);
+            if (icon != null) {
+                execSpec.args("-i", icon.getAbsolutePath());
             }
-
+            execSpec.args("--hint=int:transient:1");
+            execSpec.args(title, message);
         });
     }
 }

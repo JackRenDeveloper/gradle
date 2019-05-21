@@ -95,12 +95,9 @@ public class SwiftPackageManagerExportPlugin implements Plugin<Project> {
 
         // Defer attaching the model until all components have been (most likely) configured
         // TODO - make this relationship explicit to make this more reliable and offer better diagnostics
-        project.afterEvaluate(new Action<Project>() {
-            @Override
-            public void execute(Project project) {
-                Provider<Package> products = project.getProviders().provider(new MemoizingCallable(new PackageFactory(project)));
-                manifestTask.getPackage().set(products);
-            }
+        project.afterEvaluate(project1 -> {
+            Provider<Package> products = project1.getProviders().provider(new MemoizingCallable(new PackageFactory(project1)));
+            manifestTask.getPackage().set(products);
         });
     }
 

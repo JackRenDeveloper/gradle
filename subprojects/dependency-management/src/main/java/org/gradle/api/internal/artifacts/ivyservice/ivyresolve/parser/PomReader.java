@@ -141,14 +141,11 @@ public class PomReader implements PomParent {
         this.moduleIdentifierFactory = moduleIdentifierFactory;
         setPomProperties(childPomProperties);
         final String systemId = resource.getFile().toURI().toASCIIString();
-        Document pomDomDoc = resource.withContent(new Transformer<Document, InputStream>() {
-            @Override
-            public Document transform(InputStream inputStream) {
-                try {
-                    return parseToDom(inputStream, systemId);
-                } catch (Exception e) {
-                    throw new MetaDataParseException("POM", resource, e);
-                }
+        Document pomDomDoc = resource.withContent(inputStream -> {
+            try {
+                return parseToDom(inputStream, systemId);
+            } catch (Exception e) {
+                throw new MetaDataParseException("POM", resource, e);
             }
         }).getResult();
         projectElement = pomDomDoc.getDocumentElement();

@@ -156,28 +156,22 @@ public class DefaultJavaFeatureSpec implements FeatureSpecInternal {
             configurationContainer.getByName(JavaPlugin.RUNTIME_CLASSPATH_CONFIGURATION_NAME).extendsFrom(impl);
         }
 
-        pluginManager.withPlugin("maven-publish", new Action<AppliedPlugin>() {
-            @Override
-            public void execute(AppliedPlugin plugin) {
-                final AdhocComponentWithVariants component = findComponent();
-                if (component != null) {
-                    component.addVariantsFromConfiguration(apiElements, new JavaConfigurationVariantMapping("compile", true));
-                    component.addVariantsFromConfiguration(runtimeElements, new JavaConfigurationVariantMapping("runtime", true));
-                }
+        pluginManager.withPlugin("maven-publish", plugin -> {
+            final AdhocComponentWithVariants component = findComponent();
+            if (component != null) {
+                component.addVariantsFromConfiguration(apiElements, new JavaConfigurationVariantMapping("compile", true));
+                component.addVariantsFromConfiguration(runtimeElements, new JavaConfigurationVariantMapping("runtime", true));
             }
         });
     }
 
     private void configureTargetPlatform(Configuration configuration) {
-        ((ConfigurationInternal)configuration).beforeLocking(new Action<ConfigurationInternal>() {
-            @Override
-            public void execute(ConfigurationInternal configuration) {
-                String majorVersion = javaPluginConvention.getTargetCompatibility().getMajorVersion();
-                AttributeContainerInternal attributes = configuration.getAttributes();
-                // If nobody said anything about this variant's target platform, use whatever the convention says
-                if (!attributes.contains(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE)) {
-                    attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, Integer.valueOf(majorVersion));
-                }
+        ((ConfigurationInternal)configuration).beforeLocking(configuration1 -> {
+            String majorVersion = javaPluginConvention.getTargetCompatibility().getMajorVersion();
+            AttributeContainerInternal attributes = configuration1.getAttributes();
+            // If nobody said anything about this variant's target platform, use whatever the convention says
+            if (!attributes.contains(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE)) {
+                attributes.attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, Integer.valueOf(majorVersion));
             }
         });
     }
@@ -193,14 +187,11 @@ public class DefaultJavaFeatureSpec implements FeatureSpecInternal {
     private void attachArtifactToConfiguration(Configuration configuration) {
         String jarTaskName = sourceSet.getJarTaskName();
         if (!tasks.getNames().contains(jarTaskName)) {
-            tasks.register(jarTaskName, Jar.class, new Action<Jar>() {
-                @Override
-                public void execute(Jar jar) {
-                    jar.setDescription("Assembles a jar archive containing the classes of the '" + name + "' feature.");
-                    jar.setGroup(BasePlugin.BUILD_GROUP);
-                    jar.from(sourceSet.getOutput());
-                    jar.getArchiveClassifier().set(TextUtil.camelToKebabCase(name));
-                }
+            tasks.register(jarTaskName, Jar.class, jar -> {
+                jar.setDescription("Assembles a jar archive containing the classes of the '" + name + "' feature.");
+                jar.setGroup(BasePlugin.BUILD_GROUP);
+                jar.from(sourceSet.getOutput());
+                jar.getArchiveClassifier().set(TextUtil.camelToKebabCase(name));
             });
         }
         TaskProvider<Task> jar = tasks.named(jarTaskName);
@@ -237,12 +228,7 @@ public class DefaultJavaFeatureSpec implements FeatureSpecInternal {
     }
 
     private void configureUsage(Configuration conf, final String usage) {
-        conf.attributes(new Action<AttributeContainer>() {
-            @Override
-            public void execute(AttributeContainer attrs) {
-                attrs.attribute(Usage.USAGE_ATTRIBUTE, objectFactory.named(Usage.class, usage));
-            }
-        });
+        conf.attributes(attrs -> attrs.attribute(Usage.USAGE_ATTRIBUTE, objectFactory.named(Usage.class, usage)));
     }
 
     private boolean isMainSourceSet(SourceSet sourceSet) {

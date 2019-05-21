@@ -48,12 +48,7 @@ public abstract class AbstractStructSchema<T> extends AbstractModelSchema<T> imp
         }
         this.properties = builder.build();
         this.nonPropertyMethods = ImmutableSet.copyOf(nonPropertyMethods);
-        this.aspects = Maps.uniqueIndex(aspects, new Function<ModelSchemaAspect, Class<? extends ModelSchemaAspect>>() {
-            @Override
-            public Class<? extends ModelSchemaAspect> apply(ModelSchemaAspect aspect) {
-                return aspect.getClass();
-            }
-        });
+        this.aspects = Maps.uniqueIndex(aspects, aspect -> aspect.getClass());
     }
 
     @Override

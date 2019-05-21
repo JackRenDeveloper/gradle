@@ -31,12 +31,7 @@ public class XcodeUtils {
     }
 
     public static String toSpaceSeparatedList(Iterable<File> it) {
-        return StringUtils.join(CollectionUtils.collect(it, new Transformer<String, File>() {
-            @Override
-            public String transform(File file) {
-                return quote(file.getAbsolutePath());
-            }
-        }), ' ');
+        return StringUtils.join(CollectionUtils.collect(it, file -> quote(file.getAbsolutePath())), ' ');
     }
 
     static String quote(String value) {

@@ -59,12 +59,7 @@ public final class BuildCacheServices extends AbstractPluginServiceRegistry {
             }
 
             DirectoryBuildCacheFileStoreFactory createDirectoryBuildCacheFileStoreFactory() {
-                return new DirectoryBuildCacheFileStoreFactory() {
-                    @Override
-                    public PathKeyFileStore createFileStore(File baseDir) {
-                        return new DefaultPathKeyFileStore(baseDir);
-                    }
-                };
+                return baseDir -> new DefaultPathKeyFileStore(baseDir);
             }
 
             BuildCacheServiceRegistration createDirectoryBuildCacheServiceRegistration() {

@@ -96,12 +96,7 @@ public class DefaultIvyContextManager implements IvyContextManager {
      * process sets a system property at that moment.
      */
     private Ivy createNewIvyInstance() {
-        return SystemProperties.getInstance().withSystemProperties(new Factory<Ivy>() {
-            @Override
-            public Ivy create() {
-                return Ivy.newInstance(new IvySettings());
-            }
-        });
+        return SystemProperties.getInstance().withSystemProperties(() -> Ivy.newInstance(new IvySettings()));
     }
 
     private void releaseIvy(Ivy ivy) {

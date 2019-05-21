@@ -45,36 +45,13 @@ public class RhinoPlugin implements Plugin<Project> {
         configureDefaultRhinoDependency(configuration, project.getDependencies(), rhinoExtension);
 
         ConventionMapping conventionMapping = ((IConventionAware) rhinoExtension).getConventionMapping();
-        conventionMapping.map("classpath", new Callable<Configuration>() {
-            @Override
-            public Configuration call() {
-                return configuration;
-            }
-        });
-        conventionMapping.map("version", new Callable<String>() {
-            @Override
-            public String call() {
-                return RhinoExtension.DEFAULT_RHINO_DEPENDENCY_VERSION;
-            }
-        });
+        conventionMapping.map("classpath", (Callable<Configuration>) () -> configuration);
+        conventionMapping.map("version", (Callable<String>) () -> RhinoExtension.DEFAULT_RHINO_DEPENDENCY_VERSION);
 
-        project.getTasks().withType(RhinoShellExec.class, new Action<RhinoShellExec>() {
-            @Override
-            public void execute(RhinoShellExec task) {
-                task.getConventionMapping().map("classpath", new Callable<FileCollection>() {
-                    @Override
-                    public FileCollection call() {
-                        return rhinoExtension.getClasspath();
-                    }
-                });
-                task.getConventionMapping().map("main", new Callable<String>() {
-                    @Override
-                    public String call() {
-                        return RhinoExtension.RHINO_SHELL_MAIN;
-                    }
-                });
-                task.setClasspath(rhinoExtension.getClasspath());
-            }
+        project.getTasks().withType(RhinoShellExec.class, task -> {
+            task.getConventionMapping().map("classpath", (Callable<FileCollection>) () -> rhinoExtension.getClasspath());
+            task.getConventionMapping().map("main", (Callable<String>) () -> RhinoExtension.RHINO_SHELL_MAIN);
+            task.setClasspath(rhinoExtension.getClasspath());
         });
     }
 
@@ -86,12 +63,9 @@ public class RhinoPlugin implements Plugin<Project> {
     }
 
     public void configureDefaultRhinoDependency(Configuration configuration, final DependencyHandler dependencyHandler, final RhinoExtension extension) {
-        configuration.defaultDependencies(new Action<DependencySet>() {
-            @Override
-            public void execute(DependencySet dependencies) {
-                Dependency dependency = dependencyHandler.create(RhinoExtension.DEFAULT_RHINO_DEPENDENCY_GROUP + ":" + RhinoExtension.DEFAULT_RHINO_DEPENDENCY_MODULE + ":" + extension.getVersion());
-                dependencies.add(dependency);
-            }
+        configuration.defaultDependencies(dependencies -> {
+            Dependency dependency = dependencyHandler.create(RhinoExtension.DEFAULT_RHINO_DEPENDENCY_GROUP + ":" + RhinoExtension.DEFAULT_RHINO_DEPENDENCY_MODULE + ":" + extension.getVersion());
+            dependencies.add(dependency);
         });
     }
 }

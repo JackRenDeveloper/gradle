@@ -23,11 +23,6 @@ import org.gradle.tooling.BuildController;
 public class ParameterAction implements BuildAction<CustomModel> {
     @Override
     public CustomModel execute(BuildController controller) {
-        return controller.getModel(CustomModel.class, CustomParameter.class, new Action<CustomParameter>() {
-            @Override
-            public void execute(CustomParameter customParameter) {
-                customParameter.setValue("myParameter");
-            }
-        });
+        return controller.getModel(CustomModel.class, CustomParameter.class, customParameter -> customParameter.setValue("myParameter"));
     }
 }

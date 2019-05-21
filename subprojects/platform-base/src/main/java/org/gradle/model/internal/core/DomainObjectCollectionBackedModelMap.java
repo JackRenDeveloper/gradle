@@ -233,12 +233,7 @@ public class DomainObjectCollectionBackedModelMap<T> extends ModelMapGroovyView<
 
     @Override
     public void named(final String name, Action<? super T> configAction) {
-        collection.matching(new Spec<T>() {
-            @Override
-            public boolean isSatisfiedBy(T element) {
-                return get(name) == element;
-            }
-        }).all(configAction);
+        collection.matching(element -> get(name) == element).all(configAction);
     }
 
     @Override

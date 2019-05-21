@@ -28,12 +28,9 @@ public class WrapperPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
         if (project.getParent() == null) {
-            project.getTasks().register("wrapper", Wrapper.class, new Action<Wrapper>() {
-                @Override
-                public void execute(Wrapper wrapper) {
-                    wrapper.setGroup("Build Setup");
-                    wrapper.setDescription("Generates Gradle wrapper files.");
-                }
+            project.getTasks().register("wrapper", Wrapper.class, wrapper -> {
+                wrapper.setGroup("Build Setup");
+                wrapper.setDescription("Generates Gradle wrapper files.");
             });
         }
     }

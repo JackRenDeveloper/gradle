@@ -69,12 +69,7 @@ public class NativeComponentRules {
             PlatformRequirement requirement = DefaultPlatformRequirement.create(nativePlatforms.getDefaultPlatformName());
             targetPlatforms = Collections.singletonList(requirement);
         }
-        return CollectionUtils.collect(targetPlatforms, new Transformer<NativePlatform, PlatformRequirement>() {
-            @Override
-            public NativePlatform transform(PlatformRequirement platformRequirement) {
-                return platforms.resolve(NativePlatform.class, platformRequirement);
-            }
-        });
+        return CollectionUtils.collect(targetPlatforms, platformRequirement -> platforms.resolve(NativePlatform.class, platformRequirement));
     }
 
     private static void executeForEachBuildType(

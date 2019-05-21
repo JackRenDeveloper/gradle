@@ -82,16 +82,13 @@ public class GenerateModuleMetadata extends DefaultTask {
     }
 
     private void mustHaveAttachedComponent() {
-        setOnlyIf(new Spec<Task>() {
-            @Override
-            public boolean isSatisfiedBy(Task element) {
-                PublicationInternal publication = (PublicationInternal) GenerateModuleMetadata.this.publication.get();
-                if (publication.getComponent() == null) {
-                    getLogger().warn(publication.getDisplayName() + " isn't attached to a component. Gradle metadata only supports publications with software components (e.g. from component.java)");
-                    return false;
-                }
-                return true;
+        setOnlyIf(element -> {
+            PublicationInternal publication = (PublicationInternal) GenerateModuleMetadata.this.publication.get();
+            if (publication.getComponent() == null) {
+                getLogger().warn(publication.getDisplayName() + " isn't attached to a component. Gradle metadata only supports publications with software components (e.g. from component.java)");
+                return false;
             }
+            return true;
         });
     }
 

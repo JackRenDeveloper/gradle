@@ -68,12 +68,9 @@ public class PlayTwirlPlugin extends RuleSource {
 
     @Mutate
     void createGeneratedScalaSourceSets(@Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> binaries, final ObjectFactory objectFactory) {
-        binaries.all(new Action<PlayApplicationBinarySpecInternal>() {
-            @Override
-            public void execute(PlayApplicationBinarySpecInternal playApplicationBinarySpec) {
-                for (LanguageSourceSet languageSourceSet : playApplicationBinarySpec.getInputs().withType(TwirlSourceSet.class)) {
-                    playApplicationBinarySpec.addGeneratedScala(languageSourceSet, objectFactory);
-                }
+        binaries.all(playApplicationBinarySpec -> {
+            for (LanguageSourceSet languageSourceSet : playApplicationBinarySpec.getInputs().withType(TwirlSourceSet.class)) {
+                playApplicationBinarySpec.addGeneratedScala(languageSourceSet, objectFactory);
             }
         });
     }
@@ -81,13 +78,10 @@ public class PlayTwirlPlugin extends RuleSource {
     @Mutate
     // TODO:LPTR This should be @Defaults @Each PlayApplicationBinarySpecInternal
     void addPlayJavaDependencyIfNeeded(@Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> binaries, final PlayPluginConfigurations configurations, final PlatformResolvers platforms) {
-        binaries.beforeEach(new Action<PlayApplicationBinarySpecInternal>() {
-            @Override
-            public void execute(PlayApplicationBinarySpecInternal binary) {
-                if (hasTwirlSourceSetsWithJavaImports(binary.getApplication())) {
-                    PlayPlatform targetPlatform = binary.getTargetPlatform();
-                    configurations.getPlay().addDependency(((PlayPlatformInternal) targetPlatform).getDependencyNotation("play-java"));
-                }
+        binaries.beforeEach(binary -> {
+            if (hasTwirlSourceSetsWithJavaImports(binary.getApplication())) {
+                PlayPlatform targetPlatform = binary.getTargetPlatform();
+                configurations.getPlay().addDependency(((PlayPlatformInternal) targetPlatform).getDependencyNotation("play-java"));
             }
         });
     }
@@ -98,12 +92,7 @@ public class PlayTwirlPlugin extends RuleSource {
     }
 
     static boolean hasTwirlSourceSetsWithJavaImports(PlayApplicationSpec playApplicationSpec) {
-        return CollectionUtils.any(playApplicationSpec.getSources().withType(TwirlSourceSet.class).values(), new Spec<TwirlSourceSet>() {
-            @Override
-            public boolean isSatisfiedBy(TwirlSourceSet twirlSourceSet) {
-                return twirlSourceSet.getDefaultImports() == TwirlImports.JAVA;
-            }
-        });
+        return CollectionUtils.any(playApplicationSpec.getSources().withType(TwirlSourceSet.class).values(), twirlSourceSet -> twirlSourceSet.getDefaultImports() == TwirlImports.JAVA);
     }
 
     private static class Twirl implements LanguageTransform<TwirlSourceSet, ScalaSourceCode> {

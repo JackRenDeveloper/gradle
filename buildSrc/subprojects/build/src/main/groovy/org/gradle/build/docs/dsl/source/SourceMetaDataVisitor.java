@@ -93,9 +93,7 @@ public class SourceMetaDataVisitor extends VoidVisitorAdapter<ClassMetaDataRepos
 
     @Override
     public void visit(AnnotationDeclaration annotationDeclaration, ClassMetaDataRepository<ClassMetaData> repository) {
-        visitTypeDeclaration(annotationDeclaration, repository, MetaType.ANNOTATION, () -> {
-            super.visit(annotationDeclaration, repository);
-        });
+        visitTypeDeclaration(annotationDeclaration, repository, MetaType.ANNOTATION, () -> super.visit(annotationDeclaration, repository));
     }
 
     private void visitTypeDeclaration(TypeDeclaration<?> typeDeclaration, ClassMetaDataRepository<ClassMetaData> repository, ClassMetaData.MetaType metaType, Runnable action) {
@@ -219,9 +217,7 @@ public class SourceMetaDataVisitor extends VoidVisitorAdapter<ClassMetaDataRepos
         });
         elementType.ifClassOrInterfaceType(classOrInterfaceType -> {
             typeMetaData.setName(extractName(classOrInterfaceType));
-            classOrInterfaceType.getTypeArguments().ifPresent(typeArguments -> {
-                typeArguments.forEach(arg -> typeMetaData.addTypeArg(extractTypeName(arg)));
-            });
+            classOrInterfaceType.getTypeArguments().ifPresent(typeArguments -> typeArguments.forEach(arg -> typeMetaData.addTypeArg(extractTypeName(arg))));
         });
     }
 

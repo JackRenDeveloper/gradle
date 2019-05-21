@@ -24,11 +24,6 @@ import java.io.File;
 
 public class TmpDirTemporaryFileProvider extends DefaultTemporaryFileProvider {
     public TmpDirTemporaryFileProvider() {
-        super(new Factory<File>() {
-            @Override
-            public File create() {
-                return FileUtils.canonicalize(new File(SystemProperties.getInstance().getJavaIoTmpDir()));
-            }
-        });
+        super(() -> FileUtils.canonicalize(new File(SystemProperties.getInstance().getJavaIoTmpDir())));
     }
 }

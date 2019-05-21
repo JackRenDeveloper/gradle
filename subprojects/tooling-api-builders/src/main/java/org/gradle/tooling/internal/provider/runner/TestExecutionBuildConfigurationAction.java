@@ -63,12 +63,7 @@ class TestExecutionBuildConfigurationAction implements BuildConfigurationAction 
     private List<Test> configureBuildForTestDescriptors(GradleInternal gradle, TestExecutionRequestAction testExecutionRequest) {
         final Collection<InternalTestDescriptor> testDescriptors = testExecutionRequest.getTestExecutionDescriptors();
 
-        final List<String> testTaskPaths = org.gradle.util.CollectionUtils.collect(testDescriptors, new Transformer<String, InternalTestDescriptor>() {
-            @Override
-            public String transform(InternalTestDescriptor testDescriptor) {
-                return ((DefaultTestDescriptor) testDescriptor).getTaskPath();
-            }
-        });
+        final List<String> testTaskPaths = org.gradle.util.CollectionUtils.collect(testDescriptors, (Transformer<String, InternalTestDescriptor>) testDescriptor -> ((DefaultTestDescriptor) testDescriptor).getTaskPath());
 
         List<Test> testTasksToRun = new ArrayList<Test>();
         for (final String testTaskPath : testTaskPaths) {

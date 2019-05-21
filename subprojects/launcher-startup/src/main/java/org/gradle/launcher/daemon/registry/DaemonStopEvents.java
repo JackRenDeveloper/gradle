@@ -32,18 +32,15 @@ public class DaemonStopEvents {
         final Set<Long> uniqueStoppedPids = new HashSet<Long>(stopEvents.size());
         final List<DaemonStopEvent> recentStopEvents = new ArrayList<DaemonStopEvent>(stopEvents.size());
 
-        final List<DaemonStopEvent> sortedEvents = CollectionUtils.sort(stopEvents, new Comparator<DaemonStopEvent>() {
-            @Override
-            public int compare(DaemonStopEvent event1, DaemonStopEvent event2) {
-                if (event1.getStatus() != null && event2.getStatus() == null) {
-                    return -1;
-                } else if (event1.getStatus() == null && event2.getStatus() != null) {
-                    return 1;
-                } else if (event1.getStatus() != null && event2.getStatus() != null) {
-                    return event2.getStatus().compareTo(event1.getStatus());
-                }
-                return 0;
+        final List<DaemonStopEvent> sortedEvents = CollectionUtils.sort(stopEvents, (event1, event2) -> {
+            if (event1.getStatus() != null && event2.getStatus() == null) {
+                return -1;
+            } else if (event1.getStatus() == null && event2.getStatus() != null) {
+                return 1;
+            } else if (event1.getStatus() != null && event2.getStatus() != null) {
+                return event2.getStatus().compareTo(event1.getStatus());
             }
+            return 0;
         });
 
         // User likely doesn't care about daemons that stopped a long time ago
@@ -61,11 +58,6 @@ public class DaemonStopEvents {
     }
 
     public static List<DaemonStopEvent> oldStopEvents(final List<DaemonStopEvent> stopEvents) {
-        return CollectionUtils.filter(stopEvents, new Spec<DaemonStopEvent>() {
-            @Override
-            public boolean isSatisfiedBy(DaemonStopEvent event) {
-                return !event.occurredInLastHours(RECENTLY);
-            }
-        });
+        return CollectionUtils.filter(stopEvents, event -> !event.occurredInLastHours(RECENTLY));
     }
 }

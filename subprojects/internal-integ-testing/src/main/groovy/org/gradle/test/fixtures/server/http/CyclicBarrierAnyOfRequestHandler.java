@@ -153,14 +153,11 @@ class CyclicBarrierAnyOfRequestHandler implements TrackingHttpHandler, WaitPreco
                 }
             }
             if (cancelled) {
-                return new ResponseProducer() {
-                    @Override
-                    public void writeTo(int requestId, HttpExchange exchange) {
-                        try {
-                            exchange.sendResponseHeaders(200, -1);
-                        } catch (IOException e) {
-                            // Ignore
-                        }
+                return (requestId, exchange1) -> {
+                    try {
+                        exchange1.sendResponseHeaders(200, -1);
+                    } catch (IOException e) {
+                        // Ignore
                     }
                 };
             }

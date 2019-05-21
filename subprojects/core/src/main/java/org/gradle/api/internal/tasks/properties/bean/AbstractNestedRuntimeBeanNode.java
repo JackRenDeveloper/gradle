@@ -54,12 +54,7 @@ public abstract class AbstractNestedRuntimeBeanNode extends RuntimeBeanNode<Obje
             if (annotationHandler.shouldVisit(visitor)) {
                 String propertyName = getQualifiedPropertyName(propertyMetadata.getPropertyName());
                 PropertyValue value = new BeanPropertyValue(getBean(), propertyMetadata.getGetterMethod());
-                annotationHandler.visitPropertyValue(propertyName, value, propertyMetadata, visitor, new BeanPropertyContext() {
-                    @Override
-                    public void addNested(String propertyName, Object bean) {
-                        queue.add(nodeFactory.create(AbstractNestedRuntimeBeanNode.this, propertyName, bean));
-                    }
-                });
+                annotationHandler.visitPropertyValue(propertyName, value, propertyMetadata, visitor, (propertyName1, bean) -> queue.add(nodeFactory.create(AbstractNestedRuntimeBeanNode.this, propertyName1, bean)));
             }
         }
     }
@@ -71,16 +66,13 @@ public abstract class AbstractNestedRuntimeBeanNode extends RuntimeBeanNode<Obje
             @Override
             @Nullable
             public Object get() {
-                return DeprecationLogger.whileDisabled(new Factory<Object>() {
-                    @Override
-                    public Object create() {
-                        try {
-                            return method.invoke(bean);
-                        } catch (InvocationTargetException e) {
-                            throw UncheckedException.throwAsUncheckedException(e.getCause());
-                        } catch (Exception e) {
-                            throw new GradleException(String.format("Could not call %s.%s() on %s", method.getDeclaringClass().getSimpleName(), method.getName(), bean), e);
-                        }
+                return DeprecationLogger.whileDisabled(() -> {
+                    try {
+                        return method.invoke(bean);
+                    } catch (InvocationTargetException e) {
+                        throw UncheckedException.throwAsUncheckedException(e.getCause());
+                    } catch (Exception e) {
+                        throw new GradleException(String.format("Could not call %s.%s() on %s", method.getDeclaringClass().getSimpleName(), method.getName(), bean), e);
                     }
                 });
             }

@@ -116,12 +116,9 @@ public class GradleScopeServices extends DefaultServiceRegistry {
     public GradleScopeServices(final ServiceRegistry parent, final GradleInternal gradle) {
         super(parent);
         add(GradleInternal.class, gradle);
-        register(new Action<ServiceRegistration>() {
-            @Override
-            public void execute(ServiceRegistration registration) {
-                for (PluginServiceRegistry pluginServiceRegistry : parent.getAll(PluginServiceRegistry.class)) {
-                    pluginServiceRegistry.registerGradleServices(registration);
-                }
+        register(registration -> {
+            for (PluginServiceRegistry pluginServiceRegistry : parent.getAll(PluginServiceRegistry.class)) {
+                pluginServiceRegistry.registerGradleServices(registration);
             }
         });
 
@@ -181,12 +178,7 @@ public class GradleScopeServices extends DefaultServiceRegistry {
     }
 
     ProjectFinder createProjectFinder(final BuildStateRegistry buildStateRegistry, final GradleInternal gradle) {
-        return new DefaultProjectFinder(buildStateRegistry, new Supplier<ProjectInternal>() {
-            @Override
-            public ProjectInternal get() {
-                return gradle.getRootProject();
-            }
-        });
+        return new DefaultProjectFinder(buildStateRegistry, () -> gradle.getRootProject());
     }
 
     TaskNodeFactory createTaskNodeFactory(GradleInternal gradle, IncludedBuildTaskGraph includedBuildTaskGraph) {
@@ -243,16 +235,13 @@ public class GradleScopeServices extends DefaultServiceRegistry {
 
     ServiceRegistryFactory createServiceRegistryFactory(final ServiceRegistry services) {
         final Factory<LoggingManagerInternal> loggingManagerInternalFactory = getFactory(LoggingManagerInternal.class);
-        return new ServiceRegistryFactory() {
-            @Override
-            public ServiceRegistry createFor(Object domainObject) {
-                if (domainObject instanceof ProjectInternal) {
-                    ProjectScopeServices projectScopeServices = new ProjectScopeServices(services, (ProjectInternal) domainObject, loggingManagerInternalFactory);
-                    registries.add(projectScopeServices);
-                    return projectScopeServices;
-                }
-                throw new UnsupportedOperationException();
+        return domainObject -> {
+            if (domainObject instanceof ProjectInternal) {
+                ProjectScopeServices projectScopeServices = new ProjectScopeServices(services, (ProjectInternal) domainObject, loggingManagerInternalFactory);
+                registries.add(projectScopeServices);
+                return projectScopeServices;
             }
+            throw new UnsupportedOperationException();
         };
     }
 

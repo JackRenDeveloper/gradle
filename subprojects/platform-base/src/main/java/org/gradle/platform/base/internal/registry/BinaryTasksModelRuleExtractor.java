@@ -95,13 +95,10 @@ public class BinaryTasksModelRuleExtractor extends AbstractAnnotationDrivenCompo
                     binary.getTasks(),
                     taskFactory,
                     new Task.Namer(),
-                    new Action<Task>() {
-                        @Override
-                        public void execute(Task task) {
-                            binary.getTasks().add(task);
-                            binary.builtBy(task);
-                        }
-                    });
+                task -> {
+                    binary.getTasks().add(task);
+                    binary.builtBy(task);
+                });
 
             List<ModelView<?>> inputsWithBinary = new ArrayList<ModelView<?>>(inputs.size());
             inputsWithBinary.addAll(inputs.subList(1, inputs.size()));
@@ -127,12 +124,7 @@ public class BinaryTasksModelRuleExtractor extends AbstractAnnotationDrivenCompo
             context.getRegistry().configure(ModelActionRole.Defaults, DirectNodeNoInputsModelAction.of(
                     BINARIES_CONTAINER,
                     ruleDefinition.getDescriptor(),
-                    new Action<MutableModelNode>() {
-                        @Override
-                        public void execute(MutableModelNode modelNode) {
-                            modelNode.applyTo(allLinks(), ModelActionRole.Finalize, binaryTaskAction);
-                        }
-                    }
+                modelNode -> modelNode.applyTo(allLinks(), ModelActionRole.Finalize, binaryTaskAction)
             ));
         }
 

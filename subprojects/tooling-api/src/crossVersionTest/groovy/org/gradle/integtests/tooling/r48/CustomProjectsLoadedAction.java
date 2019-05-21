@@ -40,12 +40,7 @@ public class CustomProjectsLoadedAction implements BuildAction<String>, Serializ
         if (tasks == null || tasks.isEmpty()) {
             model = controller.getModel(CustomProjectsLoadedModel.class);
         } else {
-            model = controller.getModel(CustomProjectsLoadedModel.class, CustomParameter.class, new Action<CustomParameter>() {
-                @Override
-                public void execute(CustomParameter customParameter) {
-                    customParameter.setTasks(tasks);
-                }
-            });
+            model = controller.getModel(CustomProjectsLoadedModel.class, CustomParameter.class, customParameter -> customParameter.setTasks(tasks));
         }
         return model.getValue();
     }

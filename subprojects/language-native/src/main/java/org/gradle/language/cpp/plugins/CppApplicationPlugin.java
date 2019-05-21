@@ -94,9 +94,7 @@ public class CppApplicationPlugin implements Plugin<Project> {
                             .orElse(null));
         }));
 
-        application.getBinaries().whenElementKnown(binary -> {
-            application.getMainPublication().addVariant(binary);
-        });
+        application.getBinaries().whenElementKnown(binary -> application.getMainPublication().addVariant(binary));
 
         project.afterEvaluate(p -> {
             // TODO: make build type configurable for components

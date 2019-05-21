@@ -187,12 +187,7 @@ public class ConsumerOperationParameters implements BuildOperationParametersVers
 
         public void addProgressListener(ProgressListener listener, Set<OperationType> eventTypes) {
             for (OperationType type : eventTypes) {
-                List<ProgressListener> listeners = this.progressListeners.computeIfAbsent(type, new Function<OperationType, List<ProgressListener>>() {
-                    @Override
-                    public List<ProgressListener> apply(OperationType operationType) {
-                        return new ArrayList<ProgressListener>();
-                    }
-                });
+                List<ProgressListener> listeners = this.progressListeners.computeIfAbsent(type, operationType -> new ArrayList<ProgressListener>());
                 listeners.add(listener);
             }
         }

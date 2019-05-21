@@ -137,11 +137,8 @@ import static org.gradle.util.ConfigureUtil.configure;
 
 public class DefaultConfiguration extends AbstractFileCollection implements ConfigurationInternal, MutationValidator {
 
-    static final Action<Throwable> DEFAULT_ERROR_HANDLER = new Action<Throwable>() {
-        @Override
-        public void execute(Throwable throwable) {
-            throw UncheckedException.throwAsUncheckedException(throwable);
-        }
+    static final Action<Throwable> DEFAULT_ERROR_HANDLER = throwable -> {
+        throw UncheckedException.throwAsUncheckedException(throwable);
     };
 
     final ConfigurationResolver resolver;
@@ -176,12 +173,7 @@ public class DefaultConfiguration extends AbstractFileCollection implements Conf
     private final DocumentationRegistry documentationRegistry;
 
     private final Set<MutationValidator> childMutationValidators = Sets.newHashSet();
-    private final MutationValidator parentMutationValidator = new MutationValidator() {
-        @Override
-        public void validateMutation(MutationType type) {
-            DefaultConfiguration.this.validateParentMutation(type);
-        }
-    };
+    private final MutationValidator parentMutationValidator = type -> DefaultConfiguration.this.validateParentMutation(type);
     private final RootComponentMetadataBuilder rootComponentMetadataBuilder;
     private final ConfigurationsProvider configurationsProvider;
 
@@ -290,12 +282,7 @@ public class DefaultConfiguration extends AbstractFileCollection implements Conf
     }
 
     private static Action<Void> validateMutationType(final MutationValidator mutationValidator, final MutationType type) {
-        return new Action<Void>() {
-            @Override
-            public void execute(Void arg) {
-                mutationValidator.validateMutation(type);
-            }
-        };
+        return arg -> mutationValidator.validateMutation(type);
     }
 
     @Override
@@ -436,12 +423,9 @@ public class DefaultConfiguration extends AbstractFileCollection implements Conf
     @Override
     public Configuration defaultDependencies(final Action<? super DependencySet> action) {
         validateMutation(MutationType.DEPENDENCIES);
-        defaultDependencyActions = defaultDependencyActions.add(new Action<DependencySet>() {
-            @Override
-            public void execute(DependencySet dependencies) {
-                if (dependencies.isEmpty()) {
-                    action.execute(dependencies);
-                }
+        defaultDependencyActions = defaultDependencyActions.add(dependencies -> {
+            if (dependencies.isEmpty()) {
+                action.execute(dependencies);
             }
         });
         return this;
@@ -561,27 +545,19 @@ public class DefaultConfiguration extends AbstractFileCollection implements Conf
             // We don't have mutable access to the project, so we throw a deprecation warning and then continue with
             // lenient locking to prevent deadlocks in user-managed threads.
             DeprecationLogger.nagUserOfDeprecatedBehaviour("The configuration " + identityPath.toString() + " was resolved without accessing the project in a safe manner.  This may happen when a configuration is resolved from a thread not managed by Gradle or from a different project.  See " + documentationRegistry.getDocumentationFor("troubleshooting_dependency_resolution", "sub:configuration_resolution_constraints") + " for more details.");
-            projectStateHandler.withLenientState(new Runnable() {
-                @Override
-                public void run() {
-                    resolveExclusively(requestedState);
-                }
-            });
+            projectStateHandler.withLenientState(() -> resolveExclusively(requestedState));
         } else {
             resolveExclusively(requestedState);
         }
     }
 
     void resolveExclusively(InternalState requestedState) {
-        resolutionLock.withLock(new Runnable() {
-            @Override
-            public void run() {
-                if (requestedState == GRAPH_RESOLVED || requestedState == ARTIFACTS_RESOLVED) {
-                    resolveGraphIfRequired(requestedState);
-                }
-                if (requestedState == ARTIFACTS_RESOLVED) {
-                    resolveArtifactsIfRequired();
-                }
+        resolutionLock.withLock(() -> {
+            if (requestedState == GRAPH_RESOLVED || requestedState == ARTIFACTS_RESOLVED) {
+                resolveGraphIfRequired(requestedState);
+            }
+            if (requestedState == ARTIFACTS_RESOLVED) {
+                resolveArtifactsIfRequired();
             }
         });
     }
@@ -1187,12 +1163,7 @@ public class DefaultConfiguration extends AbstractFileCollection implements Conf
         }
 
         ConfigurationFileCollection(final Set<Dependency> dependencies) {
-            this(new Spec<Dependency>() {
-                @Override
-                public boolean isSatisfiedBy(Dependency element) {
-                    return dependencies.contains(element);
-                }
-            });
+            this(element -> dependencies.contains(element));
         }
 
         @Override

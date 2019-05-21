@@ -58,12 +58,9 @@ public class ModelMapNodeInitializerExtractionStrategy extends CollectionNodeIni
                 ))
                 .put(ModelActionRole.Create, DirectNodeInputUsingModelAction.of(subject, descriptor,
                     ModelReference.of(NodeInitializerRegistry.class),
-                    new BiAction<MutableModelNode, NodeInitializerRegistry>() {
-                        @Override
-                        public void execute(MutableModelNode modelNode, NodeInitializerRegistry nodeInitializerRegistry) {
-                            ChildNodeInitializerStrategy<E> childStrategy = NodeBackedModelMap.createUsingRegistry(nodeInitializerRegistry);
-                            modelNode.setPrivateData(ChildNodeInitializerStrategy.class, childStrategy);
-                        }
+                    (modelNode, nodeInitializerRegistry) -> {
+                        ChildNodeInitializerStrategy<E> childStrategy = NodeBackedModelMap.createUsingRegistry(nodeInitializerRegistry);
+                        modelNode.setPrivateData(ChildNodeInitializerStrategy.class, childStrategy);
                     }
                 ))
                 .build();

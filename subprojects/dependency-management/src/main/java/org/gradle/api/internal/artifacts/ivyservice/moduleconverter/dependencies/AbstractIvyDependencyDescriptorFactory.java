@@ -41,12 +41,7 @@ public abstract class AbstractIvyDependencyDescriptorFactory implements IvyDepen
     }
 
     protected List<ExcludeMetadata> convertExcludeRules(final String configuration, Set<ExcludeRule> excludeRules) {
-        return CollectionUtils.collect((Iterable<ExcludeRule>) excludeRules, new Transformer<ExcludeMetadata, ExcludeRule>() {
-            @Override
-            public ExcludeMetadata transform(ExcludeRule excludeRule) {
-                return excludeRuleConverter.convertExcludeRule(excludeRule);
-            }
-        });
+        return CollectionUtils.collect((Iterable<ExcludeRule>) excludeRules, excludeRule -> excludeRuleConverter.convertExcludeRule(excludeRule));
     }
 
     protected List<IvyArtifactName> convertArtifacts(Set<DependencyArtifact> dependencyArtifacts) {

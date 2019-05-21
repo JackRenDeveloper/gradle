@@ -41,16 +41,13 @@ public class NativeDependencyCache implements Stoppable {
 
     public File getModuleMapFile(final ModuleMap moduleMap) {
         final String hash = HashUtil.compactStringFor(moduleMap.getHashCode());
-        return cache.useCache(new Factory<File>() {
-            @Override
-            public File create() {
-                File dir = new File(cache.getBaseDir(), "maps/" + hash + "/" + moduleMap.getModuleName());
-                File moduleMapFile = new File(dir, "module.modulemap");
-                if (!moduleMapFile.isFile()) {
-                    generateFile(moduleMapFile, moduleMap.getModuleName(), moduleMap.getPublicHeaderPaths());
-                }
-                return moduleMapFile;
+        return cache.useCache(() -> {
+            File dir = new File(cache.getBaseDir(), "maps/" + hash + "/" + moduleMap.getModuleName());
+            File moduleMapFile = new File(dir, "module.modulemap");
+            if (!moduleMapFile.isFile()) {
+                generateFile(moduleMapFile, moduleMap.getModuleName(), moduleMap.getPublicHeaderPaths());
             }
+            return moduleMapFile;
         });
     }
 

@@ -28,18 +28,8 @@ public class MultipleParametersAction implements BuildAction<List<CustomModel>> 
     public List<CustomModel> execute(BuildController controller) {
         List<CustomModel> result = new LinkedList<CustomModel>();
         final CustomModel model0 = controller.getModel(CustomModel.class);
-        final CustomModel model1 = controller.getModel(CustomModel.class, CustomParameter.class, new Action<CustomParameter>() {
-            @Override
-            public void execute(CustomParameter customParameter) {
-                customParameter.setValue(model0.getParameterValue() + ":parameter1");
-            }
-        });
-        CustomModel model2 = controller.getModel(CustomModel.class, CustomParameter.class, new Action<CustomParameter>() {
-            @Override
-            public void execute(CustomParameter customParameter) {
-                customParameter.setValue(model1.getParameterValue() + ":parameter2");
-            }
-        });
+        final CustomModel model1 = controller.getModel(CustomModel.class, CustomParameter.class, customParameter -> customParameter.setValue(model0.getParameterValue() + ":parameter1"));
+        CustomModel model2 = controller.getModel(CustomModel.class, CustomParameter.class, customParameter -> customParameter.setValue(model1.getParameterValue() + ":parameter2"));
         result.add(model0);
         result.add(model1);
         result.add(model2);

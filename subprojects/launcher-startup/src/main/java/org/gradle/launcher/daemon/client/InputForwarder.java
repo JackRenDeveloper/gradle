@@ -66,35 +66,32 @@ public class InputForwarder implements Stoppable {
             outputBuffer = new LineBufferingOutputStream(handler, bufferSize);
 
             forwardingExecuter = executorFactory.create("Forward input");
-            forwardingExecuter.execute(new Runnable() {
-                @Override
-                public void run() {
-                    byte[] buffer = new byte[bufferSize];
-                    int readCount;
-                    Throwable readFailure = null;
-                    try {
-                        while (true) {
-                            try {
-                                readCount = disconnectableInput.read(buffer, 0, bufferSize);
-                                if (readCount < 0) {
-                                    break;
-                                }
-                            } catch (AsynchronousCloseException e) {
-                                break;
-                            } catch (IOException e) {
-                                readFailure = e;
+            forwardingExecuter.execute(() -> {
+                byte[] buffer = new byte[bufferSize];
+                int readCount;
+                Throwable readFailure = null;
+                try {
+                    while (true) {
+                        try {
+                            readCount = disconnectableInput.read(buffer, 0, bufferSize);
+                            if (readCount < 0) {
                                 break;
                             }
-
-                            outputBuffer.write(buffer, 0, readCount);
+                        } catch (AsynchronousCloseException e) {
+                            break;
+                        } catch (IOException e) {
+                            readFailure = e;
+                            break;
                         }
-                        outputBuffer.flush(); // will flush any unterminated lines out synchronously
-                    } catch(IOException e) {
-                        // should not happen
-                        throw UncheckedException.throwAsUncheckedException(e);
-                    } finally {
-                        handler.endOfStream(readFailure);
+
+                        outputBuffer.write(buffer, 0, readCount);
                     }
+                    outputBuffer.flush(); // will flush any unterminated lines out synchronously
+                } catch(IOException e) {
+                    // should not happen
+                    throw UncheckedException.throwAsUncheckedException(e);
+                } finally {
+                    handler.endOfStream(readFailure);
                 }
             });
 

@@ -35,20 +35,12 @@ import java.util.Set;
  */
 public class DefaultIdeDependencyResolver {
 
-    static final Spec<ComponentIdentifier> IS_A_MODULE_ID = new Spec<ComponentIdentifier>() {
-        @Override
-        public boolean isSatisfiedBy(ComponentIdentifier id) {
-            return id instanceof ModuleComponentIdentifier;
-        }
-    };
+    static final Spec<ComponentIdentifier> IS_A_MODULE_ID = id -> id instanceof ModuleComponentIdentifier;
 
     public List<IdeExtendedRepoFileDependency> getIdeRepoFileDependencies(Configuration configuration) {
-        Set<ResolvedArtifactResult> artifacts = configuration.getIncoming().artifactView(new Action<ArtifactView.ViewConfiguration>() {
-            @Override
-            public void execute(ArtifactView.ViewConfiguration viewConfiguration) {
-                viewConfiguration.lenient(true);
-                viewConfiguration.componentFilter(IS_A_MODULE_ID);
-            }
+        Set<ResolvedArtifactResult> artifacts = configuration.getIncoming().artifactView(viewConfiguration -> {
+            viewConfiguration.lenient(true);
+            viewConfiguration.componentFilter(IS_A_MODULE_ID);
         }).getArtifacts().getArtifacts();
 
         List<IdeExtendedRepoFileDependency> externalDependencies = new ArrayList<IdeExtendedRepoFileDependency>(artifacts.size());

@@ -47,12 +47,7 @@ public class DefaultModelViewState implements ModelViewState {
     }
 
     public Action<Object> closer() {
-        return new Action<Object>() {
-            @Override
-            public void execute(Object o) {
-                close();
-            }
-        };
+        return o -> close();
     }
 
     @Override

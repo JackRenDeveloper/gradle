@@ -57,17 +57,7 @@ public abstract class JacocoReportBase extends JacocoBase {
     private final ConfigurableFileCollection additionalSourceDirs = getProject().files();
 
     public JacocoReportBase() {
-        onlyIf(new Spec<Task>() {
-            @Override
-            public boolean isSatisfiedBy(Task element) {
-                return Iterables.any(getExecutionData(), new Predicate<File>() {
-                    @Override
-                    public boolean apply(File file) {
-                        return file.exists();
-                    }
-                });
-            }
-        });
+        onlyIf(element -> Iterables.any(getExecutionData(), file -> file.exists()));
     }
 
     @Inject
@@ -216,12 +206,7 @@ public abstract class JacocoReportBase extends JacocoBase {
         for (Task task : tasks) {
             final JacocoTaskExtension extension = task.getExtensions().findByType(JacocoTaskExtension.class);
             if (extension != null) {
-                executionData(new Callable<File>() {
-                    @Override
-                    public File call() {
-                        return extension.getDestinationFile();
-                    }
-                });
+                executionData((Callable<File>) () -> extension.getDestinationFile());
                 mustRunAfter(task);
             }
         }
@@ -233,12 +218,7 @@ public abstract class JacocoReportBase extends JacocoBase {
      * @param tasks one or more tasks to add
      */
     public void executionData(TaskCollection tasks) {
-        tasks.all(new Action<Task>() {
-            @Override
-            public void execute(Task task) {
-                executionData(task);
-            }
-        });
+        tasks.all((Action<Task>) task -> executionData(task));
     }
 
     /**
@@ -270,12 +250,7 @@ public abstract class JacocoReportBase extends JacocoBase {
      */
     public void sourceSets(final SourceSet... sourceSets) {
         for (final SourceSet sourceSet : sourceSets) {
-            sourceDirectories.from(new Callable<Set<File>>() {
-                @Override
-                public Set<File> call() throws Exception {
-                    return sourceSet.getAllJava().getSrcDirs();
-                }
-            });
+            sourceDirectories.from((Callable<Set<File>>) () -> sourceSet.getAllJava().getSrcDirs());
             classDirectories.from(sourceSet.getOutput());
         }
     }

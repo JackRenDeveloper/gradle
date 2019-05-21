@@ -1350,12 +1350,7 @@ public class AsmBackedClassGenerator extends AbstractClassGenerator {
 
             Type returnType = Type.getType(method.getReturnType());
 
-            Type[] originalParameterTypes = CollectionUtils.collectArray(method.getParameterTypes(), Type.class, new Transformer<Type, Class>() {
-                @Override
-                public Type transform(Class clazz) {
-                    return Type.getType(clazz);
-                }
-            });
+            Type[] originalParameterTypes = CollectionUtils.collectArray(method.getParameterTypes(), Type.class, (Transformer<Type, Class>) clazz -> Type.getType(clazz));
             int numParams = originalParameterTypes.length;
             Type[] closurisedParameterTypes = new Type[numParams];
             System.arraycopy(originalParameterTypes, 0, closurisedParameterTypes, 0, numParams);

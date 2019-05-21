@@ -237,12 +237,9 @@ public class DependencyResolvingClasspath extends AbstractFileCollection {
 
         @Override
         public void finishArtifacts() {
-            artifactsResults = artifactsBuilder.complete().select(Specs.<ComponentIdentifier>satisfyAll(), new VariantSelector() {
-                @Override
-                public ResolvedArtifactSet select(ResolvedVariantSet variants) {
-                    // Select the first variant
-                    return variants.getVariants().iterator().next().getArtifacts();
-                }
+            artifactsResults = artifactsBuilder.complete().select(Specs.<ComponentIdentifier>satisfyAll(), variants -> {
+                // Select the first variant
+                return variants.getVariants().iterator().next().getArtifacts();
             });
         }
     }

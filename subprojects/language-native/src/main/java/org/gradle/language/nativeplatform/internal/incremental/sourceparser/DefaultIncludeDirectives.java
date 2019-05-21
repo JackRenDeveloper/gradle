@@ -65,32 +65,17 @@ public class DefaultIncludeDirectives implements IncludeDirectives {
 
     @Override
     public List<Include> getQuotedIncludes() {
-        return CollectionUtils.filter(allIncludes, new Spec<Include>() {
-            @Override
-            public boolean isSatisfiedBy(Include element) {
-                return element.getType() == IncludeType.QUOTED;
-            }
-        });
+        return CollectionUtils.filter(allIncludes, element -> element.getType() == IncludeType.QUOTED);
     }
 
     @Override
     public List<Include> getSystemIncludes() {
-        return CollectionUtils.filter(allIncludes, new Spec<Include>() {
-            @Override
-            public boolean isSatisfiedBy(Include element) {
-                return element.getType() == IncludeType.SYSTEM;
-            }
-        });
+        return CollectionUtils.filter(allIncludes, element -> element.getType() == IncludeType.SYSTEM);
     }
 
     @Override
     public List<Include> getMacroIncludes() {
-        return CollectionUtils.filter(allIncludes, new Spec<Include>() {
-            @Override
-            public boolean isSatisfiedBy(Include element) {
-                return element.getType() == IncludeType.MACRO;
-            }
-        });
+        return CollectionUtils.filter(allIncludes, element -> element.getType() == IncludeType.MACRO);
     }
 
     @Override
@@ -100,12 +85,7 @@ public class DefaultIncludeDirectives implements IncludeDirectives {
 
     @Override
     public List<Include> getIncludesOnly() {
-        return CollectionUtils.filter(allIncludes, new Spec<Include>() {
-            @Override
-            public boolean isSatisfiedBy(Include element) {
-                return !element.isImport();
-            }
-        });
+        return CollectionUtils.filter(allIncludes, element -> !element.isImport());
     }
 
     @Override

@@ -35,18 +35,8 @@ public class GenerateModuleMapFile {
         List<String> lines = Lists.newArrayList(
             "module " + moduleName + " {"
         );
-        List<String> validHeaderDirs = filter(publicHeaderDirs, new Spec<String>() {
-            @Override
-            public boolean isSatisfiedBy(String path) {
-                return new File(path).exists();
-            }
-        });
-        lines.addAll(collect(validHeaderDirs, new Transformer<String, String>() {
-            @Override
-            public String transform(String path) {
-                return "\tumbrella \"" + path + "\"";
-            }
-        }));
+        List<String> validHeaderDirs = filter(publicHeaderDirs, path -> new File(path).exists());
+        lines.addAll(collect(validHeaderDirs, path -> "\tumbrella \"" + path + "\""));
         lines.add("\texport *");
         lines.add("}");
         try {

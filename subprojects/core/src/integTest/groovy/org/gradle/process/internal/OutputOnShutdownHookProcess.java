@@ -24,11 +24,6 @@ import java.io.Serializable;
 public class OutputOnShutdownHookProcess implements Action<WorkerProcessContext>, Serializable {
     @Override
     public void execute(WorkerProcessContext workerProcessContext) {
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("Goodbye, world!");
-            }
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> System.out.println("Goodbye, world!")));
     }
 }

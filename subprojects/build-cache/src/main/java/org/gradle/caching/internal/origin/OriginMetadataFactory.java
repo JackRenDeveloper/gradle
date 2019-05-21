@@ -68,51 +68,45 @@ public class OriginMetadataFactory {
     }
 
     public OriginWriter createWriter(CacheableEntity entry, long elapsedTime) {
-        return new OriginWriter() {
-            @Override
-            public void execute(OutputStream outputStream) {
-                // TODO: Replace this with something better
-                Properties properties = new Properties();
-                properties.setProperty(BUILD_INVOCATION_ID_KEY, currentBuildInvocationId.asString());
-                properties.setProperty(TYPE_KEY, entry.getClass().getCanonicalName());
-                properties.setProperty(IDENTITY_KEY, entry.getIdentity());
-                properties.setProperty(GRADLE_VERSION_KEY, gradleVersion.getVersion());
-                properties.setProperty(CREATION_TIME_KEY, Long.toString(clock.getCurrentTime()));
-                properties.setProperty(EXECUTION_TIME_KEY, Long.toString(elapsedTime));
-                properties.setProperty(ROOT_PATH_KEY, rootDir.getAbsolutePath());
-                properties.setProperty(OPERATING_SYSTEM_KEY, operatingSystem);
-                properties.setProperty(HOST_NAME_KEY, inetAddressFactory.getHostname());
-                properties.setProperty(USER_NAME_KEY, userName);
-                try {
-                    properties.store(outputStream, "Generated origin information");
-                } catch (IOException e) {
-                    throw UncheckedException.throwAsUncheckedException(e);
-                }
-                assert METADATA_KEYS.containsAll(properties.stringPropertyNames()) : "Update expected metadata property list";
+        return outputStream -> {
+            // TODO: Replace this with something better
+            Properties properties = new Properties();
+            properties.setProperty(BUILD_INVOCATION_ID_KEY, currentBuildInvocationId.asString());
+            properties.setProperty(TYPE_KEY, entry.getClass().getCanonicalName());
+            properties.setProperty(IDENTITY_KEY, entry.getIdentity());
+            properties.setProperty(GRADLE_VERSION_KEY, gradleVersion.getVersion());
+            properties.setProperty(CREATION_TIME_KEY, Long.toString(clock.getCurrentTime()));
+            properties.setProperty(EXECUTION_TIME_KEY, Long.toString(elapsedTime));
+            properties.setProperty(ROOT_PATH_KEY, rootDir.getAbsolutePath());
+            properties.setProperty(OPERATING_SYSTEM_KEY, operatingSystem);
+            properties.setProperty(HOST_NAME_KEY, inetAddressFactory.getHostname());
+            properties.setProperty(USER_NAME_KEY, userName);
+            try {
+                properties.store(outputStream, "Generated origin information");
+            } catch (IOException e) {
+                throw UncheckedException.throwAsUncheckedException(e);
             }
+            assert METADATA_KEYS.containsAll(properties.stringPropertyNames()) : "Update expected metadata property list";
         };
     }
 
     public OriginReader createReader(CacheableEntity entry) {
-        return new OriginReader() {
-            @Override
-            public OriginMetadata execute(InputStream inputStream) {
-                // TODO: Replace this with something better
-                Properties properties = new Properties();
-                try {
-                    properties.load(inputStream);
-                } catch (IOException e) {
-                    throw UncheckedException.throwAsUncheckedException(e);
-                }
-                if (!properties.stringPropertyNames().containsAll(METADATA_KEYS)) {
-                    throw new IllegalStateException("Cached result format error, corrupted origin metadata.");
-                }
-                LOGGER.info("Origin for {}: {}", entry, properties);
-
-                UniqueId originBuildInvocationId = UniqueId.from(properties.getProperty(BUILD_INVOCATION_ID_KEY));
-                long originalExecutionTime = Long.parseLong(properties.getProperty(EXECUTION_TIME_KEY));
-                return new OriginMetadata(originBuildInvocationId, originalExecutionTime);
+        return inputStream -> {
+            // TODO: Replace this with something better
+            Properties properties = new Properties();
+            try {
+                properties.load(inputStream);
+            } catch (IOException e) {
+                throw UncheckedException.throwAsUncheckedException(e);
             }
+            if (!properties.stringPropertyNames().containsAll(METADATA_KEYS)) {
+                throw new IllegalStateException("Cached result format error, corrupted origin metadata.");
+            }
+            LOGGER.info("Origin for {}: {}", entry, properties);
+
+            UniqueId originBuildInvocationId = UniqueId.from(properties.getProperty(BUILD_INVOCATION_ID_KEY));
+            long originalExecutionTime = Long.parseLong(properties.getProperty(EXECUTION_TIME_KEY));
+            return new OriginMetadata(originBuildInvocationId, originalExecutionTime);
         };
     }
 }

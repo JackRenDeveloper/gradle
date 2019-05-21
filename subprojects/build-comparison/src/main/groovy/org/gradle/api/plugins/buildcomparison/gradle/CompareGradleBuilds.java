@@ -86,12 +86,7 @@ public class CompareGradleBuilds extends DefaultTask implements VerificationTask
         targetBuild.setTasks(DEFAULT_TASKS);
 
         // Never up to date
-        getOutputs().upToDateWhen(new Spec<Task>() {
-            @Override
-            public boolean isSatisfiedBy(Task element) {
-                return false;
-            }
-        });
+        getOutputs().upToDateWhen(element -> false);
     }
 
     @Inject

@@ -103,12 +103,9 @@ public class IncrementalCompilerFactory {
     }
 
     private Compiler<JavaCompileSpec> createRebuildAllCompiler(final CleaningJavaCompiler cleaningJavaCompiler, final FileTree sourceFiles) {
-        return new Compiler<JavaCompileSpec>() {
-            @Override
-            public WorkResult execute(JavaCompileSpec spec) {
-                spec.setSourceFiles(sourceFiles);
-                return cleaningJavaCompiler.execute(spec);
-            }
+        return spec -> {
+            spec.setSourceFiles(sourceFiles);
+            return cleaningJavaCompiler.execute(spec);
         };
     }
 }

@@ -60,12 +60,7 @@ public class ModelSetStrategy implements ModelSchemaExtractionStrategy {
 
     private <T, E> ModelSchema<T> getModelSchema(final ModelSchemaExtractionContext<T> extractionContext, final ModelType<E> elementType) {
         final CollectionSchema<T, E> schema = new ModelSetSchema<T, E>(extractionContext.getType(), elementType);
-        extractionContext.child(elementType, "element type", new Action<ModelSchema<E>>() {
-            @Override
-            public void execute(ModelSchema<E> elementTypeSchema) {
-                schema.setElementTypeSchema(elementTypeSchema);
-            }
-        });
+        extractionContext.child(elementType, "element type", elementTypeSchema -> schema.setElementTypeSchema(elementTypeSchema));
         return schema;
     }
 }

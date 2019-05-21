@@ -151,12 +151,7 @@ public class IvyXmlModuleDescriptorParser extends AbstractModuleDescriptorParser
         properties.put("ivy.default.settings.dir", baseDir);
         properties.put("ivy.basedir", baseDir);
 
-        Set<String> propertyNames = CollectionUtils.collect(System.getProperties().entrySet(), new Transformer<String, Map.Entry<Object, Object>>() {
-            @Override
-            public String transform(Map.Entry<Object, Object> entry) {
-                return entry.getKey().toString();
-            }
-        });
+        Set<String> propertyNames = CollectionUtils.collect(System.getProperties().entrySet(), entry -> entry.getKey().toString());
 
         for (String property : propertyNames) {
             properties.put(property, System.getProperty(property));
@@ -529,17 +524,14 @@ public class IvyXmlModuleDescriptorParser extends AbstractModuleDescriptorParser
         }
 
         public void parse() throws ParseException {
-            getResource().withContent(new Action<InputStream>() {
-                @Override
-                public void execute(InputStream inputStream) {
-                    URL schemaURL = validate ? getSchemaURL() : null;
-                    InputSource inSrc = new InputSource(inputStream);
-                    inSrc.setSystemId(descriptorURL.toExternalForm());
-                    try {
-                        ParserHelper.parse(inSrc, schemaURL, Parser.this);
-                    } catch (Exception e) {
-                        throw new MetaDataParseException("Ivy file", getResource(), e);
-                    }
+            getResource().withContent(inputStream -> {
+                URL schemaURL = validate ? getSchemaURL() : null;
+                InputSource inSrc = new InputSource(inputStream);
+                inSrc.setSystemId(descriptorURL.toExternalForm());
+                try {
+                    ParserHelper.parse(inSrc, schemaURL, Parser.this);
+                } catch (Exception e) {
+                    throw new MetaDataParseException("Ivy file", getResource(), e);
                 }
             });
             checkErrors();

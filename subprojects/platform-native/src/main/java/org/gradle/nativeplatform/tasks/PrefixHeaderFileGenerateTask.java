@@ -52,12 +52,9 @@ public class PrefixHeaderFileGenerateTask extends DefaultTask {
 
     @TaskAction
     void generatePrefixHeaderFile() {
-        workerExecutor.submit(GeneratePrefixHeaderFile.class, new Action<WorkerConfiguration>() {
-            @Override
-            public void execute(WorkerConfiguration config) {
-                config.setIsolationMode(IsolationMode.NONE);
-                config.setParams(header, prefixHeaderFile);
-            }
+        workerExecutor.submit(GeneratePrefixHeaderFile.class, config -> {
+            config.setIsolationMode(IsolationMode.NONE);
+            config.setParams(header, prefixHeaderFile);
         });
     }
 

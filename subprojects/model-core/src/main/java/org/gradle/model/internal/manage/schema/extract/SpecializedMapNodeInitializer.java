@@ -53,24 +53,18 @@ public class SpecializedMapNodeInitializer<T, E> implements NodeInitializer {
     public static <T, E> Multimap<ModelActionRole, ModelAction> getActions(ModelReference<?> subject, ModelRuleDescriptor descriptor, final SpecializedMapSchema<T, E> schema) {
         return ImmutableSetMultimap.<ModelActionRole, ModelAction>builder()
             .put(ModelActionRole.Discover, DirectNodeNoInputsModelAction.of(subject, descriptor,
-                new Action<MutableModelNode>() {
-                    @Override
-                    public void execute(MutableModelNode modelNode) {
-                        ChildNodeInitializerStrategyAccessor<E> strategyAccessor = ChildNodeInitializerStrategyAccessors.fromPrivateData();
-                        Class<? extends T> implementationType = schema.getImplementationType().asSubclass(schema.getType().getConcreteClass());
-                        modelNode.addProjection(new SpecializedModelMapProjection<T, E>(schema.getType(), schema.getElementType(), implementationType, strategyAccessor));
-                        modelNode.addProjection(ModelMapModelProjection.managed(schema.getType(), schema.getElementType(), strategyAccessor));
-                    }
+                modelNode -> {
+                    ChildNodeInitializerStrategyAccessor<E> strategyAccessor = ChildNodeInitializerStrategyAccessors.fromPrivateData();
+                    Class<? extends T> implementationType = schema.getImplementationType().asSubclass(schema.getType().getConcreteClass());
+                    modelNode.addProjection(new SpecializedModelMapProjection<T, E>(schema.getType(), schema.getElementType(), implementationType, strategyAccessor));
+                    modelNode.addProjection(ModelMapModelProjection.managed(schema.getType(), schema.getElementType(), strategyAccessor));
                 }
             ))
             .put(ModelActionRole.Create, DirectNodeInputUsingModelAction.of(subject, descriptor,
                 ModelReference.of(NodeInitializerRegistry.class),
-                new BiAction<MutableModelNode, NodeInitializerRegistry>() {
-                    @Override
-                    public void execute(MutableModelNode modelNode, NodeInitializerRegistry nodeInitializerRegistry) {
-                        ChildNodeInitializerStrategy<E> childFactory = NodeBackedModelMap.createUsingRegistry(nodeInitializerRegistry);
-                        modelNode.setPrivateData(ModelType.of(ChildNodeInitializerStrategy.class), childFactory);
-                    }
+                (modelNode, nodeInitializerRegistry) -> {
+                    ChildNodeInitializerStrategy<E> childFactory = NodeBackedModelMap.createUsingRegistry(nodeInitializerRegistry);
+                    modelNode.setPrivateData(ModelType.of(ChildNodeInitializerStrategy.class), childFactory);
                 }
             ))
             .build();

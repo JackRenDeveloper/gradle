@@ -40,30 +40,22 @@ public class DuplicateHandlingCopyActionDecorator implements CopyAction {
     public WorkResult execute(final CopyActionProcessingStream stream) {
         final Set<RelativePath> visitedFiles = new HashSet<RelativePath>();
 
-        return delegate.execute(new CopyActionProcessingStream() {
-            @Override
-            public void process(final CopyActionProcessingStreamAction action) {
-                stream.process(new CopyActionProcessingStreamAction() {
-                    @Override
-                    public void processFile(FileCopyDetailsInternal details) {
-                        if (!details.isDirectory()) {
-                            DuplicatesStrategy strategy = details.getDuplicatesStrategy();
+        return delegate.execute(action -> stream.process(details -> {
+            if (!details.isDirectory()) {
+                DuplicatesStrategy strategy = details.getDuplicatesStrategy();
 
-                            if (!visitedFiles.add(details.getRelativePath())) {
-                                if (strategy == DuplicatesStrategy.EXCLUDE) {
-                                    return;
-                                } else if (strategy == DuplicatesStrategy.FAIL) {
-                                    throw new DuplicateFileCopyingException(String.format("Encountered duplicate path \"%s\" during copy operation configured with DuplicatesStrategy.FAIL", details.getRelativePath()));
-                                } else if (strategy == DuplicatesStrategy.WARN) {
-                                    LOGGER.warn("Encountered duplicate path \"{}\" during copy operation configured with DuplicatesStrategy.WARN", details.getRelativePath());
-                                }
-                            }
-                        }
-
-                        action.processFile(details);
+                if (!visitedFiles.add(details.getRelativePath())) {
+                    if (strategy == DuplicatesStrategy.EXCLUDE) {
+                        return;
+                    } else if (strategy == DuplicatesStrategy.FAIL) {
+                        throw new DuplicateFileCopyingException(String.format("Encountered duplicate path \"%s\" during copy operation configured with DuplicatesStrategy.FAIL", details.getRelativePath()));
+                    } else if (strategy == DuplicatesStrategy.WARN) {
+                        LOGGER.warn("Encountered duplicate path \"{}\" during copy operation configured with DuplicatesStrategy.WARN", details.getRelativePath());
                     }
-                });
+                }
             }
-        });
+
+            action.processFile(details);
+        }));
     }
 }

@@ -131,13 +131,11 @@ public class XCTestConventionPlugin implements Plugin<Project> {
             }
         });
 
-        testComponent.getTestBinary().convention(project.provider(() -> {
-            return testComponent.getBinaries().get().stream()
-                    .filter(SwiftXCTestBinary.class::isInstance)
-                    .map(SwiftXCTestBinary.class::cast)
-                    .findFirst()
-                    .orElse(null);
-        }));
+        testComponent.getTestBinary().convention(project.provider(() -> testComponent.getBinaries().get().stream()
+                .filter(SwiftXCTestBinary.class::isInstance)
+                .map(SwiftXCTestBinary.class::cast)
+                .findFirst()
+                .orElse(null)));
 
         testComponent.getBinaries().whenElementKnown(DefaultSwiftXCTestBinary.class, binary -> {
             // Create test suite test task

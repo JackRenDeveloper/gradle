@@ -323,12 +323,7 @@ public class DefaultModelRegistry implements ModelRegistryInternal {
         }
 
         if (!unboundRules.isEmpty()) {
-            SortedSet<RuleBinder> sortedBinders = new TreeSet<RuleBinder>(new Comparator<RuleBinder>() {
-                @Override
-                public int compare(RuleBinder o1, RuleBinder o2) {
-                    return String.valueOf(o1.getDescriptor()).compareTo(String.valueOf(o2.getDescriptor()));
-                }
-            });
+            SortedSet<RuleBinder> sortedBinders = new TreeSet<RuleBinder>((o1, o2) -> String.valueOf(o1.getDescriptor()).compareTo(String.valueOf(o2.getDescriptor())));
             sortedBinders.addAll(unboundRules);
             throw unbound(sortedBinders);
         }
@@ -483,12 +478,7 @@ public class DefaultModelRegistry implements ModelRegistryInternal {
         LOGGER.debug("Project {} - Mutating {} using {}", projectPath, node.getPath(), descriptor);
 
         try {
-            RuleContext.run(descriptor, new Runnable() {
-                @Override
-                public void run() {
-                    mutator.execute(node, inputs);
-                }
-            });
+            RuleContext.run(descriptor, () -> mutator.execute(node, inputs));
         } catch (Throwable e) {
             // TODO some representation of state of the inputs
             throw new ModelRuleExecutionException(descriptor, e);

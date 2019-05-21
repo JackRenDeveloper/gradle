@@ -40,17 +40,7 @@ public class CompareGradleBuildsPlugin implements Plugin<Project> {
         project.getPluginManager().apply(ReportingBasePlugin.class);
         final ReportingExtension reportingExtension = project.getExtensions().findByType(ReportingExtension.class);
 
-        project.getTasks().withType(CompareGradleBuilds.class).configureEach(new Action<CompareGradleBuilds>() {
-            @Override
-            public void execute(final CompareGradleBuilds task) {
-                ((IConventionAware) task).getConventionMapping().map("reportDir", new Callable<File>() {
-                    @Override
-                    public File call() throws Exception {
-                        return reportingExtension.file(task.getName());
-                    }
-                });
-            }
-        });
+        project.getTasks().withType(CompareGradleBuilds.class).configureEach(task -> ((IConventionAware) task).getConventionMapping().map("reportDir", (Callable<File>) () -> reportingExtension.file(task.getName())));
 
         project.getTasks().register("compareGradleBuilds", CompareGradleBuilds.class);
     }

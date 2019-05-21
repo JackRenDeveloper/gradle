@@ -136,18 +136,8 @@ public class ExecuteActionsTaskExecuter implements TaskExecuter {
             }
         });
         result.getOutcome().ifSuccessfulOrElse(
-            new Consumer<ExecutionOutcome>() {
-                @Override
-                public void accept(ExecutionOutcome outcome) {
-                    state.setOutcome(TaskExecutionOutcome.valueOf(outcome));
-                }
-            },
-            new Consumer<Throwable>() {
-                @Override
-                public void accept(Throwable failure) {
-                    state.setOutcome(new TaskExecutionException(task, failure));
-                }
-            }
+            outcome -> state.setOutcome(TaskExecutionOutcome.valueOf(outcome)),
+            failure -> state.setOutcome(new TaskExecutionException(task, failure))
         );
         return new TaskExecuterResult() {
             @Override
@@ -160,17 +150,7 @@ public class ExecuteActionsTaskExecuter implements TaskExecuter {
             @Override
             public boolean executedIncrementally() {
                 return result.getOutcome()
-                    .map(new Function<ExecutionOutcome, Boolean>() {
-                        @Override
-                        public Boolean apply(ExecutionOutcome executionOutcome) {
-                            return executionOutcome == ExecutionOutcome.EXECUTED_INCREMENTALLY;
-                        }
-                    }).orElseMapFailure(new Function<Throwable, Boolean>() {
-                        @Override
-                        public Boolean apply(Throwable throwable) {
-                            return false;
-                        }
-                    });
+                    .map(executionOutcome -> executionOutcome == ExecutionOutcome.EXECUTED_INCREMENTALLY).orElseMapFailure(throwable -> false);
             }
 
             @Override
@@ -327,16 +307,11 @@ public class ExecuteActionsTaskExecuter implements TaskExecuter {
             final AfterPreviousExecutionState afterPreviousExecutionState = context.getAfterPreviousExecution();
             final ImmutableSortedMap<String, CurrentFileCollectionFingerprint> outputsAfterExecution = taskFingerprinter.fingerprintTaskFiles(task, context.getTaskProperties().getOutputFileProperties());
             return context.getOverlappingOutputs()
-                .map(new Function<OverlappingOutputs, ImmutableSortedMap<String, CurrentFileCollectionFingerprint>>() {
-                    @Override
-                    public ImmutableSortedMap<String, CurrentFileCollectionFingerprint> apply(OverlappingOutputs overlappingOutputs) {
-                        return OutputFilterUtil.filterOutputFingerprints(
-                            afterPreviousExecutionState == null ? null : afterPreviousExecutionState.getOutputFileProperties(),
-                            context.getOutputFilesBeforeExecution(),
-                            outputsAfterExecution
-                        );
-                    }
-                }).orElse(outputsAfterExecution);
+                .map(overlappingOutputs -> OutputFilterUtil.filterOutputFingerprints(
+                    afterPreviousExecutionState == null ? null : afterPreviousExecutionState.getOutputFileProperties(),
+                    context.getOutputFilesBeforeExecution(),
+                    outputsAfterExecution
+                )).orElse(outputsAfterExecution);
         }
 
         @Override
@@ -350,12 +325,7 @@ public class ExecuteActionsTaskExecuter implements TaskExecuter {
             //   expects it to be added also when the build cache is enabled (but not the scan plugin)
             if (buildCacheEnabled || scanPluginApplied) {
                 context.removeSnapshotTaskInputsBuildOperation()
-                    .ifPresent(new Consumer<ExecutingBuildOperation>() {
-                        @Override
-                        public void accept(ExecutingBuildOperation operation) {
-                            operation.setResult(new SnapshotTaskInputsBuildOperationResult(cachingState));
-                        }
-                    });
+                    .ifPresent(operation -> operation.setResult(new SnapshotTaskInputsBuildOperationResult(cachingState)));
             }
         }
 

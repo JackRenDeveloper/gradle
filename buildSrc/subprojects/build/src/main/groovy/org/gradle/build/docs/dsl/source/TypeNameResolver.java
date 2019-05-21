@@ -67,12 +67,7 @@ public class TypeNameResolver {
      * Resolves the names in the given type into fully qualified names.
      */
     public void resolve(final TypeMetaData type, final ClassMetaData classMetaData) {
-        type.visitTypes(new Action<TypeMetaData>() {
-            @Override
-            public void execute(TypeMetaData t) {
-                t.setName(resolve(t.getName(), classMetaData));
-            }
-        });
+        type.visitTypes(t -> t.setName(resolve(t.getName(), classMetaData)));
     }
 
     /**

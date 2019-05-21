@@ -219,12 +219,7 @@ public class DefaultScriptPluginFactory implements ScriptPluginFactory {
                 return;
             }
 
-            Runnable buildScriptRunner = new Runnable() {
-                @Override
-                public void run() {
-                    runner.run(target, services);
-                }
-            };
+            Runnable buildScriptRunner = () -> runner.run(target, services);
 
             boolean hasImperativeStatements = runner.getData().getHasImperativeStatements();
             scriptTarget.addConfiguration(buildScriptRunner, !hasImperativeStatements);

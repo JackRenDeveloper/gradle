@@ -46,12 +46,7 @@ public class DefaultIvyExtraInfo implements IvyExtraInfo {
             }
         }
         if (foundEntries.size() > 1) {
-            String allNamespaces = Joiner.on(", ").join(CollectionUtils.collect(foundEntries, new Transformer<String, Map.Entry<NamespaceId, String>>() {
-                @Override
-                public String transform(Map.Entry<NamespaceId, String> original) {
-                    return original.getKey().getNamespace();
-                }
-            }));
+            String allNamespaces = Joiner.on(", ").join(CollectionUtils.collect(foundEntries, original -> original.getKey().getNamespace()));
             throw new InvalidUserDataException(String.format("Cannot get extra info element named '%s' by name since elements with this name were found from multiple namespaces (%s).  Use get(String namespace, String name) instead.", name, allNamespaces));
         }
         return foundEntries.size() == 0 ? null : foundEntries.get(0).getValue();

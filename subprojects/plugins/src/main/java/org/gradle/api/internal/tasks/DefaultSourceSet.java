@@ -64,12 +64,7 @@ public abstract class DefaultSourceSet implements SourceSet {
 
         String resourcesDisplayName = displayName + " resources";
         resources = objectFactory.sourceDirectorySet("resources", resourcesDisplayName);
-        resources.getFilter().exclude(new Spec<FileTreeElement>() {
-            @Override
-            public boolean isSatisfiedBy(FileTreeElement element) {
-                return javaSource.contains(element.getFile());
-            }
-        });
+        resources.getFilter().exclude(element -> javaSource.contains(element.getFile()));
 
         String allSourceDisplayName = displayName + " source";
         allSource = objectFactory.sourceDirectorySet("allsource", allSourceDisplayName);

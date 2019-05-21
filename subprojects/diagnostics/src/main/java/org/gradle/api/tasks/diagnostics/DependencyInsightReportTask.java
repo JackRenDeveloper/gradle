@@ -259,12 +259,9 @@ public class DependencyInsightReportTask extends DefaultTask {
         ResolutionResult result = incoming.getResolutionResult(errorHandler);
 
         final Set<DependencyResult> selectedDependencies = new LinkedHashSet<DependencyResult>();
-        result.allDependencies(new Action<DependencyResult>() {
-            @Override
-            public void execute(DependencyResult dependencyResult) {
-                if (dependencySpec.isSatisfiedBy(dependencyResult)) {
-                    selectedDependencies.add(dependencyResult);
-                }
+        result.allDependencies(dependencyResult -> {
+            if (dependencySpec.isSatisfiedBy(dependencyResult)) {
+                selectedDependencies.add(dependencyResult);
             }
         });
         return selectedDependencies;

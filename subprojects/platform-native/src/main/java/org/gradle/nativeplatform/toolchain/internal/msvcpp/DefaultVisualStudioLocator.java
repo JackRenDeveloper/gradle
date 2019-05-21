@@ -73,12 +73,7 @@ public class DefaultVisualStudioLocator implements VisualStudioLocator {
     public List<? extends VisualStudioInstall> locateAllComponents() {
         initializeVisualStudioInstalls();
 
-        return CollectionUtils.sort(foundInstalls.values(), new Comparator<VisualStudioInstall>() {
-            @Override
-            public int compare(VisualStudioInstall o1, VisualStudioInstall o2) {
-                return o2.getVersion().compareTo(o1.getVersion());
-            }
-        });
+        return CollectionUtils.sort(foundInstalls.values(), (o1, o2) -> o2.getVersion().compareTo(o1.getVersion()));
     }
 
     @Override
@@ -233,12 +228,7 @@ public class DefaultVisualStudioLocator implements VisualStudioLocator {
             return new ComponentNotFound<VisualStudioInstall>("Could not locate a Visual Studio installation, using the command line tool, Windows registry or system path.");
         }
         return new ComponentNotFound<VisualStudioInstall>("Could not locate a Visual Studio installation. None of the following locations contain a valid installation",
-            CollectionUtils.collect(brokenInstalls, new ArrayList<String>(), new Transformer<String, File>() {
-                @Override
-                public String transform(File file) {
-                    return file.getAbsolutePath();
-                }
-            })
+            CollectionUtils.collect(brokenInstalls, new ArrayList<String>(), file -> file.getAbsolutePath())
         );
     }
 

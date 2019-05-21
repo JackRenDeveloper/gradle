@@ -175,9 +175,7 @@ public class Sign extends DefaultTask implements SignatureSpec {
     public void sign(Publication... publications) {
         for (Publication publication : publications) {
             PublicationInternal<?> publicationInternal = (PublicationInternal<?>) publication;
-            dependsOn((Callable<Set<? extends PublicationArtifact>>) () -> {
-                return publicationInternal.getPublishableArtifacts().matching(this::isNoSignatureArtifact);
-            });
+            dependsOn((Callable<Set<? extends PublicationArtifact>>) () -> publicationInternal.getPublishableArtifacts().matching(this::isNoSignatureArtifact));
             publicationInternal.allPublishableArtifacts(artifact -> {
                 if (isNoSignatureArtifact(artifact)) {
                     signArtifact(artifact);

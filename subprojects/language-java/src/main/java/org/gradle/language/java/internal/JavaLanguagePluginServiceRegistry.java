@@ -66,14 +66,11 @@ public class JavaLanguagePluginServiceRegistry extends AbstractPluginServiceRegi
         }
 
         SubscribableBuildActionRunnerRegistration createJavaSubscribableBuildActionRunnerRegistration(final JavaCompileTaskSuccessResultPostProcessor factory) {
-            return new SubscribableBuildActionRunnerRegistration() {
-                @Override
-                public Iterable<Object> createListeners(BuildClientSubscriptions clientSubscriptions, BuildEventConsumer consumer) {
-                    if (clientSubscriptions.isRequested(OperationType.TASK)) {
-                        return Collections.<Object>singletonList(factory);
-                    }
-                    return emptyList();
+            return (clientSubscriptions, consumer) -> {
+                if (clientSubscriptions.isRequested(OperationType.TASK)) {
+                    return Collections.<Object>singletonList(factory);
                 }
+                return emptyList();
             };
         }
 

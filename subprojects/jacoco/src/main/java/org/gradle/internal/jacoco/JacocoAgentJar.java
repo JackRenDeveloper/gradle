@@ -63,33 +63,18 @@ public class JacocoAgentJar {
      */
     public File getJar() {
         if (agentJar == null) {
-            agentJar = project.zipTree(getAgentConf().getSingleFile()).filter(new Spec<File>() {
-                @Override
-                public boolean isSatisfiedBy(File file) {
-                    return file.getName().equals("jacocoagent.jar");
-                }
-            }).getSingleFile();
+            agentJar = project.zipTree(getAgentConf().getSingleFile()).filter(file -> file.getName().equals("jacocoagent.jar")).getSingleFile();
         }
         return agentJar;
     }
 
     public boolean supportsJmx() {
-        boolean pre062 = Iterables.any(getAgentConf(), new Predicate<File>() {
-            @Override
-            public boolean apply(File file) {
-                return V_0_6_2_0.compareTo(extractVersion(file.getName())) > 0;
-            }
-        });
+        boolean pre062 = Iterables.any(getAgentConf(), file -> V_0_6_2_0.compareTo(extractVersion(file.getName())) > 0);
         return !pre062;
     }
 
     public boolean supportsInclNoLocationClasses() {
-        boolean pre076 = Iterables.any(getAgentConf(), new Predicate<File>() {
-            @Override
-            public boolean apply(File file) {
-                return V_0_7_6_0.compareTo(extractVersion(file.getName())) > 0;
-            }
-        });
+        boolean pre076 = Iterables.any(getAgentConf(), file -> V_0_7_6_0.compareTo(extractVersion(file.getName())) > 0);
         return !pre076;
     }
 

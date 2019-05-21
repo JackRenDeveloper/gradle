@@ -37,9 +37,7 @@ public class DefaultTransformationNodeRegistry implements TransformationNodeRegi
     public Collection<TransformationNode> getOrCreate(ResolvedArtifactSet artifactSet, Transformation transformation, ExecutionGraphDependenciesResolver dependenciesResolver) {
         final List<Equivalence.Wrapper<TransformationStep>> transformationChain = unpackTransformation(transformation);
         final ImmutableList.Builder<TransformationNode> builder = ImmutableList.builder();
-        Function<ResolvableArtifact, TransformationNode> nodeCreator = artifact -> {
-            return getOrCreateInternal(artifact, transformationChain, dependenciesResolver);
-        };
+        Function<ResolvableArtifact, TransformationNode> nodeCreator = artifact -> getOrCreateInternal(artifact, transformationChain, dependenciesResolver);
         collectTransformNodes(artifactSet, builder, nodeCreator);
         return builder.build();
     }
@@ -56,12 +54,9 @@ public class DefaultTransformationNodeRegistry implements TransformationNodeRegi
     }
 
     private void collectTransformNodes(ResolvedArtifactSet artifactSet, ImmutableList.Builder<TransformationNode> builder, Function<ResolvableArtifact, TransformationNode> nodeCreator) {
-        artifactSet.visitLocalArtifacts(new ResolvedArtifactSet.LocalArtifactVisitor() {
-            @Override
-            public void visitArtifact(ResolvableArtifact artifact) {
-                TransformationNode transformationNode = nodeCreator.apply(artifact);
-                builder.add(transformationNode);
-            }
+        artifactSet.visitLocalArtifacts(artifact -> {
+            TransformationNode transformationNode = nodeCreator.apply(artifact);
+            builder.add(transformationNode);
         });
     }
 
@@ -82,12 +77,7 @@ public class DefaultTransformationNodeRegistry implements TransformationNodeRegi
 
     private static List<Equivalence.Wrapper<TransformationStep>> unpackTransformation(Transformation transformation) {
         final ImmutableList.Builder<Equivalence.Wrapper<TransformationStep>> builder = ImmutableList.builder();
-        transformation.visitTransformationSteps(new Action<TransformationStep>() {
-            @Override
-            public void execute(TransformationStep transformation) {
-                builder.add(TransformationStep.FOR_SCHEDULING.wrap(transformation));
-            }
-        });
+        transformation.visitTransformationSteps(transformation1 -> builder.add(TransformationStep.FOR_SCHEDULING.wrap(transformation1)));
         return builder.build();
     }
 

@@ -185,16 +185,14 @@ public class NativeBasePlugin implements Plugin<Project> {
 
             if (component instanceof ComponentWithTargetMachines) {
                 ComponentWithTargetMachines componentWithTargetMachines = (ComponentWithTargetMachines)component;
-                tasks.named(LifecycleBasePlugin.ASSEMBLE_TASK_NAME, task -> {
-                    task.dependsOn((Callable) () -> {
-                        TargetMachine currentHost = ((DefaultTargetMachineFactory)targetMachineFactory).host();
-                        boolean targetsCurrentMachine = componentWithTargetMachines.getTargetMachines().get().stream().anyMatch(targetMachine -> currentHost.getOperatingSystemFamily().equals(targetMachine.getOperatingSystemFamily()));
-                        if (!targetsCurrentMachine) {
-                            task.getLogger().warn("'" + component.getName() + "' component in project '" + project.getPath() + "' does not target this operating system.");
-                        }
-                        return Collections.emptyList();
-                    });
-                });
+                tasks.named(LifecycleBasePlugin.ASSEMBLE_TASK_NAME, task -> task.dependsOn((Callable) () -> {
+                    TargetMachine currentHost = ((DefaultTargetMachineFactory)targetMachineFactory).host();
+                    boolean targetsCurrentMachine = componentWithTargetMachines.getTargetMachines().get().stream().anyMatch(targetMachine -> currentHost.getOperatingSystemFamily().equals(targetMachine.getOperatingSystemFamily()));
+                    if (!targetsCurrentMachine) {
+                        task.getLogger().warn("'" + component.getName() + "' component in project '" + project.getPath() + "' does not target this operating system.");
+                    }
+                    return Collections.emptyList();
+                }));
             }
         });
     }
@@ -282,10 +280,8 @@ public class NativeBasePlugin implements Plugin<Project> {
             Provider<? extends Task> linkFileTask = link;
 
             if (toolProvider.producesImportLibrary()) {
-                link.configure(linkSharedLibrary -> {
-                    linkSharedLibrary.getImportLibrary().set(buildDirectory.file(
-                            library.getBaseName().map(baseName -> toolProvider.getImportLibraryName("lib/" + names.getDirName() + baseName))));
-                });
+                link.configure(linkSharedLibrary -> linkSharedLibrary.getImportLibrary().set(buildDirectory.file(
+                        library.getBaseName().map(baseName -> toolProvider.getImportLibraryName("lib/" + names.getDirName() + baseName)))));
                 linkFile = link.flatMap(task -> task.getImportLibrary());
             }
 
@@ -371,28 +367,24 @@ public class NativeBasePlugin implements Plugin<Project> {
     }
 
     private void addPublicationsFromVariants(final Project project, final SoftwareComponentContainer components) {
-        project.getPluginManager().withPlugin("maven-publish", plugin -> {
-            components.withType(PublicationAwareComponent.class, component -> {
-                project.getExtensions().configure(PublishingExtension.class, publishing -> {
-                    final ComponentWithVariants mainVariant = component.getMainPublication();
-                    publishing.getPublications().create("main", MavenPublication.class, publication -> {
-                        MavenPublicationInternal publicationInternal = (MavenPublicationInternal) publication;
-                        publicationInternal.getMavenProjectIdentity().getArtifactId().set(component.getBaseName());
-                        publicationInternal.from(mainVariant);
-                        publicationInternal.publishWithOriginalFileName();
-                    });
-
-                    Set<? extends SoftwareComponent> variants = mainVariant.getVariants();
-                    if (variants instanceof DomainObjectSet) {
-                        ((DomainObjectSet<? extends SoftwareComponent>) variants).all(child -> addPublicationFromVariant(child, publishing, project));
-                    } else {
-                        for (SoftwareComponent variant : variants) {
-                            addPublicationFromVariant(variant, publishing, project);
-                        }
-                    }
+        project.getPluginManager().withPlugin("maven-publish", plugin -> components.withType(PublicationAwareComponent.class, component -> project.getExtensions().configure(PublishingExtension.class, publishing -> {
+                final ComponentWithVariants mainVariant = component.getMainPublication();
+                publishing.getPublications().create("main", MavenPublication.class, publication -> {
+                    MavenPublicationInternal publicationInternal = (MavenPublicationInternal) publication;
+                    publicationInternal.getMavenProjectIdentity().getArtifactId().set(component.getBaseName());
+                    publicationInternal.from(mainVariant);
+                    publicationInternal.publishWithOriginalFileName();
                 });
-            });
-        });
+
+                Set<? extends SoftwareComponent> variants = mainVariant.getVariants();
+                if (variants instanceof DomainObjectSet) {
+                    ((DomainObjectSet<? extends SoftwareComponent>) variants).all(child -> addPublicationFromVariant(child, publishing, project));
+                } else {
+                    for (SoftwareComponent variant : variants) {
+                        addPublicationFromVariant(variant, publishing, project);
+                    }
+                }
+            })));
     }
 
     private void addPublicationFromVariant(SoftwareComponent child, PublishingExtension publishing, Project project) {

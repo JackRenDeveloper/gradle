@@ -53,24 +53,18 @@ public abstract class ModelRegistrations {
     }
 
     public static <T> Builder unmanagedInstance(final ModelReference<T> modelReference, final Factory<? extends T> factory, final Action<? super MutableModelNode> initializer) {
-        return unmanagedInstanceOf(modelReference, new Transformer<T, MutableModelNode>() {
-            @Override
-            public T transform(MutableModelNode modelNode) {
-                T t = factory.create();
-                initializer.execute(modelNode);
-                return t;
-            }
+        return unmanagedInstanceOf(modelReference, modelNode -> {
+            T t = factory.create();
+            initializer.execute(modelNode);
+            return t;
         });
     }
 
     public static <T> Builder unmanagedInstanceOf(final ModelReference<T> modelReference, final Transformer<? extends T, ? super MutableModelNode> factory) {
         return of(modelReference.getPath())
-            .action(ModelActionRole.Create, new Action<MutableModelNode>() {
-                @Override
-                public void execute(MutableModelNode modelNode) {
-                    T t = factory.transform(modelNode);
-                    modelNode.setPrivateData(modelReference.getType(), t);
-                }
+            .action(ModelActionRole.Create, modelNode -> {
+                T t = factory.transform(modelNode);
+                modelNode.setPrivateData(modelReference.getType(), t);
             })
             .withProjection(UnmanagedModelProjection.of(modelReference.getType()));
     }

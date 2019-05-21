@@ -61,12 +61,9 @@ public class SyncAction {
     }
 
     private static ProgressListener noOpListener() {
-        return new ProgressListener() {
-            @Override
-            public void statusChanged(ProgressEvent event) {
-                // Progress events have no expensive logic of their own, so we don't do anything
-                // with them. We only test the overhead of sending/receiving them
-            }
+        return event -> {
+            // Progress events have no expensive logic of their own, so we don't do anything
+            // with them. We only test the overhead of sending/receiving them
         };
     }
 }

@@ -108,11 +108,7 @@ public class DefaultProjectRegistryTest {
 
     @Test
     public void canLocateAllProjectsWhichMatchSpec() {
-        Spec<Project> spec = new Spec<Project>() {
-            public boolean isSatisfiedBy(Project element) {
-                return element.getName().contains("child");
-            }
-        };
+        Spec<Project> spec = element -> element.getName().contains("child");
 
         assertThat(projectRegistry.findAll(spec), equalTo(toSet((ProjectInternal) childMock, childChildMock)));
     }

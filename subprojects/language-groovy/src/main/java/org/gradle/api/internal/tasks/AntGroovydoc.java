@@ -60,12 +60,7 @@ public class AntGroovydoc {
         final File tmpDir = new File(project.getBuildDir(), "tmp/groovydoc");
         FileOperations fileOperations = ((ProjectInternal) project).getFileOperations();
         fileOperations.delete(tmpDir);
-        fileOperations.copy(new Action<CopySpec>() {
-            @Override
-            public void execute(CopySpec copySpec) {
-                copySpec.from(source).into(tmpDir);
-            }
-        });
+        fileOperations.copy(copySpec -> copySpec.from(source).into(tmpDir));
 
         List<File> combinedClasspath = ImmutableList.<File>builder()
             .addAll(classpath)

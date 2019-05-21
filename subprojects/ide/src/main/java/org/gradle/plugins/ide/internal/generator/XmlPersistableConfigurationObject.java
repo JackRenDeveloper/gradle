@@ -106,12 +106,7 @@ public abstract class XmlPersistableConfigurationObject extends AbstractPersista
 
     @Nullable
     protected static Node findFirstWithAttributeValue(@Nullable List<Node> nodes, final String attribute, final String value) {
-        return nodes == null ? null : Iterables.getFirst(Iterables.filter(nodes, new Predicate<Node>() {
-            @Override
-            public boolean apply(Node node) {
-                return value.equals(node.attribute(attribute));
-            }
-        }), null);
+        return nodes == null ? null : Iterables.getFirst(Iterables.filter(nodes, node -> value.equals(node.attribute(attribute))), null);
     }
 
     public static Node findOrCreateFirstChildNamed(Node root, String name) {

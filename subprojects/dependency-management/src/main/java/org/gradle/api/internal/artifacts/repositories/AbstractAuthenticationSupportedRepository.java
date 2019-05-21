@@ -94,11 +94,6 @@ public abstract class AbstractAuthenticationSupportedRepository extends Abstract
     }
 
     List<String> getAuthenticationSchemes() {
-        return CollectionUtils.collect(getConfiguredAuthentication(), new Transformer<String, Authentication>() {
-            @Override
-            public String transform(Authentication authentication) {
-                return Cast.cast(AuthenticationInternal.class, authentication).getType().getSimpleName();
-            }
-        });
+        return CollectionUtils.collect(getConfiguredAuthentication(), authentication -> Cast.cast(AuthenticationInternal.class, authentication).getType().getSimpleName());
     }
 }

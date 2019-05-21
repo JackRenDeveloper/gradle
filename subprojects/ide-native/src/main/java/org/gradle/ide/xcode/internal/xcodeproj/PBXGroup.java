@@ -80,12 +80,7 @@ public class PBXGroup extends PBXReference {
         super.serializeInto(s);
 
         if (sortPolicy == SortPolicy.BY_NAME) {
-            Collections.sort(children, new Comparator<PBXReference>() {
-                @Override
-                public int compare(PBXReference o1, PBXReference o2) {
-                    return o1.getName().compareTo(o2.getName());
-                }
-            });
+            Collections.sort(children, (o1, o2) -> o1.getName().compareTo(o2.getName()));
         }
 
         s.addField("children", children);

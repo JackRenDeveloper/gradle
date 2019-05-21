@@ -106,12 +106,7 @@ public class DefaultPluginContainer extends DefaultPluginCollection<Plugin> impl
 
     private Plugin doFindPlugin(String id) {
         for (final PluginManagerInternal.PluginWithId pluginWithId : pluginManager.pluginsForId(id)) {
-            Plugin plugin = Iterables.tryFind(DefaultPluginContainer.this, new Predicate<Plugin>() {
-                @Override
-                public boolean apply(Plugin plugin) {
-                    return pluginWithId.clazz.equals(plugin.getClass());
-                }
-            }).orNull();
+            Plugin plugin = Iterables.tryFind(DefaultPluginContainer.this, plugin1 -> pluginWithId.clazz.equals(plugin1.getClass())).orNull();
 
             if (plugin != null) {
                 return plugin;
@@ -166,17 +161,7 @@ public class DefaultPluginContainer extends DefaultPluginCollection<Plugin> impl
 
     @Override
     public void withId(final String pluginId, final Action<? super Plugin> action) {
-        Action<DefaultPluginManager.PluginWithId> wrappedAction = new Action<DefaultPluginManager.PluginWithId>() {
-            @Override
-            public void execute(final DefaultPluginManager.PluginWithId pluginWithId) {
-                matching(new Spec<Plugin>() {
-                    @Override
-                    public boolean isSatisfiedBy(Plugin element) {
-                        return pluginWithId.clazz.equals(element.getClass());
-                    }
-                }).all(action);
-            }
-        };
+        Action<DefaultPluginManager.PluginWithId> wrappedAction = pluginWithId -> matching(element -> pluginWithId.clazz.equals(element.getClass())).all(action);
 
         pluginManager.pluginsForId(pluginId).all(wrappedAction);
     }

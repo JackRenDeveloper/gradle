@@ -54,14 +54,10 @@ public class OutputFilterUtil {
         ImmutableSortedMap<String, CurrentFileCollectionFingerprint> outputsBeforeExecution,
         final ImmutableSortedMap<String, CurrentFileCollectionFingerprint> outputsAfterExecution
     ) {
-        return ImmutableSortedMap.copyOfSorted(Maps.transformEntries(outputsBeforeExecution, new Maps.EntryTransformer<String, CurrentFileCollectionFingerprint, CurrentFileCollectionFingerprint>() {
-            @Override
-            @SuppressWarnings("NullableProblems")
-            public CurrentFileCollectionFingerprint transformEntry(String propertyName, CurrentFileCollectionFingerprint outputBeforeExecution) {
-                CurrentFileCollectionFingerprint outputAfterExecution = outputsAfterExecution.get(propertyName);
-                FileCollectionFingerprint outputAfterPreviousExecution = getFingerprintForProperty(outputsAfterPreviousExecution, propertyName);
-                return filterOutputFingerprint(outputAfterPreviousExecution, outputBeforeExecution, outputAfterExecution);
-            }
+        return ImmutableSortedMap.copyOfSorted(Maps.transformEntries(outputsBeforeExecution, (propertyName, outputBeforeExecution) -> {
+            CurrentFileCollectionFingerprint outputAfterExecution = outputsAfterExecution.get(propertyName);
+            FileCollectionFingerprint outputAfterPreviousExecution = getFingerprintForProperty(outputsAfterPreviousExecution, propertyName);
+            return filterOutputFingerprint(outputAfterPreviousExecution, outputBeforeExecution, outputAfterExecution);
         }));
     }
 

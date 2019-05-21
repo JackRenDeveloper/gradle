@@ -85,14 +85,11 @@ public class ClosureBackedRuleFactory {
                     }
                 }
 
-                node.applyToSelf(role, InputUsingModelAction.of(ModelReference.of(node.getPath(), subjectType), descriptor, inputModelReferences, new BiAction<T, List<ModelView<?>>>() {
-                    @Override
-                    public void execute(T t, List<ModelView<?>> modelViews) {
-                        // Make a copy of the closure, attach inputs and execute
-                        Closure<?> cloned = closure.rehydrate(null, closure.getThisObject(), closure.getThisObject());
-                        ((TransformedClosure) cloned).makeRule(new PotentialInputs(modelViews, inputValues), supportsNestedRules ? ClosureBackedRuleFactory.this : null);
-                        ClosureBackedAction.execute(t, cloned);
-                    }
+                node.applyToSelf(role, InputUsingModelAction.of(ModelReference.of(node.getPath(), subjectType), descriptor, inputModelReferences, (t, modelViews) -> {
+                    // Make a copy of the closure, attach inputs and execute
+                    Closure<?> cloned = closure.rehydrate(null, closure.getThisObject(), closure.getThisObject());
+                    ((TransformedClosure) cloned).makeRule(new PotentialInputs(modelViews, inputValues), supportsNestedRules ? ClosureBackedRuleFactory.this : null);
+                    ClosureBackedAction.execute(t, cloned);
                 }));
             }
         };

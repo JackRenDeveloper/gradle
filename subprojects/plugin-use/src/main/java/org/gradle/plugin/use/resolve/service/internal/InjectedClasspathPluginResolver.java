@@ -53,12 +53,7 @@ public class InjectedClasspathPluginResolver implements PluginResolver {
     public void resolve(PluginRequestInternal pluginRequest, PluginResolutionResult result) throws InvalidPluginRequestException {
         PluginImplementation<?> plugin = pluginRegistry.lookup(pluginRequest.getId());
         if (plugin == null) {
-            String classpathStr = Joiner.on(File.pathSeparator).join(Iterables.transform(injectedClasspath.getAsFiles(), new Function<File, String>() {
-                @Override
-                public String apply(File input) {
-                    return input.getAbsolutePath();
-                }
-            }));
+            String classpathStr = Joiner.on(File.pathSeparator).join(Iterables.transform(injectedClasspath.getAsFiles(), input -> input.getAbsolutePath()));
             result.notFound(getDescription(), "classpath: " + classpathStr);
         } else {
             result.found(getDescription(), new InjectedClasspathPluginResolution(plugin));

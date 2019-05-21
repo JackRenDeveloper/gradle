@@ -43,19 +43,16 @@ public class Bzip2Archiver extends AbstractArchiver {
     public static ArchiveOutputStreamFactory getCompressor() {
         // this is not very beautiful but at some point we will
         // get rid of ArchiveOutputStreamFactory in favor of the writable Resource
-        return new ArchiveOutputStreamFactory() {
-            @Override
-            public OutputStream createArchiveOutputStream(File destination) throws FileNotFoundException {
-                OutputStream outStr = new BufferedOutputStream(new FileOutputStream(destination));
-                try {
-                    outStr.write('B');
-                    outStr.write('Z');
-                    return new CBZip2OutputStream(outStr);
-                } catch (Exception e) {
-                    IoActions.closeQuietly(outStr);
-                    String message = String.format("Unable to create bzip2 output stream for file %s", destination);
-                    throw new RuntimeException(message, e);
-                }
+        return destination -> {
+            OutputStream outStr = new BufferedOutputStream(new FileOutputStream(destination));
+            try {
+                outStr.write('B');
+                outStr.write('Z');
+                return new CBZip2OutputStream(outStr);
+            } catch (Exception e) {
+                IoActions.closeQuietly(outStr);
+                String message = String.format("Unable to create bzip2 output stream for file %s", destination);
+                throw new RuntimeException(message, e);
             }
         };
     }

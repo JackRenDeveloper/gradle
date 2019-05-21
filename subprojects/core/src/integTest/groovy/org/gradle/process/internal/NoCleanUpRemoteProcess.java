@@ -27,11 +27,7 @@ public class NoCleanUpRemoteProcess implements Action<WorkerProcessContext>, Ser
     public void execute(WorkerProcessContext workerProcessContext) {
         final Lock lock = new ReentrantLock();
         lock.lock();
-        new Thread(new Runnable() {
-            public void run() {
-                lock.lock();
-            }
-        }).start();
+        new Thread(() -> lock.lock()).start();
 
         TestListenerInterface sender = workerProcessContext.getServerConnection().addOutgoing(TestListenerInterface.class);
         workerProcessContext.getServerConnection().connect();

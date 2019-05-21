@@ -41,12 +41,7 @@ import java.util.concurrent.ExecutionException;
 @ThreadSafe
 public class ModelRuleSourceDetector {
 
-    static final Comparator<Class<?>> COMPARE_BY_CLASS_NAME = new Comparator<Class<?>>() {
-        @Override
-        public int compare(Class<?> left, Class<?> right) {
-            return left.getName().compareTo(right.getName());
-        }
-    };
+    static final Comparator<Class<?>> COMPARE_BY_CLASS_NAME = (left, right) -> left.getName().compareTo(right.getName());
 
     final LoadingCache<Class<?>, Collection<Reference<Class<? extends RuleSource>>>> cache = CacheBuilder.newBuilder()
             .weakKeys()
@@ -84,12 +79,7 @@ public class ModelRuleSourceDetector {
     public Iterable<Class<? extends RuleSource>> getDeclaredSources(Class<?> container) {
         try {
             return FluentIterable.from(cache.get(container))
-                    .transform(new Function<Reference<Class<? extends RuleSource>>, Class<? extends RuleSource>>() {
-                        @Override
-                        public Class<? extends RuleSource> apply(Reference<Class<? extends RuleSource>> input) {
-                            return input.get();
-                        }
-                    })
+                    .transform((Function<Reference<Class<? extends RuleSource>>, Class<? extends RuleSource>>) input -> input.get())
                     .filter(Predicates.notNull());
         } catch (ExecutionException e) {
             throw UncheckedException.throwAsUncheckedException(e);

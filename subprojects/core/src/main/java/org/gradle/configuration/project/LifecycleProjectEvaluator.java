@@ -193,12 +193,7 @@ public class LifecycleProjectEvaluator implements ProjectEvaluator {
         @Override
         public void run(BuildOperationContext context) {
             ProjectEvaluationListener nextBatch = project.getProjectEvaluationBroadcaster();
-            Action<ProjectEvaluationListener> fireAction = new Action<ProjectEvaluationListener>() {
-                @Override
-                public void execute(ProjectEvaluationListener listener) {
-                    listener.afterEvaluate(project, state);
-                }
-            };
+            Action<ProjectEvaluationListener> fireAction = listener -> listener.afterEvaluate(project, state);
 
             do {
                 try {

@@ -55,22 +55,14 @@ public class NormalizingGroovyCompiler implements Compiler<GroovyJavaJointCompil
     }
 
     private void resolveAndFilterSourceFiles(final GroovyJavaJointCompileSpec spec) {
-        final List<String> fileExtensions = CollectionUtils.collect(spec.getGroovyCompileOptions().getFileExtensions(), new Transformer<String, String>() {
-            @Override
-            public String transform(String extension) {
-                return '.' + extension;
-            }
-        });
-        Iterable<File> filtered = Iterables.filter(spec.getSourceFiles(), new Predicate<File>() {
-            @Override
-            public boolean apply(File element) {
-                for (String fileExtension : fileExtensions) {
-                    if (hasExtension(element, fileExtension)) {
-                        return true;
-                    }
+        final List<String> fileExtensions = CollectionUtils.collect(spec.getGroovyCompileOptions().getFileExtensions(), extension -> '.' + extension);
+        Iterable<File> filtered = Iterables.filter(spec.getSourceFiles(), element -> {
+            for (String fileExtension : fileExtensions) {
+                if (hasExtension(element, fileExtension)) {
+                    return true;
                 }
-                return false;
             }
+            return false;
         });
 
         spec.setSourceFiles(ImmutableSet.copyOf(filtered));

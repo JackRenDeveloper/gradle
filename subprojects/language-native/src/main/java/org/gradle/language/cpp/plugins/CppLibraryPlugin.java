@@ -128,9 +128,7 @@ public class CppLibraryPlugin implements Plugin<Project> {
             }
         }));
 
-        library.getBinaries().whenElementKnown(binary -> {
-            library.getMainPublication().addVariant(binary);
-        });
+        library.getBinaries().whenElementKnown(binary -> library.getMainPublication().addVariant(binary));
 
         project.afterEvaluate(p -> {
             // TODO: make build type configurable for components

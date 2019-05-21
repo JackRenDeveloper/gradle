@@ -37,12 +37,7 @@ public abstract class XCTestSourceElement extends SwiftSourceElement implements 
 
     @Override
     public List<SourceFile> getFiles() {
-        List<SourceFile> result = Lists.newArrayList(CollectionUtils.collect(getTestSuites(), new Transformer<SourceFile, XCTestSourceFileElement>() {
-            @Override
-            public SourceFile transform(XCTestSourceFileElement element) {
-                return element.getSourceFile();
-            }
-        }));
+        List<SourceFile> result = Lists.newArrayList(CollectionUtils.collect(getTestSuites(), element -> element.getSourceFile()));
 
         if (OperatingSystem.current().isLinux()) {
             result.add(getLinuxMainSourceFile(getTestSuites()));

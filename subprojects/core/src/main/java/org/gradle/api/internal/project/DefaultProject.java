@@ -251,12 +251,7 @@ public class DefaultProject extends AbstractPluginAware implements ProjectIntern
 
         evaluationListener.add(gradle.getProjectEvaluationBroadcaster());
 
-        ruleBasedPluginListenerBroadcast.add(new RuleBasedPluginListener() {
-            @Override
-            public void prepareForRuleBasedPlugins(Project project) {
-                populateModelRegistry(services.get(ModelRegistry.class));
-            }
-        });
+        ruleBasedPluginListenerBroadcast.add((RuleBasedPluginListener) project -> populateModelRegistry(services.get(ModelRegistry.class)));
     }
 
     @SuppressWarnings("unused")
@@ -319,12 +314,7 @@ public class DefaultProject extends AbstractPluginAware implements ProjectIntern
     void populateModelRegistry(ModelRegistry modelRegistry) {
         registerServiceOn(modelRegistry, "serviceRegistry", SERVICE_REGISTRY_MODEL_TYPE, services, instanceDescriptorFor("serviceRegistry"));
         // TODO:LPTR This ignores changes to Project.buildDir after model node has been created
-        registerFactoryOn(modelRegistry, "buildDir", FILE_MODEL_TYPE, new Factory<File>() {
-            @Override
-            public File create() {
-                return getBuildDir();
-            }
-        });
+        registerFactoryOn(modelRegistry, "buildDir", FILE_MODEL_TYPE, () -> getBuildDir());
         registerInstanceOn(modelRegistry, "projectIdentifier", PROJECT_IDENTIFIER_MODEL_TYPE, this);
         registerInstanceOn(modelRegistry, "extensionContainer", EXTENSION_CONTAINER_MODEL_TYPE, getExtensions());
         modelRegistry.getRoot().applyToSelf(BasicServicesRules.class);
@@ -798,12 +788,7 @@ public class DefaultProject extends AbstractPluginAware implements ProjectIntern
     @Override
     public Map<Project, Set<Task>> getAllTasks(boolean recursive) {
         final Map<Project, Set<Task>> foundTargets = new TreeMap<Project, Set<Task>>();
-        Action<Project> action = new Action<Project>() {
-            @Override
-            public void execute(Project project) {
-                foundTargets.put(project, new TreeSet<Task>(project.getTasks()));
-            }
-        };
+        Action<Project> action = project -> foundTargets.put(project, new TreeSet<Task>(project.getTasks()));
         if (recursive) {
             allprojects(action);
         } else {
@@ -818,16 +803,13 @@ public class DefaultProject extends AbstractPluginAware implements ProjectIntern
             throw new InvalidUserDataException("Name is not specified!");
         }
         final Set<Task> foundTasks = new HashSet<Task>();
-        Action<Project> action = new Action<Project>() {
-            @Override
-            public void execute(Project project) {
-                // Don't force evaluation of rules here, let the task container do what it needs to
-                ((ProjectInternal) project).evaluate();
+        Action<Project> action = project -> {
+            // Don't force evaluation of rules here, let the task container do what it needs to
+            ((ProjectInternal) project).evaluate();
 
-                Task task = project.getTasks().findByName(name);
-                if (task != null) {
-                    foundTasks.add(task);
-                }
+            Task task = project.getTasks().findByName(name);
+            if (task != null) {
+                foundTasks.add(task);
             }
         };
         if (recursive) {
@@ -1054,12 +1036,7 @@ public class DefaultProject extends AbstractPluginAware implements ProjectIntern
 
     @Override
     public Map<String, ?> getProperties() {
-        return DeprecationLogger.whileDisabled(new Factory<Map<String, ?>>() {
-            @Override
-            public Map<String, ?> create() {
-                return extensibleDynamicObject.getProperties();
-            }
-        });
+        return DeprecationLogger.whileDisabled((Factory<Map<String, ?>>) () -> extensibleDynamicObject.getProperties());
     }
 
     @Override

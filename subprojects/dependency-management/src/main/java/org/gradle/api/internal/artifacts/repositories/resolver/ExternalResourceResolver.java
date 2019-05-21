@@ -230,12 +230,7 @@ public abstract class ExternalResourceResolver<T extends ModuleComponentResolveM
     }
 
     private List<ResourcePattern> filterComplete(List<ResourcePattern> ivyPatterns, final ModuleIdentifier module) {
-        return CollectionUtils.filter(ivyPatterns, new Spec<ResourcePattern>() {
-            @Override
-            public boolean isSatisfiedBy(ResourcePattern element) {
-                return element.isComplete(module);
-            }
-        });
+        return CollectionUtils.filter(ivyPatterns, element -> element.isComplete(module));
     }
 
     protected void doResolveComponentMetaData(ModuleComponentIdentifier moduleComponentIdentifier, ComponentOverrideMetadata prescribedMetaData, BuildableModuleComponentMetaDataResolveResult result) {
@@ -347,21 +342,11 @@ public abstract class ExternalResourceResolver<T extends ModuleComponentResolveM
     }
 
     public List<String> getIvyPatterns() {
-        return CollectionUtils.collect(ivyPatterns, new Transformer<String, ResourcePattern>() {
-            @Override
-            public String transform(ResourcePattern original) {
-                return original.getPattern();
-            }
-        });
+        return CollectionUtils.collect(ivyPatterns, original -> original.getPattern());
     }
 
     public List<String> getArtifactPatterns() {
-        return CollectionUtils.collect(artifactPatterns, new Transformer<String, ResourcePattern>() {
-            @Override
-            public String transform(ResourcePattern original) {
-                return original.getPattern();
-            }
-        });
+        return CollectionUtils.collect(artifactPatterns, original -> original.getPattern());
     }
 
     protected void setIvyPatterns(Iterable<? extends ResourcePattern> patterns) {

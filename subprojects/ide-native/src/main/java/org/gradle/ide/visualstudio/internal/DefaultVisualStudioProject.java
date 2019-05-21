@@ -117,12 +117,7 @@ public class DefaultVisualStudioProject implements VisualStudioProjectInternal {
 
     @Input
     public Set<String> getSourceFilePaths() {
-        return collect(getSourceFiles().getFiles(), new Transformer<String, File>() {
-            @Override
-            public String transform(File file) {
-                return file.getAbsolutePath();
-            }
-        });
+        return collect(getSourceFiles().getFiles(), file -> file.getAbsolutePath());
     }
 
     @Internal
@@ -136,12 +131,7 @@ public class DefaultVisualStudioProject implements VisualStudioProjectInternal {
 
     @Input
     public Set<String> getResourceFilePaths() {
-        return collect(getResourceFiles(), new Transformer<String, File>() {
-            @Override
-            public String transform(File file) {
-                return file.getAbsolutePath();
-            }
-        });
+        return collect(getResourceFiles(), file -> file.getAbsolutePath());
     }
 
     @Internal
@@ -151,12 +141,7 @@ public class DefaultVisualStudioProject implements VisualStudioProjectInternal {
 
     @Input
     public Set<String> getHeaderFilePaths() {
-        return collect(getHeaderFiles().getFiles(), new Transformer<String, File>() {
-            @Override
-            public String transform(File file) {
-                return file.getAbsolutePath();
-            }
-        });
+        return collect(getHeaderFiles().getFiles(), file -> file.getAbsolutePath());
     }
 
     @Nested

@@ -77,12 +77,7 @@ public class CandidateMethods {
      */
     public Map<Equivalence.Wrapper<Method>, Collection<Method>> overriddenMethodsNamed(String methodName) {
         if (candidates.containsKey(methodName)) {
-            return Maps.filterValues(candidates.get(methodName), new Predicate<Collection<Method>>() {
-                @Override
-                public boolean apply(Collection<Method> equivalentMethods) {
-                    return equivalentMethods.size() > 1;
-                }
-            });
+            return Maps.filterValues(candidates.get(methodName), equivalentMethods -> equivalentMethods.size() > 1);
         }
         return Collections.<Equivalence.Wrapper<Method>, Collection<Method>>emptyMap();
     }

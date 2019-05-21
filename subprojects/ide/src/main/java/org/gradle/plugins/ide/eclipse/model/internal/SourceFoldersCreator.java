@@ -52,22 +52,14 @@ public class SourceFoldersCreator {
 
     public List<SourceFolder> createSourceFolders(final EclipseClasspath classpath) {
 
-        Function<File, String> provideRelativePath = new Function<File, String>() {
-            @Override
-            public String apply(File input) {
-                return classpath.getProject().relativePath(input);
-            }
-        };
+        Function<File, String> provideRelativePath = input -> classpath.getProject().relativePath(input);
         List<SourceFolder> sourceFolders = projectRelativeFolders(classpath.getSourceSets(), provideRelativePath, classpath.getDefaultOutputDir());
 
-        return collectRegularAndExternalSourceFolders(sourceFolders, new Function<Pair<Collection<SourceFolder>, Collection<SourceFolder>>, List<SourceFolder>>() {
-            @Override
-            public List<SourceFolder> apply(Pair<Collection<SourceFolder>, Collection<SourceFolder>> sourceFolders) {
-                List<SourceFolder> entries = Lists.newArrayListWithCapacity(sourceFolders.getLeft().size() + sourceFolders.getRight().size());
-                entries.addAll(sourceFolders.getLeft());
-                entries.addAll(sourceFolders.getRight());
-                return entries;
-            }
+        return collectRegularAndExternalSourceFolders(sourceFolders, sourceFolders1 -> {
+            List<SourceFolder> entries = Lists.newArrayListWithCapacity(sourceFolders1.getLeft().size() + sourceFolders1.getRight().size());
+            entries.addAll(sourceFolders1.getLeft());
+            entries.addAll(sourceFolders1.getRight());
+            return entries;
         });
     }
 
@@ -78,31 +70,16 @@ public class SourceFoldersCreator {
      */
     public List<SourceFolder> getBasicExternalSourceFolders(Iterable<SourceSet> sourceSets, Function<File, String> provideRelativePath, File defaultOutputDir) {
         List<SourceFolder> basicSourceFolders = basicProjectRelativeFolders(sourceSets, provideRelativePath, defaultOutputDir);
-        return collectRegularAndExternalSourceFolders(basicSourceFolders, new Function<Pair<Collection<SourceFolder>, Collection<SourceFolder>>, List<SourceFolder>>() {
-            @Override
-            public List<SourceFolder> apply(Pair<Collection<SourceFolder>, Collection<SourceFolder>> sourceFolders) {
-                return Lists.newArrayList(sourceFolders.right());
-            }
-        });
+        return collectRegularAndExternalSourceFolders(basicSourceFolders, (Function<Pair<Collection<SourceFolder>, Collection<SourceFolder>>, List<SourceFolder>>) sourceFolders -> Lists.newArrayList(sourceFolders.right()));
     }
 
     private <T> T collectRegularAndExternalSourceFolders(List<SourceFolder> sourceFolder, Function<Pair<Collection<SourceFolder>, Collection<SourceFolder>>, T> collector) {
-        Pair<Collection<SourceFolder>, Collection<SourceFolder>> partitionedFolders = CollectionUtils.partition(sourceFolder, new Spec<SourceFolder>() {
-            @Override
-            public boolean isSatisfiedBy(SourceFolder sourceFolder) {
-                return sourceFolder.getPath().contains("..");
-            }
-        });
+        Pair<Collection<SourceFolder>, Collection<SourceFolder>> partitionedFolders = CollectionUtils.partition(sourceFolder, sourceFolder12 -> sourceFolder12.getPath().contains(".."));
 
         Collection<SourceFolder> externalSourceFolders = partitionedFolders.getLeft();
         Collection<SourceFolder> regularSourceFolders = partitionedFolders.getRight();
 
-        List<String> sources = Lists.newArrayList(Collections2.transform(regularSourceFolders, new Function<SourceFolder, String>() {
-            @Override
-            public String apply(SourceFolder sourceFolder) {
-                return sourceFolder.getName();
-            }
-        }));
+        List<String> sources = Lists.newArrayList(Collections2.transform(regularSourceFolders, sourceFolder1 -> sourceFolder1.getName()));
         Collection<SourceFolder> dedupedExternalSourceFolders = trimAndDedup(externalSourceFolders, sources);
 
         return collector.apply(Pair.of(regularSourceFolders, dedupedExternalSourceFolders));
@@ -280,21 +257,11 @@ public class SourceFoldersCreator {
     }
 
     private List<SourceSet> sortSourceSetsAsPerUsualConvention(Iterable<SourceSet> sourceSets) {
-        return CollectionUtils.sort(sourceSets, new Comparator<SourceSet>() {
-            @Override
-            public int compare(SourceSet left, SourceSet right) {
-                return toComparable(left).compareTo(toComparable(right));
-            }
-        });
+        return CollectionUtils.sort(sourceSets, (left, right) -> toComparable(left).compareTo(toComparable(right)));
     }
 
     private List<DirectoryTree> sortSourceDirsAsPerUsualConvention(Iterable<DirectoryTree> sourceDirs) {
-        return CollectionUtils.sort(sourceDirs, new Comparator<DirectoryTree>() {
-            @Override
-            public int compare(DirectoryTree left, DirectoryTree right) {
-                return toComparable(left).compareTo(toComparable(right));
-            }
-        });
+        return CollectionUtils.sort(sourceDirs, (left, right) -> toComparable(left).compareTo(toComparable(right)));
     }
 
     static Comparable toComparable(SourceSet sourceSet) {

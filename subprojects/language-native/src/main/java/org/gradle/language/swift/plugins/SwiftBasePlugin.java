@@ -102,12 +102,10 @@ public class SwiftBasePlugin implements Plugin<Project> {
             binary.getObjectsDir().set(compile.flatMap(task -> task.getObjectFileDir()));
         });
 
-        project.getComponents().withType(ProductionSwiftComponent.class, component -> {
-            project.afterEvaluate(p -> {
-                DefaultSwiftComponent componentInternal = (DefaultSwiftComponent) component;
-                publicationRegistry.registerPublication((ProjectInternal) project, new NativeProjectPublication(componentInternal.getDisplayName(), new SwiftPmTarget(component.getModule().get())));
-            });
-        });
+        project.getComponents().withType(ProductionSwiftComponent.class, component -> project.afterEvaluate(p -> {
+            DefaultSwiftComponent componentInternal = (DefaultSwiftComponent) component;
+            publicationRegistry.registerPublication((ProjectInternal) project, new NativeProjectPublication(componentInternal.getDisplayName(), new SwiftPmTarget(component.getModule().get())));
+        }));
     }
 
     static class SwiftCppUsageCompatibilityRule implements AttributeCompatibilityRule<Usage> {

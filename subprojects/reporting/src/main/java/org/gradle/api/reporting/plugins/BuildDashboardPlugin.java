@@ -42,34 +42,23 @@ public class BuildDashboardPlugin implements Plugin<Project> {
     public void apply(final Project project) {
         project.getPluginManager().apply(ReportingBasePlugin.class);
 
-        final TaskProvider<GenerateBuildDashboard> buildDashboard = project.getTasks().register(BUILD_DASHBOARD_TASK_NAME, GenerateBuildDashboard.class, new Action<GenerateBuildDashboard>() {
-            @Override
-            public void execute(final GenerateBuildDashboard buildDashboardTask) {
-                buildDashboardTask.setDescription("Generates a dashboard of all the reports produced by this build.");
-                buildDashboardTask.setGroup("reporting");
+        final TaskProvider<GenerateBuildDashboard> buildDashboard = project.getTasks().register(BUILD_DASHBOARD_TASK_NAME, GenerateBuildDashboard.class, buildDashboardTask -> {
+            buildDashboardTask.setDescription("Generates a dashboard of all the reports produced by this build.");
+            buildDashboardTask.setGroup("reporting");
 
-                DirectoryReport htmlReport = buildDashboardTask.getReports().getHtml();
-                ConventionMapping htmlReportConventionMapping = new DslObject(htmlReport).getConventionMapping();
-                htmlReportConventionMapping.map("destination", new Callable<Object>() {
-                    @Override
-                    public Object call() throws Exception {
-                        return project.getExtensions().getByType(ReportingExtension.class).file("buildDashboard");
-                    }
-                });
-            }
+            DirectoryReport htmlReport = buildDashboardTask.getReports().getHtml();
+            ConventionMapping htmlReportConventionMapping = new DslObject(htmlReport).getConventionMapping();
+            htmlReportConventionMapping.map("destination", () -> project.getExtensions().getByType(ReportingExtension.class).file("buildDashboard"));
         });
 
         for (Project aProject : project.getAllprojects()) {
-            aProject.getTasks().configureEach(new Action<Task>() {
-                @Override
-                public void execute(Task task) {
-                    if (!(task instanceof Reporting)) {
-                        return;
-                    }
+            aProject.getTasks().configureEach(task -> {
+                if (!(task instanceof Reporting)) {
+                    return;
+                }
 
-                    if (!task.getName().equals(BUILD_DASHBOARD_TASK_NAME)) {
-                        task.finalizedBy(buildDashboard);
-                    }
+                if (!task.getName().equals(BUILD_DASHBOARD_TASK_NAME)) {
+                    task.finalizedBy(buildDashboard);
                 }
             });
         }

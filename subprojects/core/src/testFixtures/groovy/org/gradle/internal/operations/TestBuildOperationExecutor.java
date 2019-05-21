@@ -143,12 +143,7 @@ public class TestBuildOperationExecutor implements BuildOperationExecutor {
         public final Deque<Record> records = new LinkedBlockingDeque<Record>();
 
         public List<BuildOperationDescriptor> getDescriptors() {
-            return Lists.transform(new ArrayList<Record>(records), new Function<Record, BuildOperationDescriptor>() {
-                @Override
-                public BuildOperationDescriptor apply(Record input) {
-                    return input.descriptor;
-                }
-            });
+            return Lists.transform(new ArrayList<Record>(records), input -> input.descriptor);
         }
 
         private <D, R, T extends BuildOperationType<D, R>> TypedRecord<D, R> mostRecent(Class<T> type) {
@@ -168,18 +163,8 @@ public class TestBuildOperationExecutor implements BuildOperationExecutor {
         public <D, R, T extends BuildOperationType<D, R>> List<TypedRecord<D, R>> all(final Class<T> type) {
             final Class<D> detailsType = BuildOperationTypes.detailsType(type);
             return FluentIterable.from(records)
-                .filter(new Predicate<Record>() {
-                    @Override
-                    public boolean apply(Record input) {
-                        return detailsType.isInstance(input.descriptor.getDetails());
-                    }
-                })
-                .transform(new Function<Record, TypedRecord<D, R>>() {
-                    @Override
-                    public TypedRecord<D, R> apply(Record input) {
-                        return input.asTyped(type);
-                    }
-                })
+                .filter(input -> detailsType.isInstance(input.descriptor.getDetails()))
+                .transform(input -> input.asTyped(type))
                 .toList();
         }
 

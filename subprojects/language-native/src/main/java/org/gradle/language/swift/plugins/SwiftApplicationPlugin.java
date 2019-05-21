@@ -85,19 +85,17 @@ public class SwiftApplicationPlugin implements Plugin<Project> {
         application.getModule().convention(GUtil.toCamelCase(project.getName()));
 
         application.getTargetMachines().convention(Dimensions.useHostAsDefaultTargetMachine(targetMachineFactory));
-        application.getDevelopmentBinary().convention(project.provider(() -> {
-            return application.getBinaries().get().stream()
-                    .filter(SwiftExecutable.class::isInstance)
-                    .map(SwiftExecutable.class::cast)
-                    .filter(binary -> !binary.isOptimized() && Architectures.forInput(binary.getTargetMachine().getArchitecture().getName()).equals(DefaultNativePlatform.host().getArchitecture()))
-                    .findFirst()
-                    .orElse(application.getBinaries().get().stream()
-                            .filter(SwiftExecutable.class::isInstance)
-                            .map(SwiftExecutable.class::cast)
-                            .filter(binary -> !binary.isOptimized())
-                            .findFirst()
-                            .orElse(null));
-        }));
+        application.getDevelopmentBinary().convention(project.provider(() -> application.getBinaries().get().stream()
+                .filter(SwiftExecutable.class::isInstance)
+                .map(SwiftExecutable.class::cast)
+                .filter(binary -> !binary.isOptimized() && Architectures.forInput(binary.getTargetMachine().getArchitecture().getName()).equals(DefaultNativePlatform.host().getArchitecture()))
+                .findFirst()
+                .orElse(application.getBinaries().get().stream()
+                        .filter(SwiftExecutable.class::isInstance)
+                        .map(SwiftExecutable.class::cast)
+                        .filter(binary -> !binary.isOptimized())
+                        .findFirst()
+                        .orElse(null))));
 
         project.afterEvaluate(p -> {
             // TODO: make build type configurable for components

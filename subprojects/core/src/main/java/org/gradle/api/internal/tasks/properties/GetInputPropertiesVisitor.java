@@ -39,21 +39,18 @@ public class GetInputPropertiesVisitor extends PropertyVisitor.Adapter {
     }
 
     public Factory<Map<String, Object>> getPropertyValuesFactory() {
-        return new Factory<Map<String, Object>>() {
-            @Override
-            public Map<String, Object> create() {
-                Map<String, Object> result = new HashMap<String, Object>();
-                for (InputPropertySpec inputProperty : inputProperties) {
-                    String propertyName = inputProperty.getPropertyName();
-                    try {
-                        Object value = InputParameterUtils.prepareInputParameterValue(inputProperty.getValue());
-                        result.put(propertyName, value);
-                    } catch (Exception ex) {
-                        throw new InvalidUserDataException(String.format("Error while evaluating property '%s' of %s", propertyName, beanName), ex);
-                    }
+        return () -> {
+            Map<String, Object> result = new HashMap<String, Object>();
+            for (InputPropertySpec inputProperty : inputProperties) {
+                String propertyName = inputProperty.getPropertyName();
+                try {
+                    Object value = InputParameterUtils.prepareInputParameterValue(inputProperty.getValue());
+                    result.put(propertyName, value);
+                } catch (Exception ex) {
+                    throw new InvalidUserDataException(String.format("Error while evaluating property '%s' of %s", propertyName, beanName), ex);
                 }
-                return result;
             }
+            return result;
         };
     }
 }

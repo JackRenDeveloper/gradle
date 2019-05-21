@@ -89,13 +89,10 @@ public class ReportingExtension {
      * @param baseDir The base directory to use for all reports
      */
     public void setBaseDir(final Object baseDir) {
-        this.baseDirectory.set(project.provider(new Callable<Directory>() {
-            @Override
-            public Directory call() throws Exception {
-                DirectoryProperty result = project.getObjects().directoryProperty();
-                result.set(project.file(baseDir));
-                return result.get();
-            }
+        this.baseDirectory.set(project.provider(() -> {
+            DirectoryProperty result = project.getObjects().directoryProperty();
+            result.set(project.file(baseDir));
+            return result.get();
         }));
     }
 

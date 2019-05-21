@@ -68,12 +68,9 @@ public class PlayJavaScriptPlugin implements Plugin<Project> {
 
         @Finalize
         void createJavascriptSourceSets(@Each PlayApplicationSpec playComponent) {
-            playComponent.getSources().create("javaScript", JavaScriptSourceSet.class, new Action<JavaScriptSourceSet>() {
-                @Override
-                public void execute(JavaScriptSourceSet javaScriptSourceSet) {
-                    javaScriptSourceSet.getSource().srcDir("app/assets");
-                    javaScriptSourceSet.getSource().include("**/*.js");
-                }
+            playComponent.getSources().create("javaScript", JavaScriptSourceSet.class, javaScriptSourceSet -> {
+                javaScriptSourceSet.getSource().srcDir("app/assets");
+                javaScriptSourceSet.getSource().include("**/*.js");
             });
         }
 

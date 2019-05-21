@@ -32,22 +32,9 @@ import java.util.Set;
 public class LocallyAvailableResourceFinderSearchableFileStoreAdapter<C> extends AbstractLocallyAvailableResourceFinder<C> {
 
     public LocallyAvailableResourceFinderSearchableFileStoreAdapter(final FileStoreSearcher<C> fileStore) {
-        super(new Transformer<Factory<List<File>>, C>() {
-            @Override
-            public Factory<List<File>> transform(final C criterion) {
-                return new Factory<List<File>>() {
-                    @Override
-                    public List<File> create() {
-                        Set<? extends LocallyAvailableResource> entries = fileStore.search(criterion);
-                        return CollectionUtils.collect(entries, new ArrayList<File>(entries.size()), new Transformer<File, LocallyAvailableResource>() {
-                            @Override
-                            public File transform(LocallyAvailableResource original) {
-                                return original.getFile();
-                            }
-                        });
-                    }
-                };
-            }
+        super(criterion -> () -> {
+            Set<? extends LocallyAvailableResource> entries = fileStore.search(criterion);
+            return CollectionUtils.collect(entries, new ArrayList<File>(entries.size()), (Transformer<File, LocallyAvailableResource>) original -> original.getFile());
         });
     }
 

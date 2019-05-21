@@ -174,12 +174,9 @@ public class DefaultExecutionPlan implements ExecutionPlan {
                 // node in the queue
                 // Make sure it has been configured
                 node.prepareForExecution();
-                node.resolveDependencies(dependencyResolver, new Action<Node>() {
-                    @Override
-                    public void execute(Node targetNode) {
-                        if (!visiting.contains(targetNode)) {
-                            queue.addFirst(targetNode);
-                        }
+                node.resolveDependencies(dependencyResolver, targetNode -> {
+                    if (!visiting.contains(targetNode)) {
+                        queue.addFirst(targetNode);
                     }
                 });
                 if (node.isRequired()) {
@@ -394,13 +391,7 @@ public class DefaultExecutionPlan implements ExecutionPlan {
         if (!(node instanceof TaskNode)) {
             return;
         }
-        Iterables.removeIf(((TaskNode) node).getShouldSuccessors(), new Predicate<Node>() {
-            @Override
-            @SuppressWarnings("NullableProblems")
-            public boolean apply(Node input) {
-                return visitingNodes.containsEntry(input, nodeWithVisitingSegment.visitingSegment);
-            }
-        });
+        Iterables.removeIf(((TaskNode) node).getShouldSuccessors(), input -> visitingNodes.containsEntry(input, nodeWithVisitingSegment.visitingSegment));
     }
 
     private void takePlanSnapshotIfCanBeRestoredToCurrentTask(Map<Node, Integer> planBeforeVisiting, Node node) {
@@ -429,18 +420,7 @@ public class DefaultExecutionPlan implements ExecutionPlan {
         }
 
         Set<Node> precedingTasks = getAllPrecedingNodes(finalizer);
-        Set<Integer> precedingTaskIndices = CollectionUtils.collect(precedingTasks, new Transformer<Integer, Node>() {
-            @Override
-            public Integer transform(final Node dependsOnTask) {
-                return Iterables.indexOf(nodeQueue, new Predicate<NodeInVisitingSegment>() {
-                    @Override
-                    @SuppressWarnings("NullableProblems")
-                    public boolean apply(NodeInVisitingSegment nodeInVisitingSegment) {
-                        return nodeInVisitingSegment.node.equals(dependsOnTask);
-                    }
-                });
-            }
-        });
+        Set<Integer> precedingTaskIndices = CollectionUtils.collect(precedingTasks, dependsOnTask -> Iterables.indexOf(nodeQueue, nodeInVisitingSegment -> nodeInVisitingSegment.node.equals(dependsOnTask)));
         return Collections.max(precedingTaskIndices) + 1;
     }
 
@@ -465,15 +445,12 @@ public class DefaultExecutionPlan implements ExecutionPlan {
     }
 
     private void onOrderingCycle(Node successor, Node node) {
-        CachingDirectedGraphWalker<Node, Void> graphWalker = new CachingDirectedGraphWalker<Node, Void>(new DirectedGraph<Node, Void>() {
-            @Override
-            public void getNodeValues(Node node, Collection<? super Void> values, Collection<? super Node> connectedNodes) {
-                connectedNodes.addAll(node.getDependencySuccessors());
-                if (node instanceof TaskNode) {
-                    TaskNode taskNode = (TaskNode) node;
-                    connectedNodes.addAll(taskNode.getMustSuccessors());
-                    connectedNodes.addAll(taskNode.getFinalizingSuccessors());
-                }
+        CachingDirectedGraphWalker<Node, Void> graphWalker = new CachingDirectedGraphWalker<Node, Void>((node13, values, connectedNodes) -> {
+            connectedNodes.addAll(node13.getDependencySuccessors());
+            if (node13 instanceof TaskNode) {
+                TaskNode taskNode = (TaskNode) node13;
+                connectedNodes.addAll(taskNode.getMustSuccessors());
+                connectedNodes.addAll(taskNode.getFinalizingSuccessors());
             }
         });
         graphWalker.add(entryTasks);
@@ -487,18 +464,10 @@ public class DefaultExecutionPlan implements ExecutionPlan {
         final List<Node> firstCycle = new ArrayList<Node>(cycles.get(0));
         Collections.sort(firstCycle);
 
-        DirectedGraphRenderer<Node> graphRenderer = new DirectedGraphRenderer<Node>(new GraphNodeRenderer<Node>() {
-            @Override
-            public void renderTo(Node node, StyledTextOutput output) {
-                output.withStyle(StyledTextOutput.Style.Identifier).text(node);
-            }
-        }, new DirectedGraph<Node, Object>() {
-            @Override
-            public void getNodeValues(Node node, Collection<? super Object> values, Collection<? super Node> connectedNodes) {
-                for (Node dependency : firstCycle) {
-                    if (node.hasHardSuccessor(dependency)) {
-                        connectedNodes.add(dependency);
-                    }
+        DirectedGraphRenderer<Node> graphRenderer = new DirectedGraphRenderer<Node>((node12, output) -> output.withStyle(StyledTextOutput.Style.Identifier).text(node12), (node1, values, connectedNodes) -> {
+            for (Node dependency : firstCycle) {
+                if (node1.hasHardSuccessor(dependency)) {
+                    connectedNodes.add(dependency);
                 }
             }
         });
@@ -643,40 +612,20 @@ public class DefaultExecutionPlan implements ExecutionPlan {
                             taskNode,
                             "an output",
                             "output property '" + propertyName + "'",
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    FileParameterUtils.resolveOutputFilePropertySpecs(task.toString(), propertyName, value, filePropertyType, fileCollectionFactory, new Consumer<OutputFilePropertySpec>() {
-                                        @Override
-                                        public void accept(OutputFilePropertySpec outputFilePropertySpec) {
-                                            mutations.outputPaths.addAll(canonicalizedPaths(canonicalizedFileCache, outputFilePropertySpec.getPropertyFiles()));
-                                        }
-                                    });
-                                }
-                            }
+                            () -> FileParameterUtils.resolveOutputFilePropertySpecs(task.toString(), propertyName, value, filePropertyType, fileCollectionFactory, outputFilePropertySpec -> mutations.outputPaths.addAll(canonicalizedPaths(canonicalizedFileCache, outputFilePropertySpec.getPropertyFiles())))
                         );
                         mutations.hasOutputs = true;
                     }
 
                     @Override
                     public void visitLocalStateProperty(final Object value) {
-                        withDeadlockHandling(taskNode, "a local state property", "local state properties", new Runnable() {
-                            @Override
-                            public void run() {
-                                mutations.outputPaths.addAll(canonicalizedPaths(canonicalizedFileCache, resolver.resolveFiles(value)));
-                            }
-                        });
+                        withDeadlockHandling(taskNode, "a local state property", "local state properties", () -> mutations.outputPaths.addAll(canonicalizedPaths(canonicalizedFileCache, resolver.resolveFiles(value))));
                         mutations.hasLocalState = true;
                     }
 
                     @Override
                     public void visitDestroyableProperty(final Object value) {
-                        withDeadlockHandling(taskNode, "a destroyable", "destroyables", new Runnable() {
-                            @Override
-                            public void run() {
-                                mutations.destroyablePaths.addAll(canonicalizedPaths(canonicalizedFileCache, resolver.resolveFiles(value)));
-                            }
-                        });
+                        withDeadlockHandling(taskNode, "a destroyable", "destroyables", () -> mutations.destroyablePaths.addAll(canonicalizedPaths(canonicalizedFileCache, resolver.resolveFiles(value))));
                     }
 
                     @Override

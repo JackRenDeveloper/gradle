@@ -154,9 +154,7 @@ public class ResolveCachingStateStep implements Step<IncrementalContext, Caching
         if (!buildCache.isEnabled()) {
             builder.markNotCacheable(BUILD_CACHE_DISABLED_REASON);
         }
-        work.shouldDisableCaching().ifPresent(noCacheReason -> {
-            builder.markNotCacheable(noCacheReason);
-        });
+        work.shouldDisableCaching().ifPresent(noCacheReason -> builder.markNotCacheable(noCacheReason));
 
         builder.withImplementation(executionState.getImplementation());
         builder.withAdditionalImplementations(executionState.getAdditionalImplementations());

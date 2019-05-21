@@ -605,21 +605,11 @@ public class IdeaModule {
     }
 
     private Set<File> existing(Set<File> files) {
-        return Sets.filter(files, new Predicate<File>() {
-            @Override
-            public boolean apply(File file) {
-                return file.exists();
-            }
-        });
+        return Sets.filter(files, file -> file.exists());
     }
 
     private Set<Path> pathsOf(Set<File> files) {
-        return Sets.newLinkedHashSet(Iterables.transform(files, new Function<File, Path>() {
-            @Override
-            public Path apply(File file) {
-                return getPathFactory().path(file);
-            }
-        }));
+        return Sets.newLinkedHashSet(Iterables.transform(files, (Function<File, Path>) file -> getPathFactory().path(file)));
     }
 
 }

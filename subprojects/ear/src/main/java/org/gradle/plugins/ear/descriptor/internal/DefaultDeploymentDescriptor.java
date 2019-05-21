@@ -316,12 +316,7 @@ public class DefaultDeploymentDescriptor implements DeploymentDescriptor {
                     securityRoles.add(new DefaultEarSecurityRole(roleName, description));
 
                 } else {
-                    withXml(new Action<XmlProvider>() {
-                        @Override
-                        public void execute(XmlProvider xmlProvider) {
-                            xmlProvider.asNode().append(child);
-                        }
-                    });
+                    withXml(xmlProvider -> xmlProvider.asNode().append(child));
                 }
             }
         } catch (IOException ex) {

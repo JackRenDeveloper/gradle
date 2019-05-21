@@ -309,12 +309,7 @@ public class CreateStartScripts extends ConventionTask {
         if (classpathNullable == null) {
             return Collections.emptyList();
         }
-        return Lists.newArrayList(Iterables.transform(classpathNullable.getFiles(), new Function<File, String>() {
-            @Override
-            public String apply(File input) {
-                return "lib/" + input.getName();
-            }
-        }));
+        return Lists.newArrayList(Iterables.transform(classpathNullable.getFiles(), input -> "lib/" + input.getName()));
     }
 
 }

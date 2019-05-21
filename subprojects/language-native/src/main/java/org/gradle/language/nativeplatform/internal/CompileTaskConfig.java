@@ -80,17 +80,9 @@ public abstract class CompileTaskConfig implements SourceTransformTaskConfig {
         task.setPositionIndependentCode(binary instanceof SharedLibraryBinarySpec);
 
         task.includes(((HeaderExportingSourceSet) sourceSet).getExportedHeaders().getSourceDirectories());
-        task.includes(new Callable<List<FileCollection>>() {
-            @Override
-            public List<FileCollection> call() {
-                Collection<NativeDependencySet> libs = binary.getLibs((DependentSourceSet) sourceSet);
-                return CollectionUtils.collect(libs, new Transformer<FileCollection, NativeDependencySet>() {
-                    @Override
-                    public FileCollection transform(NativeDependencySet original) {
-                        return original.getIncludeRoots();
-                    }
-                });
-            }
+        task.includes((Callable<List<FileCollection>>) () -> {
+            Collection<NativeDependencySet> libs = binary.getLibs((DependentSourceSet) sourceSet);
+            return CollectionUtils.collect(libs, original -> original.getIncludeRoots());
         });
         FileCollectionFactory fileCollectionFactory = ((ProjectInternal) task.getProject()).getServices().get(FileCollectionFactory.class);
         task.getSystemIncludes().from(fileCollectionFactory.create(new MinimalFileSet() {

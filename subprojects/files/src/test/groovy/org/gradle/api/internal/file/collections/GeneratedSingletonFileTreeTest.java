@@ -45,11 +45,7 @@ public class GeneratedSingletonFileTreeTest {
     public final TestNameTestDirectoryProvider tmpDir = new TestNameTestDirectoryProvider();
     TestFile rootDir = tmpDir.getTestDirectory();
 
-    private Factory<File> fileFactory = new Factory<File>() {
-        public File create() {
-            return rootDir;
-        }
-    };
+    private Factory<File> fileFactory = () -> rootDir;
 
     @Before
     public void setup() {
@@ -59,12 +55,7 @@ public class GeneratedSingletonFileTreeTest {
     @Test
     public void containsWontCreateFiles() {
         final AtomicInteger callCounter = new AtomicInteger(0);
-        Action<OutputStream> fileAction = new Action<OutputStream>() {
-            @Override
-            public void execute(OutputStream outputStream) {
-                callCounter.incrementAndGet();
-            }
-        };
+        Action<OutputStream> fileAction = outputStream -> callCounter.incrementAndGet();
         GeneratedSingletonFileTree tree = tree("file.txt", fileAction);
 
         FileTreeAdapter fileTreeAdapter = new FileTreeAdapter(tree);
@@ -98,14 +89,11 @@ public class GeneratedSingletonFileTreeTest {
     @Test
     public void overwritesFileWhenGeneratedContentChanges() {
         final MutableReference<String> currentContentReference = MutableReference.of("content");
-        GeneratedSingletonFileTree tree = tree("file.txt", new Action<OutputStream>() {
-            @Override
-            public void execute(OutputStream outputStream) {
-                try {
-                    outputStream.write(currentContentReference.get().getBytes());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+        GeneratedSingletonFileTree tree = tree("file.txt", outputStream -> {
+            try {
+                outputStream.write(currentContentReference.get().getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         });
 
@@ -128,13 +116,11 @@ public class GeneratedSingletonFileTreeTest {
     }
 
     private Action<OutputStream> getAction() {
-        return new Action<OutputStream>() {
-            public void execute(OutputStream outputStream) {
-                try {
-                    outputStream.write("content".getBytes());
-                } catch (IOException e) {
-                    throw new UncheckedIOException(e);
-                }
+        return outputStream -> {
+            try {
+                outputStream.write("content".getBytes());
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
             }
         };
     }

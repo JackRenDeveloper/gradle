@@ -134,12 +134,7 @@ public class ExecutionGlobalServices {
                 Property.class
             ),
             Internal.class,
-            new Predicate<Method>() {
-                @Override
-                public boolean test(Method method) {
-                    return method.isAnnotationPresent(Generated.class);
-                }
-            },
+            method -> method.isAnnotationPresent(Generated.class),
             cacheFactory);
     }
 

@@ -62,12 +62,7 @@ public class ConnectorServices {
         }
 
         protected Factory<DefaultGradleConnector> createConnectorFactory(final ConnectionFactory connectionFactory, final DistributionFactory distributionFactory) {
-            return new Factory<DefaultGradleConnector>() {
-                @Override
-                public DefaultGradleConnector create() {
-                    return new DefaultGradleConnector(connectionFactory, distributionFactory);
-                }
-            };
+            return () -> new DefaultGradleConnector(connectionFactory, distributionFactory);
         }
 
         protected ExecutorFactory createExecutorFactory() {

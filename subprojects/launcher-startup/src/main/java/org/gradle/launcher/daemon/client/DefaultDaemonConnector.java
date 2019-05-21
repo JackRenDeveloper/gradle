@@ -173,12 +173,7 @@ public class DefaultDaemonConnector implements DaemonConnector {
     }
 
     private Pair<Collection<DaemonInfo>, Collection<DaemonInfo>> partitionByState(final Collection<DaemonInfo> daemons, final DaemonStateControl.State state) {
-        return CollectionUtils.partition(daemons, new Spec<DaemonInfo>() {
-            @Override
-            public boolean isSatisfiedBy(DaemonInfo daemonInfo) {
-                return daemonInfo.getState() == state;
-            }
-        });
+        return CollectionUtils.partition(daemons, daemonInfo -> daemonInfo.getState() == state);
     }
 
     private List<DaemonInfo> getCompatibleDaemons(Iterable<DaemonInfo> daemons, ExplainingSpec<DaemonContext> constraint) {

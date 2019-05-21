@@ -129,23 +129,20 @@ public class DefaultVersionControlRepositoryFactory implements VersionControlRep
 
         @Override
         public File populate(final VersionRef ref) {
-            return cacheAccess.useCache(new Factory<File>() {
-                @Override
-                public File create() {
-                    try {
-                        String repoName = spec.getRepoName();
-                        String prefix = repoName.length() <= 9 ? repoName : repoName.substring(0, 10);
-                        String versionId = prefix + "_" + HashUtil.createCompactMD5(getUniqueId() + "-" + ref.getCanonicalId());
-                        File baseDir = new File(directoryLayout.getCheckoutDir(), versionId);
-                        File workingDir = new File(baseDir, repoName);
-                        GFileUtils.mkdirs(workingDir);
-                        // Update timestamp so that working directory is not garbage collected
-                        GFileUtils.touch(baseDir);
-                        delegate.populate(workingDir, ref, spec);
-                        return workingDir;
-                    } catch (Exception e) {
-                        throw new GradleException(String.format("Could not populate working directory from %s.", spec.getDisplayName()), e);
-                    }
+            return cacheAccess.useCache(() -> {
+                try {
+                    String repoName = spec.getRepoName();
+                    String prefix = repoName.length() <= 9 ? repoName : repoName.substring(0, 10);
+                    String versionId = prefix + "_" + HashUtil.createCompactMD5(getUniqueId() + "-" + ref.getCanonicalId());
+                    File baseDir = new File(directoryLayout.getCheckoutDir(), versionId);
+                    File workingDir = new File(baseDir, repoName);
+                    GFileUtils.mkdirs(workingDir);
+                    // Update timestamp so that working directory is not garbage collected
+                    GFileUtils.touch(baseDir);
+                    delegate.populate(workingDir, ref, spec);
+                    return workingDir;
+                } catch (Exception e) {
+                    throw new GradleException(String.format("Could not populate working directory from %s.", spec.getDisplayName()), e);
                 }
             });
         }

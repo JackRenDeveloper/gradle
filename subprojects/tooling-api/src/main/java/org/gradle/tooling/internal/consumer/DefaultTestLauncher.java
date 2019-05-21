@@ -75,12 +75,7 @@ public class DefaultTestLauncher extends AbstractLongRunningOperation<DefaultTes
 
     @Override
     public TestLauncher withJvmTestClasses(Iterable<String> testClasses) {
-        List<InternalJvmTestRequest> newRequests = CollectionUtils.collect(testClasses, new Transformer<InternalJvmTestRequest, String>() {
-            @Override
-            public InternalJvmTestRequest transform(String testClass) {
-                return new DefaultInternalJvmTestRequest(testClass, null);
-            }
-        });
+        List<InternalJvmTestRequest> newRequests = CollectionUtils.collect(testClasses, testClass -> new DefaultInternalJvmTestRequest(testClass, null));
         internalJvmTestRequests.addAll(newRequests);
         testClassNames.addAll(CollectionUtils.toList(testClasses));
         return this;
@@ -94,12 +89,7 @@ public class DefaultTestLauncher extends AbstractLongRunningOperation<DefaultTes
 
     @Override
     public TestLauncher withJvmTestMethods(final String testClass, Iterable<String> methods) {
-        List<InternalJvmTestRequest> newRequests = CollectionUtils.collect(methods, new Transformer<InternalJvmTestRequest, String>() {
-            @Override
-            public InternalJvmTestRequest transform(String methodName) {
-                return new DefaultInternalJvmTestRequest(testClass, methodName);
-            }
-        });
+        List<InternalJvmTestRequest> newRequests = CollectionUtils.collect(methods, methodName -> new DefaultInternalJvmTestRequest(testClass, methodName));
         this.internalJvmTestRequests.addAll(newRequests);
         this.testClassNames.add(testClass);
         return this;
@@ -135,12 +125,7 @@ public class DefaultTestLauncher extends AbstractLongRunningOperation<DefaultTes
 
     private class ResultHandlerAdapter extends org.gradle.tooling.internal.consumer.ResultHandlerAdapter<Void> {
         public ResultHandlerAdapter(ResultHandler<? super Void> handler) {
-            super(handler, new ExceptionTransformer(new Transformer<String, Throwable>() {
-                @Override
-                public String transform(Throwable throwable) {
-                    return String.format("Could not execute tests using %s.", connection.getDisplayName());
-                }
-            }));
+            super(handler, new ExceptionTransformer(throwable -> String.format("Could not execute tests using %s.", connection.getDisplayName())));
         }
     }
 }

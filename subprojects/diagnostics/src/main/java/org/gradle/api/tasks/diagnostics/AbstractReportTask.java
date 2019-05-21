@@ -48,12 +48,7 @@ public abstract class AbstractReportTask extends ConventionTask {
     private Set<Project> projects;
 
     protected AbstractReportTask() {
-        getOutputs().upToDateWhen(new Spec<Task>() {
-            @Override
-            public boolean isSatisfiedBy(Task element) {
-                return false;
-            }
-        });
+        getOutputs().upToDateWhen(element -> false);
         projects = new HashSet<Project>();
         projects.add(getProject());
     }
@@ -70,14 +65,11 @@ public abstract class AbstractReportTask extends ConventionTask {
 
     @TaskAction
     public void generate() {
-        ProjectReportGenerator projectReportGenerator = new ProjectReportGenerator() {
-            @Override
-            public void generateReport(Project project) throws IOException {
-                generate(project);
+        ProjectReportGenerator projectReportGenerator = project -> {
+            generate(project);
 
-                if (shouldCreateReportFile()) {
-                    project.getLogger().lifecycle("See the report at: {}", new ConsoleRenderer().asClickableFileUrl(getOutputFile()));
-                }
+            if (shouldCreateReportFile()) {
+                project.getLogger().lifecycle("See the report at: {}", new ConsoleRenderer().asClickableFileUrl(getOutputFile()));
             }
         };
 

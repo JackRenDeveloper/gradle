@@ -70,12 +70,7 @@ public class TransformedModelDslBacking {
 
     private <T> void registerAction(ModelPath modelPath, ModelType<T> viewType, final ModelActionRole role, final DeferredModelAction action) {
         ModelReference<T> reference = ModelReference.of(modelPath, viewType);
-        modelRegistry.configure(ModelActionRole.Initialize, DirectNodeNoInputsModelAction.of(reference, action.getDescriptor(), new Action<MutableModelNode>() {
-            @Override
-            public void execute(MutableModelNode node) {
-                action.execute(node, role);
-            }
-        }));
+        modelRegistry.configure(ModelActionRole.Initialize, DirectNodeNoInputsModelAction.of(reference, action.getDescriptor(), node -> action.execute(node, role)));
     }
 
     public static boolean isTransformedBlock(Closure<?> closure) {

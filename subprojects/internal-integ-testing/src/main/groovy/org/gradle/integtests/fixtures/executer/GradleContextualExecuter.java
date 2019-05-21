@@ -125,14 +125,11 @@ public class GradleContextualExecuter extends AbstractDelegatingGradleExecuter {
 
     @Override
     public void cleanup() {
-        new IntegrationTestTimeoutInterceptor(DEFAULT_TIMEOUT_SECONDS).intercept(new Action<Void>() {
-            @Override
-            public void execute(Void ignored) {
-                if (gradleExecuter != null) {
-                    gradleExecuter.stop();
-                }
-                GradleContextualExecuter.super.cleanup();
+        new IntegrationTestTimeoutInterceptor(DEFAULT_TIMEOUT_SECONDS).intercept(ignored -> {
+            if (gradleExecuter != null) {
+                gradleExecuter.stop();
             }
+            GradleContextualExecuter.super.cleanup();
         });
 
     }

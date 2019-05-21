@@ -68,14 +68,11 @@ public class GnupgSignatory extends SignatorySupport {
     public void sign(final InputStream input, final OutputStream output) {
         final List<String> arguments = buildArgumentList();
         LOG.info("Invoking {} with arguments: {}", executable, arguments);
-        project.exec(new Action<ExecSpec>() {
-            @Override
-            public void execute(ExecSpec spec) {
-                spec.setExecutable(executable);
-                spec.setArgs(arguments);
-                spec.setStandardInput(input);
-                spec.setStandardOutput(output);
-            }
+        project.exec(spec -> {
+            spec.setExecutable(executable);
+            spec.setArgs(arguments);
+            spec.setStandardInput(input);
+            spec.setStandardOutput(output);
         });
     }
 

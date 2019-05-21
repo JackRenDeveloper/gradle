@@ -98,12 +98,7 @@ public class BuildOperationFiringExternalResourceDecorator implements ExternalRe
             @Override
             public ExternalResourceWriteResult call(BuildOperationContext context) {
                 final ExternalResourceWriteResult result = delegate.put(source);
-                context.setResult(new ExternalResourceWriteBuildOperationType.Result() {
-                    @Override
-                    public long getBytesWritten() {
-                        return result.getBytesWritten();
-                    }
-                });
+                context.setResult((ExternalResourceWriteBuildOperationType.Result) () -> result.getBytesWritten());
                 return result;
             }
 

@@ -100,18 +100,10 @@ public class InstallXCTestBundle extends DefaultTask {
     }
 
     private void installToDir(final File bundleDir, final File bundleFile) throws IOException {
-        getFileOperations().sync(new Action<CopySpec>() {
-            @Override
-            public void execute(CopySpec copySpec) {
-                copySpec.from(bundleFile, new Action<CopySpec>() {
-                    @Override
-                    public void execute(CopySpec copySpec) {
-                        copySpec.into("Contents/MacOS");
-                    }
-                });
+        getFileOperations().sync(copySpec -> {
+            copySpec.from(bundleFile, copySpec1 -> copySpec1.into("Contents/MacOS"));
 
-                copySpec.into(bundleDir);
-            }
+            copySpec.into(bundleDir);
         });
 
         File outputFile = new File(bundleDir, "Contents/Info.plist");
@@ -122,20 +114,17 @@ public class InstallXCTestBundle extends DefaultTask {
             + "<dict/>\n"
             + "</plist>");
 
-        getProject().exec(new Action<ExecSpec>() {
-            @Override
-            public void execute(ExecSpec execSpec) {
-                execSpec.setWorkingDir(bundleDir);
-                execSpec.executable(getSwiftStdlibToolLocator().find());
-                execSpec.args(
-                    "--copy",
-                    "--scan-executable", bundleFile.getAbsolutePath(),
-                    "--destination", new File(bundleDir, "Contents/Frameworks").getAbsolutePath(),
-                    "--platform", "macosx",
-                    "--resource-destination", new File(bundleDir, "Contents/Resources").getAbsolutePath(),
-                    "--scan-folder", new File(bundleDir, "Contents/Frameworks").getAbsolutePath()
-                );
-            }
+        getProject().exec(execSpec -> {
+            execSpec.setWorkingDir(bundleDir);
+            execSpec.executable(getSwiftStdlibToolLocator().find());
+            execSpec.args(
+                "--copy",
+                "--scan-executable", bundleFile.getAbsolutePath(),
+                "--destination", new File(bundleDir, "Contents/Frameworks").getAbsolutePath(),
+                "--platform", "macosx",
+                "--resource-destination", new File(bundleDir, "Contents/Resources").getAbsolutePath(),
+                "--scan-folder", new File(bundleDir, "Contents/Frameworks").getAbsolutePath()
+            );
         }).assertNormalExitValue();
     }
 
@@ -144,12 +133,7 @@ public class InstallXCTestBundle extends DefaultTask {
      */
     @Internal
     public Provider<RegularFile> getRunScriptFile() {
-        return installDirectory.file(getProject().provider(new Callable<CharSequence>() {
-            @Override
-            public CharSequence call() throws Exception {
-                return FilenameUtils.removeExtension(bundleBinaryFile.get().getAsFile().getName());
-            }
-        }));
+        return installDirectory.file(getProject().provider((Callable<CharSequence>) () -> FilenameUtils.removeExtension(bundleBinaryFile.get().getAsFile().getName())));
     }
     /**
      * Returns the bundle binary file property.

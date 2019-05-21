@@ -42,12 +42,7 @@ public class DefaultProjectStateRegistry implements ProjectStateRegistry {
     final Map<Path, ProjectStateImpl> projectsByPath = Maps.newLinkedHashMap();
     private final Map<ProjectComponentIdentifier, ProjectStateImpl> projectsById = Maps.newLinkedHashMap();
     private final Map<Pair<BuildIdentifier, Path>, ProjectStateImpl> projectsByCompId = Maps.newLinkedHashMap();
-    final static ThreadLocal<Boolean> LENIENT_MUTATION_STATE = new ThreadLocal<Boolean>() {
-        @Override
-        protected Boolean initialValue() {
-            return Boolean.FALSE;
-        }
-    };
+    final static ThreadLocal<Boolean> LENIENT_MUTATION_STATE = ThreadLocal.withInitial(() -> Boolean.FALSE);
 
     public DefaultProjectStateRegistry(WorkerLeaseService workerLeaseService) {
         this.workerLeaseService = workerLeaseService;
@@ -248,12 +243,7 @@ public class DefaultProjectStateRegistry implements ProjectStateRegistry {
                     runnable.run();
                 } else {
                     // Another thread holds the lock, release the project lock and wait for the other thread to finish
-                    workerLeaseService.withoutProjectLock(new Runnable() {
-                        @Override
-                        public void run() {
-                            lock.lock();
-                        }
-                    });
+                    workerLeaseService.withoutProjectLock(() -> lock.lock());
                     runnable.run();
                 }
             } finally {

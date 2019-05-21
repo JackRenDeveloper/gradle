@@ -51,17 +51,14 @@ class Jsr330ConstructorSelector implements ConstructorSelector {
 
     @Override
     public <T> ClassGenerator.GeneratedConstructor<? extends T> forType(final Class<T> type) throws UnsupportedOperationException {
-        CachedConstructor constructor = constructorCache.get(type, new Transformer<CachedConstructor, Class<?>>() {
-            @Override
-            public CachedConstructor transform(Class<?> aClass) {
-                try {
-                    validateType(type);
-                    ClassGenerator.GeneratedClass<?> implClass = classGenerator.generate(type);
-                    ClassGenerator.GeneratedConstructor<?> constructor = InjectUtil.selectConstructor(implClass, type);
-                    return CachedConstructor.of(constructor);
-                } catch (RuntimeException e) {
-                    return CachedConstructor.of(e);
-                }
+        CachedConstructor constructor = constructorCache.get(type, aClass -> {
+            try {
+                validateType(type);
+                ClassGenerator.GeneratedClass<?> implClass = classGenerator.generate(type);
+                ClassGenerator.GeneratedConstructor<?> constructor1 = InjectUtil.selectConstructor(implClass, type);
+                return CachedConstructor.of(constructor1);
+            } catch (RuntimeException e) {
+                return CachedConstructor.of(e);
             }
         });
         return Cast.uncheckedCast(constructor.getConstructor());

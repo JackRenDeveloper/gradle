@@ -49,55 +49,35 @@ public abstract class BridgedCollections {
         assert containerPath != null : "container reference path cannot be null";
 
         return ModelRegistrations.of(containerPath)
-            .action(ModelActionRole.Create, new Action<MutableModelNode>() {
-                @Override
-                public void execute(final MutableModelNode containerNode) {
-                    final C container = containerFactory.transform(containerNode);
-                    containerNode.setPrivateData(containerType, container);
-                }
+            .action(ModelActionRole.Create, containerNode -> {
+                final C container = containerFactory.transform(containerNode);
+                containerNode.setPrivateData(containerType, container);
             })
-            .action(ModelActionRole.Create, new Action<MutableModelNode>() {
-                @Override
-                public void execute(final MutableModelNode containerNode) {
-                    final C container = containerNode.getPrivateData(containerType);
-                    container.whenElementKnown(new Action<DefaultNamedDomainObjectCollection.ElementInfo<I>>() {
-                        @Override
-                        public void execute(DefaultNamedDomainObjectCollection.ElementInfo<I> info) {
-                            final String name = info.getName();
-                            if (!containerNode.isMutable()) {
-                                // Ignore tasks created after not closed
-                                return;
-                            }
-                            if (!containerNode.hasLink(name)) {
-                                ModelRegistration itemRegistration = ModelRegistrations
-                                    .unmanagedInstanceOf(
-                                        ModelReference.of(containerPath.child(name), (Class)info.getType()),
-                                        new ExtractFromParentContainer<I, C>(name, containerType)
-                                    )
-                                    .descriptor(new SimpleModelRuleDescriptor(new Factory<String>() {
-                                        @Override
-                                        public String create() {
-                                            return itemDescriptorGenerator.transform(name);
-                                        }
-                                    }))
-                                    .build();
-                                containerNode.addLink(itemRegistration);
-                            }
-                        }
+            .action(ModelActionRole.Create, containerNode -> {
+                final C container = containerNode.getPrivateData(containerType);
+                container.whenElementKnown(info -> {
+                    final String name = info.getName();
+                    if (!containerNode.isMutable()) {
+                        // Ignore tasks created after not closed
+                        return;
+                    }
+                    if (!containerNode.hasLink(name)) {
+                        ModelRegistration itemRegistration = ModelRegistrations
+                            .unmanagedInstanceOf(
+                                ModelReference.of(containerPath.child(name), (Class) info.getType()),
+                                new ExtractFromParentContainer<I, C>(name, containerType)
+                            )
+                            .descriptor(new SimpleModelRuleDescriptor(() -> itemDescriptorGenerator.transform(name)))
+                            .build();
+                        containerNode.addLink(itemRegistration);
+                    }
+                });
+                DeprecationLogger.whileDisabled(() -> {
+                    container.whenObjectRemoved(item -> {
+                        String name = namer.determineName(item);
+                        containerNode.removeLink(name);
                     });
-                    DeprecationLogger.whileDisabled(new Runnable() {
-                        @Override
-                        public void run() {
-                            container.whenObjectRemoved(new Action<I>() {
-                                @Override
-                                public void execute(I item) {
-                                    String name = namer.determineName(item);
-                                    containerNode.removeLink(name);
-                                }
-                            });
-                        }
-                    });
-                }
+                });
             })
             .descriptor(descriptor);
     }

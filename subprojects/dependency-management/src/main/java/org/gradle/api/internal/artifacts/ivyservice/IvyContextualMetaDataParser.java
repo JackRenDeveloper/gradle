@@ -37,31 +37,22 @@ public class IvyContextualMetaDataParser<T extends MutableModuleComponentResolve
 
     @Override
     public ParseResult<T> parseMetaData(final DescriptorParseContext context, final LocallyAvailableExternalResource resource) throws MetaDataParseException {
-        return ivyContextManager.withIvy(new Transformer<ParseResult<T>, Ivy>() {
-            @Override
-            public ParseResult<T> transform(Ivy ivy) {
-                return delegate.parseMetaData(context, resource);
-            }
+        return ivyContextManager.withIvy(ivy -> {
+            return delegate.parseMetaData(context, resource);
         });
     }
 
     @Override
     public ParseResult<T> parseMetaData(final DescriptorParseContext ivySettings, final File descriptorFile) throws MetaDataParseException {
-        return ivyContextManager.withIvy(new Transformer<ParseResult<T>, Ivy>() {
-            @Override
-            public ParseResult<T> transform(Ivy ivy) {
-                return delegate.parseMetaData(ivySettings, descriptorFile);
-            }
+        return ivyContextManager.withIvy(ivy -> {
+            return delegate.parseMetaData(ivySettings, descriptorFile);
         });
     }
 
     @Override
     public ParseResult<T> parseMetaData(final DescriptorParseContext ivySettings, final File descriptorFile, final boolean validate) throws MetaDataParseException {
-        return ivyContextManager.withIvy(new Transformer<ParseResult<T>, Ivy>() {
-            @Override
-            public ParseResult<T> transform(Ivy ivy) {
-                return delegate.parseMetaData(ivySettings, descriptorFile, validate);
-            }
+        return ivyContextManager.withIvy(ivy -> {
+            return delegate.parseMetaData(ivySettings, descriptorFile, validate);
         });
     }
 }

@@ -68,12 +68,7 @@ public class NamedObjectInstantiator implements Managed.Factory {
     private static final String[] EMPTY_STRINGS = new String[0];
     private static final String CONSTRUCTOR_NAME = "<init>";
 
-    private final Factory<LoadingCache<Class<?>, LoadingCache<String, Object>>> cacheFactory = new Factory<LoadingCache<Class<?>, LoadingCache<String, Object>>>() {
-        @Override
-        public LoadingCache<Class<?>, LoadingCache<String, Object>> create() {
-            return newValuesCache();
-        }
-    };
+    private final Factory<LoadingCache<Class<?>, LoadingCache<String, Object>>> cacheFactory = () -> newValuesCache();
 
     // Currently retains strong references to types
     private final LoadingCache<Class<?>, LoadingCache<String, Object>> leakyValues = newValuesCache();

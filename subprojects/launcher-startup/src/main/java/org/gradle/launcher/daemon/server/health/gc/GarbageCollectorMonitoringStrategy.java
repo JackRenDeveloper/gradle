@@ -86,29 +86,14 @@ public enum GarbageCollectorMonitoringStrategy {
     }
 
     public static GarbageCollectorMonitoringStrategy determineGcStrategy() {
-        final List<String> garbageCollectors = CollectionUtils.collect(ManagementFactory.getGarbageCollectorMXBeans(), new Transformer<String, GarbageCollectorMXBean>() {
-            @Override
-            public String transform(GarbageCollectorMXBean garbageCollectorMXBean) {
-                return garbageCollectorMXBean.getName();
-            }
-        });
-        GarbageCollectorMonitoringStrategy gcStrategy = CollectionUtils.findFirst(GarbageCollectorMonitoringStrategy.values(), new Spec<GarbageCollectorMonitoringStrategy>() {
-            @Override
-            public boolean isSatisfiedBy(GarbageCollectorMonitoringStrategy strategy) {
-                return garbageCollectors.contains(strategy.getGarbageCollectorName());
-            }
-        });
+        final List<String> garbageCollectors = CollectionUtils.collect(ManagementFactory.getGarbageCollectorMXBeans(), garbageCollectorMXBean -> garbageCollectorMXBean.getName());
+        GarbageCollectorMonitoringStrategy gcStrategy = CollectionUtils.findFirst(GarbageCollectorMonitoringStrategy.values(), strategy -> garbageCollectors.contains(strategy.getGarbageCollectorName()));
 
         if (gcStrategy == null) {
             LOGGER.info("Unable to determine a garbage collection monitoring strategy for " + Jvm.current().toString());
             return GarbageCollectorMonitoringStrategy.UNKNOWN;
         } else {
-            List<String> memoryPools = CollectionUtils.collect(ManagementFactory.getMemoryPoolMXBeans(), new Transformer<String, MemoryPoolMXBean>() {
-                @Override
-                public String transform(MemoryPoolMXBean memoryPoolMXBean) {
-                    return memoryPoolMXBean.getName();
-                }
-            });
+            List<String> memoryPools = CollectionUtils.collect(ManagementFactory.getMemoryPoolMXBeans(), memoryPoolMXBean -> memoryPoolMXBean.getName());
             if (!memoryPools.contains(gcStrategy.heapPoolName) || !memoryPools.contains(gcStrategy.nonHeapPoolName)) {
                 LOGGER.info("Unable to determine which memory pools to monitor for " + Jvm.current().toString());
                 return GarbageCollectorMonitoringStrategy.UNKNOWN;

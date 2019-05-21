@@ -198,12 +198,7 @@ public class HttpClientConfigurer {
     }
 
     private boolean isPreemptiveEnabled(Collection<Authentication> authentications) {
-        return CollectionUtils.any(authentications, new Spec<Authentication>() {
-            @Override
-            public boolean isSatisfiedBy(Authentication element) {
-                return element instanceof BasicAuthentication || element instanceof HttpHeaderAuthentication;
-            }
-        });
+        return CollectionUtils.any(authentications, element -> element instanceof BasicAuthentication || element instanceof HttpHeaderAuthentication);
     }
 
     public void configureUserAgent(HttpClientBuilder builder) {

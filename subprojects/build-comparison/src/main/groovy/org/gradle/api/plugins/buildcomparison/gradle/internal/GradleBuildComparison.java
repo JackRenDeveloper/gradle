@@ -197,12 +197,7 @@ public class GradleBuildComparison {
         fileStore.moveFileStore(new File(reportDir, FILES_DIR_NAME));
 
         final Charset encoding = Charset.defaultCharset();
-        IoActions.writeTextFile(new File(reportDir, HTML_REPORT_FILE_NAME), encoding.name(), new Action<BufferedWriter>() {
-            @Override
-            public void execute(BufferedWriter writer) {
-                createResultRenderer(encoding, reportDir, hostAttributes).render(result, writer);
-            }
-        });
+        IoActions.writeTextFile(new File(reportDir, HTML_REPORT_FILE_NAME), encoding.name(), writer -> createResultRenderer(encoding, reportDir, hostAttributes).render(result, writer));
     }
 
     BuildComparisonResultRenderer<Writer> createResultRenderer(Charset encoding, final File reportDir, final Map<String, String> hostAttributes) {
@@ -213,12 +208,7 @@ public class GradleBuildComparison {
                 sourceBuildExecuter,
                 targetBuildExecuter,
                 hostAttributes,
-                new Transformer<String, File>() {
-                    @Override
-                    public String transform(File original) {
-                        return RelativePathUtil.relativePath(reportDir, original);
-                    }
-                }
+            original -> RelativePathUtil.relativePath(reportDir, original)
         );
     }
 

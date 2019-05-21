@@ -86,12 +86,9 @@ public class DefaultPayloadClassLoaderRegistry implements PayloadClassLoaderRegi
 
     @Override
     public DeserializeMap newDeserializeSession() {
-        return new DeserializeMap() {
-            @Override
-            public Class<?> resolveClass(ClassLoaderDetails classLoaderDetails, String className) throws ClassNotFoundException {
-                ClassLoader classLoader = getClassLoader(classLoaderDetails);
-                return Class.forName(className, false, classLoader);
-            }
+        return (classLoaderDetails, className) -> {
+            ClassLoader classLoader = getClassLoader(classLoaderDetails);
+            return Class.forName(className, false, classLoader);
         };
     }
 

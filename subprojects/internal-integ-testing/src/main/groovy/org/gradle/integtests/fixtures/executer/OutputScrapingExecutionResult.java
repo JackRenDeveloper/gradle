@@ -344,27 +344,24 @@ public class OutputScrapingExecutionResult implements ExecutionResult {
         final List<String> tasks = Lists.newArrayList();
         final List<String> taskStatusLines = Lists.newArrayList();
 
-        getMainContent().eachLine(new Action<String>() {
-            @Override
-            public void execute(String line) {
-                java.util.regex.Matcher matcher = pattern.matcher(line);
-                if (matcher.matches()) {
-                    String taskStatusLine = matcher.group().replace(TASK_PREFIX, "");
-                    String taskName = matcher.group(2);
-                    if (!taskName.contains(":buildSrc:")) {
-                        // The task status line may appear twice - once for the execution, once for the UP-TO-DATE/SKIPPED/etc
-                        // So don't add to the task list if this is an update to a previously added task.
+        getMainContent().eachLine(line -> {
+            java.util.regex.Matcher matcher = pattern.matcher(line);
+            if (matcher.matches()) {
+                String taskStatusLine = matcher.group().replace(TASK_PREFIX, "");
+                String taskName = matcher.group(2);
+                if (!taskName.contains(":buildSrc:")) {
+                    // The task status line may appear twice - once for the execution, once for the UP-TO-DATE/SKIPPED/etc
+                    // So don't add to the task list if this is an update to a previously added task.
 
-                        // Find the status line for the previous record of this task
-                        String previousTaskStatusLine = tasks.contains(taskName) ? taskStatusLines.get(tasks.lastIndexOf(taskName)) : "";
-                        // Don't add if our last record has a `:taskName` status, and this one is `:taskName SOMETHING`
-                        if (previousTaskStatusLine.equals(taskName) && !taskStatusLine.equals(taskName)) {
-                            return;
-                        }
-
-                        taskStatusLines.add(taskStatusLine);
-                        tasks.add(taskName);
+                    // Find the status line for the previous record of this task
+                    String previousTaskStatusLine = tasks.contains(taskName) ? taskStatusLines.get(tasks.lastIndexOf(taskName)) : "";
+                    // Don't add if our last record has a `:taskName` status, and this one is `:taskName SOMETHING`
+                    if (previousTaskStatusLine.equals(taskName) && !taskStatusLine.equals(taskName)) {
+                        return;
                     }
+
+                    taskStatusLines.add(taskStatusLine);
+                    tasks.add(taskName);
                 }
             }
         });

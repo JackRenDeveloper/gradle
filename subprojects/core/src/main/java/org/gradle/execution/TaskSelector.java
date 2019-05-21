@@ -64,12 +64,7 @@ public class TaskSelector {
         }
 
         final Set<Task> selectedTasks = getSelection(path, gradle.getDefaultProject()).getTasks();
-        return new Spec<Task>() {
-            @Override
-            public boolean isSatisfiedBy(Task element) {
-                return !selectedTasks.contains(element);
-            }
-        };
+        return element -> !selectedTasks.contains(element);
     }
 
     public TaskSelection getSelection(@Nullable String projectPath, @Nullable File root, String path) {

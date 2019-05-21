@@ -24,18 +24,8 @@ public class StdinSwapper extends Swapper<InputStream> {
 
     public StdinSwapper() {
         super(
-            new Callable<InputStream>() {
-                @Override
-                public InputStream call() {
-                    return System.in;
-                }
-            },
-            new Action<InputStream>() {
-                @Override
-                public void execute(InputStream newValue) {
-                    System.setIn(newValue);
-                }
-            }
+            () -> System.in,
+            newValue -> System.setIn(newValue)
         );
     }
 }

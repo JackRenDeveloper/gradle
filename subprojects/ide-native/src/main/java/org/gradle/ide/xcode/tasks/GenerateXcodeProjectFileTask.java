@@ -111,12 +111,9 @@ public class GenerateXcodeProjectFileTask extends PropertyListGeneratorTask<Xcod
         XcodeprojSerializer serializer = new XcodeprojSerializer(gidGenerator, project);
         final NSDictionary rootObject = serializer.toPlist();
 
-        projectFile.transformAction(new Action<NSDictionary>() {
-            @Override
-            public void execute(NSDictionary dict) {
-                dict.clear();
-                dict.putAll(rootObject);
-            }
+        projectFile.transformAction(dict -> {
+            dict.clear();
+            dict.putAll(rootObject);
         });
     }
 

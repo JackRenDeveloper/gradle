@@ -148,19 +148,9 @@ public class TwirlCompile extends SourceTask {
             new CleaningPlayToolCompiler<TwirlCompileSpec>(getCompiler(), getOutputs()).execute(spec);
         } else {
             final Set<File> sourcesToCompile = new HashSet<File>();
-            inputs.outOfDate(new Action<InputFileDetails>() {
-                @Override
-                public void execute(InputFileDetails inputFileDetails) {
-                    sourcesToCompile.add(inputFileDetails.getFile());
-                }
-            });
+            inputs.outOfDate(inputFileDetails -> sourcesToCompile.add(inputFileDetails.getFile()));
             final Set<File> staleOutputFiles = new HashSet<File>();
-            inputs.removed(new Action<InputFileDetails>() {
-                @Override
-                public void execute(InputFileDetails inputFileDetails) {
-                    staleOutputFiles.add(inputFileDetails.getFile());
-                }
-            });
+            inputs.removed(inputFileDetails -> staleOutputFiles.add(inputFileDetails.getFile()));
             if (cleaner == null) {
                 cleaner = new TwirlStaleOutputCleaner(getOutputDirectory());
             }

@@ -60,12 +60,7 @@ public class LocallyAvailableResourceFinderFactory implements Factory<LocallyAva
         // Order is important here, because they will be searched in that order
 
         // The current filestore
-        finders.add(new LocallyAvailableResourceFinderSearchableFileStoreAdapter<ModuleComponentArtifactMetadata>(new FileStoreSearcher<ModuleComponentArtifactMetadata>() {
-            @Override
-            public Set<? extends LocallyAvailableResource> search(ModuleComponentArtifactMetadata key) {
-                return fileStore.search(key.getId());
-            }
-        }));
+        finders.add(new LocallyAvailableResourceFinderSearchableFileStoreAdapter<ModuleComponentArtifactMetadata>(key -> fileStore.search(key.getId())));
 
         // 1.8
         addForPattern(finders, "artifacts-26/filestore/[organisation]/[module](/[branch])/[revision]/[type]/*/[artifact]-[revision](-[classifier])(.[ext])");

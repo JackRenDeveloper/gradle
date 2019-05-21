@@ -50,20 +50,17 @@ public class NoIsolationWorkerFactory implements WorkerFactory {
         return new AbstractWorker(buildOperationExecutor) {
             @Override
             public DefaultWorkResult execute(ActionExecutionSpec spec, BuildOperationRef parentBuildOperation) {
-                return executeWrappedInBuildOperation(spec, parentBuildOperation, new Work() {
-                    @Override
-                    public DefaultWorkResult execute(ActionExecutionSpec spec) {
-                        DefaultWorkResult result;
-                        try {
-                            WorkerProtocol workerServer = new DefaultWorkerServer(serviceRegistry);
-                            result = workerServer.execute(spec);
-                        } finally {
-                            //TODO the async work tracker should wait for children of an operation to finish first.
-                            //It should not be necessary to call it here.
-                            workerExecutor.await();
-                        }
-                        return result;
+                return executeWrappedInBuildOperation(spec, parentBuildOperation, spec1 -> {
+                    DefaultWorkResult result;
+                    try {
+                        WorkerProtocol workerServer = new DefaultWorkerServer(serviceRegistry);
+                        result = workerServer.execute(spec1);
+                    } finally {
+                        //TODO the async work tracker should wait for children of an operation to finish first.
+                        //It should not be necessary to call it here.
+                        workerExecutor.await();
                     }
+                    return result;
                 });
             }
         };

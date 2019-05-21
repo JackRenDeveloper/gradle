@@ -75,31 +75,20 @@ public class PublishingPlugin implements Plugin<Project> {
         RepositoryHandler repositories = publicationServices.createRepositoryHandler();
         PublicationContainer publications = instantiator.newInstance(DefaultPublicationContainer.class, instantiator, collectionCallbackActionDecorator);
         PublishingExtension extension = project.getExtensions().create(PublishingExtension.class, PublishingExtension.NAME, DefaultPublishingExtension.class, repositories, publications);
-        project.getTasks().register(PUBLISH_LIFECYCLE_TASK_NAME, new Action<Task>() {
-            @Override
-            public void execute(Task task) {
-                task.setDescription("Publishes all publications produced by this project.");
-                task.setGroup(PUBLISH_TASK_GROUP);
-            }
+        project.getTasks().register(PUBLISH_LIFECYCLE_TASK_NAME, task -> {
+            task.setDescription("Publishes all publications produced by this project.");
+            task.setGroup(PUBLISH_TASK_GROUP);
         });
-        extension.getPublications().all(new Action<Publication>() {
-            @Override
-            public void execute(Publication publication) {
-                PublicationInternal internalPublication = (PublicationInternal) publication;
-                ProjectInternal projectInternal = (ProjectInternal) project;
-                projectPublicationRegistry.registerPublication(projectInternal, internalPublication);
-            }
+        extension.getPublications().all(publication -> {
+            PublicationInternal internalPublication = (PublicationInternal) publication;
+            ProjectInternal projectInternal = (ProjectInternal) project;
+            projectPublicationRegistry.registerPublication(projectInternal, internalPublication);
         });
         bridgeToSoftwareModelIfNeeded((ProjectInternal) project);
     }
 
     private void bridgeToSoftwareModelIfNeeded(ProjectInternal project) {
-        project.addRuleBasedPluginListener(new RuleBasedPluginListener() {
-            @Override
-            public void prepareForRuleBasedPlugins(Project project) {
-                project.getPluginManager().apply(PublishingPluginRules.class);
-            }
-        });
+        project.addRuleBasedPluginListener(project1 -> project1.getPluginManager().apply(PublishingPluginRules.class));
     }
 
 }

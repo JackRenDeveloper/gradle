@@ -40,12 +40,9 @@ public class CreateOutputsStep<C extends Context, R extends Result> implements S
 
     @Override
     public R execute(C context) {
-        context.getWork().visitOutputProperties(new UnitOfWork.OutputPropertyVisitor() {
-            @Override
-            public void visitOutputProperty(String name, TreeType type, FileCollection roots) {
-                for (File root : roots) {
-                    ensureOutput(name, root, type);
-                }
+        context.getWork().visitOutputProperties((name, type, roots) -> {
+            for (File root : roots) {
+                ensureOutput(name, root, type);
             }
         });
         return delegate.execute(context);

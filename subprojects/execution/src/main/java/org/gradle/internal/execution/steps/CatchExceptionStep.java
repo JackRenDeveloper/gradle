@@ -34,12 +34,7 @@ public class CatchExceptionStep<C extends Context> implements Step<C, Result> {
         try {
             return delegate.execute(context);
         } catch (Throwable failure) {
-            return new Result() {
-                @Override
-                public Try<ExecutionOutcome> getOutcome() {
-                    return Try.failure(failure);
-                }
-            };
+            return () -> Try.failure(failure);
         }
     }
 }

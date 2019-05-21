@@ -28,10 +28,6 @@ public class NotSpecTest {
     }
 
     private Spec<Boolean> createFilterSpec() {
-        return new Spec<Boolean>() {
-            public boolean isSatisfiedBy(Boolean element) {
-                return element;
-            }
-        };
+        return element -> element;
     }
 }

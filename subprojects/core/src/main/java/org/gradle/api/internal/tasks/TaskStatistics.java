@@ -124,12 +124,7 @@ public class TaskStatistics implements Closeable {
     private void printTypeCounts(String header, Map<Class, Integer> typeCounts) {
         if (!typeCounts.isEmpty()) {
             LOGGER.lifecycle(header);
-            List<Map.Entry<Class, Integer>> sorted = CollectionUtils.sort(typeCounts.entrySet(), new Comparator<Map.Entry<Class, Integer>>() {
-                @Override
-                public int compare(Map.Entry<Class, Integer> a, Map.Entry<Class, Integer> b) {
-                    return b.getValue().compareTo(a.getValue());
-                }
-            });
+            List<Map.Entry<Class, Integer>> sorted = CollectionUtils.sort(typeCounts.entrySet(), (a, b) -> b.getValue().compareTo(a.getValue()));
             for (Map.Entry<Class, Integer> typeCount : sorted) {
                 LOGGER.lifecycle(typeCount.getKey() + " " + typeCount.getValue());
             }

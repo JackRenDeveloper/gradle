@@ -53,12 +53,7 @@ public class DefaultVisualStudioSolution implements VisualStudioSolutionInternal
     public DefaultVisualStudioSolution(String name, ObjectFactory objectFactory, IdeArtifactRegistry ideArtifactRegistry, ProviderFactory providers, ProjectLayout projectLayout) {
         this.name = name;
         this.solutionFile = objectFactory.newInstance(SolutionFile.class, getName() + ".sln");
-        this.location = projectLayout.file(providers.provider(new Callable<File>() {
-            @Override
-            public File call() {
-                return solutionFile.getLocation();
-            }
-        }));
+        this.location = projectLayout.file(providers.provider(() -> solutionFile.getLocation()));
         this.ideArtifactRegistry = ideArtifactRegistry;
         builtBy(ideArtifactRegistry.getIdeProjectFiles(VisualStudioProjectMetadata.class));
     }
@@ -86,22 +81,12 @@ public class DefaultVisualStudioSolution implements VisualStudioSolutionInternal
     @Override
     @Internal
     public List<VisualStudioProjectMetadata> getProjects() {
-        return CollectionUtils.collect(ideArtifactRegistry.getIdeProjects(VisualStudioProjectMetadata.class), new Transformer<VisualStudioProjectMetadata, IdeArtifactRegistry.Reference<VisualStudioProjectMetadata>>() {
-            @Override
-            public VisualStudioProjectMetadata transform(IdeArtifactRegistry.Reference<VisualStudioProjectMetadata> reference) {
-                return reference.get();
-            }
-        });
+        return CollectionUtils.collect(ideArtifactRegistry.getIdeProjects(VisualStudioProjectMetadata.class), reference -> reference.get());
     }
 
     @Input
     public List<String> getProjectFilePaths() {
-        return CollectionUtils.collect(getProjects(), new Transformer<String, VisualStudioProjectMetadata>() {
-            @Override
-            public String transform(VisualStudioProjectMetadata metadata) {
-                return metadata.getFile().getAbsolutePath();
-            }
-        });
+        return CollectionUtils.collect(getProjects(), metadata -> metadata.getFile().getAbsolutePath());
     }
 
     @Input

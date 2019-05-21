@@ -321,12 +321,7 @@ public class DefaultOsgiManifest extends DefaultManifest implements OsgiManifest
         modelledInstructions.put(Analyzer.BUNDLE_VENDOR, createListFromPropertyString(vendor));
         modelledInstructions.put(Analyzer.BUNDLE_DOCURL, createListFromPropertyString(docURL));
 
-        return CollectionUtils.filter(modelledInstructions, new Spec<Map.Entry<String, List<String>>>() {
-            @Override
-            public boolean isSatisfiedBy(Map.Entry<String, List<String>> element) {
-                return element.getValue() != null;
-            }
-        });
+        return CollectionUtils.filter(modelledInstructions, element -> element.getValue() != null);
     }
 
     @Override

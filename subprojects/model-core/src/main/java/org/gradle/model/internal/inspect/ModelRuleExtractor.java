@@ -94,12 +94,7 @@ public class ModelRuleExtractor {
     }
 
     private String describeHandlers() {
-        String desc = Joiner.on(", ").join(CollectionUtils.collect(handlers, new Transformer<String, MethodModelRuleExtractor>() {
-            @Override
-            public String transform(MethodModelRuleExtractor original) {
-                return original.getDescription();
-            }
-        }));
+        String desc = Joiner.on(", ").join(CollectionUtils.collect(handlers, original -> original.getDescription()));
         return "[" + desc + "]";
     }
 
@@ -394,12 +389,7 @@ public class ModelRuleExtractor {
         }
 
         public List<ExtractedModelRule> getRules() {
-            return CollectionUtils.collect(rules, new Transformer<ExtractedModelRule, ExtractedRuleDetails>() {
-                @Override
-                public ExtractedModelRule transform(ExtractedRuleDetails extractedRuleDetails) {
-                    return extractedRuleDetails.rule;
-                }
-            });
+            return CollectionUtils.collect(rules, extractedRuleDetails -> extractedRuleDetails.rule);
         }
 
         @Override

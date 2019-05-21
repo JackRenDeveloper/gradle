@@ -234,13 +234,7 @@ public class ValidateTaskProperties extends ConventionTask implements Verificati
     }
 
     private static List<InvalidUserDataException> toExceptionList(List<String> problemMessages) {
-        return Lists.transform(problemMessages, new Function<String, InvalidUserDataException>() {
-            @Override
-            @SuppressWarnings("NullableProblems")
-            public InvalidUserDataException apply(String problemMessage) {
-                return new InvalidUserDataException(problemMessage);
-            }
-        });
+        return Lists.transform(problemMessages, problemMessage -> new InvalidUserDataException(problemMessage));
     }
 
     /**

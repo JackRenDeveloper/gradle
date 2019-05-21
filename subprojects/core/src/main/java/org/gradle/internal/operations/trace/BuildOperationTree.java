@@ -45,12 +45,7 @@ public class BuildOperationTree {
     }
 
     static List<Map<String, ?>> serialize(List<BuildOperationRecord> roots) {
-        return Lists.transform(roots, new Function<BuildOperationRecord, Map<String, ?>>() {
-            @Override
-            public Map<String, ?> apply(BuildOperationRecord input) {
-                return input.toSerializable();
-            }
-        });
+        return Lists.transform(roots, input -> input.toSerializable());
     }
 
 }

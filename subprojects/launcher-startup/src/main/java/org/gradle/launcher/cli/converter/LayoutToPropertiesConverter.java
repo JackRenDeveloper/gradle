@@ -99,12 +99,7 @@ public class LayoutToPropertiesConverter {
         }
 
         for (final Object key : properties.keySet()) {
-            BuildOption<?> validOption = CollectionUtils.findFirst(allBuildOptions, new Spec<BuildOption<?>>() {
-                @Override
-                public boolean isSatisfiedBy(BuildOption<?> option) {
-                    return option.getGradleProperty() != null ? option.getGradleProperty().equals(key.toString()) : false;
-                }
-            });
+            BuildOption<?> validOption = CollectionUtils.findFirst(allBuildOptions, option -> option.getGradleProperty() != null ? option.getGradleProperty().equals(key.toString()) : false);
 
             if (validOption != null) {
                 result.put(key.toString(), properties.get(key).toString());

@@ -49,21 +49,18 @@ public class ToolingModelServices extends AbstractPluginServiceRegistry {
             final FileCollectionFactory fileCollectionFactory,
             final ServiceRegistry services) {
 
-            return new BuildScopeToolingModelBuilderRegistryAction() {
-                @Override
-                public void execute(ToolingModelBuilderRegistry registry) {
-                    GradleProjectBuilder gradleProjectBuilder = new GradleProjectBuilder();
-                    IdeaModelBuilder ideaModelBuilder = new IdeaModelBuilder(gradleProjectBuilder, services);
-                    registry.register(new RunEclipseTasksBuilder());
-                    registry.register(new EclipseModelBuilder(gradleProjectBuilder, services));
-                    registry.register(ideaModelBuilder);
-                    registry.register(gradleProjectBuilder);
-                    registry.register(new GradleBuildBuilder());
-                    registry.register(new BasicIdeaModelBuilder(ideaModelBuilder));
-                    registry.register(new BuildInvocationsBuilder(taskLister));
-                    registry.register(new PublicationsBuilder(projectPublicationRegistry));
-                    registry.register(new BuildEnvironmentBuilder(fileCollectionFactory));
-                }
+            return registry -> {
+                GradleProjectBuilder gradleProjectBuilder = new GradleProjectBuilder();
+                IdeaModelBuilder ideaModelBuilder = new IdeaModelBuilder(gradleProjectBuilder, services);
+                registry.register(new RunEclipseTasksBuilder());
+                registry.register(new EclipseModelBuilder(gradleProjectBuilder, services));
+                registry.register(ideaModelBuilder);
+                registry.register(gradleProjectBuilder);
+                registry.register(new GradleBuildBuilder());
+                registry.register(new BasicIdeaModelBuilder(ideaModelBuilder));
+                registry.register(new BuildInvocationsBuilder(taskLister));
+                registry.register(new PublicationsBuilder(projectPublicationRegistry));
+                registry.register(new BuildEnvironmentBuilder(fileCollectionFactory));
             };
         }
     }

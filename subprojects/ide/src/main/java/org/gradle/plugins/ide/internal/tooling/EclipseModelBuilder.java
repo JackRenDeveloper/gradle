@@ -305,12 +305,7 @@ public class EclipseModelBuilder implements ParameterizedToolingModelBuilder<Ecl
     }
 
     private DefaultEclipseProject findEclipseProject(final Project project) {
-        return CollectionUtils.findFirst(eclipseProjects, new Spec<DefaultEclipseProject>() {
-            @Override
-            public boolean isSatisfiedBy(DefaultEclipseProject element) {
-                return element.getGradleProject().getPath().equals(project.getPath());
-            }
-        });
+        return CollectionUtils.findFirst(eclipseProjects, element -> element.getGradleProject().getPath().equals(project.getPath()));
     }
 
     private static List<DefaultClasspathAttribute> createAttributes(AbstractClasspathEntry classpathEntry) {

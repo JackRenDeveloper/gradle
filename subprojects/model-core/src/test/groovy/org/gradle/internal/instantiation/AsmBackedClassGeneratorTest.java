@@ -497,11 +497,7 @@ public class AsmBackedClassGeneratorTest {
 
         assertThat(bean.getProp(), nullValue());
 
-        conventionAware.getConventionMapping().map("prop", new Callable<String>() {
-            public String call() {
-                return "conventionValue";
-            }
-        });
+        conventionAware.getConventionMapping().map("prop", (Callable<String>) () -> "conventionValue");
 
         assertThat(bean.getProp(), equalTo("conventionValue"));
 
@@ -515,11 +511,7 @@ public class AsmBackedClassGeneratorTest {
     @Test
     public void appliesConventionMappingToPropertyWithMultipleSetters() throws Exception {
         BeanWithVariousGettersAndSetters bean = newInstance(BeanWithVariousGettersAndSetters.class);
-        new DslObject(bean).getConventionMapping().map("overloaded", new Callable<String>() {
-            public String call() {
-                return "conventionValue";
-            }
-        });
+        new DslObject(bean).getConventionMapping().map("overloaded", (Callable<String>) () -> "conventionValue");
 
         assertThat(bean.getOverloaded(), equalTo("conventionValue"));
 
@@ -527,11 +519,7 @@ public class AsmBackedClassGeneratorTest {
         assertThat(bean.getOverloaded(), equalTo("chars = value"));
 
         bean = newInstance(BeanWithVariousGettersAndSetters.class);
-        new DslObject(bean).getConventionMapping().map("overloaded", new Callable<String>() {
-            public String call() {
-                return "conventionValue";
-            }
-        });
+        new DslObject(bean).getConventionMapping().map("overloaded", (Callable<String>) () -> "conventionValue");
 
         assertThat(bean.getOverloaded(), equalTo("conventionValue"));
 
@@ -539,11 +527,7 @@ public class AsmBackedClassGeneratorTest {
         assertThat(bean.getOverloaded(), equalTo("number = 12"));
 
         bean = newInstance(BeanWithVariousGettersAndSetters.class);
-        new DslObject(bean).getConventionMapping().map("overloaded", new Callable<String>() {
-            public String call() {
-                return "conventionValue";
-            }
-        });
+        new DslObject(bean).getConventionMapping().map("overloaded", (Callable<String>) () -> "conventionValue");
 
         assertThat(bean.getOverloaded(), equalTo("conventionValue"));
 
@@ -555,11 +539,7 @@ public class AsmBackedClassGeneratorTest {
     public void appliesConventionMappingToPropertyWithGetterCovariantType() throws Exception {
         CovariantPropertyTypes bean = newInstance(CovariantPropertyTypes.class);
 
-        new DslObject(bean).getConventionMapping().map("value", new Callable<String>() {
-            public String call() {
-                return "conventionValue";
-            }
-        });
+        new DslObject(bean).getConventionMapping().map("value", (Callable<String>) () -> "conventionValue");
 
         assertThat(bean.getValue(), equalTo("conventionValue"));
 
@@ -572,16 +552,8 @@ public class AsmBackedClassGeneratorTest {
         BeanWithCovariantAbstract bean = newInstance(BeanWithCovariantAbstract.class);
 
         ConventionMapping conventionMapping = new DslObject(bean).getConventionMapping();
-        conventionMapping.map("prop", new Callable<String>() {
-            public String call() {
-                return "conventionValue";
-            }
-        });
-        conventionMapping.map("number", new Callable<Integer>() {
-            public Integer call() {
-                return 123;
-            }
-        });
+        conventionMapping.map("prop", (Callable<String>) () -> "conventionValue");
+        conventionMapping.map("number", (Callable<Integer>) () -> 123);
 
         assertThat(bean.getNumber(), equalTo(123));
         assertThat(bean.getProp(), equalTo("conventionValue"));
@@ -597,16 +569,8 @@ public class AsmBackedClassGeneratorTest {
         assertThat(bean.getPrivate(), equalTo("private"));
 
         IConventionAware conventionAware = (IConventionAware) bean;
-        conventionAware.getConventionMapping().map("packageProtected", new Callable<String>() {
-            public String call() {
-                return "1";
-            }
-        });
-        conventionAware.getConventionMapping().map("protected", new Callable<String>() {
-            public String call() {
-                return "2";
-            }
-        });
+        conventionAware.getConventionMapping().map("packageProtected", (Callable<String>) () -> "1");
+        conventionAware.getConventionMapping().map("protected", (Callable<String>) () -> "2");
 
         assertThat(bean.getPackageProtected(), equalTo("1"));
         assertThat(bean.getProtected(), equalTo("2"));
@@ -624,11 +588,7 @@ public class AsmBackedClassGeneratorTest {
 
         IConventionAware conventionAware = (IConventionAware) bean;
 
-        conventionAware.getConventionMapping().map("smallB", new Callable<Object>() {
-            public Object call() throws Exception {
-                return true;
-            }
-        });
+        conventionAware.getConventionMapping().map("smallB", () -> true);
 
         assertThat(bean.isSmallB(), equalTo(true));
         assertThat(bean.getSmallB(), equalTo(true));
@@ -637,21 +597,13 @@ public class AsmBackedClassGeneratorTest {
         assertThat(bean.isSmallB(), equalTo(false));
         assertThat(bean.getSmallB(), equalTo(false));
 
-        conventionAware.getConventionMapping().map("bigB", new Callable<Object>() {
-            public Object call() throws Exception {
-                return Boolean.TRUE;
-            }
-        });
+        conventionAware.getConventionMapping().map("bigB", () -> Boolean.TRUE);
 
         assertThat(bean.getBigB(), equalTo(Boolean.TRUE));
         bean.setBigB(Boolean.FALSE);
         assertThat(bean.getBigB(), equalTo(Boolean.FALSE));
 
-        conventionAware.getConventionMapping().map("mixedB", new Callable<Object>() {
-            public Object call() throws Exception {
-                return Boolean.TRUE;
-            }
-        });
+        conventionAware.getConventionMapping().map("mixedB", () -> Boolean.TRUE);
 
         assertThat(bean.getMixedB(), equalTo(true));
         assertThat(bean.isMixedB(), equalTo(Boolean.TRUE));
@@ -665,11 +617,7 @@ public class AsmBackedClassGeneratorTest {
 
         assertThat(bean.getProp(), isEmpty());
 
-        conventionAware.getConventionMapping().map("prop", new Callable<Object>() {
-            public Object call() {
-                return conventionValue;
-            }
-        });
+        conventionAware.getConventionMapping().map("prop", () -> conventionValue);
 
         assertThat(bean.getProp(), sameInstance(conventionValue));
 
@@ -693,11 +641,7 @@ public class AsmBackedClassGeneratorTest {
         assertThat(bean.setReturnValueProperty("p"), sameInstance(bean));
 
         IConventionAware conventionAware = (IConventionAware) bean;
-        conventionAware.getConventionMapping().map("booleanProperty", new Callable<Object>() {
-            public Object call() throws Exception {
-                return true;
-            }
-        });
+        conventionAware.getConventionMapping().map("booleanProperty", () -> true);
 
         assertThat(bean.getBooleanProperty(), equalTo(true));
 
@@ -718,26 +662,14 @@ public class AsmBackedClassGeneratorTest {
     public void doesNotOverrideMethodsFromSuperclassesMarkedWithAnnotation() throws Exception {
         BeanSubClass bean = newInstance(BeanSubClass.class);
         IConventionAware conventionAware = (IConventionAware) bean;
-        conventionAware.getConventionMapping().map("property", new Callable<Object>() {
-            public Object call() throws Exception {
-                throw new UnsupportedOperationException();
-            }
+        conventionAware.getConventionMapping().map("property", () -> {
+            throw new UnsupportedOperationException();
         });
-        conventionAware.getConventionMapping().map("interfaceProperty", new Callable<Object>() {
-            public Object call() throws Exception {
-                throw new UnsupportedOperationException();
-            }
+        conventionAware.getConventionMapping().map("interfaceProperty", () -> {
+            throw new UnsupportedOperationException();
         });
-        conventionAware.getConventionMapping().map("overriddenProperty", new Callable<Object>() {
-            public Object call() throws Exception {
-                return "conventionValue";
-            }
-        });
-        conventionAware.getConventionMapping().map("otherProperty", new Callable<Object>() {
-            public Object call() throws Exception {
-                return "conventionValue";
-            }
-        });
+        conventionAware.getConventionMapping().map("overriddenProperty", () -> "conventionValue");
+        conventionAware.getConventionMapping().map("otherProperty", () -> "conventionValue");
         assertEquals(null, bean.getProperty());
         assertEquals(null, bean.getInterfaceProperty());
         assertEquals("conventionValue", bean.getOverriddenProperty());
@@ -880,11 +812,7 @@ public class AsmBackedClassGeneratorTest {
     public void doesNotUseConventionValueOnceSetValueMethodHasBeenCalled() throws Exception {
         Bean bean = newInstance(Bean.class);
         IConventionAware conventionAware = (IConventionAware) bean;
-        conventionAware.getConventionMapping().map("prop", new Callable<Object>() {
-            public Object call() throws Exception {
-                return "[default]";
-            }
-        });
+        conventionAware.getConventionMapping().map("prop", () -> "[default]");
 
         assertThat(bean.getProp(), equalTo("[default]"));
 
@@ -920,11 +848,7 @@ public class AsmBackedClassGeneratorTest {
     public void overridesExistingSetValueMethod() throws Exception {
         BeanWithDslMethods bean = newInstance(BeanWithDslMethods.class);
         IConventionAware conventionAware = (IConventionAware) bean;
-        conventionAware.getConventionMapping().map("prop", new Callable<Object>() {
-            public Object call() throws Exception {
-                return "[default]";
-            }
-        });
+        conventionAware.getConventionMapping().map("prop", () -> "[default]");
 
         assertThat(bean.getProp(), equalTo("[default]"));
 

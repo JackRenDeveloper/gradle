@@ -94,12 +94,7 @@ public class WorkExecutorTestFixture {
             public void recordOutputs(Iterable<? extends FileSystemSnapshot> outputFileFingerprints) {
             }
         };
-        BuildScanPluginApplied buildScanPluginApplied = new BuildScanPluginApplied() {
-            @Override
-            public boolean isBuildScanPluginApplied() {
-                return false;
-            }
-        };
+        BuildScanPluginApplied buildScanPluginApplied = () -> false;
         workExecutor = new ExecutionGradleServices().createWorkExecutor(
             buildCacheCommandFactory,
             buildCacheController,

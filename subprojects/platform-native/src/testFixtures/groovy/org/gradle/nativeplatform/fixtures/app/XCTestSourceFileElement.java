@@ -96,12 +96,7 @@ public abstract class XCTestSourceFileElement extends SourceFileElement implemen
 
     private String renderTestCases() {
         return Joiner.on("\n").join(
-            CollectionUtils.collect(getTestCases(), new Transformer<String, XCTestCaseElement>() {
-                @Override
-                public String transform(XCTestCaseElement testCase) {
-                    return testCase.getContent() + "\n";
-                }
-            })
+            CollectionUtils.collect(getTestCases(), testCase -> testCase.getContent() + "\n")
         );
     }
 

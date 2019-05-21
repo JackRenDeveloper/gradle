@@ -56,18 +56,10 @@ public abstract class AbstractNativeSourceCompileTask extends AbstractNativeComp
 
     public AbstractNativeSourceCompileTask() {
         super();
-        getOutputs().doNotCacheIf("Pre-compiled headers are used", new Spec<Task>() {
-            @Override
-            public boolean isSatisfiedBy(Task element) {
-                return getPreCompiledHeader() != null;
-            }
-        });
-        getOutputs().doNotCacheIf("Could not determine compiler version", new Spec<Task>() {
-            @Override
-            public boolean isSatisfiedBy(Task element) {
-                CompilerVersion compilerVersion = getCompilerVersion();
-                return compilerVersion == null;
-            }
+        getOutputs().doNotCacheIf("Pre-compiled headers are used", element -> getPreCompiledHeader() != null);
+        getOutputs().doNotCacheIf("Could not determine compiler version", element -> {
+            CompilerVersion compilerVersion = getCompilerVersion();
+            return compilerVersion == null;
         });
     }
 

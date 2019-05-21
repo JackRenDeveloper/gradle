@@ -42,12 +42,7 @@ public class AntFileCollectionMatchingTaskBuilder implements AntBuilderAware {
         final Iterable<DirectoryFileTree> existing = Lists.newLinkedList(
                 FluentIterable
                         .from(fileTrees)
-                        .filter(new Predicate<DirectoryFileTree>() {
-                            @Override
-                            public boolean apply(DirectoryFileTree input) {
-                                return input.getDir().exists();
-                            }
-                        })
+                        .filter(input -> input.getDir().exists())
         );
 
         for (DirectoryFileTree fileTree : existing) {

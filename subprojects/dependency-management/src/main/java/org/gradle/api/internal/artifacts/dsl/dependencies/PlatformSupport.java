@@ -48,12 +48,7 @@ public abstract class PlatformSupport {
     }
 
     static <T> void addPlatformAttribute(HasConfigurableAttributes<T> dependency, final Category category) {
-        dependency.attributes(new Action<AttributeContainer>() {
-            @Override
-            public void execute(AttributeContainer attributeContainer) {
-                attributeContainer.attribute(Category.CATEGORY_ATTRIBUTE, category);
-            }
-        });
+        dependency.attributes(attributeContainer -> attributeContainer.attribute(Category.CATEGORY_ATTRIBUTE, category));
     }
 
     /**

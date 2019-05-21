@@ -71,12 +71,7 @@ public class DynamicModulesClassPathProvider implements ClassPathProvider {
 
     private ClassPath removeJaxbIfIncludedInCurrentJdk(ClassPath classpath) {
         if (!javaVersion.isJava9Compatible()) {
-            return classpath.removeIf(new Spec<File>() {
-                @Override
-                public boolean isSatisfiedBy(File file) {
-                    return file.getName().startsWith("jaxb-impl-");
-                }
-            });
+            return classpath.removeIf(file -> file.getName().startsWith("jaxb-impl-"));
         }
         return classpath;
     }

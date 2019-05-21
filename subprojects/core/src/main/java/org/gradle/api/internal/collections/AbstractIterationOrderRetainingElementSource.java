@@ -146,12 +146,7 @@ abstract public class AbstractIterationOrderRetainingElementSource<T> implements
     Element<T> cachingElement(ProviderInternal<? extends T> provider) {
         final Element<T> element = new Element<T>(provider.getType(), new ElementFromProvider<T>(provider), realizeAction);
         if (provider instanceof ChangingValue) {
-            ((ChangingValue<T>) provider).onValueChange(new Action<T>() {
-                @Override
-                public void execute(T previousValue) {
-                    clearCachedElement(element);
-                }
-            });
+            ((ChangingValue<T>) provider).onValueChange(previousValue -> clearCachedElement(element));
         }
         return element;
     }
@@ -159,12 +154,7 @@ abstract public class AbstractIterationOrderRetainingElementSource<T> implements
     Element<T> cachingElement(CollectionProviderInternal<T, ? extends Iterable<T>> provider) {
         final Element<T> element = new Element<T>(provider.getElementType(), new ElementsFromCollectionProvider<T>(provider), realizeAction);
         if (provider instanceof ChangingValue) {
-            ((ChangingValue<Iterable<T>>)provider).onValueChange(new Action<Iterable<T>>() {
-                @Override
-                public void execute(Iterable<T> previousValues) {
-                    clearCachedElement(element);
-                }
-            });
+            ((ChangingValue<Iterable<T>>)provider).onValueChange(previousValues -> clearCachedElement(element));
         }
         return element;
     }

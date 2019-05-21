@@ -52,12 +52,7 @@ public class BuildEnvironmentReportTask extends DefaultTask {
     DependencyReportRenderer renderer = new AsciiDependencyReportRenderer();
 
     public BuildEnvironmentReportTask() {
-        getOutputs().upToDateWhen(new Spec<Task>() {
-            @Override
-            public boolean isSatisfiedBy(Task element) {
-                return false;
-            }
-        });
+        getOutputs().upToDateWhen(element -> false);
     }
 
     @Inject
@@ -72,14 +67,11 @@ public class BuildEnvironmentReportTask extends DefaultTask {
 
     @TaskAction
     public void generate() {
-        ProjectReportGenerator projectReportGenerator = new ProjectReportGenerator() {
-            @Override
-            public void generateReport(Project project) throws IOException {
-                Configuration configuration = getProject().getBuildscript().getConfigurations().getByName(ScriptHandler.CLASSPATH_CONFIGURATION);
-                renderer.startConfiguration(configuration);
-                renderer.render(configuration);
-                renderer.completeConfiguration(configuration);
-            }
+        ProjectReportGenerator projectReportGenerator = project -> {
+            Configuration configuration = getProject().getBuildscript().getConfigurations().getByName(ScriptHandler.CLASSPATH_CONFIGURATION);
+            renderer.startConfiguration(configuration);
+            renderer.render(configuration);
+            renderer.completeConfiguration(configuration);
         };
 
         ReportGenerator reportGenerator = new ReportGenerator(renderer, getClientMetaData(), null,

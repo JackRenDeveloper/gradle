@@ -35,16 +35,8 @@ public abstract class AbstractCompositeSpecTest {
 
     @Before
     public void setUp() {
-        spec1 = new Spec<Object>() {
-            public boolean isSatisfiedBy(Object o) {
-                return false;
-            }
-        };
-        spec2 = new Spec<Object>() {
-            public boolean isSatisfiedBy(Object o) {
-                return false;
-            }
-        };
+        spec1 = (Spec<Object>) o -> false;
+        spec2 = (Spec<Object>) o -> false;
     }
 
     @Test
@@ -56,11 +48,7 @@ public abstract class AbstractCompositeSpecTest {
     protected Spec<Object>[] createAtomicElements(boolean... satisfies) {
         List<Spec<Object>> result = new ArrayList<Spec<Object>>();
         for (final boolean satisfy : satisfies) {
-            result.add(new Spec<Object>() {
-                public boolean isSatisfiedBy(Object o) {
-                    return satisfy;
-                }
-            });
+            result.add(o -> satisfy);
         }
         return result.toArray(new Spec[0]);
     }

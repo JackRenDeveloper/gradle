@@ -94,11 +94,7 @@ public class DefaultCppBinary extends DefaultNativeBinary implements CppBinary {
         nativeRuntime.getAttributes().attribute(MachineArchitecture.ARCHITECTURE_ATTRIBUTE, identity.getTargetMachine().getArchitecture());
         nativeRuntime.extendsFrom(getImplementationDependencies());
 
-        ArtifactView includeDirs = includePathConfiguration.getIncoming().artifactView(viewConfiguration -> {
-           viewConfiguration.attributes(attributeContainer -> {
-               attributeContainer.attribute(ArtifactAttributes.ARTIFACT_FORMAT, ArtifactTypeDefinition.DIRECTORY_TYPE);
-           });
-        });
+        ArtifactView includeDirs = includePathConfiguration.getIncoming().artifactView(viewConfiguration -> viewConfiguration.attributes(attributeContainer -> attributeContainer.attribute(ArtifactAttributes.ARTIFACT_FORMAT, ArtifactTypeDefinition.DIRECTORY_TYPE)));
         includePath = componentHeaderDirs.plus(includeDirs.getFiles());
         linkLibraries = nativeLink;
         runtimeLibraries = nativeRuntime;

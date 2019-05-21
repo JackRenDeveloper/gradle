@@ -52,9 +52,7 @@ public class ConsumerProvidedVariantFinder {
 
     public ConsumerVariantMatchResult collectConsumerVariants(AttributeContainerInternal actual, AttributeContainerInternal requested) {
         AttributeSpecificCache toCache = getCache(requested);
-        return toCache.transforms.computeIfAbsent(actual, attrs -> {
-            return findProducersFor(actual, requested).asImmutable();
-        });
+        return toCache.transforms.computeIfAbsent(actual, attrs -> findProducersFor(actual, requested).asImmutable());
     }
 
     private ConsumerVariantMatchResult findProducersFor(AttributeContainerInternal actual, AttributeContainerInternal requested) {

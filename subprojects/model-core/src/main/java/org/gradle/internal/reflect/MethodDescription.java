@@ -92,12 +92,7 @@ public class MethodDescription {
     }
 
     public MethodDescription takes(Type[] parameterTypes) {
-        this.parameterTypes = Iterables.transform(Arrays.asList(parameterTypes), new Function<Type, String>() {
-            @Override
-            public String apply(Type input) {
-                return typeName(input);
-            }
-        });
+        this.parameterTypes = Iterables.transform(Arrays.asList(parameterTypes), input -> typeName(input));
         return this;
     }
 

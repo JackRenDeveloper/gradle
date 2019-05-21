@@ -47,12 +47,7 @@ public class SimpleModelRuleDescriptor extends AbstractModelRuleDescriptor {
     }
 
     public SimpleModelRuleDescriptor(final String descriptor, final Object... args) {
-        this(new Factory<String>() {
-            @Override
-            public String create() {
-                return String.format(descriptor, args);
-            }
-        });
+        this(() -> String.format(descriptor, args));
     }
 
     private String getDescriptor() {

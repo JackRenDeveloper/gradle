@@ -26,12 +26,7 @@ public class DefaultReservedFileSystemLocationRegistry implements ReservedFileSy
     private final FileHierarchySet reservedFileSystemLocations;
 
     public DefaultReservedFileSystemLocationRegistry(List<ReservedFileSystemLocation> registeredReservedFileSystemLocations) {
-        this.reservedFileSystemLocations = DefaultFileHierarchySet.of(Iterables.transform(registeredReservedFileSystemLocations, new Function<ReservedFileSystemLocation, File>() {
-            @Override
-            public File apply(ReservedFileSystemLocation input) {
-                return input.getReservedFileSystemLocation().get().getAsFile();
-            }
-        }));
+        this.reservedFileSystemLocations = DefaultFileHierarchySet.of(Iterables.transform(registeredReservedFileSystemLocations, input -> input.getReservedFileSystemLocation().get().getAsFile()));
     }
 
     @Override

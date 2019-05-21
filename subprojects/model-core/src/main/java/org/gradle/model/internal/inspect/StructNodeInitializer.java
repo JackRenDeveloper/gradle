@@ -69,16 +69,13 @@ public class StructNodeInitializer<T> implements NodeInitializer {
                     ModelReference.of(ManagedProxyFactory.class),
                     ModelReference.of(TypeConverter.class)
                 ),
-                new BiAction<MutableModelNode, List<ModelView<?>>>() {
-                    @Override
-                    public void execute(MutableModelNode modelNode, List<ModelView<?>> modelViews) {
-                        ManagedProxyFactory proxyFactory = getInstance(modelViews.get(0), ManagedProxyFactory.class);
-                        TypeConverter typeConverter = getInstance(modelViews, 1, TypeConverter.class);
-                        for (StructSchema<?> viewSchema : bindings.getDeclaredViewSchemas()) {
-                            addProjection(modelNode, viewSchema, proxyFactory, typeConverter);
-                        }
-                        modelNode.addProjection(new ModelElementProjection(bindings.getPublicSchema().getType()));
+                (modelNode, modelViews) -> {
+                    ManagedProxyFactory proxyFactory = getInstance(modelViews.get(0), ManagedProxyFactory.class);
+                    TypeConverter typeConverter = getInstance(modelViews, 1, TypeConverter.class);
+                    for (StructSchema<?> viewSchema : bindings.getDeclaredViewSchemas()) {
+                        addProjection(modelNode, viewSchema, proxyFactory, typeConverter);
                     }
+                    modelNode.addProjection(new ModelElementProjection(bindings.getPublicSchema().getType()));
                 }
             ))
             .put(ModelActionRole.Create, DirectNodeInputUsingModelAction.of(subject, descriptor,
@@ -86,15 +83,12 @@ public class StructNodeInitializer<T> implements NodeInitializer {
                     ModelReference.of(ModelSchemaStore.class),
                     ModelReference.of(NodeInitializerRegistry.class)
                 ),
-                new BiAction<MutableModelNode, List<ModelView<?>>>() {
-                    @Override
-                    public void execute(MutableModelNode modelNode, List<ModelView<?>> modelViews) {
-                        ModelSchemaStore schemaStore = getInstance(modelViews, 0, ModelSchemaStore.class);
-                        NodeInitializerRegistry nodeInitializerRegistry = getInstance(modelViews, 1, NodeInitializerRegistry.class);
+                (modelNode, modelViews) -> {
+                    ModelSchemaStore schemaStore = getInstance(modelViews, 0, ModelSchemaStore.class);
+                    NodeInitializerRegistry nodeInitializerRegistry = getInstance(modelViews, 1, NodeInitializerRegistry.class);
 
-                        addPropertyLinks(modelNode, schemaStore, nodeInitializerRegistry);
-                        initializePrivateData(modelNode);
-                    }
+                    addPropertyLinks(modelNode, schemaStore, nodeInitializerRegistry);
+                    initializePrivateData(modelNode);
                 }
             ))
             .build();

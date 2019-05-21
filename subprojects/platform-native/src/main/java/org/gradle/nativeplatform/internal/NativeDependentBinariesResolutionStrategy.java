@@ -141,12 +141,7 @@ public class NativeDependentBinariesResolutionStrategy extends AbstractDependent
 
     private State getState() {
         try {
-            return stateCache.get("state", new Callable<State>() {
-                @Override
-                public State call() {
-                    return buildState();
-                }
-            });
+            return stateCache.get("state", () -> buildState());
         } catch (ExecutionException ex) {
             throw new RuntimeException("Unable to build native dependent binaries resolution cache", ex);
         }
@@ -229,20 +224,14 @@ public class NativeDependentBinariesResolutionStrategy extends AbstractDependent
     }
 
     private void onCircularDependencies(final State state, final Deque<NativeBinarySpecInternal> stack, NativeBinarySpecInternal target) {
-        GraphNodeRenderer<NativeBinarySpecInternal> nodeRenderer = new GraphNodeRenderer<NativeBinarySpecInternal>() {
-            @Override
-            public void renderTo(NativeBinarySpecInternal node, StyledTextOutput output) {
-                String name = DependentComponentsUtils.getBuildScopedTerseName(node.getId());
-                output.withStyle(StyledTextOutput.Style.Identifier).text(name);
-            }
+        GraphNodeRenderer<NativeBinarySpecInternal> nodeRenderer = (node, output) -> {
+            String name = DependentComponentsUtils.getBuildScopedTerseName(node.getId());
+            output.withStyle(StyledTextOutput.Style.Identifier).text(name);
         };
-        DirectedGraph<NativeBinarySpecInternal, Object> directedGraph = new DirectedGraph<NativeBinarySpecInternal, Object>() {
-            @Override
-            public void getNodeValues(NativeBinarySpecInternal node, Collection<? super Object> values, Collection<? super NativeBinarySpecInternal> connectedNodes) {
-                for (NativeBinarySpecInternal binary : stack) {
-                    if (state.getDependents(node).contains(binary)) {
-                        connectedNodes.add(binary);
-                    }
+        DirectedGraph<NativeBinarySpecInternal, Object> directedGraph = (node, values, connectedNodes) -> {
+            for (NativeBinarySpecInternal binary : stack) {
+                if (state.getDependents(node).contains(binary)) {
+                    connectedNodes.add(binary);
                 }
             }
         };

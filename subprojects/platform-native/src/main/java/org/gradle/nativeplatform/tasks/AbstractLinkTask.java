@@ -75,15 +75,12 @@ public abstract class AbstractLinkTask extends DefaultTask implements ObjectFile
         this.source = getProject().files();
         this.linkedFile = objectFactory.fileProperty();
         this.destinationDirectory = objectFactory.directoryProperty();
-        destinationDirectory.set(linkedFile.map(new Transformer<Directory, RegularFile>() {
-            @Override
-            public Directory transform(RegularFile regularFile) {
-                // TODO: Get rid of destinationDirectory entirely and replace it with a
-                // collection of link outputs
-                DirectoryProperty dirProp = objectFactory.directoryProperty();
-                dirProp.set(regularFile.getAsFile().getParentFile());
-                return dirProp.get();
-            }
+        destinationDirectory.set(linkedFile.map(regularFile -> {
+            // TODO: Get rid of destinationDirectory entirely and replace it with a
+            // collection of link outputs
+            DirectoryProperty dirProp = objectFactory.directoryProperty();
+            dirProp.set(regularFile.getAsFile().getParentFile());
+            return dirProp.get();
         }));
         this.linkerArgs = getProject().getObjects().listProperty(String.class);
         this.debuggable = objectFactory.property(Boolean.class).value(false);

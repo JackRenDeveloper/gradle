@@ -193,25 +193,19 @@ public class AntlrTask extends SourceTask {
         final Set<File> sourceFiles = getSource().getFiles();
         final MutableBoolean cleanRebuild = new MutableBoolean();
         inputs.outOfDate(
-            new Action<InputFileDetails>() {
-                @Override
-                public void execute(InputFileDetails details) {
-                    File input = details.getFile();
-                    if (sourceFiles.contains(input)) {
-                        grammarFiles.add(input);
-                    } else {
-                        // classpath change?
-                        cleanRebuild.set(true);
-                    }
+            details -> {
+                File input = details.getFile();
+                if (sourceFiles.contains(input)) {
+                    grammarFiles.add(input);
+                } else {
+                    // classpath change?
+                    cleanRebuild.set(true);
                 }
             }
         );
-        inputs.removed(new Action<InputFileDetails>() {
-            @Override
-            public void execute(InputFileDetails details) {
-                if (details.isRemoved()) {
-                    cleanRebuild.set(true);
-                }
+        inputs.removed(details -> {
+            if (details.isRemoved()) {
+                cleanRebuild.set(true);
             }
         });
         if (cleanRebuild.get()) {

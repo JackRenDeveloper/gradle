@@ -177,12 +177,9 @@ public class PatternSet implements AntBuilderAware, PatternFilterable {
 
         @Override
         public Object addToAntBuilder(Object node, String childNodeName) {
-            return PatternSetAntBuilderDelegate.and(node, new Action<Object>() {
-                @Override
-                public void execute(Object andNode) {
-                    IntersectionPatternSet.super.addToAntBuilder(andNode, null);
-                    other.addToAntBuilder(andNode, null);
-                }
+            return PatternSetAntBuilderDelegate.and(node, andNode -> {
+                IntersectionPatternSet.super.addToAntBuilder(andNode, null);
+                other.addToAntBuilder(andNode, null);
             });
         }
 

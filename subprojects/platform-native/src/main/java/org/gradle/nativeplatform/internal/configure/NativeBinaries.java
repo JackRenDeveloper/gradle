@@ -74,12 +74,7 @@ public class NativeBinaries {
         backingNode.applyToLink(ModelActionRole.Defaults, DirectNodeNoInputsModelAction.of(
             ModelReference.of(binaryPath, NativeBinarySpec.class),
             new SimpleModelRuleDescriptor("initialize binary " + binaryPath),
-            new BiAction<MutableModelNode, NativeBinarySpec>() {
-                @Override
-                public void execute(MutableModelNode mutableModelNode, NativeBinarySpec nativeBinarySpec) {
-                    initialize(nativeBinarySpec, namingScheme, resolver, fileCollectionFactory, platform, buildType, flavor);
-                }
-            }
+            (mutableModelNode, nativeBinarySpec) -> initialize(nativeBinarySpec, namingScheme, resolver, fileCollectionFactory, platform, buildType, flavor)
         ));
         binaries.named(name, NativeBinaryRules.class);
     }

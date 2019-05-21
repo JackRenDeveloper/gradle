@@ -44,12 +44,7 @@ public class CrossProcessSynchronizingCache<K, V> implements MultiProcessSafePer
     @Nullable
     @Override
     public V get(final K key) {
-        return cacheAccess.withFileLock(new Factory<V>() {
-            @Override
-            public V create() {
-                return target.get(key);
-            }
-        });
+        return cacheAccess.withFileLock(() -> target.get(key));
     }
 
     @Override

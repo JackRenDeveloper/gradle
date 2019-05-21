@@ -58,12 +58,7 @@ public class DaemonJvmOptions extends JvmOptions {
     }
 
     public Map<String, Object> getImmutableDaemonProperties() {
-        return CollectionUtils.filter(immutableSystemProperties, new Spec<Map.Entry<String, Object>>() {
-            @Override
-            public boolean isSatisfiedBy(Map.Entry<String, Object> element) {
-                return IMMUTABLE_DAEMON_SYSTEM_PROPERTIES.contains(element.getKey());
-            }
-        });
+        return CollectionUtils.filter(immutableSystemProperties, element -> IMMUTABLE_DAEMON_SYSTEM_PROPERTIES.contains(element.getKey()));
     }
 
     @Override

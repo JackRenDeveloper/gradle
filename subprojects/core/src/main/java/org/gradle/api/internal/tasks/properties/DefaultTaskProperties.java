@@ -119,13 +119,7 @@ public class DefaultTaskProperties implements TaskProperties {
                 }
             }
         };
-        this.hasSourceFiles = Iterables.any(inputFileProperties, new Predicate<InputFilePropertySpec>() {
-            @Override
-            @SuppressWarnings("NullableProblems")
-            public boolean apply(InputFilePropertySpec property) {
-                return property.isSkipWhenEmpty();
-            }
-        });
+        this.hasSourceFiles = Iterables.any(inputFileProperties, property -> property.isSkipWhenEmpty());
         this.outputFiles = new CompositeFileCollection() {
             @Override
             public String getDisplayName() {

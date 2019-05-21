@@ -144,21 +144,18 @@ class DefaultPomDependenciesConverter implements PomDependenciesConverter {
         if (dependency instanceof ProjectDependency) {
             // TODO: Combine with ProjectDependencyPublicationResolver
             final ProjectDependency projectDependency = (ProjectDependency) dependency;
-            ((ProjectInternal)projectDependency.getDependencyProject()).getMutationState().withMutableState(new Runnable() {
-                @Override
-                public void run() {
-                    String artifactId = determineProjectDependencyArtifactId(projectDependency);
+            ((ProjectInternal)projectDependency.getDependencyProject()).getMutationState().withMutableState(() -> {
+                String artifactId = determineProjectDependencyArtifactId(projectDependency);
 
-                    Configuration dependencyConfig = getTargetConfiguration(projectDependency);
+                Configuration dependencyConfig = getTargetConfiguration(projectDependency);
 
-                    for (PublishArtifact artifactToPublish : dependencyConfig.getAllArtifacts()) {
-                        Dependency mavenDependency = new Dependency();
-                        mavenDependency.setArtifactId(artifactId);
-                        if (artifactToPublish.getClassifier() != null && !artifactToPublish.getClassifier().equals("")) {
-                            mavenDependency.setClassifier(artifactToPublish.getClassifier());
-                        }
-                        mavenDependencies.add(mavenDependency);
+                for (PublishArtifact artifactToPublish : dependencyConfig.getAllArtifacts()) {
+                    Dependency mavenDependency = new Dependency();
+                    mavenDependency.setArtifactId(artifactId);
+                    if (artifactToPublish.getClassifier() != null && !artifactToPublish.getClassifier().equals("")) {
+                        mavenDependency.setClassifier(artifactToPublish.getClassifier());
                     }
+                    mavenDependencies.add(mavenDependency);
                 }
             });
         } else {
@@ -227,12 +224,7 @@ class DefaultPomDependenciesConverter implements PomDependenciesConverter {
         // Consequence is that we use the highest version and the exclusions of highest priority dependency when de-duplicating
         // Use Maven Dependency "Management Key" as discriminator: groupId:artifactId:type:classifier
         final String candidateManagementKey = candidate.getManagementKey();
-        return Iterables.tryFind(dependencies, new Predicate<Dependency>() {
-            @Override
-            public boolean apply(Dependency dependency) {
-                return dependency.getManagementKey().equals(candidateManagementKey);
-            }
-        });
+        return Iterables.tryFind(dependencies, dependency -> dependency.getManagementKey().equals(candidateManagementKey));
     }
 
     private String mapToMavenSyntax(String version) {

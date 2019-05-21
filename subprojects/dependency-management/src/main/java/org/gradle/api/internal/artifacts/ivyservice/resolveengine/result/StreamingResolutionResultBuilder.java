@@ -86,12 +86,9 @@ public class StreamingResolutionResultBuilder implements DependencyGraphVisitor 
 
     @Override
     public void finish(final DependencyGraphNode root) {
-        store.write(new BinaryStore.WriteAction() {
-            @Override
-            public void write(Encoder encoder) throws IOException {
-                encoder.writeByte(ROOT);
-                encoder.writeSmallLong(root.getOwner().getResultId());
-            }
+        store.write(encoder -> {
+            encoder.writeByte(ROOT);
+            encoder.writeSmallLong(root.getOwner().getResultId());
         });
     }
 
@@ -99,25 +96,19 @@ public class StreamingResolutionResultBuilder implements DependencyGraphVisitor 
     public void visitNode(DependencyGraphNode node) {
         final DependencyGraphComponent component = node.getOwner();
         if (visitedComponents.add(component.getResultId())) {
-            store.write(new BinaryStore.WriteAction() {
-                @Override
-                public void write(Encoder encoder) throws IOException {
-                    encoder.writeByte(COMPONENT);
-                    componentResultSerializer.write(encoder, component);
-                }
+            store.write(encoder -> {
+                encoder.writeByte(COMPONENT);
+                componentResultSerializer.write(encoder, component);
             });
         }
     }
 
     @Override
     public void visitSelector(final DependencyGraphSelector selector) {
-        store.write(new BinaryStore.WriteAction() {
-            @Override
-            public void write(Encoder encoder) throws IOException {
-                encoder.writeByte(SELECTOR);
-                encoder.writeSmallLong(selector.getResultId());
-                componentSelectorSerializer.write(encoder, selector.getRequested());
-            }
+        store.write(encoder -> {
+            encoder.writeByte(SELECTOR);
+            encoder.writeSmallLong(selector.getResultId());
+            componentSelectorSerializer.write(encoder, selector.getRequested());
         });
     }
 
@@ -128,19 +119,16 @@ public class StreamingResolutionResultBuilder implements DependencyGraphVisitor 
             .filter(dep -> !dep.isTargetVirtualPlatform())
             .collect(Collectors.toList());
         if (!dependencies.isEmpty()) {
-            store.write(new BinaryStore.WriteAction() {
-                @Override
-                public void write(Encoder encoder) throws IOException {
-                    encoder.writeByte(DEPENDENCY);
-                    encoder.writeSmallLong(fromComponent);
-                    encoder.writeSmallInt(dependencies.size());
-                    for (DependencyGraphEdge dependency : dependencies) {
-                        dependencyResultSerializer.write(encoder, dependency);
-                        if (dependency.getFailure() != null) {
-                            //by keying the failures only by 'requested' we lose some precision
-                            //at edge case we'll lose info about a different exception if we have different failure for the same requested version
-                            failures.put(dependency.getRequested(), dependency.getFailure());
-                        }
+            store.write(encoder -> {
+                encoder.writeByte(DEPENDENCY);
+                encoder.writeSmallLong(fromComponent);
+                encoder.writeSmallInt(dependencies.size());
+                for (DependencyGraphEdge dependency : dependencies) {
+                    dependencyResultSerializer.write(encoder, dependency);
+                    if (dependency.getFailure() != null) {
+                        //by keying the failures only by 'requested' we lose some precision
+                        //at edge case we'll lose info about a different exception if we have different failure for the same requested version
+                        failures.put(dependency.getRequested(), dependency.getFailure());
                     }
                 }
             });
@@ -173,22 +161,14 @@ public class StreamingResolutionResultBuilder implements DependencyGraphVisitor 
         @Override
         public ResolvedComponentResult create() {
             synchronized (lock) {
-                return cache.load(new Factory<ResolvedComponentResult>() {
-                    @Override
-                    public ResolvedComponentResult create() {
+                return cache.load(() -> {
+                    try {
+                        return data.read(decoder -> deserialize(decoder));
+                    } finally {
                         try {
-                            return data.read(new BinaryStore.ReadAction<ResolvedComponentResult>() {
-                                @Override
-                                public ResolvedComponentResult read(Decoder decoder) throws IOException {
-                                    return deserialize(decoder);
-                                }
-                            });
-                        } finally {
-                            try {
-                                data.close();
-                            } catch (IOException e) {
-                                throw throwAsUncheckedException(e);
-                            }
+                            data.close();
+                        } catch (IOException e) {
+                            throw throwAsUncheckedException(e);
                         }
                     }
                 });

@@ -28,12 +28,7 @@ public class DefaultUserCodeApplicationContext implements UserCodeApplicationCon
 
     private static final AtomicLong COUNTER = new AtomicLong();
 
-    final ThreadLocal<Deque<UserCodeApplicationId>> stackThreadLocal = new ThreadLocal<Deque<UserCodeApplicationId>>() {
-        @Override
-        protected Deque<UserCodeApplicationId> initialValue() {
-            return new ArrayDeque<UserCodeApplicationId>();
-        }
-    };
+    final ThreadLocal<Deque<UserCodeApplicationId>> stackThreadLocal = ThreadLocal.withInitial(() -> new ArrayDeque<UserCodeApplicationId>());
 
     @Override
     @Nullable
@@ -70,16 +65,13 @@ public class DefaultUserCodeApplicationContext implements UserCodeApplicationCon
             return action;
         }
 
-        return new Action<T>() {
-            @Override
-            public void execute(T t) {
-                Deque<UserCodeApplicationId> stack = stackThreadLocal.get();
-                stack.push(id);
-                try {
-                    action.execute(t);
-                } finally {
-                    stack.pop();
-                }
+        return t -> {
+            Deque<UserCodeApplicationId> stack = stackThreadLocal.get();
+            stack.push(id);
+            try {
+                action.execute(t);
+            } finally {
+                stack.pop();
             }
         };
     }

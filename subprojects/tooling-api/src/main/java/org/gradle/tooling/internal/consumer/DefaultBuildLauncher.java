@@ -102,12 +102,7 @@ public class DefaultBuildLauncher extends AbstractLongRunningOperation<DefaultBu
 
     private class ResultHandlerAdapter extends org.gradle.tooling.internal.consumer.ResultHandlerAdapter<Void> {
         public ResultHandlerAdapter(ResultHandler<? super Void> handler) {
-            super(handler, new ExceptionTransformer(new Transformer<String, Throwable>() {
-                @Override
-                public String transform(Throwable throwable) {
-                    return String.format("Could not execute build using %s.", connection.getDisplayName());
-                }
-            }));
+            super(handler, new ExceptionTransformer(throwable -> String.format("Could not execute build using %s.", connection.getDisplayName())));
         }
     }
 }

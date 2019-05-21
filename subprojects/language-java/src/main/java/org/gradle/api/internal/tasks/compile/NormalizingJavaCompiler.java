@@ -55,12 +55,7 @@ public class NormalizingJavaCompiler implements Compiler<JavaCompileSpec> {
     private void resolveAndFilterSourceFiles(JavaCompileSpec spec) {
         // this mimics the behavior of the Ant javac task (and therefore AntJavaCompiler),
         // which silently excludes files not ending in .java
-        Iterable<File> javaOnly = Iterables.filter(spec.getSourceFiles(), new Predicate<File>() {
-            @Override
-            public boolean apply(@Nullable File input) {
-                return hasExtension(input, ".java");
-            }
-        });
+        Iterable<File> javaOnly = Iterables.filter(spec.getSourceFiles(), input -> hasExtension(input, ".java"));
 
         spec.setSourceFiles(ImmutableSet.copyOf(javaOnly));
     }

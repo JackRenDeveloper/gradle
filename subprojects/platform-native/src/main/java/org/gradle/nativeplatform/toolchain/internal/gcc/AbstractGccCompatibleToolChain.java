@@ -281,12 +281,7 @@ public abstract class AbstractGccCompatibleToolChain extends ExtendableToolChain
         @Override
         public void apply(DefaultGccPlatformToolChain gccToolChain) {
             gccToolChain.compilerProbeArgs("-m32");
-            Action<List<String>> m32args = new Action<List<String>>() {
-                @Override
-                public void execute(List<String> args) {
-                    args.add("-m32");
-                }
-            };
+            Action<List<String>> m32args = args -> args.add("-m32");
             gccToolChain.getCppCompiler().withArguments(m32args);
             gccToolChain.getcCompiler().withArguments(m32args);
             gccToolChain.getObjcCompiler().withArguments(m32args);
@@ -310,12 +305,7 @@ public abstract class AbstractGccCompatibleToolChain extends ExtendableToolChain
         @Override
         public void apply(DefaultGccPlatformToolChain gccToolChain) {
             gccToolChain.compilerProbeArgs("-m64");
-            Action<List<String>> m64args = new Action<List<String>>() {
-                @Override
-                public void execute(List<String> args) {
-                    args.add("-m64");
-                }
-            };
+            Action<List<String>> m64args = args -> args.add("-m64");
             gccToolChain.getCppCompiler().withArguments(m64args);
             gccToolChain.getcCompiler().withArguments(m64args);
             gccToolChain.getObjcCompiler().withArguments(m64args);

@@ -81,11 +81,8 @@ public class ZipCopyAction implements CopyAction {
         }
 
         try {
-            IoActions.withResource(zipOutStr, new Action<ZipOutputStream>() {
-                @Override
-                public void execute(ZipOutputStream outputStream) {
-                    stream.process(new StreamAction(outputStream, encoding));
-                }
+            IoActions.withResource(zipOutStr, outputStream -> {
+                stream.process(new StreamAction(outputStream, encoding));
             });
         } catch (UncheckedIOException e) {
             if (e.getCause() instanceof Zip64RequiredException) {

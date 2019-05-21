@@ -68,19 +68,16 @@ public class ModuleMetadataStore {
 
     public LocallyAvailableResource putModuleDescriptor(ModuleComponentAtRepositoryKey component, final ModuleComponentResolveMetadata metadata) {
         String[] filePath = getFilePath(component);
-        return metaDataStore.add(PATH_JOINER.join(filePath), new Action<File>() {
-            @Override
-            public void execute(File moduleDescriptorFile) {
+        return metaDataStore.add(PATH_JOINER.join(filePath), moduleDescriptorFile -> {
+            try {
+                KryoBackedEncoder encoder = new KryoBackedEncoder(new FileOutputStream(moduleDescriptorFile));
                 try {
-                    KryoBackedEncoder encoder = new KryoBackedEncoder(new FileOutputStream(moduleDescriptorFile));
-                    try {
-                        moduleMetadataSerializer.write(encoder, metadata, Maps.newHashMap());
-                    } finally {
-                        encoder.close();
-                    }
-                } catch (Exception e) {
-                    throw UncheckedException.throwAsUncheckedException(e);
+                    moduleMetadataSerializer.write(encoder, metadata, Maps.newHashMap());
+                } finally {
+                    encoder.close();
                 }
+            } catch (Exception e) {
+                throw UncheckedException.throwAsUncheckedException(e);
             }
         });
     }

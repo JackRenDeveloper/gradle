@@ -185,12 +185,7 @@ class RuntimeShadedJarCreator {
 
         // We need to sort here since the file order obtained from the filesystem
         // can change between machines and we always want to have the same shaded jars.
-        Collections.sort(fileVisitDetails, new Comparator<FileVisitDetails>() {
-            @Override
-            public int compare(FileVisitDetails o1, FileVisitDetails o2) {
-                return o1.getPath().compareTo(o2.getPath());
-            }
-        });
+        Collections.sort(fileVisitDetails, (o1, o2) -> o1.getPath().compareTo(o2.getPath()));
 
         for (FileVisitDetails details : fileVisitDetails) {
             try {

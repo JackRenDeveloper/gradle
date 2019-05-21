@@ -127,12 +127,7 @@ public class DefaultMethodRuleDefinition<T, R, S> implements MethodRuleDefinitio
     }
 
     private ModelReference<?> reference(List<Annotation> annotations, int i) {
-        Path pathAnnotation = (Path) findFirst(annotations, new Spec<Annotation>() {
-            @Override
-            public boolean isSatisfiedBy(Annotation element) {
-                return element.annotationType().equals(Path.class);
-            }
-        });
+        Path pathAnnotation = (Path) findFirst(annotations, element -> element.annotationType().equals(Path.class));
         ModelPath path = pathAnnotation == null ? null : ModelPath.path(pathAnnotation.value());
         ModelType<?> cast = method.getGenericParameterTypes().get(i);
         return ModelReference.of(path, cast, PARAMETER_DESC[i]);

@@ -124,12 +124,7 @@ public class DistributionFactory {
                 final DistributionInstaller installer = new DistributionInstaller(progressLoggerFactory, progressListener, clock);
                 File installDir;
                 try {
-                    cancellationToken.addCallback(new Runnable() {
-                        @Override
-                        public void run() {
-                            installer.cancel();
-                        }
-                    });
+                    cancellationToken.addCallback(() -> installer.cancel());
                     installDir = installer.install(determineRealUserHomeDir(userHomeDir), wrapperConfiguration);
                 } catch (CancellationException e) {
                     throw new BuildCancelledException(String.format("Distribution download cancelled. Using distribution from '%s'.", wrapperConfiguration.getDistribution()), e);
@@ -180,12 +175,7 @@ public class DistributionFactory {
             if (!libDir.isDirectory()) {
                 throw new IllegalArgumentException(String.format("The specified %s does not appear to contain a Gradle distribution.", locationDisplayName));
             }
-            File[] files = libDir.listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File file) {
-                    return hasExtension(file, ".jar");
-                }
-            });
+            File[] files = libDir.listFiles(file -> hasExtension(file, ".jar"));
             // Make sure file order is always consistent
             Arrays.sort(files);
             return DefaultClassPath.of(files);

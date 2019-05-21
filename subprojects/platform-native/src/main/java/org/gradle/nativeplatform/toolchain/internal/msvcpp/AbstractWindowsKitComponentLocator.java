@@ -66,12 +66,9 @@ public abstract class AbstractWindowsKitComponentLocator<T extends WindowsKitIns
     private static final String REGISTRY_KIT_10 = "KitsRoot10";
 
     final Pattern windowsKitVersionPattern = Pattern.compile("[0-9]+(\\.[0-9]+)*");
-    private final FileFilter windowsKitVersionFilter = new FileFilter() {
-        @Override
-        public boolean accept(File pathname) {
-            Matcher matcher = windowsKitVersionPattern.matcher(pathname.getName());
-            return pathname.isDirectory() && matcher.matches();
-        }
+    private final FileFilter windowsKitVersionFilter = pathname -> {
+        Matcher matcher = windowsKitVersionPattern.matcher(pathname.getName());
+        return pathname.isDirectory() && matcher.matches();
     };
 
     AbstractWindowsKitComponentLocator(WindowsRegistry windowsRegistry) {
@@ -112,12 +109,7 @@ public abstract class AbstractWindowsKitComponentLocator<T extends WindowsKitIns
             return new ComponentNotFound<T>("Could not locate a " + getDisplayName() + " installation using the Windows registry.");
         }
         return new ComponentNotFound<T>("Could not locate a " + getDisplayName() + " installation. None of the following locations contain a valid installation",
-            CollectionUtils.collect(brokenComponents, new Transformer<String, File>() {
-                @Override
-                public String transform(File file) {
-                    return file.getAbsolutePath();
-                }
-            }));
+            CollectionUtils.collect(brokenComponents, file -> file.getAbsolutePath()));
     }
 
     private T getBestComponent() {

@@ -45,11 +45,6 @@ class ProgressListenerAdapter implements ProgressListenerVersion1 {
 
     private void fireChangeEvent() {
         final String description = stack.isEmpty() ? "" : stack.getFirst();
-        listeners.getSource().statusChanged(new ProgressEvent() {
-            @Override
-            public String getDescription() {
-                return description;
-            }
-        });
+        listeners.getSource().statusChanged(() -> description);
     }
 }

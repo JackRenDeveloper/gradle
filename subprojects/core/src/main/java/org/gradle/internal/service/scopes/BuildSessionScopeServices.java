@@ -110,13 +110,10 @@ public class BuildSessionScopeServices extends DefaultServiceRegistry {
     public BuildSessionScopeServices(final ServiceRegistry parent, CrossBuildSessionScopeServices crossBuildSessionScopeServices, final StartParameter startParameter, BuildRequestMetaData buildRequestMetaData, ClassPath injectedPluginClassPath, BuildCancellationToken buildCancellationToken, BuildClientMetaData buildClientMetaData, BuildEventConsumer buildEventConsumer) {
         super(parent);
         addProvider(crossBuildSessionScopeServices);
-        register(new Action<ServiceRegistration>() {
-            @Override
-            public void execute(ServiceRegistration registration) {
-                add(StartParameter.class, startParameter);
-                for (PluginServiceRegistry pluginServiceRegistry : parent.getAll(PluginServiceRegistry.class)) {
-                    pluginServiceRegistry.registerBuildSessionServices(registration);
-                }
+        register(registration -> {
+            add(StartParameter.class, startParameter);
+            for (PluginServiceRegistry pluginServiceRegistry : parent.getAll(PluginServiceRegistry.class)) {
+                pluginServiceRegistry.registerBuildSessionServices(registration);
             }
         });
         add(InjectedPluginClasspath.class, new InjectedPluginClasspath(injectedPluginClassPath));

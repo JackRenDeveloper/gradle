@@ -65,16 +65,13 @@ public class GenerateSchemeFileTask extends XmlGeneratorTask<XcodeSchemeFile> {
 
     private void configureBuildAction(XcodeSchemeFile.BuildAction action) {
         for (final XcodeTarget xcodeTarget : xcodeProject.getTargets()) {
-            action.entry(new Action<XcodeSchemeFile.BuildActionEntry>() {
-                @Override
-                public void execute(XcodeSchemeFile.BuildActionEntry buildActionEntry) {
-                    buildActionEntry.setBuildForAnalysing(!xcodeTarget.isUnitTest());
-                    buildActionEntry.setBuildForArchiving(!xcodeTarget.isUnitTest());
-                    buildActionEntry.setBuildForProfiling(!xcodeTarget.isUnitTest());
-                    buildActionEntry.setBuildForRunning(!xcodeTarget.isUnitTest());
-                    buildActionEntry.setBuildForTesting(xcodeTarget.isUnitTest());
-                    buildActionEntry.setBuildableReference(toBuildableReference(xcodeTarget));
-                }
+            action.entry(buildActionEntry -> {
+                buildActionEntry.setBuildForAnalysing(!xcodeTarget.isUnitTest());
+                buildActionEntry.setBuildForArchiving(!xcodeTarget.isUnitTest());
+                buildActionEntry.setBuildForProfiling(!xcodeTarget.isUnitTest());
+                buildActionEntry.setBuildForRunning(!xcodeTarget.isUnitTest());
+                buildActionEntry.setBuildForTesting(xcodeTarget.isUnitTest());
+                buildActionEntry.setBuildableReference(toBuildableReference(xcodeTarget));
             });
         }
     }
@@ -85,13 +82,10 @@ public class GenerateSchemeFileTask extends XmlGeneratorTask<XcodeSchemeFile> {
         for (final XcodeTarget xcodeTarget : xcodeProject.getTargets()) {
             if (xcodeTarget.isUnitTest()) {
                 action.setBuildConfiguration(TEST_DEBUG);
-                action.entry(new Action<XcodeSchemeFile.TestableEntry>() {
-                    @Override
-                    public void execute(XcodeSchemeFile.TestableEntry testableEntry) {
-                        testableEntry.setSkipped(false);
-                        XcodeSchemeFile.BuildableReference buildableReference = toBuildableReference(xcodeTarget);
-                        testableEntry.setBuildableReference(buildableReference);
-                    }
+                action.entry(testableEntry -> {
+                    testableEntry.setSkipped(false);
+                    XcodeSchemeFile.BuildableReference buildableReference = toBuildableReference(xcodeTarget);
+                    testableEntry.setBuildableReference(buildableReference);
                 });
             }
         }

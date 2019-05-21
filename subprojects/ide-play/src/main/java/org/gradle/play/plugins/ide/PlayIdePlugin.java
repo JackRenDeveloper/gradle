@@ -35,12 +35,7 @@ public class PlayIdePlugin implements Plugin<Project> {
     @Override
     public void apply(final Project project) {
         SingleMessageLogger.nagUserOfPluginReplacedWithExternalOne("Play Ide", "org.gradle.playframework-ide");
-        project.getPluginManager().withPlugin("idea", new Action<AppliedPlugin>() {
-            @Override
-            public void execute(AppliedPlugin appliedPlugin) {
-                project.getPluginManager().apply(PlayIdeaPlugin.class);
-            }
-        });
+        project.getPluginManager().withPlugin("idea", appliedPlugin -> project.getPluginManager().apply(PlayIdeaPlugin.class));
         // TODO: Configure 'eclipse' projects too
     }
 }

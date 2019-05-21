@@ -65,11 +65,7 @@ public class ConventionAwareHelperTest {
 
     @Test
     public void canMapPropertiesUsingCallable() {
-        Callable callable = new Callable() {
-            public Object call() throws Exception {
-                return toList("a");
-            }
-        };
+        Callable callable = () -> toList("a");
 
         conventionAware.map("list1", callable);
         assertThat(conventionAware.getConventionValue(null, "list1", false), equalTo((Object) toList("a")));
@@ -82,40 +78,26 @@ public class ConventionAwareHelperTest {
     }
 
     @Test (expected = InvalidUserDataException.class) public void cannotMapUnknownProperty() {
-        conventionAware.map("unknownProp", new Callable<Object>() {
-            public Object call() throws Exception {
-                throw new UnsupportedOperationException();
-            }
+        conventionAware.map("unknownProp", () -> {
+            throw new UnsupportedOperationException();
         });
     }
 
     @Test public void canOverwriteProperties() {
         final List conventionList1 = toList("a");
-        conventionAware.map("list1", new Callable<Object>() {
-            public Object call() {
-                return conventionList1;
-            }
-        });
+        conventionAware.map("list1", () -> conventionList1);
         assertSame(conventionList1, conventionAware.getConventionValue(null, "list1", false));
         List expectedList1 = toList("b");
         assertSame(expectedList1, conventionAware.getConventionValue(expectedList1, "list1", true));
     }
 
     @Test public void canEnableCachingOfPropertyValue() {
-        conventionAware.map("list1", new Callable<Object>() {
-            public Object call() {
-                return toList("a");
-            }
-        }).cache();
+        conventionAware.map("list1", () -> toList("a")).cache();
         assertSame(conventionAware.getConventionValue(null, "list1", false), conventionAware.getConventionValue(null, "list1", false));
     }
 
     @Test public void notCachesPropertyValuesByDefault() {
-        conventionAware.map("list1", new Callable<Object>() {
-            public Object call() {
-                return toList("a");
-            }
-        });
+        conventionAware.map("list1", () -> toList("a"));
 
         Object value1 = conventionAware.getConventionValue(null, "list1", false);
         Object value2 = conventionAware.getConventionValue(null, "list1", false);
@@ -124,10 +106,8 @@ public class ConventionAwareHelperTest {
     }
 
     @Test public void doesNotUseMappingWhenExplicitValueProvided() {
-        conventionAware.map("list1", new Callable<Object>() {
-            public Object call() {
-                throw new UnsupportedOperationException();
-            }
+        conventionAware.map("list1", () -> {
+            throw new UnsupportedOperationException();
         });
 
         List<Object> value = emptyList();
@@ -135,20 +115,12 @@ public class ConventionAwareHelperTest {
     }
 
     @Test public void usesConventionValueForEmptyCollection() {
-        conventionAware.map("list1", new Callable<Object>() {
-            public Object call() {
-                return toList("a");
-            }
-        });
+        conventionAware.map("list1", () -> toList("a"));
         assertThat(conventionAware.getConventionValue(emptyList(), "list1", false), equalTo((Object) toList("a")));
     }
 
     @Test public void usesConventionValueForEmptyMap() {
-        conventionAware.map("map1", new Callable<Object>() {
-            public Object call() {
-                return toMap("a", "b");
-            }
-        });
+        conventionAware.map("map1", () -> toMap("a", "b"));
         assertThat(conventionAware.getConventionValue(emptyMap(), "map1", false), equalTo((Object) toMap("a", "b")));
     }
 }

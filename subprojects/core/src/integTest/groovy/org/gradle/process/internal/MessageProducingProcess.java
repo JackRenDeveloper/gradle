@@ -25,12 +25,10 @@ import java.util.concurrent.CountDownLatch;
 public class MessageProducingProcess implements Action<WorkerProcessContext>, Serializable {
     public void execute(WorkerProcessContext workerProcessContext) {
         final CountDownLatch latch = new CountDownLatch(1);
-        new Thread(new Runnable() {
-            public void run() {
-                latch.countDown();
-                for (int i=0; i<1000; i++) {
-                    System.out.println("message " + i + "...");
-                }
+        new Thread(() -> {
+            latch.countDown();
+            for (int i=0; i<1000; i++) {
+                System.out.println("message " + i + "...");
             }
         }).start();
         try {

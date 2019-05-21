@@ -44,12 +44,7 @@ public class DependencyInjectingServiceLoader {
         final Instantiator instantiator = dependencyInjectingInstantiator();
         return transform(
             implementationsOf(serviceType, classLoader),
-            new Function<Class<? extends T>, T>() {
-                @Override
-                public T apply(Class<? extends T> serviceImplementation) {
-                    return instantiator.newInstance(serviceImplementation);
-                }
-            });
+            serviceImplementation -> instantiator.newInstance(serviceImplementation));
     }
 
     private <T> List<Class<? extends T>> implementationsOf(Class<T> serviceType, ClassLoader classLoader) {

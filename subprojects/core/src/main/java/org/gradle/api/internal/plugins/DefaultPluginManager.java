@@ -103,15 +103,12 @@ public class DefaultPluginManager implements PluginManagerInternal {
         }
 
         plugins.put(pluginClass, plugin);
-        return new Runnable() {
-            @Override
-            public void run() {
-                // Take a copy because adding to an idMappings value may result in new mappings being added (i.e. ConcurrentModificationException)
-                Iterable<PluginId> pluginIds = Lists.newArrayList(idMappings.keySet());
-                for (PluginId id : pluginIds) {
-                    if (plugin.isAlsoKnownAs(id)) {
-                        idMappings.get(id).add(new PluginWithId(id, pluginClass));
-                    }
+        return () -> {
+            // Take a copy because adding to an idMappings value may result in new mappings being added (i.e. ConcurrentModificationException)
+            Iterable<PluginId> pluginIds = Lists.newArrayList(idMappings.keySet());
+            for (PluginId id : pluginIds) {
+                if (plugin.isAlsoKnownAs(id)) {
+                    idMappings.get(id).add(new PluginWithId(id, pluginClass));
                 }
             }
         };
@@ -153,12 +150,7 @@ public class DefaultPluginManager implements PluginManagerInternal {
             } else {
                 final Runnable adder = addPluginInternal(plugin);
                 if (adder != null) {
-                    userCodeApplicationContext.apply(new Action<UserCodeApplicationId>() {
-                        @Override
-                        public void execute(UserCodeApplicationId userCodeApplicationId) {
-                            buildOperationExecutor.run(new AddPluginBuildOperation(adder, plugin, pluginIdStr, pluginClass, userCodeApplicationId));
-                        }
-                    });
+                    userCodeApplicationContext.apply(userCodeApplicationId -> buildOperationExecutor.run(new AddPluginBuildOperation(adder, plugin, pluginIdStr, pluginClass, userCodeApplicationId)));
                 }
             }
         } catch (PluginApplicationException e) {
@@ -246,12 +238,7 @@ public class DefaultPluginManager implements PluginManagerInternal {
 
     @Override
     public void withPlugin(final String id, final Action<? super AppliedPlugin> action) {
-        Action<PluginWithId> wrappedAction = new Action<PluginWithId>() {
-            @Override
-            public void execute(PluginWithId pluginWithId) {
-                action.execute(pluginWithId.asAppliedPlugin());
-            }
-        };
+        Action<PluginWithId> wrappedAction = pluginWithId -> action.execute(pluginWithId.asAppliedPlugin());
         pluginsForId(id).all(wrappedAction);
     }
 

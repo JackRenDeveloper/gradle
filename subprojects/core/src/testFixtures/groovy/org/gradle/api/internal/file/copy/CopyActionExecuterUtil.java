@@ -24,12 +24,9 @@ import java.util.Arrays;
 public class CopyActionExecuterUtil {
 
     public static WorkResult visit(CopyAction visitor, final Iterable<FileCopyDetailsInternal> details) {
-        return visitor.execute(new CopyActionProcessingStream() {
-            @Override
-            public void process(CopyActionProcessingStreamAction action) {
-                for (FileCopyDetailsInternal detailsInternal : details) {
-                    action.processFile(detailsInternal);
-                }
+        return visitor.execute(action -> {
+            for (FileCopyDetailsInternal detailsInternal : details) {
+                action.processFile(detailsInternal);
             }
         });
     }

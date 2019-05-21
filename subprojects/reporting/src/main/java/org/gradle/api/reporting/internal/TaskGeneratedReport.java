@@ -26,12 +26,7 @@ public abstract class TaskGeneratedReport extends SimpleReport {
     }
 
     public TaskGeneratedReport(final String name, OutputType outputType, final Task task) {
-        super(name, new Factory<String>() {
-            @Override
-            public String create() {
-                return getDisplayName(name, task);
-            }
-        }, outputType, task.getProject());
+        super(name, () -> getDisplayName(name, task), outputType, task.getProject());
     }
 
 }

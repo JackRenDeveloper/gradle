@@ -49,12 +49,7 @@ public class DependentComponentsRenderableDependency extends AbstractRenderableD
         if (componentSpec instanceof VariantComponentSpec) {
             // Consider variant aware components with no buildable binaries as non-buildables
             VariantComponentSpec variantComponentSpec = (VariantComponentSpec) componentSpec;
-            buildable = Iterables.any(variantComponentSpec.getBinaries().values(), new Predicate<BinarySpec>() {
-                @Override
-                public boolean apply(BinarySpec binarySpec) {
-                    return binarySpec.isBuildable();
-                }
-            });
+            buildable = Iterables.any(variantComponentSpec.getBinaries().values(), binarySpec -> binarySpec.isBuildable());
         }
         boolean testSuite = false;
         return new DependentComponentsRenderableDependency(id, name, description, buildable, testSuite, children);

@@ -115,12 +115,7 @@ public class GlobalScopeServices extends WorkerSharedGlobalScopeServices {
 
     public GlobalScopeServices(final boolean longLiving, ClassPath additionalModuleClassPath) {
         super(additionalModuleClassPath);
-        this.environment = new GradleBuildEnvironment() {
-            @Override
-            public boolean isLongLivingProcess() {
-                return longLiving;
-            }
-        };
+        this.environment = () -> longLiving;
     }
 
     void configure(ServiceRegistration registration, ClassLoaderRegistry classLoaderRegistry) {

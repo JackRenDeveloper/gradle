@@ -53,12 +53,7 @@ public class GroupedTransformationFixture {
     }
 
     public String getOutput() {
-        List<String> nonEmptyOutputs = filter(outputs, new Spec<String>() {
-            @Override
-            public boolean isSatisfiedBy(String string) {
-                return !string.equals("");
-            }
-        });
+        List<String> nonEmptyOutputs = filter(outputs, string -> !string.equals(""));
         return join("\n", nonEmptyOutputs);
     }
 

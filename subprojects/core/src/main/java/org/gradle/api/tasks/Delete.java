@@ -75,12 +75,7 @@ public class Delete extends ConventionTask implements DeleteSpec {
         Deleter deleter = new Deleter(getFileResolver(), getFileSystem(), getClock());
         final boolean innerFollowSymLinks = followSymlinks;
         final Object[] paths = delete.toArray();
-        setDidWork(deleter.delete(new Action<DeleteSpec>(){
-            @Override
-            public void execute(DeleteSpec deleteSpec) {
-                deleteSpec.delete(paths).setFollowSymlinks(innerFollowSymLinks);
-            }
-        }).getDidWork());
+        setDidWork(deleter.delete(deleteSpec -> deleteSpec.delete(paths).setFollowSymlinks(innerFollowSymLinks)).getDidWork());
     }
 
     /**

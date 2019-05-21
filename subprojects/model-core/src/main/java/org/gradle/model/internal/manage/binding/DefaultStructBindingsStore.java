@@ -145,14 +145,11 @@ public class DefaultStructBindingsStore implements StructBindingsStore {
     }
 
     private static <T> void validateTypeHierarchy(final StructBindingValidationProblemCollector problems, ModelType<T> type) {
-        walkTypeHierarchy(type.getConcreteClass(), new TypeVisitor<T>() {
-            @Override
-            public void visitType(Class<? super T> type) {
-                if (type.isAnnotationPresent(Managed.class)) {
-                    validateManagedType(problems, type);
-                }
-                validateType(problems, type);
+        walkTypeHierarchy(type.getConcreteClass(), type1 -> {
+            if (type1.isAnnotationPresent(Managed.class)) {
+                validateManagedType(problems, type1);
             }
+            validateType(problems, type1);
         });
     }
 
@@ -320,12 +317,9 @@ public class DefaultStructBindingsStore implements StructBindingsStore {
         // We need to also implement all the interfaces of the delegate type because otherwise
         // BinaryContainer won't recognize managed binaries as BinarySpecInternal
         if (delegateType != null) {
-            walkTypeHierarchy(delegateType.getConcreteClass(), new TypeVisitor<D>() {
-                @Override
-                public void visitType(Class<? super D> type) {
-                    if (type.isInterface()) {
-                        viewsToImplement.add(ModelType.of(type));
-                    }
+            walkTypeHierarchy(delegateType.getConcreteClass(), type -> {
+                if (type.isInterface()) {
+                    viewsToImplement.add(ModelType.of(type));
                 }
             });
         }
@@ -415,23 +409,13 @@ public class DefaultStructBindingsStore implements StructBindingsStore {
         return indexBySignature(
             Sets.filter(
                 publicSchema.getAllMethods(),
-                new Predicate<WeaklyTypeReferencingMethod<?, ?>>() {
-                    @Override
-                    public boolean apply(WeaklyTypeReferencingMethod<?, ?> weakMethod) {
-                        return !Modifier.isAbstract(weakMethod.getModifiers());
-                    }
-                }
+                weakMethod -> !Modifier.isAbstract(weakMethod.getModifiers())
             )
         );
     }
 
     private static ImmutableMap<Wrapper<Method>, WeaklyTypeReferencingMethod<?, ?>> indexBySignature(Iterable<WeaklyTypeReferencingMethod<?, ?>> methods) {
-        return Maps.uniqueIndex(methods, new Function<WeaklyTypeReferencingMethod<?, ?>, Wrapper<Method>>() {
-            @Override
-            public Wrapper<Method> apply(WeaklyTypeReferencingMethod<?, ?> weakMethod) {
-                return SIGNATURE_EQUIVALENCE.wrap(weakMethod.getMethod());
-            }
-        });
+        return Maps.uniqueIndex(methods, weakMethod -> SIGNATURE_EQUIVALENCE.wrap(weakMethod.getMethod()));
     }
 
     private static Collection<WeaklyTypeReferencingMethod<?, ?>> collectImplementedMethods(Iterable<StructSchema<?>> implementedSchemas) {
@@ -499,12 +483,7 @@ public class DefaultStructBindingsStore implements StructBindingsStore {
     }
 
     private <T> Iterable<StructSchema<? extends T>> getStructSchemas(Iterable<? extends ModelType<? extends T>> types) {
-        return Iterables.transform(types, new Function<ModelType<? extends T>, StructSchema<? extends T>>() {
-            @Override
-            public StructSchema<? extends T> apply(ModelType<? extends T> type) {
-                return  getStructSchema(type);
-            }
-        });
+        return Iterables.transform(types, (Function<ModelType<? extends T>, StructSchema<? extends T>>) type -> getStructSchema(type));
     }
 
     <T> StructSchema<T> getStructSchema(ModelType<T> type) {

@@ -102,11 +102,9 @@ public class CppBasePlugin implements Plugin<Project> {
             binary.getCompileTask().set(compile);
         });
 
-        project.getComponents().withType(ProductionCppComponent.class, component -> {
-            project.afterEvaluate(p -> {
-                DefaultCppComponent componentInternal = (DefaultCppComponent) component;
-                publicationRegistry.registerPublication((ProjectInternal) project, new NativeProjectPublication(componentInternal.getDisplayName(), new SwiftPmTarget(component.getBaseName().get())));
-            });
-        });
+        project.getComponents().withType(ProductionCppComponent.class, component -> project.afterEvaluate(p -> {
+            DefaultCppComponent componentInternal = (DefaultCppComponent) component;
+            publicationRegistry.registerPublication((ProjectInternal) project, new NativeProjectPublication(componentInternal.getDisplayName(), new SwiftPmTarget(component.getBaseName().get())));
+        }));
     }
 }

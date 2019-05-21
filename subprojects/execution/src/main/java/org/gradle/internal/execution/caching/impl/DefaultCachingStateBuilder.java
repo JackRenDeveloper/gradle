@@ -131,9 +131,7 @@ public class DefaultCachingStateBuilder implements CachingStateBuilder {
 
         Hasher hasher = Hashing.newHasher();
         implementation.appendToHasher(hasher);
-        additionalImplementations.forEach(additionalImplementation -> {
-            additionalImplementation.appendToHasher(hasher);
-        });
+        additionalImplementations.forEach(additionalImplementation -> additionalImplementation.appendToHasher(hasher));
 
         inputValueFingerprints.forEach((propertyName, fingerprint) -> {
             hasher.putString(propertyName);

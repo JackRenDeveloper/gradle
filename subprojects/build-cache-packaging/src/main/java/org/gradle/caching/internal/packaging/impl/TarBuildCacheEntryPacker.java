@@ -83,12 +83,7 @@ public class TarBuildCacheEntryPacker implements BuildCacheEntryPacker {
     private static final String METADATA_PATH = "METADATA";
     private static final Pattern TREE_PATH = Pattern.compile("(missing-)?tree-([^/]+)(?:/(.*))?");
     private static final int BUFFER_SIZE = 64 * 1024;
-    static final ThreadLocal<byte[]> COPY_BUFFERS = new ThreadLocal<byte[]>() {
-        @Override
-        protected byte[] initialValue() {
-            return new byte[BUFFER_SIZE];
-        }
-    };
+    static final ThreadLocal<byte[]> COPY_BUFFERS = ThreadLocal.withInitial(() -> new byte[BUFFER_SIZE]);
 
     private final FileSystem fileSystem;
     private final StreamHasher streamHasher;
@@ -161,9 +156,7 @@ public class TarBuildCacheEntryPacker implements BuildCacheEntryPacker {
 
     private UnpackResult unpack(CacheableEntity entity, TarArchiveInputStream tarInput, OriginReader readOriginAction) throws IOException {
         ImmutableMap.Builder<String, CacheableTree> treesBuilder = ImmutableMap.builder();
-        entity.visitOutputTrees((name, type, root) -> {
-            treesBuilder.put(name, new CacheableTree(type, root));
-        });
+        entity.visitOutputTrees((name, type, root) -> treesBuilder.put(name, new CacheableTree(type, root)));
         ImmutableMap<String, CacheableTree> treesByName = treesBuilder.build();
 
         TarArchiveEntry tarEntry;

@@ -66,12 +66,7 @@ public class GccCompilerPlugin implements Plugin<Project> {
             final WorkerLeaseService workerLeaseService = serviceRegistry.get(WorkerLeaseService.class);
             final SystemLibraryDiscovery standardLibraryDiscovery = serviceRegistry.get(SystemLibraryDiscovery.class);
 
-            toolChainRegistry.registerFactory(Gcc.class, new NamedDomainObjectFactory<Gcc>() {
-                @Override
-                public Gcc create(String name) {
-                    return instantiator.newInstance(GccToolChain.class, instantiator, name, buildOperationExecutor, OperatingSystem.current(), fileResolver, execActionFactory, compilerOutputFileNamingSchemeFactory, metaDataProviderFactory, standardLibraryDiscovery, workerLeaseService);
-                }
-            });
+            toolChainRegistry.registerFactory(Gcc.class, name -> instantiator.newInstance(GccToolChain.class, instantiator, name, buildOperationExecutor, OperatingSystem.current(), fileResolver, execActionFactory, compilerOutputFileNamingSchemeFactory, metaDataProviderFactory, standardLibraryDiscovery, workerLeaseService));
             toolChainRegistry.registerDefaultToolChain(GccToolChain.DEFAULT_NAME, Gcc.class);
         }
 

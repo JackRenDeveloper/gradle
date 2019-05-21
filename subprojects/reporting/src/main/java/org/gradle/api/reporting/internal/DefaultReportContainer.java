@@ -33,23 +33,15 @@ import java.util.Map;
 import java.util.SortedMap;
 
 public class DefaultReportContainer<T extends Report> extends DefaultNamedDomainObjectSet<T> implements ReportContainer<T> {
-    private static final Action<Object> IMMUTABLE_VIOLATION_EXCEPTION = new Action<Object>() {
-        @Override
-        public void execute(Object arg) {
-            throw new ImmutableViolationException();
-        }
+    private static final Action<Object> IMMUTABLE_VIOLATION_EXCEPTION = arg -> {
+        throw new ImmutableViolationException();
     };
     private NamedDomainObjectSet<T> enabled;
 
     public DefaultReportContainer(Class<? extends T> type, Instantiator instantiator, CollectionCallbackActionDecorator callbackActionDecorator) {
         super(type, instantiator, Report.NAMER, callbackActionDecorator);
 
-        enabled = matching(new Spec<T>() {
-            @Override
-            public boolean isSatisfiedBy(T element) {
-                return element.isEnabled();
-            }
-        });
+        enabled = matching(element -> element.isEnabled());
     }
 
     @Override

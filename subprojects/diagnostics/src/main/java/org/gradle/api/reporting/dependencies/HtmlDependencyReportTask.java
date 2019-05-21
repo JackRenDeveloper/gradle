@@ -71,12 +71,7 @@ public class HtmlDependencyReportTask extends ConventionTask implements Reportin
     public HtmlDependencyReportTask() {
         reports = getObjectFactory().newInstance(DefaultDependencyReportContainer.class, this, getCallbackActionDecorator());
         reports.getHtml().setEnabled(true);
-        getOutputs().upToDateWhen(new Spec<Task>() {
-            @Override
-            public boolean isSatisfiedBy(Task element) {
-                return false;
-            }
-        });
+        getOutputs().upToDateWhen(element -> false);
     }
 
     @Nested

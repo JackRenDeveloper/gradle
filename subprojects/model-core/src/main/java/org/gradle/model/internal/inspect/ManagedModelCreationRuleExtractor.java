@@ -109,16 +109,13 @@ public class ManagedModelCreationRuleExtractor extends AbstractModelCreationRule
             if (modelSchema instanceof SpecializedMapSchema) {
                 registration.actions(SpecializedMapNodeInitializer.getActions(ModelReference.of(modelPath), descriptor, (SpecializedMapSchema<S, ?>) modelSchema));
             } else {
-                registration.action(ModelActionRole.Discover, Collections.singletonList(ModelReference.of(NODE_INITIALIZER_REGISTRY)), new BiAction<MutableModelNode, List<ModelView<?>>>() {
-                    @Override
-                    public void execute(MutableModelNode node, List<ModelView<?>> modelViews) {
-                        NodeInitializerRegistry nodeInitializerRegistry = (NodeInitializerRegistry) modelViews.get(0).getInstance();
-                        NodeInitializer initializer = getNodeInitializer(descriptor, modelSchema, nodeInitializerRegistry);
-                        for (Map.Entry<ModelActionRole, ModelAction> actionInRole : initializer.getActions(ModelReference.of(modelPath), descriptor).entries()) {
-                            ModelActionRole role = actionInRole.getKey();
-                            ModelAction action = actionInRole.getValue();
-                            node.applyToSelf(role, action);
-                        }
+                registration.action(ModelActionRole.Discover, Collections.singletonList(ModelReference.of(NODE_INITIALIZER_REGISTRY)), (node, modelViews) -> {
+                    NodeInitializerRegistry nodeInitializerRegistry = (NodeInitializerRegistry) modelViews.get(0).getInstance();
+                    NodeInitializer initializer = getNodeInitializer(descriptor, modelSchema, nodeInitializerRegistry);
+                    for (Map.Entry<ModelActionRole, ModelAction> actionInRole : initializer.getActions(ModelReference.of(modelPath), descriptor).entries()) {
+                        ModelActionRole role = actionInRole.getKey();
+                        ModelAction action = actionInRole.getValue();
+                        node.applyToSelf(role, action);
                     }
                 });
             }

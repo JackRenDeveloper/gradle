@@ -69,17 +69,14 @@ public abstract class JavaEcosystemSupport {
     private static void configureUsage(AttributesSchema attributesSchema, final ObjectFactory objectFactory) {
         AttributeMatchingStrategy<Usage> usageSchema = attributesSchema.attribute(Usage.USAGE_ATTRIBUTE);
         usageSchema.getCompatibilityRules().add(UsageCompatibilityRules.class);
-        usageSchema.getDisambiguationRules().add(UsageDisambiguationRules.class, new Action<ActionConfiguration>() {
-            @Override
-            public void execute(ActionConfiguration actionConfiguration) {
-                actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_API));
-                actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_API_JARS));
-                actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_API_CLASSES));
-                actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_RUNTIME));
-                actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_RUNTIME_JARS));
-                actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_RUNTIME_CLASSES));
-                actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_RUNTIME_RESOURCES));
-            }
+        usageSchema.getDisambiguationRules().add(UsageDisambiguationRules.class, actionConfiguration -> {
+            actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_API));
+            actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_API_JARS));
+            actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_API_CLASSES));
+            actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_RUNTIME));
+            actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_RUNTIME_JARS));
+            actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_RUNTIME_CLASSES));
+            actionConfiguration.params(objectFactory.named(Usage.class, Usage.JAVA_RUNTIME_RESOURCES));
         });
     }
 

@@ -32,12 +32,7 @@ public class AntJacocoReport extends AbstractAntJacocoReport<JacocoReportsContai
     public void execute(FileCollection classpath, final String projectName,
                         final FileCollection allClassesDirs, final FileCollection allSourcesDirs,
                         final FileCollection executionData, final JacocoReportsContainer reports) {
-        configureAntReportTask(classpath, new Action<GroovyObjectSupport>() {
-            @Override
-            public void execute(GroovyObjectSupport antBuilder) {
-                invokeJacocoReport(antBuilder, projectName, allClassesDirs, allSourcesDirs, executionData, reports);
-            }
-        });
+        configureAntReportTask(classpath, antBuilder -> invokeJacocoReport(antBuilder, projectName, allClassesDirs, allSourcesDirs, executionData, reports));
     }
 
     @Override
