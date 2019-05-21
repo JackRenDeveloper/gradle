@@ -57,10 +57,10 @@ import java.util.List;
 class JavaBasePluginRules implements Plugin<Project> {
 
     private final ModelRegistry modelRegistry;
-    private final Instantiator instantiator;
-    private final JavaToolChain javaToolChain;
-    private final NamedEntityInstantiator<Task> taskInstantiator;
-    private CollectionCallbackActionDecorator collectionCallbackActionDecorator;
+    final Instantiator instantiator;
+    final JavaToolChain javaToolChain;
+    final NamedEntityInstantiator<Task> taskInstantiator;
+    CollectionCallbackActionDecorator collectionCallbackActionDecorator;
 
     @Inject
     public JavaBasePluginRules(ModelRegistry modelRegistry, Instantiator instantiator, JavaToolChain javaToolChain, TaskInstantiator taskInstantiator, CollectionCallbackActionDecorator collectionCallbackActionDecorator) {
@@ -113,7 +113,7 @@ class JavaBasePluginRules implements Plugin<Project> {
         return new BridgedBinaries(binaries);
     }
 
-    private void attachTasksToBinary(ClassDirectoryBinarySpecInternal binary, Provider<? extends Task> compileTask, Provider<? extends Task> resourcesTask, Provider<? extends Task> classesTask) {
+    void attachTasksToBinary(ClassDirectoryBinarySpecInternal binary, Provider<? extends Task> compileTask, Provider<? extends Task> resourcesTask, Provider<? extends Task> classesTask) {
         binary.getTasks().addLater(compileTask);
         binary.getTasks().addLater(resourcesTask);
         binary.getTasks().addLater(classesTask);

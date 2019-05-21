@@ -100,6 +100,9 @@ public class DefaultResourceLockCoordinationService implements ResourceLockCoord
         private Set<ResourceLock> unlockedResources;
         boolean rollback;
 
+        DefaultResourceLockState() {
+        }
+
         @Override
         public void registerLocked(ResourceLock resourceLock) {
             if (!rollback && (unlockedResources == null || !unlockedResources.remove(resourceLock))) {

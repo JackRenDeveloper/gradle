@@ -231,7 +231,7 @@ public class InProcessGradleExecuter extends DaemonGradleExecuter {
         };
     }
 
-    private Collection<File> getExecHandleFactoryClasspath() {
+    Collection<File> getExecHandleFactoryClasspath() {
         Collection<File> classpath = cleanup(GLOBAL_SERVICES.get(ModuleRegistry.class).getAdditionalClassPath().getAsFiles());
         if (!OperatingSystem.current().isWindows()) {
             return classpath;
@@ -434,8 +434,11 @@ public class InProcessGradleExecuter extends DaemonGradleExecuter {
     }
 
     private static class BuildListenerImpl implements TaskExecutionGraphListener, InternalListener {
-        private final List<String> executedTasks = new CopyOnWriteArrayList<String>();
-        private final Set<String> skippedTasks = new CopyOnWriteArraySet<String>();
+        final List<String> executedTasks = new CopyOnWriteArrayList<String>();
+        final Set<String> skippedTasks = new CopyOnWriteArraySet<String>();
+
+        BuildListenerImpl() {
+        }
 
         @Override
         public void graphPopulated(TaskExecutionGraph graph) {
@@ -812,6 +815,9 @@ public class InProcessGradleExecuter extends DaemonGradleExecuter {
     }
 
     private static class TestClassLoaderRegistry implements PayloadClassLoaderRegistry {
+        TestClassLoaderRegistry() {
+        }
+
         @Override
         public SerializeMap newSerializeSession() {
             throw new UnsupportedOperationException();

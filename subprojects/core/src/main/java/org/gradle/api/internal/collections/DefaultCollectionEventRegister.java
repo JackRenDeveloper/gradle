@@ -25,7 +25,7 @@ import java.util.Set;
 public class DefaultCollectionEventRegister<T> implements CollectionEventRegister<T> {
 
     private final Class<? extends T> baseType;
-    private final CollectionCallbackActionDecorator decorator;
+    final CollectionCallbackActionDecorator decorator;
 
     private ImmutableActionSet<T> addActions = ImmutableActionSet.empty();
     private ImmutableActionSet<T> removeActions = ImmutableActionSet.empty();
@@ -91,17 +91,17 @@ public class DefaultCollectionEventRegister<T> implements CollectionEventRegiste
         registerRemoveDecoratedAction(decorate(removeAction));
     }
 
-    private Action<? super T> registerEagerAddDecoratedAction(Class<? extends T> type, Action<? super T> decorated) {
+    Action<? super T> registerEagerAddDecoratedAction(Class<? extends T> type, Action<? super T> decorated) {
         subscribe(type);
         return registerLazyAddDecoratedAction(decorated);
     }
 
-    private Action<? super T> registerLazyAddDecoratedAction(Action<? super T> decorated) {
+    Action<? super T> registerLazyAddDecoratedAction(Action<? super T> decorated) {
         addActions = addActions.add(decorated);
         return decorated;
     }
 
-    private void registerRemoveDecoratedAction(Action<? super T> decorated) {
+    void registerRemoveDecoratedAction(Action<? super T> decorated) {
         removeActions = removeActions.add(decorated);
     }
 
@@ -109,7 +109,7 @@ public class DefaultCollectionEventRegister<T> implements CollectionEventRegiste
         return decorator.decorate(action);
     }
 
-    private <S extends T> Action<? super T> decorate(Action<? super S> action, CollectionFilter<S> filter) {
+    <S extends T> Action<? super T> decorate(Action<? super S> action, CollectionFilter<S> filter) {
         return filter.filtered(decorator.decorate(action));
     }
 

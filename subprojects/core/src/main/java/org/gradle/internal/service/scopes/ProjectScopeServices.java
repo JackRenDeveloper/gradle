@@ -109,7 +109,7 @@ import java.util.function.Supplier;
  * Contains the services for a given project.
  */
 public class ProjectScopeServices extends DefaultServiceRegistry {
-    private final ProjectInternal project;
+    final ProjectInternal project;
     private final Factory<LoggingManagerInternal> loggingManagerInternalFactory;
 
     public ProjectScopeServices(final ServiceRegistry parent, final ProjectInternal project, Factory<LoggingManagerInternal> loggingManagerInternalFactory) {
@@ -286,6 +286,9 @@ public class ProjectScopeServices extends DefaultServiceRegistry {
     }
 
     private class ProjectBackedModuleMetaDataProvider implements DependencyMetaDataProvider {
+        ProjectBackedModuleMetaDataProvider() {
+        }
+
         @Override
         public Module getModule() {
             return new ProjectBackedModule(project);

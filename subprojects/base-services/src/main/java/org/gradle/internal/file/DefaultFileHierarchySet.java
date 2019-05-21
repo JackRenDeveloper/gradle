@@ -53,6 +53,9 @@ public class DefaultFileHierarchySet {
     }
 
     private static class EmptyFileHierarchySet implements FileHierarchySet {
+        EmptyFileHierarchySet() {
+        }
+
         @Override
         public boolean contains(File file) {
             return false;

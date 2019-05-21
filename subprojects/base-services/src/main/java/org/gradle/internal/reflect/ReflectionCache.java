@@ -45,6 +45,9 @@ public abstract class ReflectionCache<T extends CachedInvokable<?>> {
 
     private class WeaklyClassReferencingCache extends WeakHashMap<Class<?>, CacheEntry> {
 
+        WeaklyClassReferencingCache() {
+        }
+
         public T get(Class<?> receiver, Class<?>[] classes) {
             WeaklyClassReferencingCache cur = this;
             CacheEntry last = fetchNext(cur, receiver);
@@ -70,8 +73,11 @@ public abstract class ReflectionCache<T extends CachedInvokable<?>> {
     }
 
     private class CacheEntry {
-        private WeaklyClassReferencingCache table = new WeaklyClassReferencingCache();
-        private T value;
+        WeaklyClassReferencingCache table = new WeaklyClassReferencingCache();
+        T value;
+
+        CacheEntry() {
+        }
     }
 
 }

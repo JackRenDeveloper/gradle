@@ -144,7 +144,7 @@ public abstract class ClassLoaderUtils {
     private static class ReflectionClassDefiner implements ClassDefiner {
         private final JavaMethod<ClassLoader, Class> defineClassMethod;
 
-        private ReflectionClassDefiner() {
+        ReflectionClassDefiner() {
             defineClassMethod = JavaMethod.of(ClassLoader.class, Class.class, "defineClass", String.class, byte[].class, int.class, int.class);
         }
 
@@ -161,6 +161,9 @@ public abstract class ClassLoaderUtils {
 
     private static class LookupClassDefiner extends AbstractClassLoaderLookuper implements ClassDefiner {
         private MethodType defineClassMethodType = MethodType.methodType(Class.class, new Class[]{String.class, byte[].class, int.class, int.class});
+
+        LookupClassDefiner() {
+        }
 
         @Override
         @SuppressWarnings("unchecked")
@@ -189,6 +192,9 @@ public abstract class ClassLoaderUtils {
         private static final JavaMethod<ClassLoader, Package[]> GET_PACKAGES_METHOD = JavaMethod.of(ClassLoader.class, Package[].class, "getPackages");
         private static final JavaMethod<ClassLoader, Package> GET_PACKAGE_METHOD = JavaMethod.of(ClassLoader.class, Package.class, "getPackage", String.class);
 
+        ReflectionPackagesFetcher() {
+        }
+
         @Override
         public Package[] getPackages(ClassLoader classLoader) {
             return GET_PACKAGES_METHOD.invoke(classLoader);
@@ -203,6 +209,9 @@ public abstract class ClassLoaderUtils {
     private static class LookupPackagesFetcher extends AbstractClassLoaderLookuper implements ClassLoaderPackagesFetcher {
         private MethodType getPackagesMethodType = MethodType.methodType(Package[].class, new Class[]{});
         private MethodType getDefinedPackageMethodType = MethodType.methodType(Package.class, new Class[]{String.class});
+
+        LookupPackagesFetcher() {
+        }
 
         @Override
         public Package[] getPackages(ClassLoader classLoader) {

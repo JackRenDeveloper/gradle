@@ -276,6 +276,9 @@ public class DefaultBuildOperationExecutor implements BuildOperationExecutor, St
     }
 
     private interface BuildOperationExecutionListener {
+        BuildOperationExecutionListener() {
+        }
+
         void start();
         void stop();
         void close();

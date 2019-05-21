@@ -46,21 +46,21 @@ import java.util.List;
 import java.util.Set;
 
 public class DefaultConfigurationPublications implements ConfigurationPublications {
-    private final DisplayName displayName;
-    private final PublishArtifactSet artifacts;
-    private final PublishArtifactSetProvider allArtifacts;
-    private final AttributeContainerInternal parentAttributes;
-    private final AttributeContainerInternal attributes;
-    private final Instantiator instantiator;
-    private final NotationParser<Object, ConfigurablePublishArtifact> artifactNotationParser;
+    final DisplayName displayName;
+    final PublishArtifactSet artifacts;
+    final PublishArtifactSetProvider allArtifacts;
+    final AttributeContainerInternal parentAttributes;
+    final AttributeContainerInternal attributes;
+    final Instantiator instantiator;
+    final NotationParser<Object, ConfigurablePublishArtifact> artifactNotationParser;
     private final NotationParser<Object, Capability> capabilityNotationParser;
-    private final FileCollectionFactory fileCollectionFactory;
-    private final ImmutableAttributesFactory attributesFactory;
-    private CollectionCallbackActionDecorator collectionCallbackActionDecorator;
-    private FactoryNamedDomainObjectContainer<ConfigurationVariant> variants;
+    final FileCollectionFactory fileCollectionFactory;
+    final ImmutableAttributesFactory attributesFactory;
+    CollectionCallbackActionDecorator collectionCallbackActionDecorator;
+    FactoryNamedDomainObjectContainer<ConfigurationVariant> variants;
     private ConfigurationVariantFactory variantFactory;
     private List<Capability> capabilities;
-    private boolean canCreate = true;
+    boolean canCreate = true;
 
     public DefaultConfigurationPublications(DisplayName displayName,
                                             PublishArtifactSet artifacts,
@@ -193,6 +193,9 @@ public class DefaultConfigurationPublications implements ConfigurationPublicatio
     }
 
     private class ConfigurationVariantFactory implements NamedDomainObjectFactory<ConfigurationVariant> {
+        ConfigurationVariantFactory() {
+        }
+
         @Override
         public ConfigurationVariant create(String name) {
             if (canCreate) {

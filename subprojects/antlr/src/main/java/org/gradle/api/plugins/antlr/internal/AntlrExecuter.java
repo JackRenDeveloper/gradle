@@ -63,6 +63,9 @@ public class AntlrExecuter implements AntlrWorker {
     }
 
     private static class Antlr3Tool extends AntlrTool {
+        Antlr3Tool() {
+        }
+
         @Override
         int invoke(List<String> arguments, File inputDirectory) throws ClassNotFoundException {
             final Object backedObject = loadTool("org.antlr.Tool", null);
@@ -191,6 +194,9 @@ public class AntlrExecuter implements AntlrWorker {
     }
 
     private static class Antlr2Tool extends AntlrTool {
+        Antlr2Tool() {
+        }
+
         @Override
         public AntlrResult doProcess(AntlrSpec spec) throws ClassNotFoundException {
             XRef xref = new MetadataExtracter().extractMetadata(spec.getGrammarFiles());

@@ -44,14 +44,14 @@ public class DefaultConditionalExecutionQueue<T> implements ConditionalExecution
         Working, Stopped
     }
 
-    private final int maxWorkers;
-    private final ResourceLockCoordinationService coordinationService;
+    final int maxWorkers;
+    final ResourceLockCoordinationService coordinationService;
     private final ManagedExecutor executor;
-    private final Deque<ConditionalExecution<T>> queue = Lists.newLinkedList();
-    private final ReentrantLock lock = new ReentrantLock();
-    private final Condition workAvailable = lock.newCondition();
-    private QueueState queueState = QueueState.Working;
-    private volatile int workerCount;
+    final Deque<ConditionalExecution<T>> queue = Lists.newLinkedList();
+    final ReentrantLock lock = new ReentrantLock();
+    final Condition workAvailable = lock.newCondition();
+    QueueState queueState = QueueState.Working;
+    volatile int workerCount;
 
     public DefaultConditionalExecutionQueue(String displayName, int maxWorkers, ExecutorFactory executorFactory, ResourceLockCoordinationService coordinationService) {
         this.maxWorkers = maxWorkers;
@@ -123,6 +123,9 @@ public class DefaultConditionalExecutionQueue<T> implements ConditionalExecution
      * new items to arrive (if there are < max workers threads running) or exit, finishing the thread.
      */
     private class ExecutionRunner implements Runnable {
+        ExecutionRunner() {
+        }
+
         @Override
         public void run() {
             try {
