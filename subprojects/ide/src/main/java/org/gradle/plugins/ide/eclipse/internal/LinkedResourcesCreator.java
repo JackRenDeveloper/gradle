@@ -34,7 +34,7 @@ public class LinkedResourcesCreator {
         SourceSetContainer sourceSets = project.getConvention().getPlugin(JavaPluginConvention.class).getSourceSets();
         EclipseClasspath classpath = project.getExtensions().getByType(EclipseModel.class).getClasspath();
         File defaultOutputDir = classpath == null ? project.file(EclipsePluginConstants.DEFAULT_PROJECT_OUTPUT_PATH) : classpath.getDefaultOutputDir();
-        List<SourceFolder> sourceFolders = new SourceFoldersCreator().getBasicExternalSourceFolders(sourceSets, dir -> project.relativePath(dir), defaultOutputDir);
+        List<SourceFolder> sourceFolders = new SourceFoldersCreator().getBasicExternalSourceFolders(sourceSets, project::relativePath, defaultOutputDir);
         Set<Link> links = Sets.newLinkedHashSetWithExpectedSize(sourceFolders.size());
         for (SourceFolder sourceFolder : sourceFolders) {
             links.add(new Link(sourceFolder.getName(), "2", sourceFolder.getAbsolutePath(), null));

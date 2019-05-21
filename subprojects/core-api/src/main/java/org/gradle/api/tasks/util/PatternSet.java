@@ -18,6 +18,7 @@ package org.gradle.api.tasks.util;
 
 import com.google.common.collect.Sets;
 import groovy.lang.Closure;
+import org.gradle.api.Action;
 import org.gradle.api.file.FileTreeElement;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.specs.Specs;
@@ -176,9 +177,12 @@ public class PatternSet implements AntBuilderAware, PatternFilterable {
 
         @Override
         public Object addToAntBuilder(Object node, String childNodeName) {
-            return PatternSetAntBuilderDelegate.and(node, andNode -> {
-                IntersectionPatternSet.super.addToAntBuilder(andNode, null);
-                other.addToAntBuilder(andNode, null);
+            return PatternSetAntBuilderDelegate.and(node, new Action<Object>() {
+                @Override
+                public void execute(Object andNode) {
+                    IntersectionPatternSet.super.addToAntBuilder(andNode, null);
+                    other.addToAntBuilder(andNode, null);
+                }
             });
         }
 

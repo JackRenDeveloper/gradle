@@ -46,7 +46,7 @@ public class SimpleStateCache<T> implements PersistentStateCache<T> {
 
     @Override
     public T get() {
-        return fileAccess.readFile((Factory<T>) () -> deserialize());
+        return fileAccess.readFile((Factory<T>) this::deserialize);
     }
 
     @Override

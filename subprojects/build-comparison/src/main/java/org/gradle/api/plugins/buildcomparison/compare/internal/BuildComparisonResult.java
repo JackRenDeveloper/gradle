@@ -55,7 +55,7 @@ public class BuildComparisonResult {
         if (!getUncomparedSourceOutcomes().isEmpty() || !getUncomparedTargetOutcomes().isEmpty()) {
             return false;
         } else {
-            return CollectionUtils.every(comparisons, comparisonResult -> comparisonResult.isOutcomesAreIdentical());
+            return CollectionUtils.every(comparisons, BuildOutcomeComparisonResult::isOutcomesAreIdentical);
         }
     }
 }

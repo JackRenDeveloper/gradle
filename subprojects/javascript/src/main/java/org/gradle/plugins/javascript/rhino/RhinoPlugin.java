@@ -49,7 +49,7 @@ public class RhinoPlugin implements Plugin<Project> {
         conventionMapping.map("version", (Callable<String>) () -> RhinoExtension.DEFAULT_RHINO_DEPENDENCY_VERSION);
 
         project.getTasks().withType(RhinoShellExec.class, task -> {
-            task.getConventionMapping().map("classpath", (Callable<FileCollection>) () -> rhinoExtension.getClasspath());
+            task.getConventionMapping().map("classpath", (Callable<FileCollection>) rhinoExtension::getClasspath);
             task.getConventionMapping().map("main", (Callable<String>) () -> RhinoExtension.RHINO_SHELL_MAIN);
             task.setClasspath(rhinoExtension.getClasspath());
         });

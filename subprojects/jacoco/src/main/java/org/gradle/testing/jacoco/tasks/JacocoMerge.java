@@ -126,6 +126,6 @@ public class JacocoMerge extends JacocoBase {
      * @param tasks one or more tasks to merge
      */
     public void executionData(TaskCollection tasks) {
-        tasks.all((Action<Task>) task -> executionData(task));
+        tasks.all((Action<Task>) this::executionData);
     }
 }

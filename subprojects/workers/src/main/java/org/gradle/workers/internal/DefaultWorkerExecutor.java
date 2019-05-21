@@ -160,7 +160,7 @@ public class DefaultWorkerExecutor implements WorkerExecutor {
 
     DaemonForkOptions getDaemonForkOptions(Class<?> actionClass, WorkerConfiguration configuration) {
         validateWorkerConfiguration(configuration);
-        Iterable<Class<?>> paramTypes = CollectionUtils.collect(configuration.getParams(), o -> o.getClass());
+        Iterable<Class<?>> paramTypes = CollectionUtils.collect(configuration.getParams(), Object::getClass);
         return toDaemonOptions(actionClass, paramTypes, configuration.getForkOptions(), configuration.getClasspath());
     }
 

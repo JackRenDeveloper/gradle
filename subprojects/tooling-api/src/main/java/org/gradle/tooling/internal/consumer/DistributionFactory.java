@@ -123,7 +123,7 @@ public class DistributionFactory {
                 final DistributionInstaller installer = new DistributionInstaller(progressLoggerFactory, progressListener, clock);
                 File installDir;
                 try {
-                    cancellationToken.addCallback(() -> installer.cancel());
+                    cancellationToken.addCallback(installer::cancel);
                     installDir = installer.install(determineRealUserHomeDir(userHomeDir), wrapperConfiguration);
                 } catch (CancellationException e) {
                     throw new BuildCancelledException(String.format("Distribution download cancelled. Using distribution from '%s'.", wrapperConfiguration.getDistribution()), e);

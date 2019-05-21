@@ -71,9 +71,9 @@ public class DefaultCachePolicy implements CachePolicy {
 
     @Override
     public void setOffline() {
-        eachDependency(dependencyResolutionControl -> dependencyResolutionControl.useCachedResult());
-        eachModule(moduleResolutionControl -> moduleResolutionControl.useCachedResult());
-        eachArtifact(artifactResolutionControl -> artifactResolutionControl.useCachedResult());
+        eachDependency(ResolutionControl::useCachedResult);
+        eachModule(ResolutionControl::useCachedResult);
+        eachArtifact(ResolutionControl::useCachedResult);
     }
 
     @Override

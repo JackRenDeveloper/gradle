@@ -51,7 +51,7 @@ public class WeaklyTypeReferencingMethod<T, R> {
         this.declaringType = declaringType;
         this.returnType = returnType;
         this.name = method.getName();
-        paramTypes = ImmutableList.copyOf(Iterables.transform(Arrays.asList(method.getGenericParameterTypes()), (Function<Type, ModelType<?>>) type -> ModelType.of(type)));
+        paramTypes = ImmutableList.copyOf(Iterables.transform(Arrays.asList(method.getGenericParameterTypes()), (Function<Type, ModelType<?>>) ModelType::of));
         modifiers = method.getModifiers();
     }
 
@@ -103,7 +103,7 @@ public class WeaklyTypeReferencingMethod<T, R> {
     }
 
     public Method getMethod() {
-        Class<?>[] paramTypesArray = Iterables.toArray(Iterables.transform(paramTypes, (Function<ModelType<?>, Class<?>>) modelType -> modelType.getRawClass()), Class.class);
+        Class<?>[] paramTypesArray = Iterables.toArray(Iterables.transform(paramTypes, (Function<ModelType<?>, Class<?>>) ModelType::getRawClass), Class.class);
         try {
             return declaringType.getRawClass().getDeclaredMethod(name, paramTypesArray);
         } catch (NoSuchMethodException e) {
@@ -151,7 +151,7 @@ public class WeaklyTypeReferencingMethod<T, R> {
         return String.format("%s.%s(%s)",
             declaringType.getDisplayName(),
             name,
-            Joiner.on(", ").join(Iterables.transform(paramTypes, paramType -> paramType.getDisplayName()))
+            Joiner.on(", ").join(Iterables.transform(paramTypes, ModelType::getDisplayName))
         );
     }
 }

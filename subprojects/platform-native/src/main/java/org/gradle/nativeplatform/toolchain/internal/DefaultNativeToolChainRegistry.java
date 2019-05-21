@@ -39,7 +39,7 @@ public class DefaultNativeToolChainRegistry extends DefaultPolymorphicDomainObje
     public DefaultNativeToolChainRegistry(Instantiator instantiator, CollectionCallbackActionDecorator collectionCallbackActionDecorator) {
         super(NativeToolChain.class, instantiator, collectionCallbackActionDecorator);
         whenObjectAdded(toolChain -> searchOrder.add((NativeToolChainInternal) toolChain));
-        whenObjectRemoved(toolChain -> searchOrder.remove(toolChain));
+        whenObjectRemoved(searchOrder::remove);
     }
 
     @Override

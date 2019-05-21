@@ -77,9 +77,7 @@ public class JacocoPlugin implements Plugin<ProjectInternal> {
         configureAgentDependencies(agent, extension);
         configureTaskClasspathDefaults(extension);
         applyToDefaultTasks(extension);
-        DeprecationLogger.whileDisabled(() -> {
-            configureDefaultOutputPathForJacocoMerge();
-        });
+        DeprecationLogger.whileDisabled((Runnable) this::configureDefaultOutputPathForJacocoMerge);
         configureJacocoReportsDefaults(extension);
         addDefaultReportAndCoverageVerificationTasks(extension);
     }
@@ -128,7 +126,7 @@ public class JacocoPlugin implements Plugin<ProjectInternal> {
      * @param extension the extension to apply Jacoco with
      */
     private void applyToDefaultTasks(final JacocoPluginExtension extension) {
-        project.getTasks().withType(Test.class).configureEach(task -> extension.applyTo(task));
+        project.getTasks().withType(Test.class).configureEach(extension::applyTo);
     }
 
     /**

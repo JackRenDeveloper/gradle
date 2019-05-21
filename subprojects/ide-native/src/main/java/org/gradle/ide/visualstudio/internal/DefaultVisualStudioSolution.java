@@ -51,7 +51,7 @@ public class DefaultVisualStudioSolution implements VisualStudioSolutionInternal
     public DefaultVisualStudioSolution(String name, ObjectFactory objectFactory, IdeArtifactRegistry ideArtifactRegistry, ProviderFactory providers, ProjectLayout projectLayout) {
         this.name = name;
         this.solutionFile = objectFactory.newInstance(SolutionFile.class, getName() + ".sln");
-        this.location = projectLayout.file(providers.provider(() -> solutionFile.getLocation()));
+        this.location = projectLayout.file(providers.provider(solutionFile::getLocation));
         this.ideArtifactRegistry = ideArtifactRegistry;
         builtBy(ideArtifactRegistry.getIdeProjectFiles(VisualStudioProjectMetadata.class));
     }
@@ -79,7 +79,7 @@ public class DefaultVisualStudioSolution implements VisualStudioSolutionInternal
     @Override
     @Internal
     public List<VisualStudioProjectMetadata> getProjects() {
-        return CollectionUtils.collect(ideArtifactRegistry.getIdeProjects(VisualStudioProjectMetadata.class), reference -> reference.get());
+        return CollectionUtils.collect(ideArtifactRegistry.getIdeProjects(VisualStudioProjectMetadata.class), IdeArtifactRegistry.Reference::get);
     }
 
     @Input

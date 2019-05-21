@@ -55,7 +55,7 @@ public abstract class JacocoReportBase extends JacocoBase {
     private final ConfigurableFileCollection additionalSourceDirs = getProject().files();
 
     public JacocoReportBase() {
-        onlyIf(element -> Iterables.any(getExecutionData(), file -> file.exists()));
+        onlyIf(element -> Iterables.any(getExecutionData(), File::exists));
     }
 
     @Inject
@@ -204,7 +204,7 @@ public abstract class JacocoReportBase extends JacocoBase {
         for (Task task : tasks) {
             final JacocoTaskExtension extension = task.getExtensions().findByType(JacocoTaskExtension.class);
             if (extension != null) {
-                executionData((Callable<File>) () -> extension.getDestinationFile());
+                executionData((Callable<File>) extension::getDestinationFile);
                 mustRunAfter(task);
             }
         }
@@ -216,7 +216,7 @@ public abstract class JacocoReportBase extends JacocoBase {
      * @param tasks one or more tasks to add
      */
     public void executionData(TaskCollection tasks) {
-        tasks.all((Action<Task>) task -> executionData(task));
+        tasks.all((Action<Task>) this::executionData);
     }
 
     /**

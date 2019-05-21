@@ -605,7 +605,7 @@ public class IdeaModule {
     }
 
     private Set<File> existing(Set<File> files) {
-        return Sets.filter(files, file -> file.exists());
+        return Sets.filter(files, File::exists);
     }
 
     private Set<Path> pathsOf(Set<File> files) {

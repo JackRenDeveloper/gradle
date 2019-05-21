@@ -106,7 +106,7 @@ public class Signature extends AbstractPublishArtifact {
      * @param tasks The task(s) that will invoke {@link #generate()} on this signature (optional)
      */
     public Signature(final PublishArtifact toSign, SignatureSpec signatureSpec, Object... tasks) {
-        this(toSign, () -> toSign.getFile(), () -> toSign.getClassifier(), () -> toSign.getName(), signatureSpec, tasks);
+        this(toSign, toSign::getFile, toSign::getClassifier, toSign::getName, signatureSpec, tasks);
     }
 
     Signature(Buildable source, Callable<File> toSign, Callable<String> classifier, Callable<String> name, SignatureSpec signatureSpec, Object... tasks) {

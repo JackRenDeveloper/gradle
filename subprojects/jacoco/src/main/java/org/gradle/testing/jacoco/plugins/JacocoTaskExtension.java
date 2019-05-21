@@ -336,7 +336,7 @@ public class JacocoTaskExtension {
         builder.append(RelativePathUtil.relativePath(task.getWorkingDir(), agent.getJar()));
         builder.append('=');
         argument.append("destfile", getDestinationFile());
-        argument.append("append", DeprecationLogger.whileDisabled(() -> isAppend()));
+        argument.append("append", DeprecationLogger.whileDisabled(this::isAppend));
         argument.append("includes", getIncludes());
         argument.append("excludes", getExcludes());
         argument.append("exclclassloader", getExcludeClassLoaders());

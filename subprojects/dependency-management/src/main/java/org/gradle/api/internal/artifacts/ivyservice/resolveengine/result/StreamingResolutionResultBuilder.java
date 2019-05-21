@@ -162,7 +162,7 @@ public class StreamingResolutionResultBuilder implements DependencyGraphVisitor 
             synchronized (lock) {
                 return cache.load(() -> {
                     try {
-                        return data.read(decoder -> deserialize(decoder));
+                        return data.read(this::deserialize);
                     } finally {
                         try {
                             data.close();

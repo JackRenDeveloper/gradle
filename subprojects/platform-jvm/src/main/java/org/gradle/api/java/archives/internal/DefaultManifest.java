@@ -223,9 +223,7 @@ public class DefaultManifest implements ManifestInternal {
             if (parentFile != null) {
                 FileUtils.forceMkdir(parentFile);
             }
-            IoActions.withResource(new FileOutputStream(manifestFile), fileOutputStream -> {
-                writeTo(fileOutputStream);
-            });
+            IoActions.withResource(new FileOutputStream(manifestFile), (Action<FileOutputStream>) this::writeTo);
             return this;
         } catch (IOException e) {
             throw new UncheckedIOException(e);

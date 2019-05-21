@@ -22,7 +22,7 @@ public class StdinSwapper extends Swapper<InputStream> {
     public StdinSwapper() {
         super(
             () -> System.in,
-            newValue -> System.setIn(newValue)
+            System::setIn
         );
     }
 }

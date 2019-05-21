@@ -100,7 +100,7 @@ public class GroovyBasePlugin implements Plugin<Project> {
                 compile.setDescription("Compiles the " + sourceSet.getName() + " Groovy source.");
                 compile.setSource(groovySourceSet.getGroovy());
             });
-            SourceSetUtil.configureOutputDirectoryForSourceSet(sourceSet, groovySourceSet.getGroovy(), project, compileTask, compileTask.map(groovyCompile -> groovyCompile.getOptions()));
+            SourceSetUtil.configureOutputDirectoryForSourceSet(sourceSet, groovySourceSet.getGroovy(), project, compileTask, compileTask.map(GroovyCompile::getOptions));
 
             if (SourceSet.MAIN_SOURCE_SET_NAME.equals(sourceSet.getName())) {
                 // The user has chosen to use the java-library plugin;

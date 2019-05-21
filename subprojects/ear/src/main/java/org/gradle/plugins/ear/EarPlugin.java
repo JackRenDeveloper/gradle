@@ -98,7 +98,7 @@ public class EarPlugin implements Plugin<Project> {
             final JavaPluginConvention javaPluginConvention = project.getConvention().findPlugin(JavaPluginConvention.class);
 
             SourceSet sourceSet = javaPluginConvention.getSourceSets().getByName(SourceSet.MAIN_SOURCE_SET_NAME);
-            sourceSet.getResources().srcDir((Callable) () -> earPluginConvention.getAppDirName());
+            sourceSet.getResources().srcDir((Callable) earPluginConvention::getAppDirName);
             project.getTasks().withType(Ear.class).configureEach(task -> {
                 task.dependsOn((Callable<FileCollection>) () -> javaPluginConvention.getSourceSets().getByName(SourceSet.MAIN_SOURCE_SET_NAME)
                     .getRuntimeClasspath());
@@ -140,8 +140,8 @@ public class EarPlugin implements Plugin<Project> {
 
     private void wireEarTaskConventions(Project project, final EarPluginConvention earConvention) {
         project.getTasks().withType(Ear.class).configureEach(task -> {
-            task.getConventionMapping().map("libDirName", (Callable<String>) () -> earConvention.getLibDirName());
-            task.getConventionMapping().map("deploymentDescriptor", (Callable<DeploymentDescriptor>) () -> earConvention.getDeploymentDescriptor());
+            task.getConventionMapping().map("libDirName", (Callable<String>) earConvention::getLibDirName);
+            task.getConventionMapping().map("deploymentDescriptor", (Callable<DeploymentDescriptor>) earConvention::getDeploymentDescriptor);
         });
     }
 

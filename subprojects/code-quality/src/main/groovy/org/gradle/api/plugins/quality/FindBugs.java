@@ -233,7 +233,7 @@ public class FindBugs extends SourceTask implements VerificationTask, Reporting<
     @TaskAction
     public void run() throws IOException, InterruptedException {
         new FindBugsClasspathValidator(JavaVersion.current()).validateClasspath(
-            Iterables.transform(getFindbugsClasspath(), input -> input.getName()));
+            Iterables.transform(getFindbugsClasspath(), File::getName));
         FindBugsSpec spec = generateSpec();
         FindBugsWorkerManager manager = new FindBugsWorkerManager();
 

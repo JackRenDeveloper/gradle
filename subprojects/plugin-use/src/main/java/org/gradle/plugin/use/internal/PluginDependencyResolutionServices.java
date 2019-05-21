@@ -84,7 +84,7 @@ public class PluginDependencyResolutionServices implements DependencyResolutionS
         return getDependencyResolutionServices().getAttributesSchema();
     }
     public PluginRepositoryHandlerProvider getPluginRepositoryHandlerProvider() {
-        return () -> getResolveRepositoryHandler();
+        return this::getResolveRepositoryHandler;
     }
 
     @Override

@@ -53,8 +53,8 @@ public class CoffeeScriptBasePlugin implements Plugin<Project> {
         final RhinoExtension rhinoExtension = extensionContainer.getByType(RhinoExtension.class);
 
         project.getTasks().withType(CoffeeScriptCompile.class, task -> {
-            task.getConventionMapping().map("rhinoClasspath", (Callable<FileCollection>) () -> rhinoExtension.getClasspath());
-            task.getConventionMapping().map("coffeeScriptJs", (Callable<FileCollection>) () -> csExtension.getJs());
+            task.getConventionMapping().map("rhinoClasspath", (Callable<FileCollection>) rhinoExtension::getClasspath);
+            task.getConventionMapping().map("coffeeScriptJs", (Callable<FileCollection>) csExtension::getJs);
         });
     }
 

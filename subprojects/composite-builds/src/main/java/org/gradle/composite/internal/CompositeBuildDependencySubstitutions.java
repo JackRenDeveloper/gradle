@@ -23,6 +23,7 @@ import org.gradle.api.Action;
 import org.gradle.api.artifacts.DependencySubstitution;
 import org.gradle.api.artifacts.ModuleIdentifier;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
+import org.gradle.api.artifacts.component.ComponentIdentifier;
 import org.gradle.api.artifacts.component.ComponentSelector;
 import org.gradle.api.artifacts.component.ModuleComponentSelector;
 import org.gradle.api.artifacts.component.ProjectComponentIdentifier;
@@ -82,7 +83,7 @@ public class CompositeBuildDependencySubstitutions implements Action<DependencyS
             return match;
         }
         throw new ModuleVersionResolveException(selector, () -> {
-            SortedSet<String> sortedProjects = Sets.newTreeSet(CollectionUtils.collect(providingProjects, projectComponentIdentifier -> projectComponentIdentifier.getDisplayName()));
+            SortedSet<String> sortedProjects = Sets.newTreeSet(CollectionUtils.collect(providingProjects, ComponentIdentifier::getDisplayName));
 
             return String.format("Module version '%s' is not unique in composite: can be provided by %s.", selector.getDisplayName(), sortedProjects);
         });

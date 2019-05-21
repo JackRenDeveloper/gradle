@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import org.gradle.api.artifacts.component.LibraryBinaryIdentifier;
 import org.gradle.api.tasks.diagnostics.internal.graph.nodes.AbstractRenderableDependency;
 import org.gradle.api.tasks.diagnostics.internal.graph.nodes.RenderableDependency;
+import org.gradle.platform.base.BinarySpec;
 import org.gradle.platform.base.ComponentSpec;
 import org.gradle.platform.base.VariantComponentSpec;
 import org.gradle.platform.base.internal.ComponentSpecIdentifier;
@@ -47,7 +48,7 @@ public class DependentComponentsRenderableDependency extends AbstractRenderableD
         if (componentSpec instanceof VariantComponentSpec) {
             // Consider variant aware components with no buildable binaries as non-buildables
             VariantComponentSpec variantComponentSpec = (VariantComponentSpec) componentSpec;
-            buildable = Iterables.any(variantComponentSpec.getBinaries().values(), binarySpec -> binarySpec.isBuildable());
+            buildable = Iterables.any(variantComponentSpec.getBinaries().values(), BinarySpec::isBuildable);
         }
         boolean testSuite = false;
         return new DependentComponentsRenderableDependency(id, name, description, buildable, testSuite, children);

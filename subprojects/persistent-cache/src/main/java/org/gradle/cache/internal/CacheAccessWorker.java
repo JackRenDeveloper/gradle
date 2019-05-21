@@ -74,7 +74,7 @@ class CacheAccessWorker implements Runnable, Stoppable, AsyncCacheAccess {
 
     @Override
     public <T> T read(final Factory<T> task) {
-        FutureTask<T> futureTask = new FutureTask<T>(() -> task.create());
+        FutureTask<T> futureTask = new FutureTask<T>(task::create);
         addToQueue(futureTask);
         try {
             return futureTask.get();

@@ -349,7 +349,7 @@ public class RuleVisitor extends ExpressionReplacingVisitorSupport {
             List<Expression> otherArgs = hasTrailingClosure ? arguments.getExpressions().subList(0, arguments.getExpressions().size() - 1) : arguments.getExpressions();
             if (!otherArgs.isEmpty() || !hasTrailingClosure) {
                 builder.append("(");
-                builder.append(Joiner.on(", ").join(CollectionUtils.collect(otherArgs, (Transformer<Object, Expression>) expression1 -> expression1.getText())));
+                builder.append(Joiner.on(", ").join(CollectionUtils.collect(otherArgs, (Transformer<Object, Expression>) ASTNode::getText)));
                 builder.append(")");
             }
             if (hasTrailingClosure) {

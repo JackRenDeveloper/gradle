@@ -19,6 +19,7 @@ package org.gradle.plugin.use.internal;
 import com.google.common.annotations.VisibleForTesting;
 import org.gradle.groovy.scripts.ScriptSource;
 import org.gradle.internal.exceptions.LocationAwareException;
+import org.gradle.plugin.management.PluginRequest;
 import org.gradle.plugin.management.internal.DefaultPluginRequest;
 import org.gradle.plugin.management.internal.DefaultPluginRequests;
 import org.gradle.plugin.management.internal.InvalidPluginRequestException;
@@ -96,7 +97,7 @@ public class PluginRequestCollector {
     List<PluginRequestInternal> listPluginRequests() {
         List<PluginRequestInternal> pluginRequests = collect(specs, original -> new DefaultPluginRequest(original.id, original.version, original.apply, original.lineNumber, scriptSource));
 
-        Map<PluginId, Collection<PluginRequestInternal>> groupedById = CollectionUtils.groupBy(pluginRequests, pluginRequest -> pluginRequest.getId());
+        Map<PluginId, Collection<PluginRequestInternal>> groupedById = CollectionUtils.groupBy(pluginRequests, PluginRequest::getId);
 
         // Check for duplicates
         for (PluginId key : groupedById.keySet()) {

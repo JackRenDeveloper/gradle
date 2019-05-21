@@ -128,6 +128,6 @@ public class FindBugsPlugin extends AbstractCodeQualityPlugin<FindBugs> {
         task.setSource(sourceSet.getAllJava());
         ConventionMapping taskMapping = task.getConventionMapping();
         taskMapping.map("classes", (Callable<FileCollection>) () -> sourceSet.getOutput().getClassesDirs());
-        taskMapping.map("classpath", (Callable<FileCollection>) () -> sourceSet.getCompileClasspath());
+        taskMapping.map("classpath", (Callable<FileCollection>) sourceSet::getCompileClasspath);
     }
 }

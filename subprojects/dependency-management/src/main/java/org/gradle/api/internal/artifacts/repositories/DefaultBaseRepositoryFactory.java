@@ -126,7 +126,7 @@ public class DefaultBaseRepositoryFactory implements BaseRepositoryFactory {
     public ArtifactRepository createGradlePluginPortal() {
         MavenArtifactRepository mavenRepository = createMavenRepository(new NamedMavenRepositoryDescriber(PLUGIN_PORTAL_DEFAULT_URL));
         mavenRepository.setUrl(System.getProperty(PLUGIN_PORTAL_OVERRIDE_URL_PROPERTY, PLUGIN_PORTAL_DEFAULT_URL));
-        mavenRepository.metadataSources(metadataSources -> metadataSources.mavenPom());
+        mavenRepository.metadataSources(MavenArtifactRepository.MetadataSources::mavenPom);
         return mavenRepository;
     }
 

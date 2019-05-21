@@ -119,7 +119,7 @@ public class EclipsePlugin extends IdePlugin {
         projectModel.setName(uniqueProjectNameProvider.getUniqueName(project));
 
         final ConventionMapping convention = ((IConventionAware) projectModel).getConventionMapping();
-        convention.map("comment", (Callable<String>) () -> project.getDescription());
+        convention.map("comment", (Callable<String>) project::getDescription);
 
         final TaskProvider<GenerateEclipseProject> task = project.getTasks().register(ECLIPSE_PROJECT_TASK_NAME, GenerateEclipseProject.class, model.getProject());
         task.configure(task1 -> {
@@ -205,7 +205,7 @@ public class EclipsePlugin extends IdePlugin {
                 public void projectsEvaluated(Gradle gradle) {
                     final List<String> provided = Lists.newArrayList("scala-library", "scala-swing", "scala-dbc");
                     Predicate<Dependency> dependencyInProvided = dependency -> provided.contains(dependency.getName());
-                    List<Dependency> dependencies = Lists.newArrayList(Iterables.filter(Iterables.concat(Iterables.transform(model.getClasspath().getPlusConfigurations(), (Function<Configuration, Iterable<Dependency>>) config -> config.getAllDependencies())), dependencyInProvided));
+                    List<Dependency> dependencies = Lists.newArrayList(Iterables.filter(Iterables.concat(Iterables.transform(model.getClasspath().getPlusConfigurations(), (Function<Configuration, Iterable<Dependency>>) Configuration::getAllDependencies)), dependencyInProvided));
                     if (!dependencies.isEmpty()) {
                         model.getClasspath().getMinusConfigurations().add(project.getConfigurations().detachedConfiguration(dependencies.toArray(new Dependency[0])));
                     }

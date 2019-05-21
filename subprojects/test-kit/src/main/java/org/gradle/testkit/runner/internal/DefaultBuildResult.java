@@ -52,7 +52,7 @@ public class DefaultBuildResult implements BuildResult {
 
     @Override
     public List<String> taskPaths(TaskOutcome outcome) {
-        return Collections.unmodifiableList(CollectionUtils.collect(tasks(outcome), buildTask -> buildTask.getPath()));
+        return Collections.unmodifiableList(CollectionUtils.collect(tasks(outcome), BuildTask::getPath));
     }
 
     @Nullable

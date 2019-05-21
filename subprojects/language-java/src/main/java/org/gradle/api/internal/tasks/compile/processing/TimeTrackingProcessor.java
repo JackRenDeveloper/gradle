@@ -52,17 +52,17 @@ public class TimeTrackingProcessor extends DelegatingProcessor {
 
     @Override
     public Set<String> getSupportedOptions() {
-        return track(() -> TimeTrackingProcessor.super.getSupportedOptions());
+        return track(TimeTrackingProcessor.super::getSupportedOptions);
     }
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return track(() -> TimeTrackingProcessor.super.getSupportedAnnotationTypes());
+        return track(TimeTrackingProcessor.super::getSupportedAnnotationTypes);
     }
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
-        return track(() -> TimeTrackingProcessor.super.getSupportedSourceVersion());
+        return track(TimeTrackingProcessor.super::getSupportedSourceVersion);
     }
 
     @Override

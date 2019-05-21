@@ -202,11 +202,11 @@ public class IdeaPlugin extends IdePlugin {
         module.setName(defaultModuleName);
 
         ConventionMapping conventionMapping = ((IConventionAware) module).getConventionMapping();
-        conventionMapping.map("sourceDirs", (Callable<Set<File>>) () -> Sets.newLinkedHashSet());
-        conventionMapping.map("contentRoot", (Callable<File>) () -> project.getProjectDir());
-        conventionMapping.map("testSourceDirs", (Callable<Set<File>>) () -> Sets.newLinkedHashSet());
-        conventionMapping.map("resourceDirs", (Callable<Set<File>>) () -> Sets.newLinkedHashSet());
-        conventionMapping.map("testResourceDirs", (Callable<Set<File>>) () -> Sets.newLinkedHashSet());
+        conventionMapping.map("sourceDirs", (Callable<Set<File>>) Sets::newLinkedHashSet);
+        conventionMapping.map("contentRoot", (Callable<File>) project::getProjectDir);
+        conventionMapping.map("testSourceDirs", (Callable<Set<File>>) Sets::newLinkedHashSet);
+        conventionMapping.map("resourceDirs", (Callable<Set<File>>) Sets::newLinkedHashSet);
+        conventionMapping.map("testResourceDirs", (Callable<Set<File>>) Sets::newLinkedHashSet);
         conventionMapping.map("excludeDirs", (Callable<Set<File>>) () -> {
             Set<File> defaultExcludes = Sets.newLinkedHashSet();
             defaultExcludes.add(project.file(".gradle"));

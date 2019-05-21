@@ -57,7 +57,7 @@ public final class BuildCacheServices extends AbstractPluginServiceRegistry {
             }
 
             DirectoryBuildCacheFileStoreFactory createDirectoryBuildCacheFileStoreFactory() {
-                return baseDir -> new DefaultPathKeyFileStore(baseDir);
+                return DefaultPathKeyFileStore::new;
             }
 
             BuildCacheServiceRegistration createDirectoryBuildCacheServiceRegistration() {

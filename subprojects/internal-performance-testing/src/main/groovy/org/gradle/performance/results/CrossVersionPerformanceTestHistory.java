@@ -82,7 +82,7 @@ public class CrossVersionPerformanceTestHistory implements PerformanceTestHistor
 
     @Override
     public List<PerformanceTestExecution> getExecutions() {
-        return Lists.transform(getResults(), result -> new KnownVersionsPerformanceTestExecution(result));
+        return Lists.transform(getResults(), KnownVersionsPerformanceTestExecution::new);
     }
 
     @Override

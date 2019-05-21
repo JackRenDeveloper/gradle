@@ -44,6 +44,7 @@ import org.gradle.api.tasks.scala.ScalaCompile;
 import org.gradle.api.tasks.scala.ScalaDoc;
 import org.gradle.jvm.tasks.Jar;
 import org.gradle.language.scala.internal.toolchain.DefaultScalaToolProvider;
+import org.gradle.language.scala.tasks.AbstractScalaCompile;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -150,7 +151,7 @@ public class ScalaBasePlugin implements Plugin<Project> {
                 viewConfiguration.componentFilter(element -> element instanceof ProjectComponentIdentifier);
             }).getFiles());
         });
-        SourceSetUtil.configureOutputDirectoryForSourceSet(sourceSet, scalaSourceSet.getScala(), project, scalaCompile, scalaCompile.map(scalaCompile1 -> scalaCompile1.getOptions()));
+        SourceSetUtil.configureOutputDirectoryForSourceSet(sourceSet, scalaSourceSet.getScala(), project, scalaCompile, scalaCompile.map(AbstractScalaCompile::getOptions));
 
         project.getTasks().named(sourceSet.getClassesTaskName(), task -> task.dependsOn(scalaCompile));
     }

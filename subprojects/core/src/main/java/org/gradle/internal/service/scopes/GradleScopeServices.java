@@ -175,7 +175,7 @@ public class GradleScopeServices extends DefaultServiceRegistry {
     }
 
     ProjectFinder createProjectFinder(final BuildStateRegistry buildStateRegistry, final GradleInternal gradle) {
-        return new DefaultProjectFinder(buildStateRegistry, () -> gradle.getRootProject());
+        return new DefaultProjectFinder(buildStateRegistry, gradle::getRootProject);
     }
 
     TaskNodeFactory createTaskNodeFactory(GradleInternal gradle, IncludedBuildTaskGraph includedBuildTaskGraph) {

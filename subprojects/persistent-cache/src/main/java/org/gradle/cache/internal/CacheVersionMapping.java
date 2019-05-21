@@ -27,7 +27,7 @@ import java.util.NavigableMap;
 
 public class CacheVersionMapping {
 
-    private static final Function<Map.Entry<GradleVersion, CacheVersion>, CacheVersion> TO_VALUE = input -> input.getValue();
+    private static final Function<Map.Entry<GradleVersion, CacheVersion>, CacheVersion> TO_VALUE = Map.Entry::getValue;
 
     private final NavigableMap<GradleVersion, CacheVersion> versions;
 

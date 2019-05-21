@@ -44,7 +44,7 @@ public class JavaScriptRepositoriesExtension {
         return repositories.maven(repository -> {
             repository.setName("gradleJs");
             repository.setUrl(GRADLE_PUBLIC_JAVASCRIPT_REPO_URL);
-            repository.metadataSources(metadataSources -> metadataSources.artifact());
+            repository.metadataSources(MavenArtifactRepository.MetadataSources::artifact);
             action.execute(repository);
         });
     }
@@ -61,7 +61,7 @@ public class JavaScriptRepositoriesExtension {
                 layout.artifact("[organization]/[revision]/[module].[ext]");
                 layout.ivy("[organization]/[revision]/[module].xml");
             });
-            repo.metadataSources(metadataSources -> metadataSources.artifact());
+            repo.metadataSources(IvyArtifactRepository.MetadataSources::artifact);
             action.execute(repo);
         });
     }

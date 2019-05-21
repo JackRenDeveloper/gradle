@@ -201,7 +201,7 @@ public class DefaultTaskExecutionGraph implements TaskExecutionGraphInternal {
 
     @Override
     public void whenReady(final Action<TaskExecutionGraph> action) {
-        graphListeners.add(listenerBuildOperationDecorator.decorate("TaskExecutionGraph.whenReady", TaskExecutionGraphListener.class, graph -> action.execute(graph)));
+        graphListeners.add(listenerBuildOperationDecorator.decorate("TaskExecutionGraph.whenReady", TaskExecutionGraphListener.class, action::execute));
     }
 
     @Override

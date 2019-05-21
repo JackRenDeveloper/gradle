@@ -116,7 +116,7 @@ public class DefaultVisualStudioProject implements VisualStudioProjectInternal {
 
     @Input
     public Set<String> getSourceFilePaths() {
-        return collect(getSourceFiles().getFiles(), file -> file.getAbsolutePath());
+        return collect(getSourceFiles().getFiles(), File::getAbsolutePath);
     }
 
     @Internal
@@ -130,7 +130,7 @@ public class DefaultVisualStudioProject implements VisualStudioProjectInternal {
 
     @Input
     public Set<String> getResourceFilePaths() {
-        return collect(getResourceFiles(), file -> file.getAbsolutePath());
+        return collect(getResourceFiles(), File::getAbsolutePath);
     }
 
     @Internal
@@ -140,7 +140,7 @@ public class DefaultVisualStudioProject implements VisualStudioProjectInternal {
 
     @Input
     public Set<String> getHeaderFilePaths() {
-        return collect(getHeaderFiles().getFiles(), file -> file.getAbsolutePath());
+        return collect(getHeaderFiles().getFiles(), File::getAbsolutePath);
     }
 
     @Nested

@@ -98,7 +98,7 @@ public class TaskDetailPrinter {
 
     private ListMultimap<Class, Task> groupTasksByType(List<Task> tasks) {
         final Set<Class> taskTypes = new TreeSet<Class>((o1, o2) -> o1.getSimpleName().compareTo(o2.getSimpleName()));
-        taskTypes.addAll(collect(tasks, original -> getDeclaredTaskType(original)));
+        taskTypes.addAll(collect(tasks, this::getDeclaredTaskType));
 
         ListMultimap<Class, Task> tasksGroupedByType = ArrayListMultimap.create();
         for (final Class taskType : taskTypes) {
@@ -117,11 +117,11 @@ public class TaskDetailPrinter {
     }
 
     private void printTaskDescription(StyledTextOutput output, List<Task> tasks) {
-        printTaskAttribute(output, "Description", tasks, task -> task.getDescription());
+        printTaskAttribute(output, "Description", tasks, Task::getDescription);
     }
 
     private void printTaskGroup(StyledTextOutput output, List<Task> tasks) {
-        printTaskAttribute(output, "Group", tasks, task -> task.getGroup());
+        printTaskAttribute(output, "Group", tasks, Task::getGroup);
     }
 
     private void printTaskAttribute(StyledTextOutput output, String attributeHeader, List<Task> tasks, Transformer<String, Task> transformer) {

@@ -48,7 +48,7 @@ public class DefaultSourceSetOutput extends CompositeFileCollection implements S
         classesDirs.builtBy(this);
 
         this.outputDirectories = fileCollectionFactory.configurableFiles(sourceSetDisplayName + " classes");
-        outputDirectories.from((Callable) () -> classesDirs, (Callable) () -> getResourcesDir());
+        outputDirectories.from((Callable) () -> classesDirs, (Callable) this::getResourcesDir);
 
         this.dirs = fileCollectionFactory.configurableFiles(sourceSetDisplayName + " dirs");
 

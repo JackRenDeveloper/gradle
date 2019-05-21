@@ -481,7 +481,7 @@ public class DefaultStructBindingsStore implements StructBindingsStore {
     }
 
     private <T> Iterable<StructSchema<? extends T>> getStructSchemas(Iterable<? extends ModelType<? extends T>> types) {
-        return Iterables.transform(types, (Function<ModelType<? extends T>, StructSchema<? extends T>>) type -> getStructSchema(type));
+        return Iterables.transform(types, (Function<ModelType<? extends T>, StructSchema<? extends T>>) this::getStructSchema);
     }
 
     <T> StructSchema<T> getStructSchema(ModelType<T> type) {

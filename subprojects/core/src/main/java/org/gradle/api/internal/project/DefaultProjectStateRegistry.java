@@ -243,7 +243,7 @@ public class DefaultProjectStateRegistry implements ProjectStateRegistry {
                     runnable.run();
                 } else {
                     // Another thread holds the lock, release the project lock and wait for the other thread to finish
-                    workerLeaseService.withoutProjectLock(() -> lock.lock());
+                    workerLeaseService.withoutProjectLock(lock::lock);
                     runnable.run();
                 }
             } finally {

@@ -35,7 +35,7 @@ import org.gradle.util.GUtil;
 public class DefaultArtifactRepositoryContainer extends DefaultNamedDomainObjectList<ArtifactRepository>
         implements ArtifactRepositoryContainer {
 
-    private final Action<ArtifactRepository> addLastAction = repository -> DefaultArtifactRepositoryContainer.super.add(repository);
+    private final Action<ArtifactRepository> addLastAction = DefaultArtifactRepositoryContainer.super::add;
 
     public DefaultArtifactRepositoryContainer(Instantiator instantiator, CollectionCallbackActionDecorator callbackActionDecorator) {
         super(ArtifactRepository.class, instantiator, new RepositoryNamer(), callbackActionDecorator);

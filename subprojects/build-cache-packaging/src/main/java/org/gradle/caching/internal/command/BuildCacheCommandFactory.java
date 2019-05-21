@@ -177,7 +177,7 @@ public class BuildCacheCommandFactory {
         public BuildCacheStoreCommand.Result store(OutputStream output) throws IOException {
             LOGGER.info("Packing {}", entity.getDisplayName());
             final BuildCacheEntryPacker.PackResult packResult = packer.pack(entity, fingerprints, output, originMetadataFactory.createWriter(entity, executionTime));
-            return () -> packResult.getEntries();
+            return packResult::getEntries;
         }
     }
 }

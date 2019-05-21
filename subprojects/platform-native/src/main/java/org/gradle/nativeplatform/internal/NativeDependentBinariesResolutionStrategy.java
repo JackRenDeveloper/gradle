@@ -141,7 +141,7 @@ public class NativeDependentBinariesResolutionStrategy extends AbstractDependent
 
     private State getState() {
         try {
-            return stateCache.get("state", () -> buildState());
+            return stateCache.get("state", this::buildState);
         } catch (ExecutionException ex) {
             throw new RuntimeException("Unable to build native dependent binaries resolution cache", ex);
         }

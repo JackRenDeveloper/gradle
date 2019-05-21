@@ -45,7 +45,7 @@ import java.util.List;
  */
 public class DependencyMetadataRules {
     private static final Spec<ModuleDependencyMetadata> DEPENDENCY_FILTER = dep -> !dep.isConstraint();
-    private static final Spec<ModuleDependencyMetadata> DEPENDENCY_CONSTRAINT_FILTER = dep -> dep.isConstraint();
+    private static final Spec<ModuleDependencyMetadata> DEPENDENCY_CONSTRAINT_FILTER = DependencyMetadata::isConstraint;
 
     private final Instantiator instantiator;
     private final NotationParser<Object, DirectDependencyMetadata> dependencyNotationParser;

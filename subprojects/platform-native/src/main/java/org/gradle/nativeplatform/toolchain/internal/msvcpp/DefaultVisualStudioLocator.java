@@ -238,7 +238,7 @@ public class DefaultVisualStudioLocator implements VisualStudioLocator {
             return new ComponentNotFound<VisualStudioInstall>("Could not locate a Visual Studio installation, using the command line tool, Windows registry or system path.");
         }
         return new ComponentNotFound<VisualStudioInstall>("Could not locate a Visual Studio installation. None of the following locations contain a valid installation",
-            CollectionUtils.collect(brokenInstalls, new ArrayList<String>(), file -> file.getAbsolutePath())
+            CollectionUtils.collect(brokenInstalls, new ArrayList<String>(), File::getAbsolutePath)
         );
     }
 

@@ -61,7 +61,7 @@ public class DefaultGlobalDependencyResolutionRules implements GlobalDependencyR
 
         @Override
         public Action<DependencySubstitution> getRuleAction() {
-            return Actions.composite(CollectionUtils.collect(ruleProviders, rule -> rule.getRuleAction()));
+            return Actions.composite(CollectionUtils.collect(ruleProviders, DependencySubstitutionRules::getRuleAction));
         }
 
         @Override

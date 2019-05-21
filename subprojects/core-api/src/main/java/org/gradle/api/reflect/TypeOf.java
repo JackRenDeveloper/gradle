@@ -296,11 +296,21 @@ public abstract class TypeOf<T> {
     }
 
     private static List<ModelType<?>> modelTypeListFrom(TypeOf<?>[] typeOfs) {
-        return map(asList(typeOfs), it -> it.type);
+        return map(asList(typeOfs), new Function<TypeOf<?>, ModelType<?>>() {
+            @Override
+            public ModelType<?> apply(TypeOf<?> it) {
+                return it.type;
+            }
+        });
     }
 
     private static List<TypeOf<?>> typeOfListFrom(List<ModelType<?>> modelTypes) {
-        return map(modelTypes, it -> typeOf(it));
+        return map(modelTypes, new Function<ModelType<?>, TypeOf<?>>() {
+            @Override
+            public TypeOf<?> apply(ModelType<?> it) {
+                return typeOf(it);
+            }
+        });
     }
 
     static <U> TypeOf<U> typeOf(ModelType<U> componentType) {

@@ -101,11 +101,11 @@ public final class BuildOperationRecord {
         }
 
         if (!progress.isEmpty()) {
-            map.put("progress", Lists.transform(progress, (Function<Progress, Map<String, ?>>) input -> input.toSerializable()));
+            map.put("progress", Lists.transform(progress, (Function<Progress, Map<String, ?>>) Progress::toSerializable));
         }
 
         if (!children.isEmpty()) {
-            map.put("children", Lists.transform(children, (Function<BuildOperationRecord, Map<String, ?>>) input -> input.toSerializable()));
+            map.put("children", Lists.transform(children, (Function<BuildOperationRecord, Map<String, ?>>) BuildOperationRecord::toSerializable));
         }
 
         return map;

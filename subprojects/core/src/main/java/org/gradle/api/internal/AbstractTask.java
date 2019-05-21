@@ -545,7 +545,7 @@ public abstract class AbstractTask implements TaskInternal, DynamicObjectAware {
     // note: this method is on TaskInternal
     @Override
     public Factory<File> getTemporaryDirFactory() {
-        return () -> getTemporaryDir();
+        return this::getTemporaryDir;
     }
 
     InputChangesAwareTaskAction convertClosureToAction(Closure actionClosure, String actionName) {

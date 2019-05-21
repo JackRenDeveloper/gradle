@@ -30,7 +30,7 @@ public class DefaultFileCollectionFingerprinterRegistry implements FileCollectio
     private final Map<Class<? extends FileNormalizer>, FileCollectionFingerprinter> fingerprinters;
 
     public DefaultFileCollectionFingerprinterRegistry(Collection<FileCollectionFingerprinter> fingerprinters) {
-        this.fingerprinters = ImmutableMap.copyOf(Maps.uniqueIndex(fingerprinters, (Function<FileCollectionFingerprinter, Class<? extends FileNormalizer>>) fingerprinter -> fingerprinter.getRegisteredType()));
+        this.fingerprinters = ImmutableMap.copyOf(Maps.uniqueIndex(fingerprinters, (Function<FileCollectionFingerprinter, Class<? extends FileNormalizer>>) FileCollectionFingerprinter::getRegisteredType));
     }
 
     @Override

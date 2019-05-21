@@ -56,7 +56,7 @@ public class DefaultTypeMetadataStore implements TypeMetadataStore {
     private final CrossBuildInMemoryCache<Class<?>, TypeMetadata> cache;
     private final TypeAnnotationMetadataStore typeAnnotationMetadataStore;
     private final String displayName;
-    private final Transformer<TypeMetadata, Class<?>> typeMetadataFactory = type -> createTypeMetadata(type);
+    private final Transformer<TypeMetadata, Class<?>> typeMetadataFactory = this::createTypeMetadata;
 
     public DefaultTypeMetadataStore(
         Collection<? extends TypeAnnotationHandler> typeAnnotationHandlers,
@@ -66,7 +66,7 @@ public class DefaultTypeMetadataStore implements TypeMetadataStore {
         CrossBuildInMemoryCacheFactory cacheFactory
     ) {
         this.typeAnnotationHandlers = ImmutableSet.copyOf(typeAnnotationHandlers);
-        this.propertyAnnotationHandlers = Maps.uniqueIndex(propertyAnnotationHandlers, (Function<PropertyAnnotationHandler, Class<? extends Annotation>>) handler -> handler.getAnnotationType());
+        this.propertyAnnotationHandlers = Maps.uniqueIndex(propertyAnnotationHandlers, (Function<PropertyAnnotationHandler, Class<? extends Annotation>>) PropertyAnnotationHandler::getAnnotationType);
         this.allowedPropertyModifiers = ImmutableSet.copyOf(allowedPropertyModifiers);
         this.typeAnnotationMetadataStore = typeAnnotationMetadataStore;
         this.displayName = calculateDisplayName(propertyAnnotationHandlers);

@@ -340,11 +340,11 @@ public abstract class ExternalResourceResolver<T extends ModuleComponentResolveM
     }
 
     public List<String> getIvyPatterns() {
-        return CollectionUtils.collect(ivyPatterns, original -> original.getPattern());
+        return CollectionUtils.collect(ivyPatterns, ResourcePattern::getPattern);
     }
 
     public List<String> getArtifactPatterns() {
-        return CollectionUtils.collect(artifactPatterns, original -> original.getPattern());
+        return CollectionUtils.collect(artifactPatterns, ResourcePattern::getPattern);
     }
 
     protected void setIvyPatterns(Iterable<? extends ResourcePattern> patterns) {

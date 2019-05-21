@@ -118,7 +118,7 @@ public class DefaultTaskProperties implements TaskProperties {
                 }
             }
         };
-        this.hasSourceFiles = Iterables.any(inputFileProperties, property -> property.isSkipWhenEmpty());
+        this.hasSourceFiles = Iterables.any(inputFileProperties, InputFilePropertySpec::isSkipWhenEmpty);
         this.outputFiles = new CompositeFileCollection() {
             @Override
             public String getDisplayName() {

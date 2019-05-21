@@ -28,7 +28,7 @@ public class DefaultUserCodeApplicationContext implements UserCodeApplicationCon
 
     private static final AtomicLong COUNTER = new AtomicLong();
 
-    final ThreadLocal<Deque<UserCodeApplicationId>> stackThreadLocal = ThreadLocal.withInitial(() -> new ArrayDeque<UserCodeApplicationId>());
+    final ThreadLocal<Deque<UserCodeApplicationId>> stackThreadLocal = ThreadLocal.withInitial(ArrayDeque::new);
 
     @Override
     @Nullable

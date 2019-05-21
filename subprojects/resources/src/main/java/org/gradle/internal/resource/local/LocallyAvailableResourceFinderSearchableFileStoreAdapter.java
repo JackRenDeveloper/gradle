@@ -32,7 +32,7 @@ public class LocallyAvailableResourceFinderSearchableFileStoreAdapter<C> extends
     public LocallyAvailableResourceFinderSearchableFileStoreAdapter(final FileStoreSearcher<C> fileStore) {
         super(criterion -> () -> {
             Set<? extends LocallyAvailableResource> entries = fileStore.search(criterion);
-            return CollectionUtils.collect(entries, new ArrayList<File>(entries.size()), (Transformer<File, LocallyAvailableResource>) original -> original.getFile());
+            return CollectionUtils.collect(entries, new ArrayList<File>(entries.size()), (Transformer<File, LocallyAvailableResource>) LocallyAvailableResource::getFile);
         });
     }
 

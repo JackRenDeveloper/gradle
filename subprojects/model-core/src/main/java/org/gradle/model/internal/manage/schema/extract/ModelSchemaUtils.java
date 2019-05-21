@@ -74,7 +74,7 @@ public class ModelSchemaUtils {
         ImmutableSortedMap.Builder<String, Map<Equivalence.Wrapper<Method>, Collection<Method>>> candidatesBuilder = ImmutableSortedMap.naturalOrder();
         for (String methodName : methodsByName.keySet()) {
             ImmutableList<Method> methodsWithSameName = methodsByName.get(methodName);
-            ListMultimap<Equivalence.Wrapper<Method>, Method> equivalenceIndex = Multimaps.index(methodsWithSameName, method -> SIGNATURE_EQUIVALENCE.wrap(method));
+            ListMultimap<Equivalence.Wrapper<Method>, Method> equivalenceIndex = Multimaps.index(methodsWithSameName, SIGNATURE_EQUIVALENCE::wrap);
             candidatesBuilder.put(methodName, equivalenceIndex.asMap());
         }
         return new CandidateMethods(candidatesBuilder.build());

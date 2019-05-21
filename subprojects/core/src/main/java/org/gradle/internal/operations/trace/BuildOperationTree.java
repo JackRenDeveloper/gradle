@@ -44,7 +44,7 @@ public class BuildOperationTree {
     }
 
     static List<Map<String, ?>> serialize(List<BuildOperationRecord> roots) {
-        return Lists.transform(roots, input -> input.toSerializable());
+        return Lists.transform(roots, BuildOperationRecord::toSerializable);
     }
 
 }

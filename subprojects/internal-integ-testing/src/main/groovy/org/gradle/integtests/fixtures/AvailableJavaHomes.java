@@ -90,7 +90,7 @@ public abstract class AvailableJavaHomes {
      * Returns a JDK for each of the given java versions, if available.
      */
     public static List<Jvm> getJdks(final String... versions) {
-        List<JavaVersion> javaVersions = Lists.transform(Arrays.asList(versions), version -> JavaVersion.toVersion(version));
+        List<JavaVersion> javaVersions = Lists.transform(Arrays.asList(versions), JavaVersion::toVersion);
         return getJdks(Iterables.toArray(javaVersions, JavaVersion.class));
     }
 

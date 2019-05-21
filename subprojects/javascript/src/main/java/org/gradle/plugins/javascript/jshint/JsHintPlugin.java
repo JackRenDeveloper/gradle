@@ -55,8 +55,8 @@ public class JsHintPlugin implements Plugin<Project> {
         final ReportingExtension reportingExtension = project.getExtensions().getByType(ReportingExtension.class);
 
         project.getTasks().withType(JsHint.class, task -> {
-            task.getConventionMapping().map("rhinoClasspath", (Callable<FileCollection>) () -> rhinoExtension.getClasspath());
-            task.getConventionMapping().map("jsHint", (Callable<FileCollection>) () -> jsHintExtension.getJs());
+            task.getConventionMapping().map("rhinoClasspath", (Callable<FileCollection>) rhinoExtension::getClasspath);
+            task.getConventionMapping().map("jsHint", (Callable<FileCollection>) jsHintExtension::getJs);
             task.getConventionMapping().map("jsonReport", (Callable<File>) () -> reportingExtension.file(task.getName() + "/report.json"));
         });
     }

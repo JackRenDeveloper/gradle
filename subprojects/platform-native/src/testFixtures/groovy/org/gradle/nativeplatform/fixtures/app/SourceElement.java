@@ -110,6 +110,6 @@ public abstract class SourceElement extends Element {
     }
 
     public List<String> getSourceFileNames() {
-        return CollectionUtils.collect(getFiles(), sourceFile -> sourceFile.getName());
+        return CollectionUtils.collect(getFiles(), SourceFile::getName);
     }
 }

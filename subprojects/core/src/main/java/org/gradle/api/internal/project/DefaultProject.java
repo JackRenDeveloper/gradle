@@ -314,7 +314,7 @@ public class DefaultProject extends AbstractPluginAware implements ProjectIntern
     void populateModelRegistry(ModelRegistry modelRegistry) {
         registerServiceOn(modelRegistry, "serviceRegistry", SERVICE_REGISTRY_MODEL_TYPE, services, instanceDescriptorFor("serviceRegistry"));
         // TODO:LPTR This ignores changes to Project.buildDir after model node has been created
-        registerFactoryOn(modelRegistry, "buildDir", FILE_MODEL_TYPE, () -> getBuildDir());
+        registerFactoryOn(modelRegistry, "buildDir", FILE_MODEL_TYPE, this::getBuildDir);
         registerInstanceOn(modelRegistry, "projectIdentifier", PROJECT_IDENTIFIER_MODEL_TYPE, this);
         registerInstanceOn(modelRegistry, "extensionContainer", EXTENSION_CONTAINER_MODEL_TYPE, getExtensions());
         modelRegistry.getRoot().applyToSelf(BasicServicesRules.class);

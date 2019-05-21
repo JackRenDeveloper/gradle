@@ -89,9 +89,9 @@ public class BasePlugin implements Plugin<Project> {
 
             Callable<String> destinationDir;
             if (task instanceof Jar) {
-                destinationDir = () -> pluginConvention.getLibsDirName();
+                destinationDir = pluginConvention::getLibsDirName;
             } else {
-                destinationDir = () -> pluginConvention.getDistsDirName();
+                destinationDir = pluginConvention::getDistsDirName;
             }
             task.getDestinationDirectory().convention(project.getLayout().getBuildDirectory().dir(project.provider(destinationDir)));
 
@@ -103,7 +103,7 @@ public class BasePlugin implements Plugin<Project> {
                 }
             }));
 
-            task.getArchiveBaseName().convention(project.provider(() -> pluginConvention.getArchivesBaseName()));
+            task.getArchiveBaseName().convention(project.provider(pluginConvention::getArchivesBaseName));
         });
     }
 

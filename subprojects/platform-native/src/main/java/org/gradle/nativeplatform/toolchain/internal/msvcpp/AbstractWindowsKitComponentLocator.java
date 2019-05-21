@@ -108,7 +108,7 @@ public abstract class AbstractWindowsKitComponentLocator<T extends WindowsKitIns
             return new ComponentNotFound<T>("Could not locate a " + getDisplayName() + " installation using the Windows registry.");
         }
         return new ComponentNotFound<T>("Could not locate a " + getDisplayName() + " installation. None of the following locations contain a valid installation",
-            CollectionUtils.collect(brokenComponents, file -> file.getAbsolutePath()));
+            CollectionUtils.collect(brokenComponents, File::getAbsolutePath));
     }
 
     private T getBestComponent() {

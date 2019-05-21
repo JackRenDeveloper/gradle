@@ -34,7 +34,7 @@ public class GroovyMethods {
             Iterables.concat(
                 Arrays.asList(Object.class.getMethods()),
                 Arrays.asList(GroovyObject.class.getMethods())
-            ), input -> SIGNATURE_EQUIVALENCE.wrap(input)
+            ), SIGNATURE_EQUIVALENCE::wrap
         )
     );
 

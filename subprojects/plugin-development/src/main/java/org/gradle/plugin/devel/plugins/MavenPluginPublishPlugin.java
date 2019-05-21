@@ -44,7 +44,7 @@ class MavenPluginPublishPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-        project.afterEvaluate(project1 -> configurePublishing(project1));
+        project.afterEvaluate(this::configurePublishing);
     }
 
     void configurePublishing(final Project project) {

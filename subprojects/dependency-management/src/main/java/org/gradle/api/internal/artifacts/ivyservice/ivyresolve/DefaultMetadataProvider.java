@@ -49,7 +49,7 @@ import org.gradle.internal.resolve.result.BuildableModuleComponentMetaDataResolv
 import java.util.List;
 
 class DefaultMetadataProvider implements MetadataProvider {
-    private final static Transformer<ComponentMetadata, BuildableComponentMetadataSupplierDetails> TO_COMPONENT_METADATA = details -> details.getExecutionResult();
+    private final static Transformer<ComponentMetadata, BuildableComponentMetadataSupplierDetails> TO_COMPONENT_METADATA = BuildableComponentMetadataSupplierDetails::getExecutionResult;
     final ModuleComponentResolveState resolveState;
     private BuildableModuleComponentMetaDataResolveResult cachedResult;
     private ComponentMetadata cachedComponentMetadata;

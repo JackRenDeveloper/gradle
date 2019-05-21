@@ -381,14 +381,14 @@ public class NodeBackedModelMap<T> extends ModelMapGroovyView<T> implements Mana
 
     @Override
     public Collection<T> values() {
-        Iterable<T> values = Iterables.transform(keySet(), name -> get(name));
+        Iterable<T> values = Iterables.transform(keySet(), this::get);
         return Lists.newArrayList(values);
     }
 
     @Override
     public Iterator<T> iterator() {
         viewState.assertCanReadChildren();
-        return Iterators.transform(keySet().iterator(), name -> get(name));
+        return Iterators.transform(keySet().iterator(), this::get);
     }
 
     @Override

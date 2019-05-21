@@ -179,7 +179,7 @@ public class DefaultCopySpec implements CopySpecInternal {
         });
 
         // Notify upwards of currently existing descendant spec hierarchy
-        childSpec.visit(new DefaultCopySpecAddress(null, this, additionIndex), (parentPath, spec) -> fireChildSpecListeners(parentPath, spec));
+        childSpec.visit(new DefaultCopySpecAddress(null, this, additionIndex), this::fireChildSpecListeners);
     }
 
     void fireChildSpecListeners(CopySpecAddress path, CopySpecInternal spec) {

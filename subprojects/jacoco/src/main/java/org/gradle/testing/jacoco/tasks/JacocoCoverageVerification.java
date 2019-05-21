@@ -66,7 +66,7 @@ public class JacocoCoverageVerification extends JacocoReportBase {
 
     @TaskAction
     public void check() {
-        final Spec<File> fileExistsSpec = file -> file.exists();
+        final Spec<File> fileExistsSpec = File::exists;
 
         JacocoCheckResult checkResult = new AntJacocoCheck(getAntBuilder()).execute(
                 getJacocoClasspath(),

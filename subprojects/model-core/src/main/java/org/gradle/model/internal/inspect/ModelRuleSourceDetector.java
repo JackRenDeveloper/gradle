@@ -79,7 +79,7 @@ public class ModelRuleSourceDetector {
     public Iterable<Class<? extends RuleSource>> getDeclaredSources(Class<?> container) {
         try {
             return FluentIterable.from(cache.get(container))
-                    .transform((Function<Reference<Class<? extends RuleSource>>, Class<? extends RuleSource>>) input -> input.get())
+                    .transform((Function<Reference<Class<? extends RuleSource>>, Class<? extends RuleSource>>) Reference::get)
                     .filter(Predicates.notNull());
         } catch (ExecutionException e) {
             throw UncheckedException.throwAsUncheckedException(e);

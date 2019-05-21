@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Set;
 
 public class SingleProjectTaskReportModel implements TaskReportModel {
-    private final SetMultimap<String, TaskDetails> groups = TreeMultimap.create((string1, string2) -> string1.compareToIgnoreCase(string2), (task1, task2) -> task1.getPath().compareTo(task2.getPath()));
+    private final SetMultimap<String, TaskDetails> groups = TreeMultimap.create(String::compareToIgnoreCase, (task1, task2) -> task1.getPath().compareTo(task2.getPath()));
     private final TaskDetailsFactory factory;
 
     public SingleProjectTaskReportModel(TaskDetailsFactory factory) {

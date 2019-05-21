@@ -69,7 +69,7 @@ public class ProjectBuilder {
      * @return The builder
      */
     public static ProjectBuilder builder() {
-        return DeprecationLogger.whileDisabled(() -> new ProjectBuilder());
+        return DeprecationLogger.whileDisabled(ProjectBuilder::new);
     }
 
     /**

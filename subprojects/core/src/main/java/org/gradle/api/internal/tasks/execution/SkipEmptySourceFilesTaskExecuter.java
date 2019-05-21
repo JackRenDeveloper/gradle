@@ -72,7 +72,7 @@ public class SkipEmptySourceFilesTaskExecuter implements TaskExecuter {
                 LOGGER.info("Skipping {} as it has no source files and no previous output files.", task);
             } else {
                 outputChangeListener.beforeOutputChange();
-                OutputsCleaner outputsCleaner = new OutputsCleaner(file -> buildOutputCleanupRegistry.isOutputOwnedByBuild(file), dir -> buildOutputCleanupRegistry.isOutputOwnedByBuild(dir));
+                OutputsCleaner outputsCleaner = new OutputsCleaner(buildOutputCleanupRegistry::isOutputOwnedByBuild, buildOutputCleanupRegistry::isOutputOwnedByBuild);
                 for (FileCollectionFingerprint outputFingerprints : outputFiles.values()) {
                     try {
                         outputsCleaner.cleanupOutputs(outputFingerprints);

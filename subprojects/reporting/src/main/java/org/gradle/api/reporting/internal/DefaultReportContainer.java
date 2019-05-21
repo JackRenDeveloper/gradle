@@ -40,7 +40,7 @@ public class DefaultReportContainer<T extends Report> extends DefaultNamedDomain
     public DefaultReportContainer(Class<? extends T> type, Instantiator instantiator, CollectionCallbackActionDecorator callbackActionDecorator) {
         super(type, instantiator, Report.NAMER, callbackActionDecorator);
 
-        enabled = matching(element -> element.isEnabled());
+        enabled = matching(Report::isEnabled);
     }
 
     @Override

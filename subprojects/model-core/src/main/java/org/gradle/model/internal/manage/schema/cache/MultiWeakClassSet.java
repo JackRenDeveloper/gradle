@@ -21,13 +21,14 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.gradle.internal.Cast;
 
+import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
 class MultiWeakClassSet extends WeakClassSet {
 
-    private static final Function<Class<?>, WeakReference<Class<?>>> TO_WEAK_REF = input -> new WeakReference<Class<?>>(input);
-    private static final Function<WeakReference<Class<?>>, Object> UNPACK_REF = input -> input.get();
+    private static final Function<Class<?>, WeakReference<Class<?>>> TO_WEAK_REF = WeakReference::new;
+    private static final Function<WeakReference<Class<?>>, Object> UNPACK_REF = Reference::get;
 
     private final List<WeakReference<Class<?>>> references;
     private final int hash;

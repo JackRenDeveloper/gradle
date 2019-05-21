@@ -173,7 +173,7 @@ public class DefaultConfiguration extends AbstractFileCollection implements Conf
     private final DocumentationRegistry documentationRegistry;
 
     private final Set<MutationValidator> childMutationValidators = Sets.newHashSet();
-    private final MutationValidator parentMutationValidator = type -> DefaultConfiguration.this.validateParentMutation(type);
+    private final MutationValidator parentMutationValidator = DefaultConfiguration.this::validateParentMutation;
     private final RootComponentMetadataBuilder rootComponentMetadataBuilder;
     private final ConfigurationsProvider configurationsProvider;
 
@@ -1163,7 +1163,7 @@ public class DefaultConfiguration extends AbstractFileCollection implements Conf
         }
 
         ConfigurationFileCollection(final Set<Dependency> dependencies) {
-            this(element -> dependencies.contains(element));
+            this(dependencies::contains);
         }
 
         @Override

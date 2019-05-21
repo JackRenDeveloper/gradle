@@ -25,11 +25,12 @@ import org.gradle.util.CollectionUtils;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.List;
+import java.util.Objects;
 
 @ThreadSafe
 class ModelPathSuggestionProvider implements Transformer<List<ModelPath>, ModelPath> {
 
-    private static final Predicate<Suggestion> REMOVE_NULLS = input -> input != null;
+    private static final Predicate<Suggestion> REMOVE_NULLS = Objects::nonNull;
 
     private final Iterable<ModelPath> availablePaths;
 

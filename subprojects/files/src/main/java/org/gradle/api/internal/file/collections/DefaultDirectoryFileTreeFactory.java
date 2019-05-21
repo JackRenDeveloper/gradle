@@ -28,7 +28,7 @@ public class DefaultDirectoryFileTreeFactory implements DirectoryFileTreeFactory
     private final FileSystem fileSystem;
 
     public DefaultDirectoryFileTreeFactory() {
-        this.patternSetFactory = () -> new PatternSet();
+        this.patternSetFactory = PatternSet::new;
         this.fileSystem = FileSystems.getDefault();
     }
 

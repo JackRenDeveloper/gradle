@@ -66,7 +66,7 @@ public class JacocoReport extends JacocoReportBase implements Reporting<JacocoRe
 
     @TaskAction
     public void generate() {
-        final Spec<File> fileExistsSpec = file -> file.exists();
+        final Spec<File> fileExistsSpec = File::exists;
 
         new AntJacocoReport(getAntBuilder()).execute(
             getJacocoClasspath(),

@@ -37,7 +37,7 @@ import java.util.WeakHashMap;
 public class MethodModelRuleDescriptor extends AbstractModelRuleDescriptor {
     private final static Cache DESCRIPTOR_CACHE = new Cache();
     private final static Joiner PARAM_JOINER = Joiner.on(", ");
-    private static final Function<ModelType<?>, String> TYPE_DISPLAYNAME_FUNCTION = input -> input.getDisplayName();
+    private static final Function<ModelType<?>, String> TYPE_DISPLAYNAME_FUNCTION = ModelType::getDisplayName;
 
     private final WeaklyTypeReferencingMethod<?, ?> method;
     private String description;

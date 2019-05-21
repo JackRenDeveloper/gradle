@@ -24,7 +24,7 @@ import java.util.Deque;
 
 public class RuleContext {
 
-    private static final ThreadLocal<Deque<ModelRuleDescriptor>> STACK = ThreadLocal.withInitial(() -> new ArrayDeque<ModelRuleDescriptor>());
+    private static final ThreadLocal<Deque<ModelRuleDescriptor>> STACK = ThreadLocal.withInitial(ArrayDeque::new);
 
     @Nullable
     public static ModelRuleDescriptor get() {

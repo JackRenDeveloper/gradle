@@ -67,7 +67,7 @@ public class BuildOperatingFiringTaskExecutionPreparer implements TaskExecutionP
                 }
 
                 private List<String> toTaskPaths(Set<Task> tasks) {
-                    return ImmutableSortedSet.copyOf(Collections2.transform(tasks, task -> task.getPath())).asList();
+                    return ImmutableSortedSet.copyOf(Collections2.transform(tasks, Task::getPath)).asList();
                 }
             });
         }

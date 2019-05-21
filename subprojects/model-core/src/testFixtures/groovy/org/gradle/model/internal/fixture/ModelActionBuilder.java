@@ -131,7 +131,7 @@ public class ModelActionBuilder<T> {
     }
 
     private static <T> ModelAction toAction(final List<ModelReference<?>> references, final TriAction<? super MutableModelNode, ? super T, ? super List<ModelView<?>>> action, final ModelPath path, final ModelType<T> type, final ModelRuleDescriptor descriptor) {
-        return DirectNodeInputUsingModelAction.of(subject(path, type), descriptor, references, (modelNode, t, inputs) -> action.execute(modelNode, t, inputs));
+        return DirectNodeInputUsingModelAction.of(subject(path, type), descriptor, references, action::execute);
     }
 
     private static <T> ModelAction toAction(Action<? super MutableModelNode> action, final ModelPath path, final ModelType<T> type, final ModelRuleDescriptor descriptor) {

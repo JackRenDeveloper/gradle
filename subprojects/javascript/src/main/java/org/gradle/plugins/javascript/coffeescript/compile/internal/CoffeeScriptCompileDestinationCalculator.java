@@ -44,6 +44,6 @@ public class CoffeeScriptCompileDestinationCalculator implements Transformer<Fil
     }
 
     public static Transformer<Transformer<File, RelativePath>, File> asFactory() {
-        return original -> new CoffeeScriptCompileDestinationCalculator(original);
+        return CoffeeScriptCompileDestinationCalculator::new;
     }
 }

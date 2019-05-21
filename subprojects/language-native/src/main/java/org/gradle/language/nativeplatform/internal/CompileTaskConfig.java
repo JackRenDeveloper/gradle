@@ -81,7 +81,7 @@ public abstract class CompileTaskConfig implements SourceTransformTaskConfig {
         task.includes(((HeaderExportingSourceSet) sourceSet).getExportedHeaders().getSourceDirectories());
         task.includes((Callable<List<FileCollection>>) () -> {
             Collection<NativeDependencySet> libs = binary.getLibs((DependentSourceSet) sourceSet);
-            return CollectionUtils.collect(libs, original -> original.getIncludeRoots());
+            return CollectionUtils.collect(libs, NativeDependencySet::getIncludeRoots);
         });
         FileCollectionFactory fileCollectionFactory = ((ProjectInternal) task.getProject()).getServices().get(FileCollectionFactory.class);
         task.getSystemIncludes().from(fileCollectionFactory.create(new MinimalFileSet() {

@@ -552,7 +552,7 @@ public class ManagedProxyClassGenerator extends AbstractProxyClassGenerator {
    }
 
     private void writeViewPropertyDslMethods(ClassVisitor visitor, Type generatedType, Collection<ModelProperty<?>> viewProperties, Class<?> viewClass) {
-        boolean writable = Iterables.any(viewProperties, viewProperty -> viewProperty.isWritable());
+        boolean writable = Iterables.any(viewProperties, ModelProperty::isWritable);
         // TODO:LPTR Instead of the first view property, we should figure out these parameters from the actual property
         ModelProperty<?> firstProperty = viewProperties.iterator().next();
 

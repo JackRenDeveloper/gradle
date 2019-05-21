@@ -203,7 +203,7 @@ public class FindBugsSpecBuilder {
             args.add("-auxclasspath");
 
             // Filter unexisting files as FindBugs can't handle them.
-            args.add(classpath.filter(element -> element.exists()).getAsPath());
+            args.add(classpath.filter(File::exists).getAsPath());
         }
 
         if (has(effort)) {

@@ -102,7 +102,7 @@ public class MultithreadedTestRule extends ExternalResource {
      * Executes the given closure in a test thread.
      */
     protected ThreadHandle start(final Closure closure) {
-        Runnable task = () -> closure.call();
+        Runnable task = closure::call;
 
         return start(task);
     }
@@ -111,7 +111,7 @@ public class MultithreadedTestRule extends ExternalResource {
      * Executes the given closure in a test thread and waits for it to complete.
      */
     protected ThreadHandle run(final Closure closure) {
-        Runnable task = () -> closure.call();
+        Runnable task = closure::call;
 
         return start(task).waitFor();
     }

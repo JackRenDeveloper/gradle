@@ -124,7 +124,7 @@ public class CachingTaskDependencyResolveContext<T> extends AbstractTaskDependen
             } else {
                 boolean handled = false;
                 for (WorkDependencyResolver<T> workResolver : workResolvers) {
-                    if (workResolver.resolve(task, node, resolvedValue -> values.add(resolvedValue))) {
+                    if (workResolver.resolve(task, node, values::add)) {
                         handled = true;
                         break;
                     }

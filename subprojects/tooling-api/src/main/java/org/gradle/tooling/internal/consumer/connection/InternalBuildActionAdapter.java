@@ -63,7 +63,7 @@ public class InternalBuildActionAdapter<T> implements InternalBuildAction<T>, In
     @Override
     public T execute(final InternalBuildControllerVersion2 buildController) {
         ProtocolToModelAdapter protocolToModelAdapter = new ProtocolToModelAdapter(new ConsumerTargetTypeProvider());
-        BuildController buildControllerAdapter = new BuildControllerAdapter(protocolToModelAdapter, (target, modelIdentifier, parameter) -> buildController.getModel(target, modelIdentifier, parameter), new ModelMapping(), rootDir);
+        BuildController buildControllerAdapter = new BuildControllerAdapter(protocolToModelAdapter, buildController::getModel, new ModelMapping(), rootDir);
         return action.execute(buildControllerAdapter);
     }
 }

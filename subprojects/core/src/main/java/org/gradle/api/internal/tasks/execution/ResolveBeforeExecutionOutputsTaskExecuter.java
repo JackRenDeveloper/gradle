@@ -55,7 +55,7 @@ public class ResolveBeforeExecutionOutputsTaskExecuter implements TaskExecuter {
             ? afterPreviousExecutionState.getOutputFileProperties()
             : ImmutableSortedMap.<String, FileCollectionFingerprint>of();
         OverlappingOutputs.detect(outputsAfterPreviousExecution, outputsBeforeExecution)
-            .ifPresent(overlappingOutputs -> context.setOverlappingOutputs(overlappingOutputs));
+            .ifPresent(context::setOverlappingOutputs);
 
         return delegate.execute(task, state, context);
     }

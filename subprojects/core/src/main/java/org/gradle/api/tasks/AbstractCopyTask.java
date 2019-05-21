@@ -72,15 +72,15 @@ public abstract class AbstractCopyTask extends ConventionTask implements CopySpe
             final CopySpecResolver resolver = spec.buildResolverRelativeToParent(parentResolver);
             String specPropertyName = specPropertyNameBuilder.toString();
 
-            getInputs().files((Callable<FileTree>) () -> resolver.getSource())
+            getInputs().files((Callable<FileTree>) resolver::getSource)
                 .withPropertyName(specPropertyName)
                 .withPathSensitivity(PathSensitivity.RELATIVE)
                 .skipWhenEmpty();
 
             getInputs().property(specPropertyName + ".destPath", (Callable<String>) () -> resolver.getDestPath().getPathString());
-            getInputs().property(specPropertyName + ".caseSensitive", (Callable<Boolean>) () -> spec.isCaseSensitive());
-            getInputs().property(specPropertyName + ".includeEmptyDirs", (Callable<Boolean>) () -> spec.getIncludeEmptyDirs());
-            getInputs().property(specPropertyName + ".duplicatesStrategy", (Callable<DuplicatesStrategy>) () -> spec.getDuplicatesStrategy());
+            getInputs().property(specPropertyName + ".caseSensitive", (Callable<Boolean>) spec::isCaseSensitive);
+            getInputs().property(specPropertyName + ".includeEmptyDirs", (Callable<Boolean>) spec::getIncludeEmptyDirs);
+            getInputs().property(specPropertyName + ".duplicatesStrategy", (Callable<DuplicatesStrategy>) spec::getDuplicatesStrategy);
             getInputs().property(specPropertyName + ".dirMode", new Callable<Integer>() {
                 @Nullable
                 @Override
@@ -95,7 +95,7 @@ public abstract class AbstractCopyTask extends ConventionTask implements CopySpe
                     return spec.getFileMode();
                 }
             }).optional(true);
-            getInputs().property(specPropertyName + ".filteringCharset", (Callable<String>) () -> spec.getFilteringCharset());
+            getInputs().property(specPropertyName + ".filteringCharset", (Callable<String>) spec::getFilteringCharset);
         });
         this.getOutputs().doNotCacheIf("Has custom actions", task -> rootSpec.hasCustomActions());
         this.mainSpec = rootSpec.addChild();

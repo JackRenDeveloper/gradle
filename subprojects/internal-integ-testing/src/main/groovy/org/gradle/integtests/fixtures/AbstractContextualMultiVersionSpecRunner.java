@@ -57,7 +57,7 @@ public abstract class AbstractContextualMultiVersionSpecRunner<T extends Abstrac
 
     private Collection<T> getAvailableVersions() {
         Set<T> allAvailable = Sets.newHashSet();
-        CollectionUtils.filter(getAllVersions(), allAvailable, version -> isAvailable(version));
+        CollectionUtils.filter(getAllVersions(), allAvailable, this::isAvailable);
         return allAvailable;
     }
 

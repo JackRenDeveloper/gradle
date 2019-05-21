@@ -34,7 +34,7 @@ public class ResolveAfterPreviousExecutionStateTaskExecuter implements TaskExecu
 
     @Override
     public TaskExecuterResult execute(TaskInternal task, TaskStateInternal state, final TaskExecutionContext context) {
-        executionHistoryStore.load(task.getPath()).ifPresent(execution -> context.setAfterPreviousExecution(execution));
+        executionHistoryStore.load(task.getPath()).ifPresent(context::setAfterPreviousExecution);
         return delegate.execute(task, state, context);
     }
 }

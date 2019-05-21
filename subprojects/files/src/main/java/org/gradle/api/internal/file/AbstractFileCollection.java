@@ -189,7 +189,7 @@ public abstract class AbstractFileCollection implements FileCollectionInternal {
 
     @Override
     public FileCollection filter(final Spec<? super File> filterSpec) {
-        final Predicate<File> predicate = input -> filterSpec.isSatisfiedBy(input);
+        final Predicate<File> predicate = filterSpec::isSatisfiedBy;
         return new AbstractFileCollection() {
             @Override
             public String getDisplayName() {

@@ -82,7 +82,7 @@ public class DefaultPlayToolChain implements PlayToolChainInternal {
     }
 
     private Configuration resolveToolClasspath(Object... dependencyNotations) {
-        List<Dependency> dependencies = CollectionUtils.collect(dependencyNotations, dependencyNotation -> dependencyHandler.create(dependencyNotation));
+        List<Dependency> dependencies = CollectionUtils.collect(dependencyNotations, dependencyHandler::create);
         Dependency[] dependenciesArray = dependencies.toArray(new Dependency[0]);
         return configurationContainer.detachedConfiguration(dependenciesArray);
     }

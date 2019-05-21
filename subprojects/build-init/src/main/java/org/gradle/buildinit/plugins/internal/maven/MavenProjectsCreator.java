@@ -89,7 +89,7 @@ public class MavenProjectsCreator {
         //we should add coverage for nested multi-project builds with multiple parents.
         reactorProjects.add(mavenProject);
         List<ProjectBuildingResult> allProjects = builder.build(ImmutableList.of(pomFile), true, buildingRequest);
-        CollectionUtils.collect(allProjects, reactorProjects, original -> original.getProject());
+        CollectionUtils.collect(allProjects, reactorProjects, ProjectBuildingResult::getProject);
 
         MavenExecutionResult result = new DefaultMavenExecutionResult();
         result.setProject(mavenProject);

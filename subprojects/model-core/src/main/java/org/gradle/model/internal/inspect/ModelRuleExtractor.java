@@ -94,7 +94,7 @@ public class ModelRuleExtractor {
     }
 
     private String describeHandlers() {
-        String desc = Joiner.on(", ").join(CollectionUtils.collect(handlers, original -> original.getDescription()));
+        String desc = Joiner.on(", ").join(CollectionUtils.collect(handlers, MethodModelRuleExtractor::getDescription));
         return "[" + desc + "]";
     }
 

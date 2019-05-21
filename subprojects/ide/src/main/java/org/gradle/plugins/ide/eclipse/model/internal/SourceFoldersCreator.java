@@ -79,7 +79,7 @@ public class SourceFoldersCreator {
         Collection<SourceFolder> externalSourceFolders = partitionedFolders.getLeft();
         Collection<SourceFolder> regularSourceFolders = partitionedFolders.getRight();
 
-        List<String> sources = Lists.newArrayList(Collections2.transform(regularSourceFolders, sourceFolder1 -> sourceFolder1.getName()));
+        List<String> sources = Lists.newArrayList(Collections2.transform(regularSourceFolders, SourceFolder::getName));
         Collection<SourceFolder> dedupedExternalSourceFolders = trimAndDedup(externalSourceFolders, sources);
 
         return collector.apply(Pair.of(regularSourceFolders, dedupedExternalSourceFolders));

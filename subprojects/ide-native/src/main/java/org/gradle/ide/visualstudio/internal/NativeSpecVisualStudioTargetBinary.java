@@ -95,7 +95,7 @@ public class NativeSpecVisualStudioTargetBinary implements VisualStudioTargetBin
     @Override
     public FileCollection getSourceFiles() {
         Spec<LanguageSourceSet> filter = sourceSet -> !(sourceSet instanceof WindowsResourceSet);
-        Transformer<FileCollection, LanguageSourceSet> transform = sourceSet -> sourceSet.getSource();
+        Transformer<FileCollection, LanguageSourceSet> transform = LanguageSourceSet::getSource;
 
         return new FileCollectionAdapter(new LanguageSourceSetCollectionAdapter(getComponentName() + " source files", binary.getInputs(), filter, transform));
     }
@@ -103,7 +103,7 @@ public class NativeSpecVisualStudioTargetBinary implements VisualStudioTargetBin
     @Override
     public FileCollection getResourceFiles() {
         Spec<LanguageSourceSet> filter = sourceSet -> sourceSet instanceof WindowsResourceSet;
-        Transformer<FileCollection, LanguageSourceSet> transform = sourceSet -> sourceSet.getSource();
+        Transformer<FileCollection, LanguageSourceSet> transform = LanguageSourceSet::getSource;
 
         return new FileCollectionAdapter(new LanguageSourceSetCollectionAdapter(getComponentName() + " resource files", binary.getInputs(), filter, transform));
     }

@@ -290,9 +290,9 @@ public class MavenPublishPlugin implements Plugin<Project> {
         private MutableMavenProjectIdentity createProjectIdentity() {
             final Module module = dependencyMetaDataProvider.getModule();
             MutableMavenProjectIdentity projectIdentity = new WritableMavenProjectIdentity(objectFactory);
-            projectIdentity.getGroupId().set(providerFactory.provider(() -> module.getGroup()));
-            projectIdentity.getArtifactId().set(providerFactory.provider(() -> module.getName()));
-            projectIdentity.getVersion().set(providerFactory.provider(() -> module.getVersion()));
+            projectIdentity.getGroupId().set(providerFactory.provider(module::getGroup));
+            projectIdentity.getArtifactId().set(providerFactory.provider(module::getName));
+            projectIdentity.getVersion().set(providerFactory.provider(module::getVersion));
             return projectIdentity;
         }
     }

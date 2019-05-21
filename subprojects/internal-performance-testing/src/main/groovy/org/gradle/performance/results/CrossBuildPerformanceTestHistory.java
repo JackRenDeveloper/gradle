@@ -49,7 +49,7 @@ public class CrossBuildPerformanceTestHistory implements PerformanceTestHistory 
 
     @Override
     public List<PerformanceTestExecution> getExecutions() {
-        return Lists.transform(newestFirst, results -> new KnownBuildSpecificationsPerformanceTestExecution(results));
+        return Lists.transform(newestFirst, KnownBuildSpecificationsPerformanceTestExecution::new);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class CrossBuildPerformanceTestHistory implements PerformanceTestHistory 
 
     @Override
     public List<String> getScenarioLabels() {
-        return Lists.transform(builds, specification -> specification.getDisplayName());
+        return Lists.transform(builds, BuildDisplayInfo::getDisplayName);
     }
 
     @Override

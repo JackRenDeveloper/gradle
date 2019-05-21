@@ -42,7 +42,7 @@ public class AggregateMultiProjectTaskReportModel implements TaskReportModel {
     }
 
     public void build() {
-        groups = TreeMultimap.create((string1, string2) -> string1.compareToIgnoreCase(string2), (task1, task2) -> task1.getPath().compareTo(task2.getPath()));
+        groups = TreeMultimap.create(String::compareToIgnoreCase, (task1, task2) -> task1.getPath().compareTo(task2.getPath()));
         for (TaskReportModel project : projects) {
             for (String group : project.getGroups()) {
                 if (isVisible(group)) {

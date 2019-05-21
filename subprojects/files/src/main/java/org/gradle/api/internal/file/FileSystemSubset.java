@@ -56,7 +56,7 @@ public class FileSystemSubset {
 
     public Iterable<? extends File> getRoots() {
         return FileUtils.calculateRoots(
-            Iterables.concat(files, Iterables.transform(trees, (Function<DirectoryTree, File>) input -> input.getDir()))
+            Iterables.concat(files, Iterables.transform(trees, (Function<DirectoryTree, File>) DirectoryTree::getDir))
         );
     }
 

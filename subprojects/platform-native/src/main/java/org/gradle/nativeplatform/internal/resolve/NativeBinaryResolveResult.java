@@ -45,7 +45,7 @@ public class NativeBinaryResolveResult {
     }
 
     public List<NativeDependencySet> getAllResults() {
-        return CollectionUtils.collect(getAllResolutions(), original -> original.getNativeDependencySet());
+        return CollectionUtils.collect(getAllResolutions(), NativeBinaryRequirementResolveResult::getNativeDependencySet);
     }
 
     public List<NativeLibraryBinary> getAllLibraryBinaries() {

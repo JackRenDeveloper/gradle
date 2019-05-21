@@ -91,7 +91,7 @@ public class MethodDescription {
     }
 
     public MethodDescription takes(Type[] parameterTypes) {
-        this.parameterTypes = Iterables.transform(Arrays.asList(parameterTypes), input -> typeName(input));
+        this.parameterTypes = Iterables.transform(Arrays.asList(parameterTypes), this::typeName);
         return this;
     }
 

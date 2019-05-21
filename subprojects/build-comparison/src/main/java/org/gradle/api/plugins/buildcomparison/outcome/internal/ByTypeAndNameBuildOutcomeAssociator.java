@@ -16,10 +16,11 @@
 
 package org.gradle.api.plugins.buildcomparison.outcome.internal;
 
+import org.gradle.api.Named;
 import org.gradle.api.Transformer;
 
 public class ByTypeAndNameBuildOutcomeAssociator<T extends BuildOutcome> extends ByTypeAndCharacteristicBuildOutcomeAssociator<T> {
     public ByTypeAndNameBuildOutcomeAssociator(Class<? extends T> type) {
-        super(type, (Transformer<String, T>) outcome -> outcome.getName());
+        super(type, (Transformer<String, T>) Named::getName);
     }
 }

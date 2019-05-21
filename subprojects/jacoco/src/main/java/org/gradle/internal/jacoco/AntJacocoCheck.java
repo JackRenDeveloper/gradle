@@ -38,7 +38,7 @@ import static com.google.common.collect.Iterables.filter;
 public class AntJacocoCheck extends AbstractAntJacocoReport<JacocoViolationRulesContainer> {
 
     private static final String VIOLATIONS_ANT_PROPERTY = "jacocoViolations";
-    static final Predicate<JacocoViolationRule> RULE_ENABLED_PREDICATE = rule -> rule.isEnabled();
+    static final Predicate<JacocoViolationRule> RULE_ENABLED_PREDICATE = JacocoViolationRule::isEnabled;
 
     public AntJacocoCheck(IsolatedAntBuilder ant) {
         super(ant);

@@ -90,8 +90,8 @@ public class DefaultCacheAccess implements CacheCoordinator {
         this.executorFactory = executorFactory;
         this.operations = new CacheAccessOperationsStack();
 
-        Action<FileLock> onFileLockAcquireAction = fileLock -> afterLockAcquire(fileLock);
-        Action<FileLock> onFileLockReleaseAction = fileLock -> beforeLockRelease(fileLock);
+        Action<FileLock> onFileLockAcquireAction = this::afterLockAcquire;
+        Action<FileLock> onFileLockReleaseAction = this::beforeLockRelease;
 
         switch (lockOptions.getMode()) {
             case Shared:

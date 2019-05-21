@@ -46,24 +46,24 @@ public class ProjectReportsPlugin implements Plugin<Project> {
         TaskReportTask taskReportTask = project.getTasks().create(TASK_REPORT, TaskReportTask.class);
         taskReportTask.setDescription("Generates a report about your tasks.");
         taskReportTask.conventionMapping("outputFile", () -> new File(convention.getProjectReportDir(), "tasks.txt"));
-        taskReportTask.conventionMapping("projects", () -> convention.getProjects());
+        taskReportTask.conventionMapping("projects", convention::getProjects);
 
         PropertyReportTask propertyReportTask = project.getTasks().create(PROPERTY_REPORT, PropertyReportTask.class);
         propertyReportTask.setDescription("Generates a report about your properties.");
         propertyReportTask.conventionMapping("outputFile", () -> new File(convention.getProjectReportDir(), "properties.txt"));
-        propertyReportTask.conventionMapping("projects", () -> convention.getProjects());
+        propertyReportTask.conventionMapping("projects", convention::getProjects);
 
         DependencyReportTask dependencyReportTask = project.getTasks().create(DEPENDENCY_REPORT,
                 DependencyReportTask.class);
         dependencyReportTask.setDescription("Generates a report about your library dependencies.");
         dependencyReportTask.conventionMapping("outputFile", () -> new File(convention.getProjectReportDir(), "dependencies.txt"));
-        dependencyReportTask.conventionMapping("projects", () -> convention.getProjects());
+        dependencyReportTask.conventionMapping("projects", convention::getProjects);
 
         HtmlDependencyReportTask htmlDependencyReportTask = project.getTasks().create(HTML_DEPENDENCY_REPORT,
                 HtmlDependencyReportTask.class);
         htmlDependencyReportTask.setDescription("Generates an HTML report about your library dependencies.");
         new DslObject(htmlDependencyReportTask.getReports().getHtml()).getConventionMapping().map("destination", () -> new File(convention.getProjectReportDir(), "dependencies"));
-        htmlDependencyReportTask.conventionMapping("projects", () -> convention.getProjects());
+        htmlDependencyReportTask.conventionMapping("projects", convention::getProjects);
 
         Task projectReportTask = project.getTasks().create(PROJECT_REPORT);
         projectReportTask.dependsOn(TASK_REPORT, PROPERTY_REPORT, DEPENDENCY_REPORT, HTML_DEPENDENCY_REPORT);

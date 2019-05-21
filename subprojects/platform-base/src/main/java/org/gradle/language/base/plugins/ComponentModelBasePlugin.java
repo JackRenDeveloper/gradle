@@ -238,7 +238,7 @@ public class ComponentModelBasePlugin implements Plugin<Project> {
         @Defaults
         // TODO:LPTR We should collect all source sets in the project source set, however this messes up ComponentReportRenderer
         void addComponentSourcesSetsToProjectSourceSet(@Each SourceComponentSpec component, final ProjectSourceSet projectSourceSet) {
-            component.getSources().afterEach(languageSourceSet -> projectSourceSet.add(languageSourceSet));
+            component.getSources().afterEach(projectSourceSet::add);
         }
 
         @Rules

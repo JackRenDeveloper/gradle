@@ -40,8 +40,8 @@ import java.util.concurrent.Callable;
  */
 public class War extends Jar {
     public static final String WAR_EXTENSION = "war";
-    static final Spec<File> IS_DIRECTORY = element -> element.isDirectory();
-    static final Spec<File> IS_FILE = element -> element.isFile();
+    static final Spec<File> IS_DIRECTORY = File::isDirectory;
+    static final Spec<File> IS_FILE = File::isFile;
 
     private File webXml;
     private FileCollection classpath;
@@ -63,7 +63,7 @@ public class War extends Jar {
             return classpath != null ? classpath.filter(IS_FILE) : Collections.<File>emptyList();
         }));
         webInf.into("", it -> {
-            it.from((Callable<File>) () -> getWebXml());
+            it.from((Callable<File>) this::getWebXml);
             it.rename(it1 -> "web.xml");
         });
     }

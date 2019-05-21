@@ -87,7 +87,7 @@ public class TaskPropertyUtils {
                 Collections.sort(problems);
                 message = String.format("Some problems were found with the configuration of %s.", task);
             }
-            throw new TaskValidationException(message, CollectionUtils.collect(problems, message1 -> new InvalidUserDataException(message1)));
+            throw new TaskValidationException(message, CollectionUtils.collect(problems, InvalidUserDataException::new));
         }
 
         @Override

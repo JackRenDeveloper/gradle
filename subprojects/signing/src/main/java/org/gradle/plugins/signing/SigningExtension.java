@@ -97,7 +97,7 @@ public class SigningExtension {
         this.configuration = getDefaultConfiguration();
         this.signatureTypes = createSignatureTypeProvider();
         this.signatories = createSignatoryProvider();
-        project.getTasks().withType(Sign.class, task -> addSignatureSpecConventions(task));
+        project.getTasks().withType(Sign.class, this::addSignatureSpecConventions);
     }
 
     public final Project getProject() {
@@ -263,9 +263,9 @@ public class SigningExtension {
         }
 
         ConventionMapping conventionMapping = ((IConventionAware) spec).getConventionMapping();
-        conventionMapping.map("signatory", (Callable<Signatory>) () -> getSignatory());
-        conventionMapping.map("signatureType", (Callable<SignatureType>) () -> getSignatureType());
-        conventionMapping.map("required", (Callable<Boolean>) () -> isRequired());
+        conventionMapping.map("signatory", (Callable<Signatory>) this::getSignatory);
+        conventionMapping.map("signatureType", (Callable<SignatureType>) this::getSignatureType);
+        conventionMapping.map("required", (Callable<Boolean>) this::isRequired);
     }
 
     /**
@@ -367,7 +367,7 @@ public class SigningExtension {
         });
         final Map<Signature, T> artifacts = new HashMap<Signature, T>();
         signTask.getSignatures().all(signature -> {
-            T artifact = publicationToSign.addDerivedArtifact((T) signature.getSource(), () -> signature.getFile());
+            T artifact = publicationToSign.addDerivedArtifact((T) signature.getSource(), signature::getFile);
             artifact.builtBy(signTask);
             artifacts.put(signature, artifact);
         });

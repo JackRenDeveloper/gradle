@@ -42,12 +42,12 @@ public class SourceSetUtil {
         compile.setDescription("Compiles the " + sourceDirectorySet.getDisplayName() + ".");
         compile.setSource(sourceSet.getJava());
         compile.getConventionMapping().map("classpath", () -> sourceSet.getCompileClasspath().plus(target.files(sourceSet.getJava().getOutputDir())));
-        compile.setDestinationDir(target.provider(() -> sourceDirectorySet.getOutputDir()));
+        compile.setDestinationDir(target.provider(sourceDirectorySet::getOutputDir));
     }
 
     public static void configureAnnotationProcessorPath(final SourceSet sourceSet, SourceDirectorySet sourceDirectorySet, CompileOptions options, final Project target) {
         final ConventionMapping conventionMapping = new DslObject(options).getConventionMapping();
-        conventionMapping.map("annotationProcessorPath", () -> sourceSet.getAnnotationProcessorPath());
+        conventionMapping.map("annotationProcessorPath", sourceSet::getAnnotationProcessorPath);
         final String annotationProcessorGeneratedSourcesChildPath = "generated/sources/annotationProcessor/" + sourceDirectorySet.getName() + "/" + sourceSet.getName();
         conventionMapping.map("annotationProcessorGeneratedSourcesDirectory", () -> new File(target.getBuildDir(), annotationProcessorGeneratedSourcesChildPath));
     }
@@ -58,7 +58,7 @@ public class SourceSetUtil {
         sourceDirectorySet.setOutputDir(target.provider(() -> new File(target.getBuildDir(), sourceSetChildPath)));
 
         DefaultSourceSetOutput sourceSetOutput = Cast.cast(DefaultSourceSetOutput.class, sourceSet.getOutput());
-        sourceSetOutput.addClassesDir(() -> sourceDirectorySet.getOutputDir());
-        sourceSetOutput.getGeneratedSourcesDirs().from(options.map((Transformer<Object, CompileOptions>) compileOptions -> compileOptions.getAnnotationProcessorGeneratedSourcesDirectory())).builtBy(compileTask);
+        sourceSetOutput.addClassesDir(sourceDirectorySet::getOutputDir);
+        sourceSetOutput.getGeneratedSourcesDirs().from(options.map((Transformer<Object, CompileOptions>) CompileOptions::getAnnotationProcessorGeneratedSourcesDirectory)).builtBy(compileTask);
     }
 }

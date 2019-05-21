@@ -50,7 +50,7 @@ public class LifecycleBasePlugin implements Plugin<Project> {
     }
 
     private void addClean(final ProjectInternal project) {
-        final Callable<File> buildDir = () -> project.getBuildDir();
+        final Callable<File> buildDir = project::getBuildDir;
 
         // Register at least the project buildDir as a directory to be deleted.
         final BuildOutputCleanupRegistry buildOutputCleanupRegistry = project.getServices().get(BuildOutputCleanupRegistry.class);

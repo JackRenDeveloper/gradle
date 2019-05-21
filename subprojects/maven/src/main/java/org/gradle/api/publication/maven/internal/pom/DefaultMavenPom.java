@@ -216,7 +216,7 @@ public class DefaultMavenPom implements MavenPom {
 
     @Override
     public DefaultMavenPom writeTo(Object path) {
-        IoActions.writeTextFile(fileResolver.resolve(path), POM_FILE_ENCODING, writer -> writeTo(writer));
+        IoActions.writeTextFile(fileResolver.resolve(path), POM_FILE_ENCODING, this::writeTo);
         return this;
     }
 

@@ -87,7 +87,7 @@ public class DefaultPolymorphicDomainObjectContainer<T> extends AbstractPolymorp
 
     @Override
     public <U extends T> void registerFactory(Class<U> type, final Closure<? extends U> factory) {
-        registerFactory(type, name -> factory.call(name));
+        registerFactory(type, factory::call);
     }
 
     @Override

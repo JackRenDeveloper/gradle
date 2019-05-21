@@ -31,7 +31,7 @@ import java.io.Serializable;
  */
 public interface Report extends Serializable, Configurable<Report> {
 
-    Namer<Report> NAMER = report -> report.getName();
+    Namer<Report> NAMER = Report::getName;
 
     /**
      * The symbolic name of this report.

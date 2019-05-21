@@ -308,7 +308,7 @@ public class JvmComponentPlugin implements Plugin<Project> {
 
         private static List<LocalJava> toImmutableJdkList(ModelMap<LocalJava> jdks) {
             final List<LocalJava> asImmutable = Lists.newArrayList();
-            jdks.afterEach(localJava -> asImmutable.add(localJava));
+            jdks.afterEach(asImmutable::add);
             return asImmutable;
         }
 
