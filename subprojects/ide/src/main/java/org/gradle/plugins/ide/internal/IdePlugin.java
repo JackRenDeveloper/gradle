@@ -30,7 +30,6 @@ import org.gradle.api.tasks.TaskProvider;
 import org.gradle.internal.logging.ConsoleRenderer;
 import org.gradle.internal.os.OperatingSystem;
 import org.gradle.plugins.ide.IdeWorkspace;
-import org.gradle.process.ExecSpec;
 
 import java.awt.*;
 import java.io.File;
@@ -91,7 +90,7 @@ public abstract class IdePlugin implements Plugin<Project> {
         return cleanTask;
     }
 
-    protected String cleanName(String taskName) {
+    protected static String cleanName(String taskName) {
         return String.format("clean%s", StringUtils.capitalize(taskName));
     }
 

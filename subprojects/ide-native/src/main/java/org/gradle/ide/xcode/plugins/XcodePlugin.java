@@ -257,7 +257,7 @@ public class XcodePlugin extends IdePlugin {
         });
     }
 
-    String toBuildConfigurationName(SoftwareComponent component, SoftwareComponent binary) {
+    static String toBuildConfigurationName(SoftwareComponent component, SoftwareComponent binary) {
         String result = binary.getName().replace(component.getName(), "");
         if (binary instanceof SwiftSharedLibrary || binary instanceof CppSharedLibrary) {
             return result.replace("Shared", "");

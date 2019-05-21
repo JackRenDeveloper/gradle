@@ -103,7 +103,7 @@ public class DefaultServiceLocator implements ServiceLocator {
         return factoriesFor(serviceType, implementationsOf(serviceType));
     }
 
-    private <T> List<ServiceFactory<T>> factoriesFor(Class<T> serviceType, List<Class<? extends T>> implementationClasses) {
+    private static <T> List<ServiceFactory<T>> factoriesFor(Class<T> serviceType, List<Class<? extends T>> implementationClasses) {
         List<ServiceFactory<T>> factories = new ArrayList<ServiceFactory<T>>();
         for (Class<? extends T> implementationClass : implementationClasses) {
             factories.add(new ServiceFactory<T>(serviceType, implementationClass));

@@ -111,7 +111,7 @@ class ClassTypeWrapper implements TypeWrapper {
         return classChain;
     }
 
-    private Class<?> effectiveClassOf(Class<?> clazz) {
+    private static Class<?> effectiveClassOf(Class<?> clazz) {
         Class<?> enclosingClass = clazz.getEnclosingClass();
 
         // Detect anonymous static classes of enum constants with class body

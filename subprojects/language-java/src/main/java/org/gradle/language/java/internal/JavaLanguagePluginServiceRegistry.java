@@ -63,7 +63,7 @@ public class JavaLanguagePluginServiceRegistry extends AbstractPluginServiceRegi
         JavaGlobalScopeServices() {
         }
 
-        SubscribableBuildActionRunnerRegistration createJavaSubscribableBuildActionRunnerRegistration(final JavaCompileTaskSuccessResultPostProcessor factory) {
+        static SubscribableBuildActionRunnerRegistration createJavaSubscribableBuildActionRunnerRegistration(final JavaCompileTaskSuccessResultPostProcessor factory) {
             return (clientSubscriptions, consumer) -> {
                 if (clientSubscriptions.isRequested(OperationType.TASK)) {
                     return Collections.<Object>singletonList(factory);
@@ -72,7 +72,7 @@ public class JavaLanguagePluginServiceRegistry extends AbstractPluginServiceRegi
             };
         }
 
-        public JavaCompileTaskSuccessResultPostProcessor createJavaCompileTaskSuccessResultDecoratorFactory() {
+        public static JavaCompileTaskSuccessResultPostProcessor createJavaCompileTaskSuccessResultDecoratorFactory() {
             return new JavaCompileTaskSuccessResultPostProcessor();
         }
     }
@@ -95,7 +95,7 @@ public class JavaLanguagePluginServiceRegistry extends AbstractPluginServiceRegi
         JavaProjectScopeServices() {
         }
 
-        public IncrementalCompilerFactory createIncrementalCompilerFactory(FileOperations fileOperations, StreamHasher streamHasher, GeneralCompileCaches compileCaches, BuildOperationExecutor buildOperationExecutor, StringInterner interner, FileSystemSnapshotter fileSystemSnapshotter, FileHasher fileHasher) {
+        public static IncrementalCompilerFactory createIncrementalCompilerFactory(FileOperations fileOperations, StreamHasher streamHasher, GeneralCompileCaches compileCaches, BuildOperationExecutor buildOperationExecutor, StringInterner interner, FileSystemSnapshotter fileSystemSnapshotter, FileHasher fileHasher) {
             return new IncrementalCompilerFactory(fileOperations, streamHasher, compileCaches, buildOperationExecutor, interner, fileSystemSnapshotter, fileHasher);
         }
     }

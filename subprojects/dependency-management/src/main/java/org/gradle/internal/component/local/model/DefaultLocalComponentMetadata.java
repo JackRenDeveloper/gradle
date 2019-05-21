@@ -126,7 +126,7 @@ public class DefaultLocalComponentMetadata implements LocalComponentMetadata, Bu
         return copy;
     }
 
-    private LocalComponentArtifactMetadata copyArtifact(LocalComponentArtifactMetadata oldArtifact, Transformer<LocalComponentArtifactMetadata, LocalComponentArtifactMetadata> transformer, Map<LocalComponentArtifactMetadata, LocalComponentArtifactMetadata> transformedArtifacts) {
+    private static LocalComponentArtifactMetadata copyArtifact(LocalComponentArtifactMetadata oldArtifact, Transformer<LocalComponentArtifactMetadata, LocalComponentArtifactMetadata> transformer, Map<LocalComponentArtifactMetadata, LocalComponentArtifactMetadata> transformedArtifacts) {
         LocalComponentArtifactMetadata newArtifact = transformedArtifacts.get(oldArtifact);
         if (newArtifact == null) {
             newArtifact = transformer.transform(oldArtifact);

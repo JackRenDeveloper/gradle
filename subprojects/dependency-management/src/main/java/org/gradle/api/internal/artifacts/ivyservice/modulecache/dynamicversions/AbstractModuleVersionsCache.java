@@ -50,7 +50,7 @@ public abstract class AbstractModuleVersionsCache implements ModuleVersionsCache
         return new DefaultCachedModuleVersionList(moduleVersionsCacheEntry, timeProvider);
     }
 
-    private ModuleAtRepositoryKey createKey(ModuleComponentRepository repository, ModuleIdentifier moduleId) {
+    private static ModuleAtRepositoryKey createKey(ModuleComponentRepository repository, ModuleIdentifier moduleId) {
         return new ModuleAtRepositoryKey(repository.getId(), moduleId);
     }
 

@@ -32,7 +32,7 @@ public class PluginAuthorServices extends AbstractPluginServiceRegistry {
         GlobalcopeServices() {
         }
 
-        SoftwareComponentFactory createSoftwareComponentFactory() {
+        static SoftwareComponentFactory createSoftwareComponentFactory() {
             return new DefaultSoftwareComponentFactory();
         }
     }

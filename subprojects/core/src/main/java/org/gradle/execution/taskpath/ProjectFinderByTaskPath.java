@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class ProjectFinderByTaskPath {
 
-    public ProjectInternal findProject(String projectPath, ProjectInternal startFrom) {
+    public static ProjectInternal findProject(String projectPath, ProjectInternal startFrom) {
         if (projectPath.equals(Project.PATH_SEPARATOR)) {
             return startFrom.getRootProject();
         }

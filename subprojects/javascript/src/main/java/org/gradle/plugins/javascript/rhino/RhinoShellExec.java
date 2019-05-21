@@ -189,7 +189,7 @@ public class RhinoShellExec extends JavaExec {
         throw argsUnsupportOperationException();
     }
 
-    private UnsupportedOperationException argsUnsupportOperationException() {
+    private static UnsupportedOperationException argsUnsupportOperationException() {
         return new UnsupportedOperationException("Cannot set args directly on RhinoShellExec, use rhinoOptions, scriptArgs and/or script");
     }
 

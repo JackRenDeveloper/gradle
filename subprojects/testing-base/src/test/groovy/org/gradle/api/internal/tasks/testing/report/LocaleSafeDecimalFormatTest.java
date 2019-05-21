@@ -39,7 +39,7 @@ public class LocaleSafeDecimalFormatTest {
         Locale.setDefault(usesCommaAsDecimalSeparator);
 
         //when
-        BigDecimal result = new LocaleSafeDecimalFormat().parse("1.05");
+        BigDecimal result = LocaleSafeDecimalFormat.parse("1.05");
 
         //then
         assertEquals(1.05, result.doubleValue(), 0f);

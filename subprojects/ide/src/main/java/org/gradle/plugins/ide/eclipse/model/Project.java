@@ -304,7 +304,7 @@ public class Project extends XmlPersistableConfigurationObject {
         }
     }
 
-    private void addResourceFilterMatcherToXml(Node parent, ResourceFilterMatcher matcher) {
+    private static void addResourceFilterMatcherToXml(Node parent, ResourceFilterMatcher matcher) {
             Node matcherNode = parent.appendNode("matcher");
              matcherNode.appendNode("id", matcher.getId());
             // A matcher may have either arguments or children, but not both
@@ -318,7 +318,7 @@ public class Project extends XmlPersistableConfigurationObject {
             }
     }
 
-    private int getResourceFilterType(ResourceFilter resourceFilter) {
+    private static int getResourceFilterType(ResourceFilter resourceFilter) {
         int type = 0;
         switch (resourceFilter.getType()) {
             case INCLUDE_ONLY:
@@ -345,7 +345,7 @@ public class Project extends XmlPersistableConfigurationObject {
         return type;
     }
 
-    private ResourceFilterAppliesTo resourceFilterTypeBitmaskToAppliesTo(int type) {
+    private static ResourceFilterAppliesTo resourceFilterTypeBitmaskToAppliesTo(int type) {
         Preconditions.checkArgument(type >= 0);
         if (((type & 8) != 0) && ((type & 4) != 0)) { // order is important here, this must come first
             return FILES_AND_FOLDERS;
@@ -359,7 +359,7 @@ public class Project extends XmlPersistableConfigurationObject {
         return null;
     }
 
-    private ResourceFilterType resourceFilterTypeBitmaskToType(int type) {
+    private static ResourceFilterType resourceFilterTypeBitmaskToType(int type) {
         Preconditions.checkArgument(type >= 0);
         if ((type & 1) != 0) {
             return INCLUDE_ONLY;
@@ -370,12 +370,12 @@ public class Project extends XmlPersistableConfigurationObject {
         return null;
     }
 
-    private boolean isResourceFilterTypeBitmaskRecursive(int type) {
+    private static boolean isResourceFilterTypeBitmaskRecursive(int type) {
         Preconditions.checkArgument(type >= 0);
         return (type & 16) != 0;
     }
 
-    private ResourceFilterMatcher readResourceFilterMatcher(Node matcherNode) {
+    private static ResourceFilterMatcher readResourceFilterMatcher(Node matcherNode) {
         if (matcherNode == null) {
             return null;
         }

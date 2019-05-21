@@ -1002,7 +1002,7 @@ public class DefaultServiceRegistry implements ServiceRegistry, Closeable, Conta
         }
     }
 
-    public Service find(Type serviceType, ServiceProvider serviceProvider) {
+    public static Service find(Type serviceType, ServiceProvider serviceProvider) {
         if (serviceType instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) serviceType;
             Type rawType = parameterizedType.getRawType();
@@ -1027,7 +1027,7 @@ public class DefaultServiceRegistry implements ServiceRegistry, Closeable, Conta
         throw new ServiceValidationException(String.format("Locating services with type %s is not supported.", format(serviceType)));
     }
 
-    private Service getFactoryService(Type type, ServiceProvider serviceProvider) {
+    private static Service getFactoryService(Type type, ServiceProvider serviceProvider) {
         if (type instanceof Class) {
             return serviceProvider.getFactory((Class) type);
         }
@@ -1047,7 +1047,7 @@ public class DefaultServiceRegistry implements ServiceRegistry, Closeable, Conta
         throw new ServiceValidationException(String.format("Locating services with type %s is not supported.", format(type)));
     }
 
-    private Service getCollectionService(Type elementType, ServiceProvider serviceProvider) {
+    private static Service getCollectionService(Type elementType, ServiceProvider serviceProvider) {
         if (elementType instanceof Class) {
             Class<?> elementClass = (Class<?>) elementType;
             return getCollectionService(elementClass, serviceProvider);
@@ -1062,7 +1062,7 @@ public class DefaultServiceRegistry implements ServiceRegistry, Closeable, Conta
         throw new ServiceValidationException(String.format("Locating services with type %s is not supported.", format(elementType)));
     }
 
-    private Service getCollectionService(Class<?> elementClass, ServiceProvider serviceProvider) {
+    private static Service getCollectionService(Class<?> elementClass, ServiceProvider serviceProvider) {
         assertValidServiceType(elementClass);
         List<Service> providers = new ArrayList<Service>();
         serviceProvider.getAll(elementClass, new CollectingVisitor(providers));

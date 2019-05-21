@@ -392,7 +392,7 @@ public class ComponentState implements ComponentResolutionState, DependencyGraph
 
     }
 
-    private String formatCapabilityRejectMessage(ModuleIdentifier id, Pair<Capability, Collection<NodeState>> capabilityConflict) {
+    private static String formatCapabilityRejectMessage(ModuleIdentifier id, Pair<Capability, Collection<NodeState>> capabilityConflict) {
         StringBuilder sb = new StringBuilder("Module '");
         sb.append(id).append("' has been rejected:\n");
         sb.append("   Cannot select module with conflict on ");

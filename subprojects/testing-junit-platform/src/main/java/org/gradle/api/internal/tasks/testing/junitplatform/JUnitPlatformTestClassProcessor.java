@@ -103,11 +103,11 @@ public class JUnitPlatformTestClassProcessor extends AbstractJUnitTestClassProce
         }
     }
 
-    boolean isInnerClass(Class<?> klass) {
+    static boolean isInnerClass(Class<?> klass) {
         return klass.getEnclosingClass() != null && !Modifier.isStatic(klass.getModifiers());
     }
 
-    Class<?> loadClass(String className) {
+    static Class<?> loadClass(String className) {
         try {
             ClassLoader applicationClassloader = Thread.currentThread().getContextClassLoader();
             return Class.forName(className, false, applicationClassloader);
@@ -204,7 +204,7 @@ public class JUnitPlatformTestClassProcessor extends AbstractJUnitTestClassProce
             return false;
         }
 
-        private Optional<String> className(TestDescriptor descriptor) {
+        private static Optional<String> className(TestDescriptor descriptor) {
             return descriptor.getSource()
                 .filter(ClassSource.class::isInstance)
                 .map(ClassSource.class::cast)

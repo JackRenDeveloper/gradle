@@ -72,18 +72,18 @@ class IncrementalCompilationInitializer {
         deleteStaleFilesIn(resourcesToDelete.get(GeneratedResource.Location.NATIVE_HEADER_OUTPUT), spec.getCompileOptions().getHeaderOutputDirectory());
     }
 
-    private Iterable<File> narrowDownSourcesToCompile(FileTree sourceTree, PatternSet sourceToCompile) {
+    private static Iterable<File> narrowDownSourcesToCompile(FileTree sourceTree, PatternSet sourceToCompile) {
         return sourceTree.matching(sourceToCompile);
     }
 
-    private void includePreviousCompilationOutputOnClasspath(JavaCompileSpec spec) {
+    private static void includePreviousCompilationOutputOnClasspath(JavaCompileSpec spec) {
         List<File> classpath = Lists.newArrayList(spec.getCompileClasspath());
         File destinationDir = spec.getDestinationDir();
         classpath.add(destinationDir);
         spec.setCompileClasspath(classpath);
     }
 
-    private void addClassesToProcess(JavaCompileSpec spec, RecompilationSpec recompilationSpec) {
+    private static void addClassesToProcess(JavaCompileSpec spec, RecompilationSpec recompilationSpec) {
         Set<String> classesToProcess = Sets.newHashSet(recompilationSpec.getClassesToProcess());
         classesToProcess.removeAll(recompilationSpec.getClassesToCompile());
         spec.setClasses(classesToProcess);
@@ -99,7 +99,7 @@ class IncrementalCompilationInitializer {
         cleaner.execute();
     }
 
-    private void prepareJavaPatterns(Collection<String> staleClasses, PatternSet filesToDelete, PatternSet sourceToCompile) {
+    private static void prepareJavaPatterns(Collection<String> staleClasses, PatternSet filesToDelete, PatternSet sourceToCompile) {
         for (String staleClass : staleClasses) {
             String path = staleClass.replaceAll("\\.", "/");
             filesToDelete.include(path.concat(".class"));

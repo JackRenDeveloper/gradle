@@ -76,7 +76,7 @@ public class JdkTools {
         }
     }
 
-    private ClassLoader getSystemFilteringClassLoader(ClassLoaderFactory classLoaderFactory, boolean java9compatible) {
+    private static ClassLoader getSystemFilteringClassLoader(ClassLoaderFactory classLoaderFactory, boolean java9compatible) {
         FilteringClassLoader.Spec filterSpec = new FilteringClassLoader.Spec();
         if (java9compatible) {
             filterSpec.allowPackage("com.sun.tools");
@@ -107,7 +107,7 @@ public class JdkTools {
         return DirectInstantiator.instantiate(clazz.asSubclass(JavaCompiler.class));
     }
 
-    private void cannotCreateJavaCompiler(Exception e) {
+    private static void cannotCreateJavaCompiler(Exception e) {
         throw new IllegalStateException("Could not create system Java compiler", e);
     }
 }

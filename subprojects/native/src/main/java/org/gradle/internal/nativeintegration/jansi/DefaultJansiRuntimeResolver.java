@@ -49,7 +49,7 @@ public class DefaultJansiRuntimeResolver implements JansiRuntimeResolver {
         return getOperatingSystem() + getBitModel();
     }
 
-    private int getBitModel() {
+    private static int getBitModel() {
         String prop = System.getProperty("sun.arch.data.model");
         if (prop == null) {
             prop = System.getProperty("com.ibm.vm.bitmode");

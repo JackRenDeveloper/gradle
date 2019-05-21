@@ -40,15 +40,15 @@ public class TestBuildScopeServices extends BuildScopeServices {
         this.homeDir = homeDir;
     }
 
-    protected BuildDefinition createBuildDefinition(StartParameter startParameter) {
+    protected static BuildDefinition createBuildDefinition(StartParameter startParameter) {
         return BuildDefinition.fromStartParameter(startParameter, null);
     }
 
-    protected BuildCancellationToken createBuildCancellationToken() {
+    protected static BuildCancellationToken createBuildCancellationToken() {
         return new DefaultBuildCancellationToken();
     }
 
-    protected BuildClientMetaData createClientMetaData() {
+    protected static BuildClientMetaData createClientMetaData() {
         return new GradleLauncherMetaData();
     }
 
@@ -56,7 +56,7 @@ public class TestBuildScopeServices extends BuildScopeServices {
         return new CurrentGradleInstallation(new GradleInstallation(homeDir));
     }
 
-    protected NestedBuildFactory createNestedBuildFactory() {
+    protected static NestedBuildFactory createNestedBuildFactory() {
         return new NestedBuildFactory() {
             @Override
             public GradleLauncher nestedInstance(BuildDefinition buildDefinition, NestedBuildState build) {

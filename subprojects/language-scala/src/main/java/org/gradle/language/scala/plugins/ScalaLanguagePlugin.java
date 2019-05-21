@@ -70,17 +70,17 @@ public class ScalaLanguagePlugin implements Plugin<Project> {
     static class Rules extends RuleSource {
 
         @Model
-        ScalaToolChain scalaToolChain(ServiceRegistry serviceRegistry) {
+        static ScalaToolChain scalaToolChain(ServiceRegistry serviceRegistry) {
             return serviceRegistry.get(ScalaToolChain.class);
         }
 
         @ComponentType
-        void registerLanguage(TypeBuilder<ScalaLanguageSourceSet> builder) {
+        static void registerLanguage(TypeBuilder<ScalaLanguageSourceSet> builder) {
             builder.defaultImplementation(DefaultScalaLanguageSourceSet.class);
         }
 
         @Mutate
-        void registerLanguageTransform(LanguageTransformContainer languages, ServiceRegistry serviceRegistry) {
+        static void registerLanguageTransform(LanguageTransformContainer languages, ServiceRegistry serviceRegistry) {
             languages.add(new Scala());
         }
     }

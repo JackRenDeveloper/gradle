@@ -63,11 +63,11 @@ public class VcsVersionSelectionCache {
         resolvedVersions.put(cacheKey, workingDir);
     }
 
-    private String versionCacheKey(VersionControlRepositoryConnection repository, VersionRef version) {
+    private static String versionCacheKey(VersionControlRepositoryConnection repository, VersionRef version) {
         return repository.getUniqueId() + ":" + version.getCanonicalId();
     }
 
-    private String constraintCacheKey(VersionControlRepositoryConnection repository, VersionConstraint constraint) {
+    private static String constraintCacheKey(VersionControlRepositoryConnection repository, VersionConstraint constraint) {
         if (constraint.getBranch() != null) {
             return repository.getUniqueId() + ":b:" + constraint.getBranch();
         }

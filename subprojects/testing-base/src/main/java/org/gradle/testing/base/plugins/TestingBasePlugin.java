@@ -66,11 +66,11 @@ public class TestingBasePlugin implements Plugin<Project> {
         });
     }
 
-    Provider<Directory> getTestResultsDir(Project project, AbstractTestTask test) {
+    static Provider<Directory> getTestResultsDir(Project project, AbstractTestTask test) {
         return project.getLayout().getBuildDirectory().dir(TEST_RESULTS_DIR_NAME + "/" + test.getName());
     }
 
-    Provider<Directory> getTestReportsDir(Project project, final AbstractTestTask test) {
+    static Provider<Directory> getTestReportsDir(Project project, final AbstractTestTask test) {
         DirectoryProperty baseDirectory = project.getExtensions().getByType(ReportingExtension.class).getBaseDirectory();
         return baseDirectory.dir(TESTS_DIR_NAME + "/" + test.getName());
     }

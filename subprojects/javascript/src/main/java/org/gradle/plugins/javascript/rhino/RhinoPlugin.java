@@ -16,13 +16,11 @@
 
 package org.gradle.plugins.javascript.rhino;
 
-import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.Dependency;
-import org.gradle.api.artifacts.DependencySet;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.internal.ConventionMapping;
@@ -55,14 +53,14 @@ public class RhinoPlugin implements Plugin<Project> {
         });
     }
 
-    private Configuration addClasspathConfiguration(ConfigurationContainer configurations) {
+    private static Configuration addClasspathConfiguration(ConfigurationContainer configurations) {
         Configuration configuration = configurations.create(RhinoExtension.CLASSPATH_CONFIGURATION_NAME);
         configuration.setVisible(false);
         configuration.setDescription("The default Rhino classpath");
         return configuration;
     }
 
-    public void configureDefaultRhinoDependency(Configuration configuration, final DependencyHandler dependencyHandler, final RhinoExtension extension) {
+    public static void configureDefaultRhinoDependency(Configuration configuration, final DependencyHandler dependencyHandler, final RhinoExtension extension) {
         configuration.defaultDependencies(dependencies -> {
             Dependency dependency = dependencyHandler.create(RhinoExtension.DEFAULT_RHINO_DEPENDENCY_GROUP + ":" + RhinoExtension.DEFAULT_RHINO_DEPENDENCY_MODULE + ":" + extension.getVersion());
             dependencies.add(dependency);

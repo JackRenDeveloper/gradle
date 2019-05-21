@@ -88,7 +88,7 @@ public class CreateStaticLibrary extends DefaultTask implements ObjectFilesToBin
     }
 
     @Inject
-    public BuildOperationLoggerFactory getOperationLoggerFactory() {
+    public static BuildOperationLoggerFactory getOperationLoggerFactory() {
         throw new UnsupportedOperationException();
     }
 

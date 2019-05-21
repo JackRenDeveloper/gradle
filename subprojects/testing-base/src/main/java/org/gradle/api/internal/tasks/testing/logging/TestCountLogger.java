@@ -73,7 +73,7 @@ public class TestCountLogger implements TestListener {
         return builder.toString();
     }
 
-    private void append(StringBuilder dest, long count, String noun) {
+    private static void append(StringBuilder dest, long count, String noun) {
         dest.append(count);
         dest.append(" ");
         dest.append(noun);

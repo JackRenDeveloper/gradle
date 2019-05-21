@@ -46,12 +46,10 @@ import org.gradle.platform.base.internal.dependents.DependentBinariesResolvedRes
 import javax.annotation.Nullable;
 import java.io.StringWriter;
 import java.util.ArrayDeque;
-import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -188,7 +186,7 @@ public class NativeDependentBinariesResolutionStrategy extends AbstractDependent
         return testSupport != null && testSupport.isTestSuite(target);
     }
 
-    private List<NativeBinarySpecInternal> allBinariesOf(ModelMap<VariantComponentSpec> components) {
+    private static List<NativeBinarySpecInternal> allBinariesOf(ModelMap<VariantComponentSpec> components) {
         List<NativeBinarySpecInternal> binaries = Lists.newArrayList();
         for (VariantComponentSpec nativeComponent : components) {
             for (NativeBinarySpecInternal nativeBinary : nativeComponent.getBinaries().withType(NativeBinarySpecInternal.class)) {
@@ -223,7 +221,7 @@ public class NativeDependentBinariesResolutionStrategy extends AbstractDependent
         return result;
     }
 
-    private void onCircularDependencies(final State state, final Deque<NativeBinarySpecInternal> stack, NativeBinarySpecInternal target) {
+    private static void onCircularDependencies(final State state, final Deque<NativeBinarySpecInternal> stack, NativeBinarySpecInternal target) {
         GraphNodeRenderer<NativeBinarySpecInternal> nodeRenderer = (node, output) -> {
             String name = DependentComponentsUtils.getBuildScopedTerseName(node.getId());
             output.withStyle(StyledTextOutput.Style.Identifier).text(name);

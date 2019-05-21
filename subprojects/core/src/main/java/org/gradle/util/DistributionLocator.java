@@ -40,8 +40,8 @@ public class DistributionLocator {
         }
     }
 
-    private URI getDistribution(String repositoryUrl, GradleVersion version, String archiveName,
-                                   String archiveClassifier) {
+    private static URI getDistribution(String repositoryUrl, GradleVersion version, String archiveName,
+                                       String archiveClassifier) {
         try {
             return new URI(repositoryUrl + "/" + archiveName + "-" + version.getVersion() + "-" + archiveClassifier + ".zip");
         } catch (URISyntaxException e) {

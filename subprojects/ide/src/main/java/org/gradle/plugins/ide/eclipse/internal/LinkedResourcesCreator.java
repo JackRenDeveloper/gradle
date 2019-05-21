@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Set;
 
 public class LinkedResourcesCreator {
-    public Set<Link> links(final Project project) {
+    public static Set<Link> links(final Project project) {
         SourceSetContainer sourceSets = project.getConvention().getPlugin(JavaPluginConvention.class).getSourceSets();
         EclipseClasspath classpath = project.getExtensions().getByType(EclipseModel.class).getClasspath();
         File defaultOutputDir = classpath == null ? project.file(EclipsePluginConstants.DEFAULT_PROJECT_OUTPUT_PATH) : classpath.getDefaultOutputDir();

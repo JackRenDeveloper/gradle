@@ -100,7 +100,7 @@ public class TestReportDataCollector implements TestListener, TestOutputListener
         classResult.add(methodResult);
     }
 
-    private String failureMessage(Throwable throwable) {
+    private static String failureMessage(Throwable throwable) {
         try {
             return throwable.toString();
         } catch (Throwable t) {
@@ -110,11 +110,11 @@ public class TestReportDataCollector implements TestListener, TestOutputListener
         }
     }
 
-    private String exceptionClassName(Throwable throwable) {
+    private static String exceptionClassName(Throwable throwable) {
         return throwable instanceof PlaceholderException ? ((PlaceholderException) throwable).getExceptionClassName() : throwable.getClass().getName();
     }
 
-    private String stackTrace(Throwable throwable) {
+    private static String stackTrace(Throwable throwable) {
         try {
             return getStacktrace(throwable);
         } catch (Throwable t) {
@@ -122,7 +122,7 @@ public class TestReportDataCollector implements TestListener, TestOutputListener
         }
     }
 
-    private String getStacktrace(Throwable throwable) {
+    private static String getStacktrace(Throwable throwable) {
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
         throwable.printStackTrace(writer);

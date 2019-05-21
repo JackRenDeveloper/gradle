@@ -18,7 +18,6 @@ package org.gradle.api.internal.artifacts.ivyservice.ivyresolve.parser;
 import com.google.common.collect.Lists;
 import org.apache.commons.io.IOUtils;
 import org.apache.ivy.core.IvyPatternHelper;
-import org.gradle.api.Transformer;
 import org.gradle.api.artifacts.ModuleIdentifier;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.gradle.api.internal.artifacts.DefaultModuleVersionIdentifier;
@@ -278,11 +277,11 @@ public class PomReader implements PomParent {
         importedDependencyMgts.putAll(inherited);
     }
 
-    private void checkNotNull(String value, String name) {
+    private static void checkNotNull(String value, String name) {
         checkNotNull(value, name, null);
     }
 
-    void checkNotNull(String value, String name, String element) {
+    static void checkNotNull(String value, String name, String element) {
         if (value == null) {
             String attributeName = element == null ? name : element + " " + name;
             throw new RuntimeException("Missing required attribute: " + attributeName);
@@ -694,7 +693,7 @@ public class PomReader implements PomParent {
      * @param activeByAbsenceOfPropertyPomProfiles Parsed profiles that are activated by absence of property
      * @return List of active profiles that are not activeByDefault
      */
-    private List<PomProfile> determineActiveProfiles(List<PomProfile> activeByDefaultPomProfiles, List<PomProfile> activeByAbsenceOfPropertyPomProfiles) {
+    private static List<PomProfile> determineActiveProfiles(List<PomProfile> activeByDefaultPomProfiles, List<PomProfile> activeByAbsenceOfPropertyPomProfiles) {
         return !activeByAbsenceOfPropertyPomProfiles.isEmpty() ? activeByAbsenceOfPropertyPomProfiles : activeByDefaultPomProfiles;
     }
 
@@ -705,7 +704,7 @@ public class PomReader implements PomParent {
      * @return Activation indicator
      * @see <a href="http://books.sonatype.com/mvnref-book/reference/profiles-sect-activation.html#profiles-sect-activation-config">Maven documentation</a>
      */
-    private boolean isActivationPropertyActivated(Element propertyElement) {
+    private static boolean isActivationPropertyActivated(Element propertyElement) {
         String propertyName = getFirstChildText(propertyElement, "name");
         return propertyName.startsWith("!");
     }
@@ -717,7 +716,7 @@ public class PomReader implements PomParent {
         return pomProperties;
     }
 
-    Map<String, String> parseProperties(Element parentElement) {
+    static Map<String, String> parseProperties(Element parentElement) {
         Map<String, String> pomProperties = new HashMap<String, String>();
         Element propsEl = getFirstChildElement(parentElement, PROPERTIES);
         if (propsEl != null) {

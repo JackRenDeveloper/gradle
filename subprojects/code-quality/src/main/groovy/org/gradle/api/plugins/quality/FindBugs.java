@@ -16,7 +16,6 @@
 package org.gradle.api.plugins.quality;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import groovy.lang.Closure;
 import org.gradle.api.Action;
@@ -111,12 +110,12 @@ public class FindBugs extends SourceTask implements VerificationTask, Reporting<
     }
 
     @Inject
-    protected ObjectFactory getObjectFactory() {
+    protected static ObjectFactory getObjectFactory() {
         throw new UnsupportedOperationException();
     }
 
     @Inject
-    public WorkerProcessFactory getWorkerProcessBuilderFactory() {
+    public static WorkerProcessFactory getWorkerProcessBuilderFactory() {
         throw new UnsupportedOperationException();
     }
 

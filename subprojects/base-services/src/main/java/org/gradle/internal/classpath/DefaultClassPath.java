@@ -162,7 +162,7 @@ public class DefaultClassPath implements ClassPath, Serializable {
         return DefaultClassPath.of(remainingFiles);
     }
 
-    private ImmutableUniqueList<File> concat(Collection<File> files1, Collection<File> files2) {
+    private static ImmutableUniqueList<File> concat(Collection<File> files1, Collection<File> files2) {
         Set<File> result = new LinkedHashSet<File>();
         result.addAll(files1);
         result.addAll(files2);

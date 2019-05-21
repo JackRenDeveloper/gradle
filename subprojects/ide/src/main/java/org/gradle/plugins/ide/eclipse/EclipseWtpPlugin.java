@@ -91,7 +91,7 @@ public class EclipseWtpPlugin extends IdePlugin {
         configureEclipseClasspath(project, model);
     }
 
-    private void configureEclipseClasspath(final Project project, final EclipseModel model) {
+    private static void configureEclipseClasspath(final Project project, final EclipseModel model) {
         project.getPlugins().withType(JavaPlugin.class, javaPlugin -> {
             AfterEvaluateHelper.afterEvaluateOrExecute(project, project1 -> {
                 Collection<Configuration> plusConfigurations = model.getClasspath().getPlusConfigurations();
@@ -202,7 +202,7 @@ public class EclipseWtpPlugin extends IdePlugin {
         )));
     }
 
-    private void configureEclipseProject(final Project project, final EclipseModel model) {
+    private static void configureEclipseProject(final Project project, final EclipseModel model) {
         Action<Object> action = ignored -> {
             model.getProject().buildCommand("org.eclipse.wst.common.project.facet.core.builder");
             model.getProject().buildCommand("org.eclipse.wst.validation.validationbuilder");
@@ -214,15 +214,15 @@ public class EclipseWtpPlugin extends IdePlugin {
         project.getPlugins().withType(EarPlugin.class, action);
     }
 
-    boolean hasWarOrEarPlugin(Project project) {
+    static boolean hasWarOrEarPlugin(Project project) {
         return project.getPlugins().hasPlugin(WarPlugin.class) || project.getPlugins().hasPlugin(EarPlugin.class);
     }
 
-    Set<File> getMainSourceDirs(Project project) {
+    static Set<File> getMainSourceDirs(Project project) {
         return project.getConvention().getPlugin(JavaPluginConvention.class).getSourceSets().getByName("main").getAllSource().getSrcDirs();
     }
 
-    String toJavaFacetVersion(JavaVersion version) {
+    static String toJavaFacetVersion(JavaVersion version) {
         if (version.equals(JavaVersion.VERSION_1_5)) {
             return "5.0";
         }

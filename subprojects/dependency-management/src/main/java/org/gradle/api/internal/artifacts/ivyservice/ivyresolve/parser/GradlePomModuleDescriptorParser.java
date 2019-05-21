@@ -84,7 +84,7 @@ public final class GradlePomModuleDescriptorParser extends AbstractModuleDescrip
         return "gradle pom parser";
     }
 
-    private boolean isBom(PomReader pomReader) {
+    private static boolean isBom(PomReader pomReader) {
         return POM_PACKAGING.equals(pomReader.getPackaging());
     }
 
@@ -150,7 +150,7 @@ public final class GradlePomModuleDescriptorParser extends AbstractModuleDescrip
         }
     }
 
-    private void addDependencies(GradlePomModuleDescriptorBuilder mdBuilder, PomReader pomReader) {
+    private static void addDependencies(GradlePomModuleDescriptorBuilder mdBuilder, PomReader pomReader) {
         for (PomDependencyMgt dependencyMgt : pomReader.getDependencyMgt().values()) {
             if (!isDependencyImportScoped(dependencyMgt)) {
                 mdBuilder.addConstraint(dependencyMgt);
@@ -205,7 +205,7 @@ public final class GradlePomModuleDescriptorParser extends AbstractModuleDescrip
      * @param dependencyMgt Dependency management element
      * @return Flag
      */
-    private boolean isDependencyImportScoped(PomDependencyMgt dependencyMgt) {
+    private static boolean isDependencyImportScoped(PomDependencyMgt dependencyMgt) {
         return DEPENDENCY_IMPORT_SCOPE.equals(dependencyMgt.getScope());
     }
 
@@ -220,7 +220,7 @@ public final class GradlePomModuleDescriptorParser extends AbstractModuleDescrip
         return parsePomResource(parseContext, localResource, childProperties);
     }
 
-    private ModuleDependencyMetadata toDependencyMetadata(ModuleComponentSelector selector) {
+    private static ModuleDependencyMetadata toDependencyMetadata(ModuleComponentSelector selector) {
         return new GradleDependencyMetadata(selector, Collections.<ExcludeMetadata>emptyList(), false, null, false);
     }
 

@@ -35,7 +35,7 @@ public class HtmlReportRenderer {
     /**
      * Renders a multi-page HTML report from the given model, into the given directory.
      */
-    public <T> void render(T model, ReportRenderer<T, HtmlReportBuilder> renderer, File outputDirectory) {
+    public static <T> void render(T model, ReportRenderer<T, HtmlReportBuilder> renderer, File outputDirectory) {
         try {
             outputDirectory.mkdirs();
             DefaultHtmlReportContext context = new DefaultHtmlReportContext(outputDirectory);
@@ -54,7 +54,7 @@ public class HtmlReportRenderer {
     /**
      * Renders a single page HTML report from the given model, into the given output file.
      */
-    public <T> void renderSinglePage(T model, final ReportRenderer<T, HtmlPageBuilder<SimpleHtmlWriter>> renderer, final File outputFile) {
+    public static <T> void renderSinglePage(T model, final ReportRenderer<T, HtmlPageBuilder<SimpleHtmlWriter>> renderer, final File outputFile) {
         render(model, new ReportRenderer<T, HtmlReportBuilder>() {
             @Override
             public void render(T model, HtmlReportBuilder output) throws IOException {
@@ -66,7 +66,7 @@ public class HtmlReportRenderer {
     /**
      * Renders a single page HTML report from the given model, into the given output file.
      */
-    public <T> void renderRawSinglePage(T model, final ReportRenderer<T, HtmlPageBuilder<Writer>> renderer, final File outputFile) {
+    public static <T> void renderRawSinglePage(T model, final ReportRenderer<T, HtmlPageBuilder<Writer>> renderer, final File outputFile) {
         render(model, new ReportRenderer<T, HtmlReportBuilder>() {
             @Override
             public void render(T model, HtmlReportBuilder output) throws IOException {
@@ -139,7 +139,7 @@ public class HtmlReportRenderer {
             });
         }
 
-        String prefix(String name) {
+        static String prefix(String name) {
             StringBuilder builder = new StringBuilder();
             int pos = 0;
             while (pos < name.length()) {

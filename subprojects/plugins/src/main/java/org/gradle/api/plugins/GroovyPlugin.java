@@ -16,7 +16,6 @@
 
 package org.gradle.api.plugins;
 
-import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.internal.plugins.DslObject;
@@ -38,7 +37,7 @@ public class GroovyPlugin implements Plugin<Project> {
         configureGroovydoc(project);
     }
 
-    private void configureGroovydoc(final Project project) {
+    private static void configureGroovydoc(final Project project) {
         project.getTasks().register(GROOVYDOC_TASK_NAME, Groovydoc.class, groovyDoc -> {
             groovyDoc.setDescription("Generates Groovydoc API documentation for the main source code.");
             groovyDoc.setGroup(JavaBasePlugin.DOCUMENTATION_GROUP);

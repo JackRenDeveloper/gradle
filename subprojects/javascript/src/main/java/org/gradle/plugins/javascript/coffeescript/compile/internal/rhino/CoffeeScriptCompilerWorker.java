@@ -16,7 +16,6 @@
 
 package org.gradle.plugins.javascript.coffeescript.compile.internal.rhino;
 
-import org.gradle.api.Action;
 import org.gradle.api.internal.file.RelativeFile;
 import org.gradle.plugins.javascript.base.SourceTransformationException;
 import org.gradle.plugins.javascript.coffeescript.compile.internal.CoffeeScriptCompileDestinationCalculator;
@@ -48,7 +47,7 @@ public class CoffeeScriptCompilerWorker implements CoffeeScriptCompilerProtocol 
         }
     }
 
-    private String compile(Scriptable rootScope, final String source, final String sourceName) {
+    private static String compile(Scriptable rootScope, final String source, final String sourceName) {
         return childScope(rootScope, new DefaultScopeOperation<String>() {
             @Override
             public String action(Scriptable compileScope, Context context) {

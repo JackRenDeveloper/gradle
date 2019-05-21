@@ -93,7 +93,7 @@ public class FileMetadataAccessorBenchmark {
     }
 
     @SuppressWarnings("unchecked")
-    private FileMetadataAccessor getAccessor(String name) {
+    private static FileMetadataAccessor getAccessor(String name) {
         return ACCESSORS.get(name);
     }
 

@@ -73,7 +73,7 @@ public class DefaultUriTextResourceLoader extends BasicTextResourceLoader {
      * A URI is not cacheable if it uses a query string because our underlying infrastructure
      * relies on paths to uniquely identify resources and not path+query components.
      */
-    private boolean isCacheableResource(URI source) {
+    private static boolean isCacheableResource(URI source) {
         return source.getRawQuery() == null;
     }
 }

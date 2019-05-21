@@ -100,7 +100,7 @@ public abstract class MapNotationConverter<T> extends TypedNotationConverter<Map
         return result;
     }
 
-    protected String get(Map<String, Object> args, String key) {
+    protected static String get(Map<String, Object> args, String key) {
         Object value = args.get(key);
         String str = value != null ? value.toString() : null;
         if (str != null && str.length() == 0) {

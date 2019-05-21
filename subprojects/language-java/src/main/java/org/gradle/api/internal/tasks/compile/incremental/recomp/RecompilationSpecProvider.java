@@ -43,7 +43,7 @@ public class RecompilationSpecProvider {
         return spec;
     }
 
-    private void processClasspathChanges(CurrentCompilation current, PreviousCompilation previous, RecompilationSpec spec) {
+    private static void processClasspathChanges(CurrentCompilation current, PreviousCompilation previous, RecompilationSpec spec) {
         ClasspathEntryChangeProcessor classpathEntryChangeProcessor = new ClasspathEntryChangeProcessor(current.getClasspathSnapshot(), previous);
         ClasspathSnapshot currentSnapshots = current.getClasspathSnapshot();
 

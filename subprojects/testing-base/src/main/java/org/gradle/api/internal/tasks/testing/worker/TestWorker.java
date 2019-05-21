@@ -153,11 +153,11 @@ public class TestWorker implements Action<WorkerProcessContext>, RemoteTestClass
             return new CompositeIdGenerator(workerProcessContext.getWorkerId(), new LongIdGenerator());
         }
 
-        protected ExecutorFactory createExecutorFactory() {
+        protected static ExecutorFactory createExecutorFactory() {
             return new DefaultExecutorFactory();
         }
 
-        protected ActorFactory createActorFactory(ExecutorFactory executorFactory) {
+        protected static ActorFactory createActorFactory(ExecutorFactory executorFactory) {
             return new DefaultActorFactory(executorFactory);
         }
     }

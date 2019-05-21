@@ -17,7 +17,6 @@
 package org.gradle.play.plugins;
 
 import org.apache.commons.lang.WordUtils;
-import org.gradle.api.Action;
 import org.gradle.api.Incubating;
 import org.gradle.api.Task;
 import org.gradle.api.file.FileCollection;
@@ -47,8 +46,8 @@ import java.io.File;
 @Deprecated
 public class PlayTestPlugin extends RuleSource {
     @Mutate
-    void createTestTasks(ModelMap<Task> tasks, @Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> playBinaries, final PlayPluginConfigurations configurations,
-                         final FileResolver fileResolver, final ProjectIdentifier projectIdentifier, @Path("buildDir") final File buildDir) {
+    static void createTestTasks(ModelMap<Task> tasks, @Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> playBinaries, final PlayPluginConfigurations configurations,
+                                final FileResolver fileResolver, final ProjectIdentifier projectIdentifier, @Path("buildDir") final File buildDir) {
         SingleMessageLogger.nagUserOfPluginReplacedWithExternalOne("Play Test", "org.gradle.playframework-test");
         for (final PlayApplicationBinarySpecInternal binary : playBinaries) {
             final FileCollection testCompileClasspath = getTestCompileClasspath(binary, configurations);
@@ -93,16 +92,16 @@ public class PlayTestPlugin extends RuleSource {
         }
     }
 
-    private FileCollection getTestCompileClasspath(PlayApplicationBinarySpec binary, PlayPluginConfigurations configurations) {
+    private static FileCollection getTestCompileClasspath(PlayApplicationBinarySpec binary, PlayPluginConfigurations configurations) {
         return ImmutableFileCollection.of(binary.getJarFile()).plus(configurations.getPlayTest().getAllArtifacts());
     }
 
-    FileCollection getRuntimeClasspath(File testClassesDir, FileCollection testCompileClasspath) {
+    static FileCollection getRuntimeClasspath(File testClassesDir, FileCollection testCompileClasspath) {
         return ImmutableFileCollection.of(testClassesDir).plus(testCompileClasspath);
     }
 
     @Mutate
-    void attachTestSuitesToCheckTask(ModelMap<Task> tasks, @Path("binaries") final ModelMap<PlayApplicationBinarySpec> playBinaries) {
+    static void attachTestSuitesToCheckTask(ModelMap<Task> tasks, @Path("binaries") final ModelMap<PlayApplicationBinarySpec> playBinaries) {
         // TODO - binaries aren't an input to this rule, they're an input to the action
         tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME, checkTask -> {
             // TODO Need a better mechanism to wire tasks into lifecycle

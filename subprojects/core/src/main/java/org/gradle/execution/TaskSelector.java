@@ -57,7 +57,7 @@ public class TaskSelector {
         if (!taskPath.isQualified()) {
             ProjectInternal targetProject = taskPath.getProject();
             configurer.configure(targetProject);
-            if (taskNameResolver.tryFindUnqualifiedTaskCheaply(taskPath.getTaskName(), taskPath.getProject())) {
+            if (TaskNameResolver.tryFindUnqualifiedTaskCheaply(taskPath.getTaskName(), taskPath.getProject())) {
                 // An exact match in the target project - can just filter tasks by path to avoid configuring sub-projects at this point
                 return new TaskPathSpec(targetProject, taskPath.getTaskName());
             }
@@ -96,7 +96,7 @@ public class TaskSelector {
             configurer.configureHierarchy(targetProject);
         }
 
-        TaskSelectionResult tasks = taskNameResolver.selectWithName(taskPath.getTaskName(), taskPath.getProject(), !taskPath.isQualified());
+        TaskSelectionResult tasks = TaskNameResolver.selectWithName(taskPath.getTaskName(), taskPath.getProject(), !taskPath.isQualified());
         if (tasks != null) {
             // An exact match
             return new TaskSelection(taskPath.getProject().getPath(), path, tasks);

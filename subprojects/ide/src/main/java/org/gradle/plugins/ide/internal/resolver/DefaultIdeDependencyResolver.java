@@ -35,7 +35,7 @@ public class DefaultIdeDependencyResolver {
 
     static final Spec<ComponentIdentifier> IS_A_MODULE_ID = id -> id instanceof ModuleComponentIdentifier;
 
-    public List<IdeExtendedRepoFileDependency> getIdeRepoFileDependencies(Configuration configuration) {
+    public static List<IdeExtendedRepoFileDependency> getIdeRepoFileDependencies(Configuration configuration) {
         Set<ResolvedArtifactResult> artifacts = configuration.getIncoming().artifactView(viewConfiguration -> {
             viewConfiguration.lenient(true);
             viewConfiguration.componentFilter(IS_A_MODULE_ID);

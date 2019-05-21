@@ -24,7 +24,7 @@ import org.junit.runner.Runner;
 import java.util.List;
 
 public class IgnoredTestDescriptorProvider {
-    List<Description> getAllDescriptions(Description description, String className) {
+    static List<Description> getAllDescriptions(Description description, String className) {
         final AllExceptIgnoredTestRunnerBuilder allExceptIgnoredTestRunnerBuilder = new AllExceptIgnoredTestRunnerBuilder();
         try {
             final Class<?> testClass = description.getClass().getClassLoader().loadClass(className);

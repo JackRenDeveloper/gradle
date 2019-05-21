@@ -76,7 +76,7 @@ public class IdeaModelBuilder implements ToolingModelBuilder {
         return build(root, rootGradleProject);
     }
 
-    private void applyIdeaPlugin(Project root) {
+    private static void applyIdeaPlugin(Project root) {
         Set<Project> allProjects = root.getAllprojects();
         for (Project p : allProjects) {
             p.getPluginManager().apply(IdeaPlugin.class);
@@ -110,7 +110,7 @@ public class IdeaModelBuilder implements ToolingModelBuilder {
         return out;
     }
 
-    private IdeaPlugin ideaPluginFor(Project project) {
+    private static IdeaPlugin ideaPluginFor(Project project) {
         return project.getPlugins().getPlugin(IdeaPlugin.class);
     }
 
@@ -180,7 +180,7 @@ public class IdeaModelBuilder implements ToolingModelBuilder {
         return defaultIdeaModule;
     }
 
-    private Set<DefaultIdeaSourceDirectory> srcDirs(Set<File> sourceDirs, Set<File> generatedSourceDirs) {
+    private static Set<DefaultIdeaSourceDirectory> srcDirs(Set<File> sourceDirs, Set<File> generatedSourceDirs) {
         Set<DefaultIdeaSourceDirectory> out = new LinkedHashSet<DefaultIdeaSourceDirectory>();
         for (File s : sourceDirs) {
             DefaultIdeaSourceDirectory sourceDirectory = new DefaultIdeaSourceDirectory().setDirectory(s);
@@ -197,7 +197,7 @@ public class IdeaModelBuilder implements ToolingModelBuilder {
         return this;
     }
 
-    private JavaVersion convertIdeaLanguageLevelToJavaVersion(IdeaLanguageLevel ideaLanguageLevel) {
+    private static JavaVersion convertIdeaLanguageLevelToJavaVersion(IdeaLanguageLevel ideaLanguageLevel) {
         if (ideaLanguageLevel == null) {
             return null;
         }

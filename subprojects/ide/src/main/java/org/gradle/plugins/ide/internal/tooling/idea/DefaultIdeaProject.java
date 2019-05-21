@@ -66,7 +66,7 @@ public class DefaultIdeaProject implements Serializable {
         return this;
     }
 
-    public Object getParent() {
+    public static Object getParent() {
         return null;
     }
 

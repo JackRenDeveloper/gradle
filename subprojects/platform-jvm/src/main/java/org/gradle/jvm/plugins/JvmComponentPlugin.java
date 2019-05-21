@@ -16,7 +16,6 @@
 
 package org.gradle.jvm.plugins;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
@@ -27,7 +26,6 @@ import org.gradle.api.Incubating;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
-import org.gradle.api.Transformer;
 import org.gradle.internal.jvm.Jvm;
 import org.gradle.internal.service.ServiceRegistry;
 import org.gradle.jvm.JarBinarySpec;
@@ -130,10 +128,10 @@ public class JvmComponentPlugin implements Plugin<Project> {
 
         @Model
         @Hidden
-        public void javaToolChains(ModelMap<LocalJavaInstallation> javaInstallations, final JavaInstallationProbe probe) {
+        public static void javaToolChains(ModelMap<LocalJavaInstallation> javaInstallations, final JavaInstallationProbe probe) {
             javaInstallations.create("currentGradleJDK", InstalledJdk.class, installedJdk -> {
                 installedJdk.setJavaHome(Jvm.current().getJavaHome());
-                probe.current(installedJdk);
+                JavaInstallationProbe.current(installedJdk);
             });
         }
 

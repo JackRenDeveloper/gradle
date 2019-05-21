@@ -133,7 +133,7 @@ public class JUnitTestClassExecutor implements Action<String> {
         }
     }
 
-    private boolean allTestsFiltered(Runner runner, List<Filter> filters) {
+    private static boolean allTestsFiltered(Runner runner, List<Filter> filters) {
         LinkedList<Description> queue = new LinkedList<Description>();
         queue.add(runner.getDescription());
         while (!queue.isEmpty()) {

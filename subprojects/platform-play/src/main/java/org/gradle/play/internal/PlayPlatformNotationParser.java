@@ -50,9 +50,9 @@ public class PlayPlatformNotationParser {
             visitor.candidate("Map defining the platform versions").example("[play: '" + DefaultPlayPlatform.DEFAULT_PLAY_VERSION + "', scala:'2.11.12', java: '1.6']");
         }
 
-        protected PlatformRequirement parseMap(@MapKey("play") String playVersion,
-                                               @MapKey("scala") @Optional String scalaVersion,
-                                               @MapKey("java") @Optional String javaVersion) {
+        protected static PlatformRequirement parseMap(@MapKey("play") String playVersion,
+                                                      @MapKey("scala") @Optional String scalaVersion,
+                                                      @MapKey("java") @Optional String javaVersion) {
             return new PlayPlatformRequirement(playVersion, scalaVersion, javaVersion);
         }
     }

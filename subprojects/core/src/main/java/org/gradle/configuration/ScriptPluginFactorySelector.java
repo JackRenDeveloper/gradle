@@ -114,7 +114,7 @@ public class ScriptPluginFactorySelector implements ScriptPluginFactory {
         return defaultScriptPluginFactory;
     }
 
-    private List<ScriptingLanguage> scriptingLanguages() {
+    private static List<ScriptingLanguage> scriptingLanguages() {
         return ScriptingLanguages.all();
     }
 

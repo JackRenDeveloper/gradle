@@ -86,7 +86,7 @@ public class GroupedOutputFixture {
         return strippedOutput;
     }
 
-    private void findOutputs(String strippedOutput, Pattern outputPattern, Consumer<Matcher> consumer) {
+    private static void findOutputs(String strippedOutput, Pattern outputPattern, Consumer<Matcher> consumer) {
         Matcher matcher = outputPattern.matcher(strippedOutput);
         while (matcher.find()) {
             consumer.accept(matcher);

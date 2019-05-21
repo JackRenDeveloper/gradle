@@ -39,7 +39,7 @@ public abstract class CleaningJavaCompilerSupport<T extends JavaCompileSpec> imp
         return compiler.execute(spec);
     }
 
-    private void addDirectory(StaleClassCleaner cleaner, File dir) {
+    private static void addDirectory(StaleClassCleaner cleaner, File dir) {
         if (dir != null) {
             cleaner.addDirToClean(dir);
         }

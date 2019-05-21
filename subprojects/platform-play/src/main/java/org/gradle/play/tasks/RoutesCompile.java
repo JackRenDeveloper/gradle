@@ -126,7 +126,7 @@ public class RoutesCompile extends SourceTask {
     }
 
     @Internal
-    public boolean isJavaProject() {
+    public static boolean isJavaProject() {
         return false;
     }
 
@@ -140,7 +140,7 @@ public class RoutesCompile extends SourceTask {
      * @return The tool chain.
      */
     @Inject
-    public PlayToolChain getToolChain() {
+    public static PlayToolChain getToolChain() {
         throw new UnsupportedOperationException();
     }
 

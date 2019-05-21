@@ -82,7 +82,7 @@ public class JacocoMerge extends JacocoBase {
     }
 
     @Inject
-    protected IsolatedAntBuilder getAntBuilder() {
+    protected static IsolatedAntBuilder getAntBuilder() {
         throw new UnsupportedOperationException();
     }
 

@@ -61,7 +61,7 @@ public class MavenVersionSelectorScheme implements VersionSelectorScheme {
     }
 
     // TODO: VersionSelector should be more descriptive, so it can be directly translated
-    private String toMavenSyntax(String version) {
+    private static String toMavenSyntax(String version) {
         if (version.equals(LATEST_INTEGRATION)) {
             return LATEST;
         }

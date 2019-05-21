@@ -142,7 +142,7 @@ public class VersionNumber implements Comparable<VersionNumber> {
         return DEFAULT_SCHEME.parse(versionString);
     }
 
-    private String toLowerCase(@Nullable String string) {
+    private static String toLowerCase(@Nullable String string) {
         return string == null ? null : string.toLowerCase();
     }
 

@@ -16,7 +16,6 @@
 
 package org.gradle.ide.xcode.tasks;
 
-import org.gradle.api.Action;
 import org.gradle.api.Incubating;
 import org.gradle.api.tasks.Internal;
 import org.gradle.ide.xcode.XcodeProject;
@@ -103,15 +102,15 @@ public class GenerateSchemeFileTask extends XmlGeneratorTask<XcodeSchemeFile> {
         }
     }
 
-    private void configureArchiveAction(XcodeSchemeFile.ArchiveAction action) {
+    private static void configureArchiveAction(XcodeSchemeFile.ArchiveAction action) {
         action.setBuildConfiguration(BUILD_DEBUG);
     }
 
-    private void configureProfileAction(XcodeSchemeFile.ProfileAction action) {
+    private static void configureProfileAction(XcodeSchemeFile.ProfileAction action) {
         action.setBuildConfiguration(BUILD_DEBUG);
     }
 
-    private void configureAnalyzeAction(XcodeSchemeFile.AnalyzeAction action) {
+    private static void configureAnalyzeAction(XcodeSchemeFile.AnalyzeAction action) {
         action.setBuildConfiguration(BUILD_DEBUG);
     }
 

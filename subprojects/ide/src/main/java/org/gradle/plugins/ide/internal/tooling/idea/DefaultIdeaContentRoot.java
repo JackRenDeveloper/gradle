@@ -52,7 +52,7 @@ public class DefaultIdeaContentRoot implements Serializable {
         return generated(sourceDirectories);
     }
 
-    private Set<DefaultIdeaSourceDirectory> generated(Set<DefaultIdeaSourceDirectory> directories) {
+    private static Set<DefaultIdeaSourceDirectory> generated(Set<DefaultIdeaSourceDirectory> directories) {
         Set<DefaultIdeaSourceDirectory> generated = new LinkedHashSet<DefaultIdeaSourceDirectory>();
         for (DefaultIdeaSourceDirectory sourceDirectory : directories) {
             if (sourceDirectory.isGenerated()) {

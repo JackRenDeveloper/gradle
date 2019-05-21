@@ -127,15 +127,15 @@ public class Classpath extends XmlPersistableConfigurationObject {
         return "Classpath{entries=" + entries + "}";
     }
 
-    private boolean isDependency(ClasspathEntry entry) {
+    private static boolean isDependency(ClasspathEntry entry) {
         return entry instanceof ProjectDependency || entry instanceof AbstractLibrary;
     }
 
-    private boolean isJreContainer(ClasspathEntry entry) {
+    private static boolean isJreContainer(ClasspathEntry entry) {
         return entry instanceof Container && ((Container) entry).getPath().startsWith("org.eclipse.jdt.launching.JRE_CONTAINER");
     }
 
-    private boolean isOutputLocation(ClasspathEntry entry) {
+    private static boolean isOutputLocation(ClasspathEntry entry) {
         return entry instanceof Output;
     }
 

@@ -37,7 +37,7 @@ import java.util.Collections;
 public class AbiExtractingClasspathResourceHasher implements ResourceHasher {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbiExtractingClasspathResourceHasher.class);
 
-    private HashCode hashClassBytes(InputStream inputStream) throws IOException {
+    private static HashCode hashClassBytes(InputStream inputStream) throws IOException {
         // Use the ABI as the hash
         byte[] classBytes = ByteStreams.toByteArray(inputStream);
         ApiClassExtractor extractor = new ApiClassExtractor(Collections.<String>emptySet());
@@ -78,7 +78,7 @@ public class AbiExtractingClasspathResourceHasher implements ResourceHasher {
         return hashClassBytes(zipEntry.getInputStream());
     }
 
-    private boolean isClassFile(String name) {
+    private static boolean isClassFile(String name) {
         return name.endsWith(".class");
     }
 

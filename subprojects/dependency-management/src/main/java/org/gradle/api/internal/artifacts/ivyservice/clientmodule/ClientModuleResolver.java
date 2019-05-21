@@ -91,7 +91,7 @@ public class ClientModuleResolver implements ComponentMetaDataResolver {
         return dependencies;
     }
 
-    private ModuleComponentArtifactMetadata createClientModuleArtifact(ModuleComponentResolveMetadata metadata) {
+    private static ModuleComponentArtifactMetadata createClientModuleArtifact(ModuleComponentResolveMetadata metadata) {
         return metadata.artifact("jar", "jar", null);
     }
 

@@ -42,11 +42,11 @@ public class TestGlobalScopeServices extends GlobalScopeServices {
         return new InMemoryCacheFactory();
     }
 
-    BuildOperationExecutor createBuildOperationExecutor(ListenerManager listenerManager, Clock clock, WorkerLeaseService workerLeaseService, ProgressLoggerFactory progressLoggerFactory, ExecutorFactory executorFactory, ParallelismConfigurationManager parallelismConfigurationManager) {
+    static BuildOperationExecutor createBuildOperationExecutor(ListenerManager listenerManager, Clock clock, WorkerLeaseService workerLeaseService, ProgressLoggerFactory progressLoggerFactory, ExecutorFactory executorFactory, ParallelismConfigurationManager parallelismConfigurationManager) {
         return new ProjectBuilderBuildOperationExecutor(listenerManager.getBroadcaster(BuildOperationListener.class), clock, progressLoggerFactory, new DefaultBuildOperationQueueFactory(workerLeaseService), executorFactory, parallelismConfigurationManager);
     }
 
-    LoggingManagerInternal createLoggingManager(Factory<LoggingManagerInternal> loggingManagerFactory) {
+    static LoggingManagerInternal createLoggingManager(Factory<LoggingManagerInternal> loggingManagerFactory) {
         return loggingManagerFactory.create();
     }
 

@@ -24,11 +24,11 @@ import org.gradle.internal.time.Clock;
 
 public class TestExecutionBuildOperationBuildSessionScopeServices {
 
-    TestListenerBuildOperationAdapter createTestListenerBuildOperationAdapter(BuildOperationListenerManager listener, BuildOperationIdFactory buildOperationIdFactory, Clock clock) {
+    static TestListenerBuildOperationAdapter createTestListenerBuildOperationAdapter(BuildOperationListenerManager listener, BuildOperationIdFactory buildOperationIdFactory, Clock clock) {
         return new TestListenerBuildOperationAdapter(listener.getBroadcaster(), buildOperationIdFactory, clock);
     }
 
-    void configure(ServiceRegistration serviceRegistration, ListenerManager listenerManager, TestListenerBuildOperationAdapter testListenerBuildOperationAdapter) {
+    static void configure(ServiceRegistration serviceRegistration, ListenerManager listenerManager, TestListenerBuildOperationAdapter testListenerBuildOperationAdapter) {
         listenerManager.addListener(testListenerBuildOperationAdapter);
     }
 

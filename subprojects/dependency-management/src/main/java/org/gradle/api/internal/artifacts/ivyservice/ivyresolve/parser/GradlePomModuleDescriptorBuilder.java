@@ -180,7 +180,7 @@ public class GradlePomModuleDescriptorBuilder {
      * @param type Type
      * @return Extension
      */
-    private String determineExtension(String type) {
+    private static String determineExtension(String type) {
         return JarDependencyType.isJarExtension(type) ? "jar" : type;
     }
 
@@ -192,7 +192,7 @@ public class GradlePomModuleDescriptorBuilder {
      *
      * @param type Type
      */
-    private String getClassifierForType(String type) {
+    private static String getClassifierForType(String type) {
         if(JarDependencyType.TEST_JAR.getName().equals(type)) {
             return "tests";
         } else if(JarDependencyType.EJB_CLIENT.getName().equals(type)) {

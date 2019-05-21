@@ -31,7 +31,7 @@ public class IntegrationTestBuildContext {
     public static final TestFile TEST_DIR = new TestFile(new File(".").toURI());
     public static final IntegrationTestBuildContext INSTANCE = new IntegrationTestBuildContext();
 
-    public TestFile getGradleHomeDir() {
+    public static TestFile getGradleHomeDir() {
         return file("integTest.gradleHomeDir", null);
     }
 
@@ -40,40 +40,40 @@ public class IntegrationTestBuildContext {
         return file("integTest.samplesdir", String.format("%s/samples", getGradleHomeDir())).assertIsDir(hintForMissingSamples);
     }
 
-    public TestFile getDistributionsDir() {
+    public static TestFile getDistributionsDir() {
         return file("integTest.distsDir", "build/distributions");
     }
 
-    public TestFile getLibsRepo() {
+    public static TestFile getLibsRepo() {
         return file("integTest.libsRepo", "build/repo");
     }
 
-    public TestFile getDaemonBaseDir() {
+    public static TestFile getDaemonBaseDir() {
         return file("org.gradle.integtest.daemon.registry", "build/daemon");
     }
 
-    public TestFile getGradleUserHomeDir() {
+    public static TestFile getGradleUserHomeDir() {
         return file("integTest.gradleUserHomeDir", "intTestHomeDir").file("worker-1");
     }
 
     @Nullable
-    public TestFile getGradleGeneratedApiJarCacheDir() {
+    public static TestFile getGradleGeneratedApiJarCacheDir() {
         return optionalFile("integTest.gradleGeneratedApiJarCacheDir");
     }
 
-    public TestFile getTmpDir() {
+    public static TestFile getTmpDir() {
         return file("integTest.tmpDir", "build/tmp");
     }
 
-    public TestFile getNativeServicesDir() {
+    public static TestFile getNativeServicesDir() {
         return getGradleUserHomeDir().file("native");
     }
 
-    public GradleVersion getVersion() {
+    public static GradleVersion getVersion() {
         return GradleVersion.current();
     }
 
-    public String getCurrentSubprojectName() {
+    public static String getCurrentSubprojectName() {
         return CaseFormat.LOWER_HYPHEN.to(CaseFormat.LOWER_CAMEL, getGradleHomeDir().getParentFile().getParentFile().getName());
     }
 
@@ -83,11 +83,11 @@ public class IntegrationTestBuildContext {
      *
      * @return timestamped version
      */
-    public GradleVersion getDistZipVersion() {
+    public static GradleVersion getDistZipVersion() {
         return GradleVersion.version(System.getProperty("integTest.distZipVersion", GradleVersion.current().getVersion()));
     }
 
-    public TestFile getFatToolingApiJar() {
+    public static TestFile getFatToolingApiJar() {
         TestFile toolingApiShadedJarDir = file("integTest.toolingApiShadedJarDir", "subprojects/tooling-api/build/shaded-jar");
         TestFile fatToolingApiJar = new TestFile(toolingApiShadedJarDir, String.format("gradle-tooling-api-shaded-%s.jar", getVersion().getBaseVersion().getVersion()));
 
@@ -98,7 +98,7 @@ public class IntegrationTestBuildContext {
         return fatToolingApiJar;
     }
 
-    public GradleDistribution distribution(String version) {
+    public static GradleDistribution distribution(String version) {
         if (version.equals(getVersion().getVersion())) {
             return new UnderDevelopmentGradleDistribution();
         }

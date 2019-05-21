@@ -100,7 +100,7 @@ public class JavaPlatformPlugin implements Plugin<Project> {
 
     }
 
-    private void addPlatformDisambiguationRule(Project project) {
+    private static void addPlatformDisambiguationRule(Project project) {
         project.getDependencies()
                 .getAttributesSchema()
                 .getMatchingStrategy(Category.CATEGORY_ATTRIBUTE)
@@ -134,7 +134,7 @@ public class JavaPlatformPlugin implements Plugin<Project> {
         createSoftwareComponent(project, apiElements, runtimeElements);
     }
 
-    private Configuration createConsumableRuntime(Project project, Configuration apiElements, String name, String platformKind) {
+    private static Configuration createConsumableRuntime(Project project, Configuration apiElements, String name, String platformKind) {
         Configuration runtimeElements = project.getConfigurations().create(name, AS_CONSUMABLE_CONFIGURATION);
         runtimeElements.extendsFrom(apiElements);
         declareConfigurationUsage(project.getObjects(), runtimeElements, Usage.JAVA_RUNTIME);
@@ -142,7 +142,7 @@ public class JavaPlatformPlugin implements Plugin<Project> {
         return runtimeElements;
     }
 
-    private Configuration createConsumableApi(Project project, ConfigurationContainer configurations, Configuration api, String name, String platformKind) {
+    private static Configuration createConsumableApi(Project project, ConfigurationContainer configurations, Configuration api, String name, String platformKind) {
         Configuration apiElements = configurations.create(name, AS_CONSUMABLE_CONFIGURATION);
         apiElements.extendsFrom(api);
         declareConfigurationUsage(project.getObjects(), apiElements, Usage.JAVA_API);
@@ -150,11 +150,11 @@ public class JavaPlatformPlugin implements Plugin<Project> {
         return apiElements;
     }
 
-    private void declareConfigurationCategory(ObjectFactory objectFactory, Configuration configuration, String value) {
+    private static void declareConfigurationCategory(ObjectFactory objectFactory, Configuration configuration, String value) {
         configuration.getAttributes().attribute(Category.CATEGORY_ATTRIBUTE, objectFactory.named(Category.class, value));
     }
 
-    private void declareConfigurationUsage(ObjectFactory objectFactory, Configuration configuration, String usage) {
+    private static void declareConfigurationUsage(ObjectFactory objectFactory, Configuration configuration, String usage) {
         configuration.getAttributes().attribute(Usage.USAGE_ATTRIBUTE, objectFactory.named(Usage.class, usage));
     }
 
@@ -167,11 +167,11 @@ public class JavaPlatformPlugin implements Plugin<Project> {
         });
     }
 
-    void checkNoDependencies(Project project) {
+    static void checkNoDependencies(Project project) {
         checkNoDependencies(project.getConfigurations().getByName(RUNTIME_CONFIGURATION_NAME), Sets.<Configuration>newHashSet());
     }
 
-    private void checkNoDependencies(Configuration configuration, Set<Configuration> visited) {
+    private static void checkNoDependencies(Configuration configuration, Set<Configuration> visited) {
         if (visited.add(configuration)) {
             if (!configuration.getDependencies().isEmpty()) {
                 throw new InvalidUserCodeException(String.format(DISALLOW_DEPENDENCIES, configuration.getName()));

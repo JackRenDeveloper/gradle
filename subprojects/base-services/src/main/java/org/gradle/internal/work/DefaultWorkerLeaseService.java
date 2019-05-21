@@ -139,7 +139,7 @@ public class DefaultWorkerLeaseService implements WorkerLeaseService, Parallelis
             }
         });
 
-        if (projectLockStatistics.isEnabled()) {
+        if (ProjectLockStatisticsImpl.isEnabled()) {
             LOGGER.warn("Time spent waiting on project locks: " + projectLockStatistics.getTotalWaitTimeMillis() + "ms");
         }
     }
@@ -203,7 +203,7 @@ public class DefaultWorkerLeaseService implements WorkerLeaseService, Parallelis
         }
     }
 
-    private boolean containsProjectLocks(Iterable<? extends ResourceLock> locks) {
+    private static boolean containsProjectLocks(Iterable<? extends ResourceLock> locks) {
         return Iterables.any(locks, new Predicate<ResourceLock>() {
             @Override
             public boolean apply(@Nullable ResourceLock lock) {
@@ -472,7 +472,7 @@ public class DefaultWorkerLeaseService implements WorkerLeaseService, Parallelis
             return total.get();
         }
 
-        public boolean isEnabled() {
+        public static boolean isEnabled() {
             return System.getProperty(PROJECT_LOCK_STATS_PROPERTY) != null;
         }
     }

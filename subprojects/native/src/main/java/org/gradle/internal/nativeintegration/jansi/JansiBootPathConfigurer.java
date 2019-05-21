@@ -57,7 +57,7 @@ public class JansiBootPathConfigurer {
         }
     }
 
-    private void copyLibrary(InputStream lib, File libFile) {
+    private static void copyLibrary(InputStream lib, File libFile) {
         try {
             try {
                 FileOutputStream outputStream = new FileOutputStream(libFile);

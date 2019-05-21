@@ -15,7 +15,6 @@
  */
 package org.gradle.play.plugins;
 
-import org.gradle.api.Action;
 import org.gradle.api.GradleException;
 import org.gradle.api.Incubating;
 import org.gradle.api.Plugin;
@@ -101,68 +100,68 @@ public class PlayApplicationPlugin implements Plugin<Project> {
     @SuppressWarnings("UnusedDeclaration")
     static class Rules extends RuleSource {
         @Model
-        PlayPluginConfigurations configurations(ExtensionContainer extensions) {
+        static PlayPluginConfigurations configurations(ExtensionContainer extensions) {
             return extensions.getByType(PlayPluginConfigurations.class);
         }
 
         @Model
-        PlayToolChainInternal playToolChain(ServiceRegistry serviceRegistry) {
+        static PlayToolChainInternal playToolChain(ServiceRegistry serviceRegistry) {
             return serviceRegistry.get(PlayToolChainInternal.class);
         }
 
         @Hidden @Model
-        FileResolver fileResolver(ServiceRegistry serviceRegistry) {
+        static FileResolver fileResolver(ServiceRegistry serviceRegistry) {
             return serviceRegistry.get(FileResolver.class);
         }
 
         @Hidden @Model
-        ConfigurationContainer configurationContainer(ServiceRegistry serviceRegistry) {
+        static ConfigurationContainer configurationContainer(ServiceRegistry serviceRegistry) {
             return serviceRegistry.get(ConfigurationContainer.class);
         }
 
         @ComponentType
-        void registerPlayPlatformAwareComponentSpecType(TypeBuilder<PlayPlatformAwareComponentSpec> builder) {
+        static void registerPlayPlatformAwareComponentSpecType(TypeBuilder<PlayPlatformAwareComponentSpec> builder) {
             builder.defaultImplementation(DefaultPlayPlatformAwareComponentSpec.class);
             builder.internalView(PlayPlatformAwareComponentSpecInternal.class);
         }
 
         @ComponentType
-        void registerPlayApplicationSpecType(TypeBuilder<PlayApplicationSpec> builder) {
+        static void registerPlayApplicationSpecType(TypeBuilder<PlayApplicationSpec> builder) {
             builder.internalView(PlayApplicationSpecInternal.class);
         }
 
         @Mutate
-        public void registerPlatformResolver(PlatformResolvers platformResolvers) {
+        public static void registerPlatformResolver(PlatformResolvers platformResolvers) {
             platformResolvers.register(new PlayPlatformResolver());
         }
 
         @Mutate
-        void createDefaultPlayApp(ModelMap<PlayApplicationSpec> builder) {
+        static void createDefaultPlayApp(ModelMap<PlayApplicationSpec> builder) {
             builder.create("play");
         }
 
         @ComponentType
-        void registerApplication(TypeBuilder<PlayApplicationBinarySpec> builder) {
+        static void registerApplication(TypeBuilder<PlayApplicationBinarySpec> builder) {
             builder.defaultImplementation(DefaultPlayApplicationBinarySpec.class);
             builder.internalView(PlayApplicationBinarySpecInternal.class);
         }
 
         @Validate
-        void failOnMultiplePlayComponents(ModelMap<PlayApplicationSpec> container) {
+        static void failOnMultiplePlayComponents(ModelMap<PlayApplicationSpec> container) {
             if (container.size() >= 2) {
                 throw new GradleException("Multiple components of type 'PlayApplicationSpec' are not supported.");
             }
         }
 
         @Validate
-        void failOnMultipleTargetPlatforms(@Each PlayPlatformAwareComponentSpecInternal playApplication) {
+        static void failOnMultipleTargetPlatforms(@Each PlayPlatformAwareComponentSpecInternal playApplication) {
             if (playApplication.getTargetPlatforms().size() > 1) {
                 throw new GradleException("Multiple target platforms for 'PlayApplicationSpec' is not (yet) supported.");
             }
         }
 
         @Validate
-        void failIfInjectedRouterIsUsedWithOldVersion(@Each PlayApplicationBinarySpec playApplicationBinary) {
+        static void failIfInjectedRouterIsUsedWithOldVersion(@Each PlayApplicationBinarySpec playApplicationBinary) {
             if (playApplicationBinary.getApplication().getInjectedRoutesGenerator()) {
                 final PlayPlatform playPlatform = playApplicationBinary.getTargetPlatform();
                 VersionNumber minSupportedVersion = VersionNumber.parse("2.4.0");
@@ -208,7 +207,8 @@ public class PlayApplicationPlugin implements Plugin<Project> {
         }
 
         @Mutate
-        // TODO:LPTR This should be like @Finalize void generatedSourcesAreInputs(@Each PlayApplicationBinarySpecInternal binary)
+        static
+            // TODO:LPTR This should be like @Finalize void generatedSourcesAreInputs(@Each PlayApplicationBinarySpecInternal binary)
         void generatedSourcesAreInputs(@Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> binaries, final ServiceRegistry serviceRegistry) {
             binaries.afterEach(playApplicationBinarySpec -> {
                 for (ScalaLanguageSourceSet generatedSources : playApplicationBinarySpec.getGeneratedScala().values()) {
@@ -220,12 +220,12 @@ public class PlayApplicationPlugin implements Plugin<Project> {
             });
         }
 
-        PlayPlatform resolveTargetPlatform(PlayApplicationSpecInternal componentSpec, final PlatformResolvers platforms) {
+        static PlayPlatform resolveTargetPlatform(PlayApplicationSpecInternal componentSpec, final PlatformResolvers platforms) {
             PlatformRequirement targetPlatform = getTargetPlatform(componentSpec);
             return platforms.resolve(PlayPlatform.class, targetPlatform);
         }
 
-        private PlatformRequirement getTargetPlatform(PlayApplicationSpecInternal playApplicationSpec) {
+        private static PlatformRequirement getTargetPlatform(PlayApplicationSpecInternal playApplicationSpec) {
             if (playApplicationSpec.getTargetPlatforms().isEmpty()) {
                 String defaultPlayPlatform = "play-" + DefaultPlayPlatform.DEFAULT_PLAY_VERSION;
                 return DefaultPlatformRequirement.create(defaultPlayPlatform);
@@ -233,7 +233,7 @@ public class PlayApplicationPlugin implements Plugin<Project> {
             return playApplicationSpec.getTargetPlatforms().get(0);
         }
 
-        void initialiseConfigurations(PlayPluginConfigurations configurations, PlayPlatform playPlatform) {
+        static void initialiseConfigurations(PlayPluginConfigurations configurations, PlayPlatform playPlatform) {
             configurations.getPlayPlatform().addDependency(((PlayPlatformInternal) playPlatform).getDependencyNotation("play"));
             configurations.getPlayTest().addDependency(((PlayPlatformInternal) playPlatform).getDependencyNotation("play-test"));
             configurations.getPlayRun().addDependency(((PlayPlatformInternal) playPlatform).getDependencyNotation("play-docs"));
@@ -249,7 +249,7 @@ public class PlayApplicationPlugin implements Plugin<Project> {
         }
 
         @BinaryTasks
-        void createScalaCompileTask(ModelMap<Task> tasks, final PlayApplicationBinarySpec binary, @Path("buildDir") final File buildDir) {
+        static void createScalaCompileTask(ModelMap<Task> tasks, final PlayApplicationBinarySpec binary, @Path("buildDir") final File buildDir) {
             tasks.withType(PlatformScalaCompile.class).afterEach(scalaCompile -> {
                 FileCollection classpath = ((PlayApplicationBinarySpecInternal) binary).getClasspath();
                 scalaCompile.setClasspath(classpath);
@@ -258,7 +258,7 @@ public class PlayApplicationPlugin implements Plugin<Project> {
         }
 
         @BinaryTasks
-        void createJarTasks(ModelMap<Task> tasks, final PlayApplicationBinarySpecInternal binary) {
+        static void createJarTasks(ModelMap<Task> tasks, final PlayApplicationBinarySpecInternal binary) {
             String jarTaskName = binary.getTasks().taskName("create", "Jar");
             tasks.create(jarTaskName, Jar.class, jar -> {
                 jar.setDescription("Assembles the application jar for the " + binary.getDisplayName() + ".");
@@ -283,7 +283,7 @@ public class PlayApplicationPlugin implements Plugin<Project> {
         }
 
         @Mutate
-        void createPlayRunTask(ModelMap<Task> tasks, @Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> playBinaries, final ServiceRegistry serviceRegistry, final PlayPluginConfigurations configurations, final ProjectIdentifier projectIdentifier, final PlayToolChainInternal playToolChain) {
+        static void createPlayRunTask(ModelMap<Task> tasks, @Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> playBinaries, final ServiceRegistry serviceRegistry, final PlayPluginConfigurations configurations, final ProjectIdentifier projectIdentifier, final PlayToolChainInternal playToolChain) {
 
             for (final PlayApplicationBinarySpecInternal binary : playBinaries) {
                 String runTaskName = binary.getTasks().taskName("run");
@@ -305,7 +305,7 @@ public class PlayApplicationPlugin implements Plugin<Project> {
         }
 
         @Defaults
-        void createJvmSourceSets(@Each PlayApplicationSpec playComponent) {
+        static void createJvmSourceSets(@Each PlayApplicationSpec playComponent) {
             playComponent.getSources().create("scala", ScalaLanguageSourceSet.class, scalaSources -> {
                 scalaSources.getSource().srcDir("app");
                 scalaSources.getSource().include("**/*.scala");
@@ -320,7 +320,7 @@ public class PlayApplicationPlugin implements Plugin<Project> {
         }
 
         @Defaults
-        void createTwirlSourceSets(@Each PlayApplicationSpec playComponent) {
+        static void createTwirlSourceSets(@Each PlayApplicationSpec playComponent) {
             playComponent.getSources().create("twirlTemplates", TwirlSourceSet.class, twirlSourceSet -> {
                 twirlSourceSet.getSource().srcDir("app");
                 twirlSourceSet.getSource().include("**/*.scala.*");
@@ -328,7 +328,7 @@ public class PlayApplicationPlugin implements Plugin<Project> {
         }
 
         @Defaults
-        void createRoutesSourceSets(@Each PlayApplicationSpec playComponent) {
+        static void createRoutesSourceSets(@Each PlayApplicationSpec playComponent) {
             playComponent.getSources().create("routes", RoutesSourceSet.class, routesSourceSet -> {
                 routesSourceSet.getSource().srcDir("conf");
                 routesSourceSet.getSource().include("routes");

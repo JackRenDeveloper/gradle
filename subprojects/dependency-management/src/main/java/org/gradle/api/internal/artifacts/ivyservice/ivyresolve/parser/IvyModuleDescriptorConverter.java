@@ -70,7 +70,7 @@ public class IvyModuleDescriptorConverter {
         this.moduleIdentifierFactory = moduleIdentifierFactory;
     }
 
-    public Map<NamespaceId, String> extractExtraAttributes(ModuleDescriptor ivyDescriptor) {
+    public static Map<NamespaceId, String> extractExtraAttributes(ModuleDescriptor ivyDescriptor) {
         return Cast.uncheckedCast(ivyDescriptor.getExtraInfo());
     }
 
@@ -90,7 +90,7 @@ public class IvyModuleDescriptorConverter {
         return result;
     }
 
-    public List<Configuration> extractConfigurations(ModuleDescriptor ivyDescriptor) {
+    public static List<Configuration> extractConfigurations(ModuleDescriptor ivyDescriptor) {
         List<Configuration> result = Lists.newArrayListWithCapacity(ivyDescriptor.getConfigurations().length);
         for (org.apache.ivy.core.module.descriptor.Configuration ivyConfiguration : ivyDescriptor.getConfigurations()) {
             addConfiguration(result, ivyConfiguration);
@@ -144,7 +144,7 @@ public class IvyModuleDescriptorConverter {
             moduleIdentifierFactory.module(id.getModuleId().getOrganisation(), id.getModuleId().getName()), artifactExclusion, excludeRule.getConfigurations(), excludeRule.getMatcher().getName());
     }
 
-    private IvyArtifactName artifactForIvyExclude(ArtifactId id) {
+    private static IvyArtifactName artifactForIvyExclude(ArtifactId id) {
         if (PatternMatchers.ANY_EXPRESSION.equals(id.getName())
             && PatternMatchers.ANY_EXPRESSION.equals(id.getType())
             && PatternMatchers.ANY_EXPRESSION.equals(id.getExt())) {

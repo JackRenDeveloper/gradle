@@ -46,7 +46,7 @@ public class SourceFolder extends AbstractClasspathEntry {
         this.excludes = parseNodeListAttribute(node, "excluding");
     }
 
-    private List<String> parseNodeListAttribute(Node node, String attributeName) {
+    private static List<String> parseNodeListAttribute(Node node, String attributeName) {
         Object attribute = node.attribute(attributeName);
         if (attribute == null) {
             return Collections.emptyList();

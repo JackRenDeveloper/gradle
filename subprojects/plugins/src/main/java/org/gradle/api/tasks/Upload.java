@@ -49,7 +49,7 @@ public class Upload extends ConventionTask {
     private RepositoryHandler repositories;
 
     @Inject
-    protected ArtifactPublicationServices getPublicationServices() {
+    protected static ArtifactPublicationServices getPublicationServices() {
         throw new UnsupportedOperationException();
     }
 

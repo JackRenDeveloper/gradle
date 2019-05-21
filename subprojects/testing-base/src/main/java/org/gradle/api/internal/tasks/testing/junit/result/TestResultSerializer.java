@@ -68,7 +68,7 @@ public class TestResultSerializer {
         }
     }
 
-    private void write(TestClassResult classResult, Encoder encoder) throws IOException {
+    private static void write(TestClassResult classResult, Encoder encoder) throws IOException {
         encoder.writeSmallLong(classResult.getId());
         encoder.writeString(classResult.getClassName());
         encoder.writeString(classResult.getClassDisplayName());
@@ -79,7 +79,7 @@ public class TestResultSerializer {
         }
     }
 
-    private void write(TestMethodResult methodResult, Encoder encoder) throws IOException {
+    private static void write(TestMethodResult methodResult, Encoder encoder) throws IOException {
         encoder.writeSmallLong(methodResult.getId());
         encoder.writeString(methodResult.getName());
         encoder.writeString(methodResult.getDisplayName());
@@ -127,7 +127,7 @@ public class TestResultSerializer {
         }
     }
 
-    private TestClassResult readClassResult(Decoder decoder) throws IOException, ClassNotFoundException {
+    private static TestClassResult readClassResult(Decoder decoder) throws IOException, ClassNotFoundException {
         long id = decoder.readSmallLong();
         String className = decoder.readString();
         String classDisplayName = decoder.readString();
@@ -141,7 +141,7 @@ public class TestResultSerializer {
         return result;
     }
 
-    private TestMethodResult readMethodResult(Decoder decoder) throws ClassNotFoundException, IOException {
+    private static TestMethodResult readMethodResult(Decoder decoder) throws ClassNotFoundException, IOException {
         long id = decoder.readSmallLong();
         String name = decoder.readString();
         String displayName = decoder.readString();

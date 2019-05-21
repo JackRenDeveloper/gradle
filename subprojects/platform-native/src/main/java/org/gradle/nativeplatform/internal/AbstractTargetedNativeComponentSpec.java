@@ -65,7 +65,7 @@ public abstract class AbstractTargetedNativeComponentSpec extends AbstractNative
         return chooseElements(BuildType.class, candidates, buildTypes);
     }
 
-    protected <T extends Named> Set<T> chooseElements(Class<T> type, Set<? extends T> candidates, Set<String> names) {
+    protected static <T extends Named> Set<T> chooseElements(Class<T> type, Set<? extends T> candidates, Set<String> names) {
         if (names.isEmpty()) {
             return new LinkedHashSet<T>(candidates);
         }

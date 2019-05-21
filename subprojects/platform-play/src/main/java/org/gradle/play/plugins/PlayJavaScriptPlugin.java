@@ -61,12 +61,12 @@ public class PlayJavaScriptPlugin implements Plugin<Project> {
 
     static class Rules extends RuleSource {
         @ComponentType
-        void registerJavascript(TypeBuilder<JavaScriptSourceSet> builder) {
+        static void registerJavascript(TypeBuilder<JavaScriptSourceSet> builder) {
             builder.defaultImplementation(DefaultJavaScriptSourceSet.class);
         }
 
         @Finalize
-        void createJavascriptSourceSets(@Each PlayApplicationSpec playComponent) {
+        static void createJavascriptSourceSets(@Each PlayApplicationSpec playComponent) {
             playComponent.getSources().create("javaScript", JavaScriptSourceSet.class, javaScriptSourceSet -> {
                 javaScriptSourceSet.getSource().srcDir("app/assets");
                 javaScriptSourceSet.getSource().include("**/*.js");
@@ -74,7 +74,7 @@ public class PlayJavaScriptPlugin implements Plugin<Project> {
         }
 
         @Mutate
-        void registerLanguageTransform(LanguageTransformContainer languages) {
+        static void registerLanguageTransform(LanguageTransformContainer languages) {
             languages.add(new JavaScript());
         }
     }

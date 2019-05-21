@@ -51,7 +51,7 @@ public class ComponentAttributeMatcher {
     /**
      * Determines whether the given candidate is compatible with the requested criteria, according to the given schema.
      */
-    public boolean isMatching(AttributeSelectionSchema schema, AttributeContainerInternal candidate, AttributeContainerInternal requested) {
+    public static boolean isMatching(AttributeSelectionSchema schema, AttributeContainerInternal candidate, AttributeContainerInternal requested) {
         if (requested.isEmpty() || candidate.isEmpty()) {
             return true;
         }
@@ -74,7 +74,7 @@ public class ComponentAttributeMatcher {
     }
 
     @SuppressWarnings("unchecked")
-    public List<AttributeMatcher.MatchingDescription> describeMatching(AttributeSelectionSchema schema, AttributeContainerInternal candidate, AttributeContainerInternal requested) {
+    public static List<AttributeMatcher.MatchingDescription> describeMatching(AttributeSelectionSchema schema, AttributeContainerInternal candidate, AttributeContainerInternal requested) {
         if (requested.isEmpty() || candidate.isEmpty()) {
             return Collections.emptyList();
         }
@@ -182,7 +182,7 @@ public class ComponentAttributeMatcher {
             this.hashCode = computeHashCode(schema, requestedAttributes, candidates);
         }
 
-        private int computeHashCode(AttributeSelectionSchema schema, ImmutableAttributes requestedAttributes, ImmutableAttributes[] candidates) {
+        private static int computeHashCode(AttributeSelectionSchema schema, ImmutableAttributes requestedAttributes, ImmutableAttributes[] candidates) {
             int hash = schema.hashCode();
             hash = 31 * hash + requestedAttributes.hashCode();
             for (ImmutableAttributes candidate : candidates) {

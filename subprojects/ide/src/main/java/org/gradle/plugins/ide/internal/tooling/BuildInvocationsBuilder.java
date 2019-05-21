@@ -87,7 +87,7 @@ public class BuildInvocationsBuilder implements ToolingModelBuilder {
             .setProjectIdentifier(projectIdentifier);
     }
 
-    private DefaultProjectIdentifier getProjectIdentifier(Project project) {
+    private static DefaultProjectIdentifier getProjectIdentifier(Project project) {
         return new DefaultProjectIdentifier(project.getRootDir(), project.getPath());
     }
 

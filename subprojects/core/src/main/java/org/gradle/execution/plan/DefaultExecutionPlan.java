@@ -17,21 +17,18 @@
 package org.gradle.execution.plan;
 
 import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.gradle.api.Action;
 import org.gradle.api.BuildCancelledException;
 import org.gradle.api.CircularReferenceException;
 import org.gradle.api.GradleException;
 import org.gradle.api.NonNullApi;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
-import org.gradle.api.Transformer;
 import org.gradle.api.UncheckedIOException;
 import org.gradle.api.internal.GradleInternal;
 import org.gradle.api.internal.TaskInternal;
@@ -41,7 +38,6 @@ import org.gradle.api.internal.project.ProjectInternal;
 import org.gradle.api.internal.tasks.TaskPropertyUtils;
 import org.gradle.api.internal.tasks.properties.FileParameterUtils;
 import org.gradle.api.internal.tasks.properties.InputFilePropertyType;
-import org.gradle.api.internal.tasks.properties.OutputFilePropertySpec;
 import org.gradle.api.internal.tasks.properties.OutputFilePropertyType;
 import org.gradle.api.internal.tasks.properties.PropertyValue;
 import org.gradle.api.internal.tasks.properties.PropertyVisitor;
@@ -52,9 +48,7 @@ import org.gradle.api.tasks.FileNormalizer;
 import org.gradle.api.tasks.TaskExecutionException;
 import org.gradle.internal.Pair;
 import org.gradle.internal.graph.CachingDirectedGraphWalker;
-import org.gradle.internal.graph.DirectedGraph;
 import org.gradle.internal.graph.DirectedGraphRenderer;
-import org.gradle.internal.graph.GraphNodeRenderer;
 import org.gradle.internal.logging.text.StyledTextOutput;
 import org.gradle.internal.resources.ResourceDeadlockException;
 import org.gradle.internal.resources.ResourceLock;
@@ -81,7 +75,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 
 /**
  * A reusable implementation of ExecutionPlan. The {@link #addEntryTasks(java.util.Collection)} and {@link #clear()} methods are NOT threadsafe, and callers must synchronize access to these methods.
@@ -205,7 +198,7 @@ public class DefaultExecutionPlan implements ExecutionPlan {
         return true;
     }
 
-    private void resolveNodesInUnknownState(Set<Node> nodesInUnknownState) {
+    private static void resolveNodesInUnknownState(Set<Node> nodesInUnknownState) {
         List<Node> queue = Lists.newArrayList(nodesInUnknownState);
         Set<Node> visiting = Sets.newHashSet();
 
@@ -356,7 +349,7 @@ public class DefaultExecutionPlan implements ExecutionPlan {
         return mutations;
     }
 
-    private void maybeRemoveProcessedShouldRunAfterEdge(Deque<GraphEdge> walkedShouldRunAfterEdges, Node node) {
+    private static void maybeRemoveProcessedShouldRunAfterEdge(Deque<GraphEdge> walkedShouldRunAfterEdges, Node node) {
         GraphEdge edge = walkedShouldRunAfterEdges.peek();
         if (edge != null && edge.to.equals(node)) {
             walkedShouldRunAfterEdges.pop();
@@ -368,7 +361,7 @@ public class DefaultExecutionPlan implements ExecutionPlan {
         nodeMapping.retainFirst(count);
     }
 
-    private void restoreQueue(List<NodeInVisitingSegment> nodeQueue, HashMultimap<Node, Integer> visitingNodes, GraphEdge toBeRemoved) {
+    private static void restoreQueue(List<NodeInVisitingSegment> nodeQueue, HashMultimap<Node, Integer> visitingNodes, GraphEdge toBeRemoved) {
         NodeInVisitingSegment nextInQueue = null;
         while (nextInQueue == null || !toBeRemoved.from.equals(nextInQueue.node)) {
             nextInQueue = nodeQueue.get(0);
@@ -379,14 +372,14 @@ public class DefaultExecutionPlan implements ExecutionPlan {
         }
     }
 
-    private void restorePath(Deque<Node> path, GraphEdge toBeRemoved) {
+    private static void restorePath(Deque<Node> path, GraphEdge toBeRemoved) {
         Node removedFromPath = null;
         while (!toBeRemoved.from.equals(removedFromPath)) {
             removedFromPath = path.pop();
         }
     }
 
-    private void removeShouldRunAfterSuccessorsIfTheyImposeACycle(final HashMultimap<Node, Integer> visitingNodes, final NodeInVisitingSegment nodeWithVisitingSegment) {
+    private static void removeShouldRunAfterSuccessorsIfTheyImposeACycle(final HashMultimap<Node, Integer> visitingNodes, final NodeInVisitingSegment nodeWithVisitingSegment) {
         Node node = nodeWithVisitingSegment.node;
         if (!(node instanceof TaskNode)) {
             return;
@@ -400,7 +393,7 @@ public class DefaultExecutionPlan implements ExecutionPlan {
         }
     }
 
-    private void recordEdgeIfArrivedViaShouldRunAfter(Deque<GraphEdge> walkedShouldRunAfterEdges, Deque<Node> path, Node node) {
+    private static void recordEdgeIfArrivedViaShouldRunAfter(Deque<GraphEdge> walkedShouldRunAfterEdges, Deque<Node> path, Node node) {
         if (!(node instanceof TaskNode)) {
             return;
         }
@@ -414,7 +407,7 @@ public class DefaultExecutionPlan implements ExecutionPlan {
      * Given a finalizer task, determine where in the current node queue that it should be inserted.
      * The finalizer should be inserted after any of it's preceding tasks.
      */
-    private int finalizerTaskPosition(Node finalizer, final List<NodeInVisitingSegment> nodeQueue) {
+    private static int finalizerTaskPosition(Node finalizer, final List<NodeInVisitingSegment> nodeQueue) {
         if (nodeQueue.size() == 0) {
             return 0;
         }
@@ -424,7 +417,7 @@ public class DefaultExecutionPlan implements ExecutionPlan {
         return Collections.max(precedingTaskIndices) + 1;
     }
 
-    private Set<Node> getAllPrecedingNodes(Node finalizer) {
+    private static Set<Node> getAllPrecedingNodes(Node finalizer) {
         Set<Node> precedingNodes = Sets.newHashSet();
         Deque<Node> candidateNodes = new ArrayDeque<Node>();
 
@@ -653,7 +646,7 @@ public class DefaultExecutionPlan implements ExecutionPlan {
         }
     }
 
-    void withDeadlockHandling(TaskNode task, String singular, String description, Runnable runnable) {
+    static void withDeadlockHandling(TaskNode task, String singular, String description, Runnable runnable) {
         try {
             runnable.run();
         } catch (ResourceDeadlockException e) {

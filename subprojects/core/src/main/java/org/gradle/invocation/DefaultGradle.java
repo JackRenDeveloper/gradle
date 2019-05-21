@@ -364,7 +364,7 @@ public class DefaultGradle extends AbstractPluginAware implements GradleInternal
         addListener("Gradle.addListener", listener);
     }
 
-    private void addListener(String registrationPoint, Object listener) {
+    private static void addListener(String registrationPoint, Object listener) {
         getListenerManager().addListener(getListenerBuildOperationDecorator().decorateUnknownListener(registrationPoint, listener));
     }
 
@@ -444,37 +444,37 @@ public class DefaultGradle extends AbstractPluginAware implements GradleInternal
     }
 
     @Inject
-    protected TextResourceLoader getResourceLoader() {
+    protected static TextResourceLoader getResourceLoader() {
         throw new UnsupportedOperationException();
     }
 
     @Inject
-    protected ScriptHandlerFactory getScriptHandlerFactory() {
+    protected static ScriptHandlerFactory getScriptHandlerFactory() {
         throw new UnsupportedOperationException();
     }
 
     @Inject
-    protected ScriptPluginFactory getScriptPluginFactory() {
+    protected static ScriptPluginFactory getScriptPluginFactory() {
         throw new UnsupportedOperationException();
     }
 
     @Inject
-    protected FileResolver getFileResolver() {
+    protected static FileResolver getFileResolver() {
         throw new UnsupportedOperationException();
     }
 
     @Inject
-    protected CurrentGradleInstallation getCurrentGradleInstallation() {
+    protected static CurrentGradleInstallation getCurrentGradleInstallation() {
         throw new UnsupportedOperationException();
     }
 
     @Inject
-    protected ListenerManager getListenerManager() {
+    protected static ListenerManager getListenerManager() {
         throw new UnsupportedOperationException();
     }
 
     @Inject
-    protected ListenerBuildOperationDecorator getListenerBuildOperationDecorator() {
+    protected static ListenerBuildOperationDecorator getListenerBuildOperationDecorator() {
         throw new UnsupportedOperationException();
     }
 

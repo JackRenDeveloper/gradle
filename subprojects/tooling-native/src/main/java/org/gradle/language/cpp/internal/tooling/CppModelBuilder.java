@@ -80,7 +80,7 @@ public class CppModelBuilder implements ToolingModelBuilder {
         return new DefaultCppProjectModel(projectIdentifier, mainComponent, testComponent);
     }
 
-    private List<DefaultCppBinaryModel> binariesFor(CppComponent component, Iterable<File> headerDirs, DefaultProjectIdentifier projectIdentifier, CompilerOutputFileNamingSchemeFactory namingSchemeFactory) {
+    private static List<DefaultCppBinaryModel> binariesFor(CppComponent component, Iterable<File> headerDirs, DefaultProjectIdentifier projectIdentifier, CompilerOutputFileNamingSchemeFactory namingSchemeFactory) {
         List<File> headerDirsCopy = ImmutableList.copyOf(headerDirs);
         List<DefaultCppBinaryModel> binaries = new ArrayList<DefaultCppBinaryModel>();
         for (CppBinary binary : component.getBinaries().get()) {
@@ -118,7 +118,7 @@ public class CppModelBuilder implements ToolingModelBuilder {
         return binaries;
     }
 
-    private List<DefaultSourceFile> sourceFiles(CompilerOutputFileNamingSchemeFactory namingSchemeFactory, PlatformToolProvider platformToolProvider, File objDir, Set<File> files) {
+    private static List<DefaultSourceFile> sourceFiles(CompilerOutputFileNamingSchemeFactory namingSchemeFactory, PlatformToolProvider platformToolProvider, File objDir, Set<File> files) {
         CompilerOutputFileNamingScheme namingScheme = namingSchemeFactory.create().withObjectFileNameSuffix(platformToolProvider.getObjectFileExtension()).withOutputBaseFolder(objDir);
         List<DefaultSourceFile> result = new ArrayList<DefaultSourceFile>(files.size());
         for (File file : files) {
@@ -127,11 +127,11 @@ public class CppModelBuilder implements ToolingModelBuilder {
         return result;
     }
 
-    private List<String> args(List<String> compilerArgs) {
+    private static List<String> args(List<String> compilerArgs) {
         return ImmutableList.copyOf(compilerArgs);
     }
 
-    private List<DefaultMacroDirective> macroDefines(CppCompile compileTask) {
+    private static List<DefaultMacroDirective> macroDefines(CppCompile compileTask) {
         if (compileTask.getMacros().isEmpty()) {
             return Collections.emptyList();
         }

@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
 public class GroovySystemLoaderFactory {
     private static final NoOpGroovySystemLoader NO_OP = new NoOpGroovySystemLoader();
 
-    public GroovySystemLoader forClassLoader(ClassLoader classLoader) {
+    public static GroovySystemLoader forClassLoader(ClassLoader classLoader) {
         try {
             Class<?> groovySystem = getGroovySystem(classLoader);
             if (groovySystem == null || groovySystem.getClassLoader() != classLoader) {
@@ -39,7 +39,7 @@ public class GroovySystemLoaderFactory {
         }
     }
 
-    private Class<?> getGroovySystem(ClassLoader classLoader) {
+    private static Class<?> getGroovySystem(ClassLoader classLoader) {
         try {
             return classLoader.loadClass("groovy.lang.GroovySystem");
         } catch (ClassNotFoundException e) {
@@ -47,12 +47,12 @@ public class GroovySystemLoaderFactory {
         }
     }
 
-    private GroovySystemLoader createClassInfoCleaningLoader(Class<?> groovySystem, ClassLoader classLoader) throws Exception {
+    private static GroovySystemLoader createClassInfoCleaningLoader(Class<?> groovySystem, ClassLoader classLoader) throws Exception {
         VersionNumber groovyVersion = getGroovyVersion(groovySystem);
         return isGroovy24OrLater(groovyVersion) ? new ClassInfoCleaningGroovySystemLoader(classLoader) : NO_OP;
     }
 
-    private VersionNumber getGroovyVersion(Class<?> groovySystem) throws IllegalAccessException, InvocationTargetException {
+    private static VersionNumber getGroovyVersion(Class<?> groovySystem) throws IllegalAccessException, InvocationTargetException {
         try {
             Method getVersion = groovySystem.getDeclaredMethod("getVersion");
             String versionString = (String) getVersion.invoke(null);
@@ -62,7 +62,7 @@ public class GroovySystemLoaderFactory {
         }
     }
 
-    private boolean isGroovy24OrLater(VersionNumber groovyVersion) {
+    private static boolean isGroovy24OrLater(VersionNumber groovyVersion) {
         if (groovyVersion == null) {
             return false;
         }

@@ -51,25 +51,25 @@ public class CompositeBuildServices extends AbstractPluginServiceRegistry {
         CompositeBuildTreeScopeServices() {
         }
 
-        public BuildStateRegistry createIncludedBuildRegistry(CompositeBuildContext context, ProjectStateRegistry projectRegistry, Instantiator instantiator, WorkerLeaseService workerLeaseService, ImmutableModuleIdentifierFactory moduleIdentifierFactory, GradleLauncherFactory gradleLauncherFactory, ListenerManager listenerManager, ServiceRegistry rootServices) {
+        public static BuildStateRegistry createIncludedBuildRegistry(CompositeBuildContext context, ProjectStateRegistry projectRegistry, Instantiator instantiator, WorkerLeaseService workerLeaseService, ImmutableModuleIdentifierFactory moduleIdentifierFactory, GradleLauncherFactory gradleLauncherFactory, ListenerManager listenerManager, ServiceRegistry rootServices) {
             IncludedBuildFactory includedBuildFactory = new DefaultIncludedBuildFactory(instantiator, workerLeaseService);
             IncludedBuildDependencySubstitutionsBuilder dependencySubstitutionsBuilder = new IncludedBuildDependencySubstitutionsBuilder(context, moduleIdentifierFactory);
             return new DefaultIncludedBuildRegistry(includedBuildFactory, projectRegistry, dependencySubstitutionsBuilder, gradleLauncherFactory, listenerManager, (BuildTreeScopeServices) rootServices);
         }
 
-        public CompositeBuildContext createCompositeBuildContext() {
+        public static CompositeBuildContext createCompositeBuildContext() {
             return new DefaultBuildableCompositeBuildContext();
         }
 
-        public LocalComponentProvider createLocalComponentProvider(ProjectStateRegistry projectRegistry) {
+        public static LocalComponentProvider createLocalComponentProvider(ProjectStateRegistry projectRegistry) {
             return new LocalComponentInAnotherBuildProvider(projectRegistry, new IncludedBuildDependencyMetadataBuilder());
         }
 
-        public IncludedBuildControllers createIncludedBuildControllers(ExecutorFactory executorFactory, BuildStateRegistry buildRegistry, ResourceLockCoordinationService coordinationService) {
+        public static IncludedBuildControllers createIncludedBuildControllers(ExecutorFactory executorFactory, BuildStateRegistry buildRegistry, ResourceLockCoordinationService coordinationService) {
             return new DefaultIncludedBuildControllers(executorFactory, buildRegistry, coordinationService);
         }
 
-        public IncludedBuildTaskGraph createIncludedBuildTaskGraph(IncludedBuildControllers controllers) {
+        public static IncludedBuildTaskGraph createIncludedBuildTaskGraph(IncludedBuildControllers controllers) {
             return new DefaultIncludedBuildTaskGraph(controllers);
         }
     }
@@ -78,11 +78,11 @@ public class CompositeBuildServices extends AbstractPluginServiceRegistry {
         CompositeBuildBuildScopeServices() {
         }
 
-        public ScriptClassPathInitializer createCompositeBuildClasspathResolver(IncludedBuildTaskGraph includedBuildTaskGraph, BuildState currentBuild) {
+        public static ScriptClassPathInitializer createCompositeBuildClasspathResolver(IncludedBuildTaskGraph includedBuildTaskGraph, BuildState currentBuild) {
             return new CompositeBuildClassPathInitializer(includedBuildTaskGraph, currentBuild);
         }
 
-        public PluginResolverContributor createPluginResolver(BuildStateRegistry buildRegistry, BuildState consumingBuild) {
+        public static PluginResolverContributor createPluginResolver(BuildStateRegistry buildRegistry, BuildState consumingBuild) {
             return new CompositeBuildPluginResolverContributor(buildRegistry, consumingBuild);
         }
     }

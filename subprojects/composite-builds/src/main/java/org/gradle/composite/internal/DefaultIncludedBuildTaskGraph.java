@@ -83,7 +83,7 @@ public class DefaultIncludedBuildTaskGraph implements IncludedBuildTaskGraph {
     }
 
 
-    private String reportCycle(List<BuildIdentifier> cycle) {
+    private static String reportCycle(List<BuildIdentifier> cycle) {
         StringBuilder cycleReport = new StringBuilder();
         for (BuildIdentifier buildIdentifier : cycle) {
             cycleReport.append(buildIdentifier);

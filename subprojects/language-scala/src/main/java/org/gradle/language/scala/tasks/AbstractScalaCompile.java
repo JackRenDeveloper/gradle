@@ -208,7 +208,7 @@ public abstract class AbstractScalaCompile extends AbstractCompile {
     @Input
     // We track this as an input since the Scala compiler output may depend on it.
     // TODO: This should be replaced by a property in the Scala toolchain as soon as we model these.
-    protected String getJvmVersion() {
+    protected static String getJvmVersion() {
         return JavaVersion.current().getMajorVersion();
     }
 

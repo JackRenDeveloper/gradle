@@ -73,10 +73,10 @@ class IvyModuleResolveMetaDataBuilder {
     public MutableIvyModuleResolveMetadata build() {
         ModuleRevisionId moduleRevisionId = ivyDescriptor.getModuleRevisionId();
         ModuleComponentIdentifier cid = DefaultModuleComponentIdentifier.newId(DefaultModuleIdentifier.newId(moduleRevisionId.getOrganisation(), moduleRevisionId.getName()), moduleRevisionId.getRevision());
-        List<Configuration> configurations = converter.extractConfigurations(ivyDescriptor);
+        List<Configuration> configurations = IvyModuleDescriptorConverter.extractConfigurations(ivyDescriptor);
         List<IvyDependencyDescriptor> dependencies = converter.extractDependencies(ivyDescriptor);
         List<Exclude> excludes = converter.extractExcludes(ivyDescriptor);
-        Map<NamespaceId, String> extraAttributes = converter.extractExtraAttributes(ivyDescriptor);
+        Map<NamespaceId, String> extraAttributes = IvyModuleDescriptorConverter.extractExtraAttributes(ivyDescriptor);
         MutableIvyModuleResolveMetadata metadata = metadataFactory.create(cid, dependencies, configurations, artifacts, excludes);
         metadata.setStatus(ivyDescriptor.getStatus());
         metadata.setExtraAttributes(extraAttributes);

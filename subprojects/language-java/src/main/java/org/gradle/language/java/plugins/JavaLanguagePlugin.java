@@ -88,12 +88,12 @@ public class JavaLanguagePlugin implements Plugin<Project> {
     @SuppressWarnings("UnusedDeclaration")
     static class Rules extends RuleSource {
         @ComponentType
-        void registerLanguage(TypeBuilder<JavaSourceSet> builder) {
+        static void registerLanguage(TypeBuilder<JavaSourceSet> builder) {
             builder.defaultImplementation(DefaultJavaLanguageSourceSet.class);
         }
 
         @Mutate
-        void registerLanguageTransform(LanguageTransformContainer languages, ServiceRegistry serviceRegistry) {
+        static void registerLanguageTransform(LanguageTransformContainer languages, ServiceRegistry serviceRegistry) {
             ModelSchemaStore schemaStore = serviceRegistry.get(ModelSchemaStore.class);
             BuildIdentifier currentBuild = serviceRegistry.get(BuildState.class).getBuildIdentifier();
             languages.add(new Java(schemaStore, currentBuild));

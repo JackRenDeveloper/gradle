@@ -73,7 +73,7 @@ public class DefaultMultiCauseException extends GradleException implements Multi
         out.defaultWriteObject();
     }
 
-    private ThreadLocal<Boolean> threadLocal() {
+    private static ThreadLocal<Boolean> threadLocal() {
         return new ThreadLocal<Boolean>() {
             @Override
             protected Boolean initialValue() {

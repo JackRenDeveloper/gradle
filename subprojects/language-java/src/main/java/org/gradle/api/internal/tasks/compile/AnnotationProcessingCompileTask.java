@@ -129,7 +129,7 @@ class AnnotationProcessingCompileTask implements JavaCompiler.CompilationTask {
      * according to the annotation processing spec, but forbidding it would upset a lot of
      * our users.
      */
-    private FilteringClassLoader.Spec getExtraAllowedPackages() {
+    private static FilteringClassLoader.Spec getExtraAllowedPackages() {
         FilteringClassLoader.Spec spec = new FilteringClassLoader.Spec();
         spec.allowPackage("com.sun.tools.javac");
         spec.allowPackage("com.sun.source");
@@ -144,7 +144,7 @@ class AnnotationProcessingCompileTask implements JavaCompiler.CompilationTask {
         }
     }
 
-    private Processor instantiateProcessor(Class<?> processorClass) {
+    private static Processor instantiateProcessor(Class<?> processorClass) {
         try {
             return (Processor) processorClass.getConstructor().newInstance();
         } catch (Exception e) {
@@ -152,7 +152,7 @@ class AnnotationProcessingCompileTask implements JavaCompiler.CompilationTask {
         }
     }
 
-    private Processor decorateForIncrementalProcessing(Processor processor, IncrementalAnnotationProcessorType type, AnnotationProcessorResult processorResult) {
+    private static Processor decorateForIncrementalProcessing(Processor processor, IncrementalAnnotationProcessorType type, AnnotationProcessorResult processorResult) {
         switch (type) {
             case ISOLATING:
                 return new IsolatingProcessor(processor, processorResult);
@@ -165,7 +165,7 @@ class AnnotationProcessingCompileTask implements JavaCompiler.CompilationTask {
         }
     }
 
-    private Processor decorateForTimeTracking(Processor processor, AnnotationProcessorResult processorResult) {
+    private static Processor decorateForTimeTracking(Processor processor, AnnotationProcessorResult processorResult) {
         return new TimeTrackingProcessor(processor, processorResult);
     }
 

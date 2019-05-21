@@ -41,7 +41,7 @@ public class ProjectDependencyBuilder {
         return eclipseProject == null ? id.getProjectName() : eclipseProject.getName();
     }
 
-    private ProjectDependency buildProjectDependency(String path) {
+    private static ProjectDependency buildProjectDependency(String path) {
         final ProjectDependency out = new ProjectDependency(path);
         out.setExported(false);
         return out;

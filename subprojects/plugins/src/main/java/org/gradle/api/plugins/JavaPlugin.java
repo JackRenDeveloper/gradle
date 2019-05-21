@@ -16,7 +16,6 @@
 
 package org.gradle.api.plugins;
 
-import org.gradle.api.Action;
 import org.gradle.api.Incubating;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Plugin;
@@ -62,7 +61,6 @@ import javax.inject.Inject;
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.concurrent.Callable;
 
 import static org.gradle.api.attributes.Bundling.BUNDLING_ATTRIBUTE;
 import static org.gradle.api.attributes.Bundling.EXTERNAL;
@@ -285,7 +283,7 @@ public class JavaPlugin implements Plugin<ProjectInternal> {
         }
     }
 
-    private void configureSourceSets(JavaPluginConvention pluginConvention, final BuildOutputCleanupRegistry buildOutputCleanupRegistry) {
+    private static void configureSourceSets(JavaPluginConvention pluginConvention, final BuildOutputCleanupRegistry buildOutputCleanupRegistry) {
         Project project = pluginConvention.getProject();
 
         SourceSet main = pluginConvention.getSourceSets().create(SourceSet.MAIN_SOURCE_SET_NAME);
@@ -298,7 +296,7 @@ public class JavaPlugin implements Plugin<ProjectInternal> {
         pluginConvention.getSourceSets().all(sourceSet -> buildOutputCleanupRegistry.registerOutputs(sourceSet.getOutput()));
     }
 
-    private void configureJavaDoc(final JavaPluginConvention pluginConvention) {
+    private static void configureJavaDoc(final JavaPluginConvention pluginConvention) {
         Project project = pluginConvention.getProject();
         project.getTasks().register(JAVADOC_TASK_NAME, Javadoc.class, javadoc -> {
             final SourceSet mainSourceSet = pluginConvention.getSourceSets().getByName(SourceSet.MAIN_SOURCE_SET_NAME);
@@ -343,7 +341,7 @@ public class JavaPlugin implements Plugin<ProjectInternal> {
         project.getComponents().add(java);
     }
 
-    private void addJar(Configuration configuration, PublishArtifact jarArtifact) {
+    private static void addJar(Configuration configuration, PublishArtifact jarArtifact) {
         ConfigurationPublications publications = configuration.getOutgoing();
 
         // Configure an implicit variant
@@ -378,14 +376,14 @@ public class JavaPlugin implements Plugin<ProjectInternal> {
         });
     }
 
-    private void configureBuild(Project project) {
+    private static void configureBuild(Project project) {
         project.getTasks().named(JavaBasePlugin.BUILD_NEEDED_TASK_NAME, task -> addDependsOnTaskInOtherProjects(task, true,
                 JavaBasePlugin.BUILD_NEEDED_TASK_NAME, TEST_RUNTIME_CLASSPATH_CONFIGURATION_NAME));
         project.getTasks().named(JavaBasePlugin.BUILD_DEPENDENTS_TASK_NAME, task -> addDependsOnTaskInOtherProjects(task, false,
                 JavaBasePlugin.BUILD_DEPENDENTS_TASK_NAME, TEST_RUNTIME_CLASSPATH_CONFIGURATION_NAME));
     }
 
-    private void configureTest(final Project project, final JavaPluginConvention pluginConvention) {
+    private static void configureTest(final Project project, final JavaPluginConvention pluginConvention) {
         project.getTasks().withType(Test.class).configureEach(test -> {
             test.getConventionMapping().map("testClassesDirs", () -> pluginConvention.getSourceSets().getByName(SourceSet.TEST_SOURCE_SET_NAME).getOutput().getClassesDirs());
             test.getConventionMapping().map("classpath", () -> pluginConvention.getSourceSets().getByName(SourceSet.TEST_SOURCE_SET_NAME).getRuntimeClasspath());
@@ -446,7 +444,7 @@ public class JavaPlugin implements Plugin<ProjectInternal> {
     /**
      * Configures the target platform for an outgoing configuration.
      */
-    private void configureTargetPlatform(Configuration outgoing, final JavaPluginConvention convention) {
+    private static void configureTargetPlatform(Configuration outgoing, final JavaPluginConvention convention) {
         ((ConfigurationInternal)outgoing).beforeLocking(configuration -> JavaEcosystemSupport.configureDefaultTargetPlatform(configuration, convention.getTargetCompatibility()));
     }
 
@@ -460,8 +458,8 @@ public class JavaPlugin implements Plugin<ProjectInternal> {
      * @param otherProjectTaskName name of task in other projects
      * @param configurationName name of configuration to use to find the other projects
      */
-    void addDependsOnTaskInOtherProjects(final Task task, boolean useDependedOn, String otherProjectTaskName,
-                                         String configurationName) {
+    static void addDependsOnTaskInOtherProjects(final Task task, boolean useDependedOn, String otherProjectTaskName,
+                                                String configurationName) {
         Project project = task.getProject();
         final Configuration configuration = project.getConfigurations().getByName(configurationName);
         task.dependsOn(configuration.getTaskDependencyFromProjectDependency(useDependedOn, otherProjectTaskName));

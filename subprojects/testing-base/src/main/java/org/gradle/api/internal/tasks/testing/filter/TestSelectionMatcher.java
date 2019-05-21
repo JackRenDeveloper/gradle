@@ -54,7 +54,7 @@ public class TestSelectionMatcher {
         commandLineIncludePatterns = preparePatternList(includedTestsCommandLine);
     }
 
-    private List<TestPattern> preparePatternList(Collection<String> includedTests) {
+    private static List<TestPattern> preparePatternList(Collection<String> includedTests) {
         List<TestPattern> includePatterns = new ArrayList<TestPattern>(includedTests.size());
         for (String includedTest : includedTests) {
             includePatterns.add(new TestPattern(includedTest));
@@ -74,7 +74,7 @@ public class TestSelectionMatcher {
             && !mayExcludeClass(fullQualifiedClassName);
     }
 
-    private boolean mayIncludeClass(List<TestPattern> includePatterns, String fullQualifiedName) {
+    private static boolean mayIncludeClass(List<TestPattern> includePatterns, String fullQualifiedName) {
         if (includePatterns.isEmpty()) {
             return true;
         }
@@ -88,7 +88,7 @@ public class TestSelectionMatcher {
         return matchesClass(buildScriptExcludePatterns, fullQualifiedName);
     }
 
-    private boolean matchesClass(List<TestPattern> patterns, String fullQualifiedName) {
+    private static boolean matchesClass(List<TestPattern> patterns, String fullQualifiedName) {
         for (TestPattern pattern : patterns) {
             if (pattern.matchesClass(fullQualifiedName)) {
                 return true;
@@ -97,7 +97,7 @@ public class TestSelectionMatcher {
         return false;
     }
 
-    private boolean mayMatchClass(List<TestPattern> patterns, String fullQualifiedName) {
+    private static boolean mayMatchClass(List<TestPattern> patterns, String fullQualifiedName) {
         for (TestPattern pattern : patterns) {
             if (pattern.mayIncludeClass(fullQualifiedName)) {
                 return true;
@@ -106,8 +106,8 @@ public class TestSelectionMatcher {
         return false;
     }
 
-    private boolean matchesPattern(List<TestPattern> includePatterns, String className,
-        String methodName) {
+    private static boolean matchesPattern(List<TestPattern> includePatterns, String className,
+                                          String methodName) {
         if (includePatterns.isEmpty()) {
             return true;
         }
@@ -128,8 +128,8 @@ public class TestSelectionMatcher {
         return matchesClassAndMethod(buildScriptExcludePatterns, className, methodName);
     }
 
-    private boolean matchesClassAndMethod(List<TestPattern> patterns, String className,
-        String methodName) {
+    private static boolean matchesClassAndMethod(List<TestPattern> patterns, String className,
+                                                 String methodName) {
         for (TestPattern pattern : patterns) {
             if (pattern.matchesClassAndMethod(className, methodName)) {
                 return true;
@@ -227,7 +227,7 @@ public class TestSelectionMatcher {
             return classNameArray.length < segments.length - 1;
         }
 
-        private boolean patternStartsWithUpperCase(String pattern) {
+        private static boolean patternStartsWithUpperCase(String pattern) {
             return pattern.length() > 0 && Character.isUpperCase(pattern.charAt(0));
         }
     }

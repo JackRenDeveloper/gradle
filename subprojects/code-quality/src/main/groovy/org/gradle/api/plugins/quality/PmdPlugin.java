@@ -16,14 +16,11 @@
 package org.gradle.api.plugins.quality;
 
 import com.google.common.util.concurrent.Callables;
-import org.gradle.api.Action;
 import org.gradle.api.JavaVersion;
 import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.artifacts.DependencySet;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.internal.ConventionMapping;
 import org.gradle.api.plugins.quality.internal.AbstractCodeQualityPlugin;
-import org.gradle.api.reporting.SingleFileReport;
 import org.gradle.api.resources.TextResource;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.util.VersionNumber;
@@ -71,7 +68,7 @@ public class PmdPlugin extends AbstractCodeQualityPlugin<Pmd> {
         return extension;
     }
 
-    public TargetJdk getDefaultTargetJdk(JavaVersion javaVersion) {
+    public static TargetJdk getDefaultTargetJdk(JavaVersion javaVersion) {
         try {
             return TargetJdk.toVersion(javaVersion.toString());
         } catch (IllegalArgumentException ignored) {

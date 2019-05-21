@@ -47,7 +47,7 @@ public class PlayPlatformRequirement implements PlatformRequirement {
         return javaVersion;
     }
 
-    private String createName(String playVersion, String scalaVersion, String javaVersion) {
+    private static String createName(String playVersion, String scalaVersion, String javaVersion) {
         StringBuilder builder = new StringBuilder("play-");
         builder.append(playVersion);
         if (scalaVersion != null) {

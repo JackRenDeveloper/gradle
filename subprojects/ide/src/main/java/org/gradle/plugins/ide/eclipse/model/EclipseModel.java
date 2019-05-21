@@ -98,7 +98,7 @@ public class EclipseModel {
      * @since 4.9
      */
     @Inject
-    protected ObjectFactory getObjectFactory() {
+    protected static ObjectFactory getObjectFactory() {
         throw new UnsupportedOperationException();
     }
 

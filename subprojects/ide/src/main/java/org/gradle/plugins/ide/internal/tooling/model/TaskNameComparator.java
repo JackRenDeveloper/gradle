@@ -32,7 +32,7 @@ public class TaskNameComparator implements Comparator<String>, Serializable {
         return compareSegments(taskName1, taskName2);
     }
 
-    private int compareSegments(String taskName1, String taskName2) {
+    private static int compareSegments(String taskName1, String taskName2) {
         int colon1 = taskName1.indexOf(':');
         int colon2 = taskName2.indexOf(':');
         if (colon1 > 0 && colon2 > 0) {
@@ -44,7 +44,7 @@ public class TaskNameComparator implements Comparator<String>, Serializable {
         return colon1 == -1 ? taskName1.compareTo(taskName2) : compareSegments(taskName1.substring(colon1 + 1), taskName2.substring(colon2 + 1));
     }
 
-    private int getDepth(String taskName) {
+    private static int getDepth(String taskName) {
         int counter = 0;
         for (char c : taskName.toCharArray()) {
             if (c == ':') {

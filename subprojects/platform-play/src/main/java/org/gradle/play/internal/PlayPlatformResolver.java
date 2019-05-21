@@ -60,14 +60,14 @@ public class PlayPlatformResolver implements PlatformResolver<PlayPlatform> {
         return new DefaultPlayPlatform(name, playVersion, scalaPlatform, javaPlatform);
     }
 
-    private String parsePlayVersionFromPlatformName(String playPlatformName) {
+    private static String parsePlayVersionFromPlatformName(String playPlatformName) {
         if (playPlatformName.startsWith("play-")) {
             return playPlatformName.substring(5);
         }
         throw new InvalidUserDataException(String.format("Not a valid Play platform: %s.", playPlatformName));
     }
 
-    private JavaPlatform getJavaPlatform(String preferredJavaVersion) {
+    private static JavaPlatform getJavaPlatform(String preferredJavaVersion) {
         if (preferredJavaVersion != null) {
             return new DefaultJavaPlatform(JavaVersion.toVersion(preferredJavaVersion));
         }

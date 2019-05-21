@@ -65,7 +65,7 @@ public class VersionSpecificCacheDirectoryScanner {
     }
 
     @Nullable
-    private GradleVersion tryParseGradleVersion(File dir) {
+    private static GradleVersion tryParseGradleVersion(File dir) {
         try {
             return GradleVersion.version(dir.getName());
         } catch (Exception e) {

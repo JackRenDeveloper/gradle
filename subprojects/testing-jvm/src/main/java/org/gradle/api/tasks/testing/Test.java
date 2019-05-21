@@ -162,12 +162,12 @@ public class Test extends AbstractTestTask implements JavaForkOptions, PatternFi
     }
 
     @Inject
-    protected ClassLoaderCache getClassLoaderCache() {
+    protected static ClassLoaderCache getClassLoaderCache() {
         throw new UnsupportedOperationException();
     }
 
     @Inject
-    protected WorkerProcessFactory getProcessBuilderFactory() {
+    protected static WorkerProcessFactory getProcessBuilderFactory() {
         throw new UnsupportedOperationException();
     }
 
@@ -177,7 +177,7 @@ public class Test extends AbstractTestTask implements JavaForkOptions, PatternFi
     }
 
     @Inject
-    protected JavaForkOptionsFactory getForkOptionsFactory() {
+    protected static JavaForkOptionsFactory getForkOptionsFactory() {
         throw new UnsupportedOperationException();
     }
 

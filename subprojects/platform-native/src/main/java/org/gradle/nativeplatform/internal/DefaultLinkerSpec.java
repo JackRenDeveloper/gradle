@@ -74,7 +74,7 @@ public class DefaultLinkerSpec extends AbstractBinaryToolSpec implements LinkerS
         this.outputFile = outputFile;
     }
 
-    private void addAll(List<File> list, Iterable<File> iterable) {
+    private static void addAll(List<File> list, Iterable<File> iterable) {
         for (File file : iterable) {
             list.add(file);
         }

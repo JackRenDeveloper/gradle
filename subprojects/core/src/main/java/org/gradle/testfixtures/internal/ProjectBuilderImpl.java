@@ -74,7 +74,7 @@ import java.util.Collections;
 public class ProjectBuilderImpl {
     private static ServiceRegistry globalServices;
 
-    public Project createChildProject(String name, Project parent, File projectDir) {
+    public static Project createChildProject(String name, Project parent, File projectDir) {
         ProjectInternal parentProject = (ProjectInternal) parent;
         projectDir = (projectDir != null) ? projectDir.getAbsoluteFile() : new File(parentProject.getProjectDir(), name);
         DefaultProject project = parentProject.getServices().get(InstantiatorFactory.class).decorateLenient().newInstance(
@@ -98,7 +98,7 @@ public class ProjectBuilderImpl {
         return project;
     }
 
-    public Project createProject(String name, File inputProjectDir, File gradleUserHomeDir) {
+    public static Project createProject(String name, File inputProjectDir, File gradleUserHomeDir) {
         File projectDir = prepareProjectDir(inputProjectDir);
 
         final File homeDir = new File(projectDir, "gradleHome");
@@ -141,7 +141,7 @@ public class ProjectBuilderImpl {
         return project;
     }
 
-    private ServiceRegistry getUserHomeServices(File userHomeDir) {
+    private static ServiceRegistry getUserHomeServices(File userHomeDir) {
         ServiceRegistry globalServices = getGlobalServices();
         GradleUserHomeScopeServiceRegistry userHomeScopeServiceRegistry = globalServices.get(GradleUserHomeScopeServiceRegistry.class);
         return userHomeScopeServiceRegistry.getServicesFor(userHomeDir);
@@ -167,7 +167,7 @@ public class ProjectBuilderImpl {
         return globalServices;
     }
 
-    public File prepareProjectDir(File projectDir) {
+    public static File prepareProjectDir(File projectDir) {
         if (projectDir == null) {
             TemporaryFileProvider temporaryFileProvider = new TmpDirTemporaryFileProvider();
             projectDir = temporaryFileProvider.createTemporaryDirectory("gradle", "projectDir");

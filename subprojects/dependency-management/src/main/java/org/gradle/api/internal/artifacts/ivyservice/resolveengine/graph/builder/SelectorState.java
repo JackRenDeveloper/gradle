@@ -196,7 +196,7 @@ class SelectorState implements DependencyGraphSelector, ResolvableSelectorState 
         this.preferResult = idResolveResult;
     }
 
-    private boolean requiresResolve(ComponentIdResolveResult previousResult, VersionSelector allRejects) {
+    private static boolean requiresResolve(ComponentIdResolveResult previousResult, VersionSelector allRejects) {
         // If we've never resolved, must resolve
         if (previousResult == null) {
             return true;

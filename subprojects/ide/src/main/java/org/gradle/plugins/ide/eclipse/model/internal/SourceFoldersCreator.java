@@ -27,7 +27,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import org.gradle.api.file.DirectoryTree;
 import org.gradle.api.file.FileCollection;
-import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.util.PatternSet;
 import org.gradle.internal.Cast;
@@ -42,7 +41,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -73,7 +71,7 @@ public class SourceFoldersCreator {
         return collectRegularAndExternalSourceFolders(basicSourceFolders, (Function<Pair<Collection<SourceFolder>, Collection<SourceFolder>>, List<SourceFolder>>) sourceFolders -> Lists.newArrayList(sourceFolders.right()));
     }
 
-    private <T> T collectRegularAndExternalSourceFolders(List<SourceFolder> sourceFolder, Function<Pair<Collection<SourceFolder>, Collection<SourceFolder>>, T> collector) {
+    private static <T> T collectRegularAndExternalSourceFolders(List<SourceFolder> sourceFolder, Function<Pair<Collection<SourceFolder>, Collection<SourceFolder>>, T> collector) {
         Pair<Collection<SourceFolder>, Collection<SourceFolder>> partitionedFolders = CollectionUtils.partition(sourceFolder, sourceFolder12 -> sourceFolder12.getPath().contains(".."));
 
         Collection<SourceFolder> externalSourceFolders = partitionedFolders.getLeft();
@@ -111,7 +109,7 @@ public class SourceFoldersCreator {
         return entries;
     }
 
-    private List<SourceFolder> basicProjectRelativeFolders(Iterable<SourceSet> sourceSets, Function<File, String> provideRelativePath, File defaultOutputDir) {
+    private static List<SourceFolder> basicProjectRelativeFolders(Iterable<SourceSet> sourceSets, Function<File, String> provideRelativePath, File defaultOutputDir) {
         ArrayList<SourceFolder> entries = Lists.newArrayList();
         List<SourceSet> sortedSourceSets = sortSourceSetsAsPerUsualConvention(sourceSets);
         for (SourceSet sourceSet : sortedSourceSets) {
@@ -129,7 +127,7 @@ public class SourceFoldersCreator {
         return entries;
     }
 
-    private List<SourceFolder> trimAndDedup(Collection<SourceFolder> externalSourceFolders, List<String> givenSources) {
+    private static List<SourceFolder> trimAndDedup(Collection<SourceFolder> externalSourceFolders, List<String> givenSources) {
         // externals are mapped to linked resources so we just need a name of the resource, without full path
         // non unique folder names are naively deduped by adding parent filename as a prefix till unique
         // since this seems like a rare edge case this simple approach should be enough
@@ -152,7 +150,7 @@ public class SourceFoldersCreator {
         folder.getEntryAttributes().put(EclipsePluginConstants.GRADLE_USED_BY_SCOPE_ATTRIBUTE_NAME, Joiner.on(',').join(getUsingSourceSetNames(sourceSet, sourceSetUsages)));
     }
 
-    private List<String> getUsingSourceSetNames(SourceSet sourceSet, Multimap<SourceSet, SourceSet> sourceSetUsages) {
+    private static List<String> getUsingSourceSetNames(SourceSet sourceSet, Multimap<SourceSet, SourceSet> sourceSetUsages) {
         Collection<SourceSet> usingSourceSets = sourceSetUsages.get(sourceSet);
         List<String> usingSourceSetNames = Lists.newArrayList();
         for (SourceSet usingSourceSet : usingSourceSets) {
@@ -161,7 +159,7 @@ public class SourceFoldersCreator {
         return usingSourceSetNames;
     }
 
-    private String sanitizeNameForAttribute(SourceSet sourceSet) {
+    private static String sanitizeNameForAttribute(SourceSet sourceSet) {
         return sourceSet.getName().replaceAll(",", "");
     }
 
@@ -177,7 +175,7 @@ public class SourceFoldersCreator {
         return usages;
     }
 
-    private boolean containsOutputOf(SourceSet sourceSet, SourceSet otherSourceSet) {
+    private static boolean containsOutputOf(SourceSet sourceSet, SourceSet otherSourceSet) {
         try {
             return containsAll(sourceSet.getRuntimeClasspath(), otherSourceSet.getOutput());
         } catch (Exception e) {
@@ -185,7 +183,7 @@ public class SourceFoldersCreator {
         }
     }
 
-    private boolean containsAll(FileCollection first, FileCollection second) {
+    private static boolean containsAll(FileCollection first, FileCollection second) {
         for (File file : second) {
             if (!first.contains(file)) {
                 return false;
@@ -194,7 +192,7 @@ public class SourceFoldersCreator {
         return true;
     }
 
-    private Map<SourceSet, String> collectSourceSetOutputPaths(Iterable<SourceSet> sourceSets, String defaultOutputPath) {
+    private static Map<SourceSet, String> collectSourceSetOutputPaths(Iterable<SourceSet> sourceSets, String defaultOutputPath) {
         Set<String> existingPaths = Sets.newHashSet(defaultOutputPath);
         Map<SourceSet, String> result = Maps.newHashMap();
         for (SourceSet sourceSet : sourceSets) {
@@ -206,7 +204,7 @@ public class SourceFoldersCreator {
         return result;
     }
 
-    private String collectSourceSetOutputPath(String sourceSetName, Set<String> existingPaths, String suffix) {
+    private static String collectSourceSetOutputPath(String sourceSetName, Set<String> existingPaths, String suffix) {
         String path = "bin/" + sourceSetName + suffix;
         return existingPaths.contains(path) ? collectSourceSetOutputPath(sourceSetName, existingPaths, suffix + "_") : path;
     }
@@ -242,7 +240,7 @@ public class SourceFoldersCreator {
         }
     }
 
-    private Set<String> collectFilters(Set<DirectoryTree> directoryTrees, File targetDir, String filterOperation) {
+    private static Set<String> collectFilters(Set<DirectoryTree> directoryTrees, File targetDir, String filterOperation) {
         for (DirectoryTree directoryTree : directoryTrees) {
             if (directoryTree.getDir().equals(targetDir)) {
                 PatternSet patterns = directoryTree.getPatterns();
@@ -252,15 +250,15 @@ public class SourceFoldersCreator {
         return Collections.emptySet();
     }
 
-    private Set<String> collectFilters(PatternSet patterns, String filterOperation) {
+    private static Set<String> collectFilters(PatternSet patterns, String filterOperation) {
         return Cast.<Set<String>>uncheckedCast(DynamicObjectUtil.asDynamicObject(patterns).getProperty(filterOperation));
     }
 
-    private List<SourceSet> sortSourceSetsAsPerUsualConvention(Iterable<SourceSet> sourceSets) {
+    private static List<SourceSet> sortSourceSetsAsPerUsualConvention(Iterable<SourceSet> sourceSets) {
         return CollectionUtils.sort(sourceSets, (left, right) -> toComparable(left).compareTo(toComparable(right)));
     }
 
-    private List<DirectoryTree> sortSourceDirsAsPerUsualConvention(Iterable<DirectoryTree> sourceDirs) {
+    private static List<DirectoryTree> sortSourceDirsAsPerUsualConvention(Iterable<DirectoryTree> sourceDirs) {
         return CollectionUtils.sort(sourceDirs, (left, right) -> toComparable(left).compareTo(toComparable(right)));
     }
 

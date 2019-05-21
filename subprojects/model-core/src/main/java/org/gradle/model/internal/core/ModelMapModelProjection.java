@@ -64,7 +64,7 @@ public class ModelMapModelProjection<I> implements ModelProjection {
         return Collections.singleton(baseItemModelType.getConcreteClass());
     }
 
-    private String getContainerTypeDescription(Class<?> containerType, Collection<? extends Class<?>> creatableTypes) {
+    private static String getContainerTypeDescription(Class<?> containerType, Collection<? extends Class<?>> creatableTypes) {
         StringBuilder sb = new StringBuilder(containerType.getName());
         if (creatableTypes.size() == 1) {
             @SuppressWarnings("ConstantConditions")

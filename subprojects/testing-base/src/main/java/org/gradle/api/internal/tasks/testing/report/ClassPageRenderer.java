@@ -59,7 +59,7 @@ class ClassPageRenderer extends PageRenderer<ClassTestResults> {
         htmlWriter.endElement();
     }
 
-    private List<String> determineTableRow(TestResult test, boolean methodNameColumnExists) {
+    private static List<String> determineTableRow(TestResult test, boolean methodNameColumnExists) {
         return methodNameColumnExists
             ? Arrays.asList(test.getDisplayName(), test.getName(), test.getFormattedDuration(), test.getFormattedResultType())
             : Arrays.asList(test.getDisplayName(), test.getFormattedDuration(), test.getFormattedResultType());
@@ -69,7 +69,7 @@ class ClassPageRenderer extends PageRenderer<ClassTestResults> {
         return methodNameColumnExists() ? Arrays.asList("Test", "Method name", "Duration", "Result") : Arrays.asList("Test", "Duration", "Result");
     }
 
-    private void renderTableHead(SimpleMarkupWriter writer, List<String> headers) throws IOException {
+    private static void renderTableHead(SimpleMarkupWriter writer, List<String> headers) throws IOException {
         writer.startElement("thead").startElement("tr");
         for (String header : headers) {
             writer.startElement("th").characters(header).endElement();
@@ -77,7 +77,7 @@ class ClassPageRenderer extends PageRenderer<ClassTestResults> {
         writer.endElement().endElement();
     }
 
-    private void renderTableRow(SimpleMarkupWriter writer, TestResult test, List<String> rowCells) throws IOException {
+    private static void renderTableRow(SimpleMarkupWriter writer, TestResult test, List<String> rowCells) throws IOException {
         writer.startElement("tr");
         for (String cell : rowCells) {
             writer.startElement("td").attribute("class", test.getStatusClass()).characters(cell).endElement();

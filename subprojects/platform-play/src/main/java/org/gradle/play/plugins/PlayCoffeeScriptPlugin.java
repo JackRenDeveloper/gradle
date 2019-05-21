@@ -82,7 +82,7 @@ public class PlayCoffeeScriptPlugin implements Plugin<Project> {
         }
 
         @Finalize
-        void createCoffeeScriptSourceSets(@Each PlayApplicationSpec playComponent) {
+        static void createCoffeeScriptSourceSets(@Each PlayApplicationSpec playComponent) {
             playComponent.getSources().create("coffeeScript", CoffeeScriptSourceSet.class, coffeeScriptSourceSet -> {
                 coffeeScriptSourceSet.getSource().srcDir("app/assets");
                 coffeeScriptSourceSet.getSource().include("**/*.coffee");
@@ -90,7 +90,7 @@ public class PlayCoffeeScriptPlugin implements Plugin<Project> {
         }
 
         @Mutate
-        void createGeneratedJavaScriptSourceSets(@Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> binaries, final ObjectFactory objectFactory) {
+        static void createGeneratedJavaScriptSourceSets(@Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> binaries, final ObjectFactory objectFactory) {
             binaries.all(playApplicationBinarySpec -> {
                 for (CoffeeScriptSourceSet coffeeScriptSourceSet : playApplicationBinarySpec.getInputs().withType(CoffeeScriptSourceSet.class)) {
                     playApplicationBinarySpec.addGeneratedJavaScript(coffeeScriptSourceSet, objectFactory);
@@ -99,13 +99,13 @@ public class PlayCoffeeScriptPlugin implements Plugin<Project> {
         }
 
         @Defaults
-        void configureCoffeeScriptCompileDefaults(@Each PlayCoffeeScriptCompile coffeeScriptCompile) {
+        static void configureCoffeeScriptCompileDefaults(@Each PlayCoffeeScriptCompile coffeeScriptCompile) {
             coffeeScriptCompile.setRhinoClasspathNotation(getDefaultRhinoDependencyNotation());
             coffeeScriptCompile.setCoffeeScriptJsNotation(getDefaultCoffeeScriptDependencyNotation());
         }
 
         @Mutate
-        void registerLanguageTransform(LanguageTransformContainer languages) {
+        static void registerLanguageTransform(LanguageTransformContainer languages) {
             languages.add(new CoffeeScript());
         }
     }

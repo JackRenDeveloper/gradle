@@ -72,7 +72,7 @@ public class DaemonGradleExecuter extends NoDaemonGradleExecuter {
         return args;
     }
 
-    private boolean containsLoggingArgument(List<String> args) {
+    private static boolean containsLoggingArgument(List<String> args) {
         for (String logArg : asList("-i", "--info", "-d", "--debug", "-w", "--warn", "-q", "--quiet")) {
             if (args.contains(logArg)) {
                 return true;

@@ -16,7 +16,6 @@
 
 package org.gradle.api.plugins;
 
-import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
@@ -82,7 +81,7 @@ public class WarPlugin implements Plugin<Project> {
         configureComponent(project, warArtifact);
     }
 
-    public void configureConfigurations(ConfigurationContainer configurationContainer) {
+    public static void configureConfigurations(ConfigurationContainer configurationContainer) {
         Configuration provideCompileConfiguration = configurationContainer.create(PROVIDED_COMPILE_CONFIGURATION_NAME).setVisible(false).
                 setDescription("Additional compile classpath for libraries that should not be part of the WAR archive.");
         Configuration provideRuntimeConfiguration = configurationContainer.create(PROVIDED_RUNTIME_CONFIGURATION_NAME).setVisible(false).

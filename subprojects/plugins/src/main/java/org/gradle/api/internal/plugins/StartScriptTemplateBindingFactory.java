@@ -16,7 +16,6 @@
 
 package org.gradle.api.internal.plugins;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang.StringUtils;
@@ -106,7 +105,7 @@ public class StartScriptTemplateBindingFactory implements Transformer<Map<String
         }
     }
 
-    String escapeWindowsJvmOpt(String jvmOpts) {
+    static String escapeWindowsJvmOpt(String jvmOpts) {
         boolean wasOnBackslash = false;
         StringBuilder escapedJvmOpt = new StringBuilder();
         CharacterIterator it = new StringCharacterIterator(jvmOpts);

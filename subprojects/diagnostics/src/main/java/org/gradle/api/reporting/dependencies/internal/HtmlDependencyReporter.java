@@ -56,7 +56,7 @@ public class HtmlDependencyReporter extends ReportRenderer<Set<Project>, File> {
         this.outputDirectory = outputDirectory;
 
         HtmlReportRenderer renderer = new HtmlReportRenderer();
-        renderer.render(projects, new ReportRenderer<Set<Project>, HtmlReportBuilder>() {
+        HtmlReportRenderer.render(projects, new ReportRenderer<Set<Project>, HtmlReportBuilder>() {
             @Override
             public void render(Set<Project> model, HtmlReportBuilder builder) {
                 Transformer<String, Project> htmlPageScheme = projectNamingScheme("html");

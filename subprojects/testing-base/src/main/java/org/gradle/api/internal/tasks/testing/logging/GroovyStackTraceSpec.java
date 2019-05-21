@@ -38,11 +38,11 @@ public class GroovyStackTraceSpec implements Spec<StackTraceElement> {
         return !isInternalClass(element) && !isGeneratedMethod(element);
     }
 
-    private boolean isInternalClass(StackTraceElement element) {
+    private static boolean isInternalClass(StackTraceElement element) {
         return INTERNAL_CLASSES.matcher(element.getClassName()).matches();
     }
 
-    private boolean isGeneratedMethod(StackTraceElement element) {
+    private static boolean isGeneratedMethod(StackTraceElement element) {
         return element.getLineNumber() < 0;
     }
 }

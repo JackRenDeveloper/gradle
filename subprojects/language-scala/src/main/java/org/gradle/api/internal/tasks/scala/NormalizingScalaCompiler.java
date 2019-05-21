@@ -53,11 +53,11 @@ public class NormalizingScalaCompiler implements Compiler<ScalaJavaJointCompileS
         return delegateAndHandleErrors(spec);
     }
 
-    private void resolveSourceFiles(JavaCompileSpec spec) {
+    private static void resolveSourceFiles(JavaCompileSpec spec) {
         spec.setSourceFiles(ImmutableSet.copyOf(spec.getSourceFiles()));
     }
 
-    private void resolveClasspath(ScalaJavaJointCompileSpec spec) {
+    private static void resolveClasspath(ScalaJavaJointCompileSpec spec) {
         List<File> classPath = Lists.newArrayList(spec.getCompileClasspath());
         classPath.add(spec.getDestinationDir());
         spec.setCompileClasspath(classPath);
@@ -67,12 +67,12 @@ public class NormalizingScalaCompiler implements Compiler<ScalaJavaJointCompileS
         }
     }
 
-    private void resolveNonStringsInCompilerArgs(ScalaJavaJointCompileSpec spec) {
+    private static void resolveNonStringsInCompilerArgs(ScalaJavaJointCompileSpec spec) {
         // in particular, this is about GStrings
         spec.getCompileOptions().setCompilerArgs(CollectionUtils.toStringList(spec.getCompileOptions().getCompilerArgs()));
     }
 
-    private void logSourceFiles(ScalaJavaJointCompileSpec spec) {
+    private static void logSourceFiles(ScalaJavaJointCompileSpec spec) {
         if (!spec.getScalaCompileOptions().isListFiles()) {
             return;
         }
@@ -87,7 +87,7 @@ public class NormalizingScalaCompiler implements Compiler<ScalaJavaJointCompileS
         LOGGER.quiet(builder.toString());
     }
 
-    private void logCompilerArguments(ScalaJavaJointCompileSpec spec) {
+    private static void logCompilerArguments(ScalaJavaJointCompileSpec spec) {
         if (!LOGGER.isDebugEnabled()) {
             return;
         }

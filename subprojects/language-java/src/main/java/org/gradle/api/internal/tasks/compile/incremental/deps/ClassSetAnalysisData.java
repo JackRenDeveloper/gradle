@@ -153,7 +153,7 @@ public class ClassSetAnalysisData {
             return DependentsSet.dependentClasses(builder.build());
         }
 
-        private void writeDependentSet(DependentsSet dependentsSet, Map<String, Integer> classNameMap, Encoder encoder) throws IOException {
+        private static void writeDependentSet(DependentsSet dependentsSet, Map<String, Integer> classNameMap, Encoder encoder) throws IOException {
             if (dependentsSet.isDependencyToAll()) {
                 encoder.writeByte((byte) 1);
                 encoder.writeNullableString(dependentsSet.getDescription());
@@ -177,7 +177,7 @@ public class ClassSetAnalysisData {
             return classNameMap.get(id);
         }
 
-        private void writeClassName(String className, Map<String, Integer> classIdMap, Encoder encoder) throws IOException {
+        private static void writeClassName(String className, Map<String, Integer> classIdMap, Encoder encoder) throws IOException {
             Integer id = classIdMap.get(className);
             if (id == null) {
                 id = classIdMap.size() + 1;

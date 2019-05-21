@@ -54,7 +54,7 @@ class IdeaDependenciesOptimizer {
         applyScopesToDependencies(deps, scopesByDependencyKey);
     }
 
-    private Multimap<Object, GeneratedIdeaScope> collectScopesByDependency(Collection<Dependency> deps) {
+    private static Multimap<Object, GeneratedIdeaScope> collectScopesByDependency(Collection<Dependency> deps) {
         Multimap<Object, GeneratedIdeaScope> scopesByDependencyKey = MultimapBuilder.hashKeys().enumSetValues(GeneratedIdeaScope.class).build();
         for (Dependency dep : deps) {
             scopesByDependencyKey.put(getKey(dep), GeneratedIdeaScope.nullSafeValueOf(dep.getScope()));
@@ -62,7 +62,7 @@ class IdeaDependenciesOptimizer {
         return scopesByDependencyKey;
     }
 
-    private void optimizeScopes(Multimap<Object, GeneratedIdeaScope> scopesByDependencyKey) {
+    private static void optimizeScopes(Multimap<Object, GeneratedIdeaScope> scopesByDependencyKey) {
         for (Map.Entry<Object, Collection<GeneratedIdeaScope>> entry : scopesByDependencyKey.asMap().entrySet()) {
             optimizeScopes(entry.getValue());
         }
@@ -74,7 +74,7 @@ class IdeaDependenciesOptimizer {
         }
     }
 
-    private void applyScopeToNextDependency(Iterator<Dependency> iterator, Multimap<Object, GeneratedIdeaScope> scopesByDependencyKey) {
+    private static void applyScopeToNextDependency(Iterator<Dependency> iterator, Multimap<Object, GeneratedIdeaScope> scopesByDependencyKey) {
         Dependency dep = iterator.next();
         Object key = getKey(dep);
         Collection<GeneratedIdeaScope> ideaScopes = scopesByDependencyKey.get(key);
@@ -87,7 +87,7 @@ class IdeaDependenciesOptimizer {
         }
     }
 
-    private Object getKey(Dependency dep) {
+    private static Object getKey(Dependency dep) {
         if (dep instanceof ModuleDependency) {
             return ((ModuleDependency) dep).getName();
         } else if (dep instanceof SingleEntryModuleLibrary) {
@@ -97,7 +97,7 @@ class IdeaDependenciesOptimizer {
         }
     }
 
-    private void optimizeScopes(Collection<GeneratedIdeaScope> ideaScopes) {
+    private static void optimizeScopes(Collection<GeneratedIdeaScope> ideaScopes) {
         boolean isRuntime = ideaScopes.contains(GeneratedIdeaScope.RUNTIME);
         boolean isProvided = ideaScopes.contains(GeneratedIdeaScope.PROVIDED);
         boolean isCompile = ideaScopes.contains(GeneratedIdeaScope.COMPILE);

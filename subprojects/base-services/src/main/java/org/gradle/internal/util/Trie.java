@@ -102,7 +102,7 @@ public class Trie implements Comparable<Trie> {
         dump(new StringBuilder(), all, this, onWord);
     }
 
-    private void dump(StringBuilder buffer, boolean all, Trie trie, Action<? super String> onWord) {
+    private static void dump(StringBuilder buffer, boolean all, Trie trie, Action<? super String> onWord) {
         for (Trie transition : trie.transitions) {
             buffer.append(transition.c);
             if (transition.terminal) {

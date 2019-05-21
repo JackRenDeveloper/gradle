@@ -87,23 +87,23 @@ public class VersionControlServices extends AbstractPluginServiceRegistry {
         VersionControlBuildTreeServices() {
         }
 
-        VcsMappingFactory createVcsMappingFactory(ObjectFactory objectFactory, StartParameter startParameter, NotationParser<String, ModuleIdentifier> notationParser, VersionControlSpecFactory versionControlSpecFactory) {
+        static VcsMappingFactory createVcsMappingFactory(ObjectFactory objectFactory, StartParameter startParameter, NotationParser<String, ModuleIdentifier> notationParser, VersionControlSpecFactory versionControlSpecFactory) {
             return new DefaultVcsMappingFactory(objectFactory, versionControlSpecFactory);
         }
 
-        VersionControlSpecFactory createVersionControlSpecFactory(ObjectFactory objectFactory, NotationParser<String, ModuleIdentifier> notationParser) {
+        static VersionControlSpecFactory createVersionControlSpecFactory(ObjectFactory objectFactory, NotationParser<String, ModuleIdentifier> notationParser) {
             return new DefaultVersionControlSpecFactory(objectFactory, notationParser);
         }
 
-        VcsMappingsStore createVcsMappingsStore(VcsMappingFactory mappingFactory) {
+        static VcsMappingsStore createVcsMappingsStore(VcsMappingFactory mappingFactory) {
             return new DefaultVcsMappingsStore(mappingFactory);
         }
 
-        VcsResolver createVcsResolver(VcsMappingsStore mappingsStore) {
+        static VcsResolver createVcsResolver(VcsMappingsStore mappingsStore) {
             return mappingsStore.asResolver();
         }
 
-        VcsVersionSelectionCache createVersionSelectionCache() {
+        static VcsVersionSelectionCache createVersionSelectionCache() {
             return new VcsVersionSelectionCache();
         }
     }
@@ -112,7 +112,7 @@ public class VersionControlServices extends AbstractPluginServiceRegistry {
         VersionControlBuildSessionServices() {
         }
 
-        NotationParser<String, ModuleIdentifier> createModuleIdParser(ImmutableModuleIdentifierFactory moduleIdentifierFactory) {
+        static NotationParser<String, ModuleIdentifier> createModuleIdParser(ImmutableModuleIdentifierFactory moduleIdentifierFactory) {
             return NotationParserBuilder
                 .builder(String.class, ModuleIdentifier.class)
                 .typeDisplayName("a module identifier")
@@ -120,15 +120,15 @@ public class VersionControlServices extends AbstractPluginServiceRegistry {
                 .toComposite();
         }
 
-        VersionControlRepositoryConnectionFactory createVersionControlSystemFactory(VcsDirectoryLayout directoryLayout, CleanupActionFactory cleanupActionFactory, CacheRepository cacheRepository) {
+        static VersionControlRepositoryConnectionFactory createVersionControlSystemFactory(VcsDirectoryLayout directoryLayout, CleanupActionFactory cleanupActionFactory, CacheRepository cacheRepository) {
             return new DefaultVersionControlRepositoryFactory(directoryLayout, cacheRepository, cleanupActionFactory);
         }
 
-        VcsDirectoryLayout createVcsWorkingDirectoryRoot(ProjectCacheDir projectCacheDir) {
+        static VcsDirectoryLayout createVcsWorkingDirectoryRoot(ProjectCacheDir projectCacheDir) {
             return new VcsDirectoryLayout(projectCacheDir.getDir());
         }
 
-        PersistentVcsMetadataCache createMetadataCache(VcsDirectoryLayout directoryLayout, CacheRepository cacheRepository) {
+        static PersistentVcsMetadataCache createMetadataCache(VcsDirectoryLayout directoryLayout, CacheRepository cacheRepository) {
             return new PersistentVcsMetadataCache(directoryLayout, cacheRepository);
         }
     }
@@ -137,11 +137,11 @@ public class VersionControlServices extends AbstractPluginServiceRegistry {
         VersionControlSettingsServices() {
         }
 
-        VcsMappings createVcsMappings(ObjectFactory objectFactory, VcsMappingsStore vcsMappingsStore, Gradle gradle, NotationParser<String, ModuleIdentifier> notationParser) {
+        static VcsMappings createVcsMappings(ObjectFactory objectFactory, VcsMappingsStore vcsMappingsStore, Gradle gradle, NotationParser<String, ModuleIdentifier> notationParser) {
             return objectFactory.newInstance(DefaultVcsMappings.class, vcsMappingsStore, gradle, notationParser);
         }
 
-        SourceControl createSourceControl(ObjectFactory objectFactory, FileResolver fileResolver, VcsMappings vcsMappings, VersionControlSpecFactory specFactory) {
+        static SourceControl createSourceControl(ObjectFactory objectFactory, FileResolver fileResolver, VcsMappings vcsMappings, VersionControlSpecFactory specFactory) {
             return objectFactory.newInstance(DefaultSourceControl.class, fileResolver, vcsMappings, specFactory);
         }
     }
@@ -150,7 +150,7 @@ public class VersionControlServices extends AbstractPluginServiceRegistry {
         VersionControlBuildServices() {
         }
 
-        VcsDependencyResolver createVcsDependencyResolver(LocalComponentRegistry localComponentRegistry, VcsResolver vcsResolver, VersionControlRepositoryConnectionFactory versionControlSystemFactory, VersionSelectorScheme versionSelectorScheme, VersionComparator versionComparator, BuildStateRegistry buildRegistry, VersionParser versionParser, VcsVersionSelectionCache versionSelectionCache, PersistentVcsMetadataCache persistentCache, StartParameter startParameter, BuildState containingBuild, PublicBuildPath publicBuildPath) {
+        static VcsDependencyResolver createVcsDependencyResolver(LocalComponentRegistry localComponentRegistry, VcsResolver vcsResolver, VersionControlRepositoryConnectionFactory versionControlSystemFactory, VersionSelectorScheme versionSelectorScheme, VersionComparator versionComparator, BuildStateRegistry buildRegistry, VersionParser versionParser, VcsVersionSelectionCache versionSelectionCache, PersistentVcsMetadataCache persistentCache, StartParameter startParameter, BuildState containingBuild, PublicBuildPath publicBuildPath) {
             VcsVersionWorkingDirResolver workingDirResolver;
             if (startParameter.isOffline()) {
                 workingDirResolver = new OfflineVcsVersionWorkingDirResolver(persistentCache);
@@ -161,7 +161,7 @@ public class VersionControlServices extends AbstractPluginServiceRegistry {
             return new VcsDependencyResolver(localComponentRegistry, vcsResolver, versionControlSystemFactory, buildRegistry, workingDirResolver, containingBuild, publicBuildPath);
         }
 
-        ResolverProviderFactory createVcsResolverProviderFactory(VcsDependencyResolver vcsDependencyResolver, VcsResolver vcsResolver) {
+        static ResolverProviderFactory createVcsResolverProviderFactory(VcsDependencyResolver vcsDependencyResolver, VcsResolver vcsResolver) {
             return new VcsResolverFactory(vcsDependencyResolver, vcsResolver);
         }
     }

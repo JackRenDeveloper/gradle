@@ -21,7 +21,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 import groovy.lang.Closure;
 import groovy.lang.GroovyObjectSupport;
-import org.gradle.api.Action;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.internal.project.IsolatedAntBuilder;
 import org.gradle.internal.reflect.JavaMethod;
@@ -98,7 +97,7 @@ public class AntJacocoCheck extends AbstractAntJacocoReport<JacocoViolationRules
         }
     }
 
-    String getViolations(GroovyObjectSupport antBuilder) {
+    static String getViolations(GroovyObjectSupport antBuilder) {
         Object project = antBuilder.getProperty("project");
         Hashtable<String, Object> properties = JavaMethod.of(project, Hashtable.class, "getProperties").invoke(project, new Object[0]);
         return (String) properties.get(VIOLATIONS_ANT_PROPERTY);

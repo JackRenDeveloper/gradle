@@ -29,7 +29,7 @@ public class LocaleSafeDecimalFormat {
      * @return
      * @throws ParseException
      */
-    public BigDecimal parse(String source) throws ParseException {
+    public static BigDecimal parse(String source) throws ParseException {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator('.');
         DecimalFormat format = new DecimalFormat("#.#", symbols);

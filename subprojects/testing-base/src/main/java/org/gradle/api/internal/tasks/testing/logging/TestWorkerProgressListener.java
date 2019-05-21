@@ -87,7 +87,7 @@ public class TestWorkerProgressListener implements TestListenerInternal {
         testWorkerProgressLoggers.clear();
     }
 
-    private boolean isDefaultTestClassDescriptor(TestDescriptorInternal testDescriptor) {
+    private static boolean isDefaultTestClassDescriptor(TestDescriptorInternal testDescriptor) {
         if (testDescriptor.isComposite()
             && testDescriptor instanceof DecoratingTestDescriptor
             && ((DecoratingTestDescriptor)testDescriptor).getDescriptor() instanceof DefaultTestClassDescriptor) {
@@ -97,7 +97,7 @@ public class TestWorkerProgressListener implements TestListenerInternal {
         return false;
     }
 
-    private String createProgressLoggerDescription(TestDescriptorInternal testDescriptor) {
+    private static String createProgressLoggerDescription(TestDescriptorInternal testDescriptor) {
         DecoratingTestDescriptor decoratingTestDescriptor = (DecoratingTestDescriptor)testDescriptor;
         DefaultTestClassDescriptor defaultTestClassDescriptor = (DefaultTestClassDescriptor)decoratingTestDescriptor.getDescriptor();
         return "Executing test " + JavaClassNameFormatter.abbreviateJavaPackage(defaultTestClassDescriptor.getClassName(), MAX_TEST_NAME_LENGTH);

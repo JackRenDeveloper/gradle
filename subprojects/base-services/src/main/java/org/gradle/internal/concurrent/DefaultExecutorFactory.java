@@ -54,7 +54,7 @@ public class DefaultExecutorFactory implements ExecutorFactory, Stoppable {
         return executor;
     }
 
-    protected ExecutorService createExecutor(String displayName, int fixedSize) {
+    protected static ExecutorService createExecutor(String displayName, int fixedSize) {
         return Executors.newFixedThreadPool(fixedSize, new ThreadFactoryImpl(displayName));
     }
 
@@ -65,7 +65,7 @@ public class DefaultExecutorFactory implements ExecutorFactory, Stoppable {
         return executor;
     }
 
-    private ScheduledExecutorService createScheduledExecutor(String displayName, int fixedSize) {
+    private static ScheduledExecutorService createScheduledExecutor(String displayName, int fixedSize) {
         return new ScheduledThreadPoolExecutor(fixedSize, new ThreadFactoryImpl(displayName));
     }
 

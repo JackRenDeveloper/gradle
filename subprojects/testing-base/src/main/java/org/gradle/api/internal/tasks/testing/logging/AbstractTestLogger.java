@@ -83,12 +83,12 @@ public abstract class AbstractTestLogger {
         return Joiner.on(" > ").join(displayedNames) + " ";
     }
 
-    private boolean isAtomicTestWhoseParentIsNotTheTestClass(TestDescriptor current) {
+    private static boolean isAtomicTestWhoseParentIsNotTheTestClass(TestDescriptor current) {
         return !current.isComposite() && current.getClassName() != null && (current.getParent() == null
                 || !current.getClassName().equals(current.getParent().getName()));
     }
 
-    private StyledTextOutput.Style getStyle(TestLogEvent event) {
+    private static StyledTextOutput.Style getStyle(TestLogEvent event) {
         switch (event) {
             case PASSED: return StyledTextOutput.Style.Identifier;
             case FAILED: return StyledTextOutput.Style.Failure;

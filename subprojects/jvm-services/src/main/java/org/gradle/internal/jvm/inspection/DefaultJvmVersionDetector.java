@@ -58,7 +58,7 @@ public class DefaultJvmVersionDetector implements JvmVersionDetector {
         return parseJavaVersionCommandOutput(javaCommand, new BufferedReader(new InputStreamReader(buffer.getInputStream())));
     }
 
-    private JavaVersion parseJavaVersionCommandOutput(String javaExecutable, BufferedReader reader) {
+    private static JavaVersion parseJavaVersionCommandOutput(String javaExecutable, BufferedReader reader) {
         try {
             String versionStr = reader.readLine();
             while (versionStr != null) {

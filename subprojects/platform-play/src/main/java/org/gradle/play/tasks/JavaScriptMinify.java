@@ -17,9 +17,7 @@
 package org.gradle.play.tasks;
 
 import com.google.common.collect.Lists;
-import org.gradle.api.Action;
 import org.gradle.api.Incubating;
-import org.gradle.api.file.CopySpec;
 import org.gradle.api.file.FileTree;
 import org.gradle.api.file.FileVisitDetails;
 import org.gradle.api.file.FileVisitor;
@@ -63,7 +61,7 @@ public class JavaScriptMinify extends SourceTask {
     }
 
     @Inject
-    protected FileResolver getFileResolver() {
+    protected static FileResolver getFileResolver() {
         throw new UnsupportedOperationException();
     }
 
@@ -73,7 +71,7 @@ public class JavaScriptMinify extends SourceTask {
      * @return The tool chain.
      */
     @Inject
-    public PlayToolChain getToolChain() {
+    public static PlayToolChain getToolChain() {
         throw new UnsupportedOperationException();
     }
 

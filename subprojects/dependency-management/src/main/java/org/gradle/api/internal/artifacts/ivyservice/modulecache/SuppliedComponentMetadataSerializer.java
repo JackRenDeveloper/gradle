@@ -61,14 +61,14 @@ public class SuppliedComponentMetadataSerializer extends AbstractSerializer<Comp
         writeStatusScheme(encoder, md);
     }
 
-    private void checkChangingFlag(ComponentMetadata md) {
+    private static void checkChangingFlag(ComponentMetadata md) {
         boolean changing = md.isChanging();
         if (changing) {
             throw new UnsupportedOperationException("User-supplied metadata shouldn't have changing=true");
         }
     }
 
-    private void writeStatusScheme(Encoder encoder, ComponentMetadata md) throws IOException {
+    private static void writeStatusScheme(Encoder encoder, ComponentMetadata md) throws IOException {
         List<String> statusScheme = md.getStatusScheme();
         encoder.writeSmallInt(statusScheme.size());
         for (String s : statusScheme) {
@@ -76,7 +76,7 @@ public class SuppliedComponentMetadataSerializer extends AbstractSerializer<Comp
         }
     }
 
-    private List<String> readStatusScheme(Decoder decoder) throws IOException {
+    private static List<String> readStatusScheme(Decoder decoder) throws IOException {
         int size = decoder.readSmallInt();
         ImmutableList.Builder<String> scheme = ImmutableList.builder();
         for (int i=0; i<size; i++) {

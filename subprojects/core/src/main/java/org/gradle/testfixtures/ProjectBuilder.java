@@ -16,7 +16,6 @@
 package org.gradle.testfixtures;
 
 import org.gradle.api.Project;
-import org.gradle.internal.Factory;
 import org.gradle.testfixtures.internal.ProjectBuilderImpl;
 import org.gradle.util.DeprecationLogger;
 import org.gradle.util.SingleMessageLogger;
@@ -123,7 +122,7 @@ public class ProjectBuilder {
      */
     public Project build() {
         if (parent != null) {
-            return impl.createChildProject(name, parent, projectDir);
+            return ProjectBuilderImpl.createChildProject(name, parent, projectDir);
         }
         return impl.createProject(name, projectDir, gradleUserHomeDir);
     }

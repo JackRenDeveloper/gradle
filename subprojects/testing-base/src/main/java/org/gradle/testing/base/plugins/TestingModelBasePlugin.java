@@ -61,7 +61,7 @@ public class TestingModelBasePlugin implements Plugin<Project> {
 
     static class Rules extends RuleSource {
         @ComponentType
-        void registerTestSuiteSpec(TypeBuilder<TestSuiteSpec> builder) {
+        static void registerTestSuiteSpec(TypeBuilder<TestSuiteSpec> builder) {
             builder.defaultImplementation(BaseTestSuiteSpec.class);
         }
 
@@ -70,7 +70,7 @@ public class TestingModelBasePlugin implements Plugin<Project> {
         }
 
         @Mutate
-        void copyTestBinariesToGlobalContainer(BinaryContainer binaries, TestSuiteContainer testSuites) {
+        static void copyTestBinariesToGlobalContainer(BinaryContainer binaries, TestSuiteContainer testSuites) {
             for (TestSuiteSpec testSuite : testSuites.values()) {
                 for (BinarySpecInternal binary : testSuite.getBinaries().withType(BinarySpecInternal.class).values()) {
                     binaries.put(binary.getProjectScopedName(), binary);
@@ -79,7 +79,7 @@ public class TestingModelBasePlugin implements Plugin<Project> {
         }
 
         @Finalize
-        public void defineBinariesCheckTasks(@Each BinarySpecInternal binary, NamedEntityInstantiator<Task> taskInstantiator) {
+        public static void defineBinariesCheckTasks(@Each BinarySpecInternal binary, NamedEntityInstantiator<Task> taskInstantiator) {
             if (binary.isLegacyBinary()) {
                 return;
             }
@@ -90,7 +90,7 @@ public class TestingModelBasePlugin implements Plugin<Project> {
         }
 
         @Finalize
-        void copyBinariesCheckTasksToTaskContainer(TaskContainer tasks, BinaryContainer binaries) {
+        static void copyBinariesCheckTasksToTaskContainer(TaskContainer tasks, BinaryContainer binaries) {
             for (BinarySpec binary : binaries) {
                 Task checkTask = binary.getCheckTask();
                 if (checkTask != null) {
@@ -100,7 +100,7 @@ public class TestingModelBasePlugin implements Plugin<Project> {
         }
 
         @Finalize
-        void linkTestSuiteBinariesRunTaskToBinariesCheckTasks(@Path("binaries") ModelMap<TestSuiteBinarySpec> binaries) {
+        static void linkTestSuiteBinariesRunTaskToBinariesCheckTasks(@Path("binaries") ModelMap<TestSuiteBinarySpec> binaries) {
             binaries.afterEach(new Action<TestSuiteBinarySpec>() {
                 @Override
                 public void execute(TestSuiteBinarySpec testSuiteBinary) {
@@ -118,7 +118,7 @@ public class TestingModelBasePlugin implements Plugin<Project> {
         }
 
         @Finalize
-        void attachBinariesCheckTasksToCheckLifecycle(@Path("tasks.check") Task checkTask, @Path("binaries") ModelMap<BinarySpec> binaries) {
+        static void attachBinariesCheckTasksToCheckLifecycle(@Path("tasks.check") Task checkTask, @Path("binaries") ModelMap<BinarySpec> binaries) {
             for (BinarySpec binary : binaries) {
                 if (binary.isBuildable()) {
                     Task binaryCheckTask = binary.getCheckTask();

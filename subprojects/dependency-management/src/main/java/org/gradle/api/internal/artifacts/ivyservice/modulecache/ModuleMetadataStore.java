@@ -18,7 +18,6 @@ package org.gradle.api.internal.artifacts.ivyservice.modulecache;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Interner;
 import com.google.common.collect.Maps;
-import org.gradle.api.Action;
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
 import org.gradle.api.internal.artifacts.ImmutableModuleIdentifierFactory;
 import org.gradle.internal.UncheckedException;
@@ -29,7 +28,6 @@ import org.gradle.internal.resource.local.PathKeyFileStore;
 import org.gradle.internal.serialize.kryo.KryoBackedDecoder;
 import org.gradle.internal.serialize.kryo.KryoBackedEncoder;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
@@ -82,7 +80,7 @@ public class ModuleMetadataStore {
         });
     }
 
-    private String[] getFilePath(ModuleComponentAtRepositoryKey componentId) {
+    private static String[] getFilePath(ModuleComponentAtRepositoryKey componentId) {
         ModuleComponentIdentifier moduleComponentIdentifier = componentId.getComponentId();
         return new String[] {
             moduleComponentIdentifier.getGroup(),

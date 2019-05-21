@@ -62,13 +62,13 @@ public class TestExecutionRequestActionRunner implements BuildActionRunner {
         return Result.of(null);
     }
 
-    private void doRun(TestExecutionRequestAction action, BuildController buildController) {
+    private static void doRun(TestExecutionRequestAction action, BuildController buildController) {
         TestExecutionBuildConfigurationAction testTasksConfigurationAction = new TestExecutionBuildConfigurationAction(action, buildController.getGradle());
         buildController.getGradle().getServices().get(BuildConfigurationActionExecuter.class).setTaskSelectors(Collections.singletonList(testTasksConfigurationAction));
         buildController.run();
     }
 
-    private Throwable findRootCause(Exception tex) {
+    private static Throwable findRootCause(Exception tex) {
         Throwable t = tex;
         while (t.getCause() != null) {
             t = t.getCause();

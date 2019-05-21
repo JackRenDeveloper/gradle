@@ -84,7 +84,7 @@ public abstract class AbstractCachedIndex<K, V extends CachedItem> {
         }
     }
 
-    protected void assertArtifactFileNotNull(File artifactFile) {
+    protected static void assertArtifactFileNotNull(File artifactFile) {
         if (artifactFile == null) {
             throw new IllegalArgumentException("artifactFile cannot be null");
         }

@@ -19,7 +19,6 @@ import groovy.lang.Closure;
 import org.gradle.api.Action;
 import org.gradle.api.GradleException;
 import org.gradle.api.NonNullApi;
-import org.gradle.api.Task;
 import org.gradle.api.Transformer;
 import org.gradle.api.file.CopySpec;
 import org.gradle.api.file.DuplicatesStrategy;
@@ -115,7 +114,7 @@ public abstract class AbstractCopyTask extends ConventionTask implements CopySpe
     }
 
     @Inject
-    protected FileSystem getFileSystem() {
+    protected static FileSystem getFileSystem() {
         throw new UnsupportedOperationException();
     }
 
@@ -125,7 +124,7 @@ public abstract class AbstractCopyTask extends ConventionTask implements CopySpe
     }
 
     @Inject
-    protected FileLookup getFileLookup() {
+    protected static FileLookup getFileLookup() {
         throw new UnsupportedOperationException();
     }
 

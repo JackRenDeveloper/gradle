@@ -36,7 +36,7 @@ public class DefaultIncludedBuildFactory implements IncludedBuildFactory {
         this.workerLeaseService = workerLeaseService;
     }
 
-    private void validateBuildDirectory(File dir) {
+    private static void validateBuildDirectory(File dir) {
         if (!dir.exists()) {
             throw new InvalidUserDataException(String.format("Included build '%s' does not exist.", dir));
         }

@@ -75,11 +75,11 @@ public class ClientProvidedPhasedActionRunner implements BuildActionRunner {
         return Result.of(null);
     }
 
-    PayloadSerializer getPayloadSerializer(GradleInternal gradle) {
+    static PayloadSerializer getPayloadSerializer(GradleInternal gradle) {
         return gradle.getServices().get(PayloadSerializer.class);
     }
 
-    BuildEventConsumer getBuildEventConsumer(GradleInternal gradle) {
+    static BuildEventConsumer getBuildEventConsumer(GradleInternal gradle) {
         return gradle.getServices().get(BuildEventConsumer.class);
     }
 

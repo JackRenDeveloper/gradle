@@ -95,11 +95,11 @@ public class JavaCompileTaskSuccessResultPostProcessor implements OperationResul
         return results;
     }
 
-    private InternalAnnotationProcessorResult toAnnotationProcessorResult(AnnotationProcessorDetails details) {
+    private static InternalAnnotationProcessorResult toAnnotationProcessorResult(AnnotationProcessorDetails details) {
         return new DefaultAnnotationProcessorResult(details.getClassName(), toAnnotationProcessorType(details.getType()), Duration.ofMillis(details.getExecutionTimeInMillis()));
     }
 
-    private String toAnnotationProcessorType(AnnotationProcessorDetails.Type type) {
+    private static String toAnnotationProcessorType(AnnotationProcessorDetails.Type type) {
         switch (type) {
             case AGGREGATING:
                 return InternalAnnotationProcessorResult.TYPE_AGGREGATING;

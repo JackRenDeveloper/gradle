@@ -81,11 +81,11 @@ public class DefaultIdeaModule implements Serializable, GradleProjectIdentity {
         return this;
     }
 
-    public Collection<Object> getChildren() {
+    public static Collection<Object> getChildren() {
         return Collections.emptySet();
     }
 
-    public String getDescription() {
+    public static String getDescription() {
         return null;
     }
 

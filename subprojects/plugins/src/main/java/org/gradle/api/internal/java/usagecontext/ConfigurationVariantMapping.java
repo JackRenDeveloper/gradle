@@ -43,7 +43,7 @@ public class ConfigurationVariantMapping {
         this.action = action;
     }
 
-    private void assertNoDuplicateVariant(String name, Set<String> seen) {
+    private static void assertNoDuplicateVariant(String name, Set<String> seen) {
         if (!seen.add(name)) {
             throw new InvalidUserDataException("Cannot add feature variant '" + name + "' as a variant with the same name is already registered");
         }

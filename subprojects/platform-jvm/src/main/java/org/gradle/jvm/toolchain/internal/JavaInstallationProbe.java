@@ -123,7 +123,7 @@ public class JavaInstallationProbe {
         this.factory = factory;
     }
 
-    public void current(LocalJavaInstallation currentJava) {
+    public static void current(LocalJavaInstallation currentJava) {
         ProbeResult.success(InstallType.IS_JDK, current()).configure(currentJava);
     }
 
@@ -148,7 +148,7 @@ public class JavaInstallationProbe {
         return ProbeResult.success(InstallType.IS_JRE, metadata);
     }
 
-    EnumMap<SysProp, String> getCurrentJvmMetadata() {
+    static EnumMap<SysProp, String> getCurrentJvmMetadata() {
         EnumMap<SysProp, String> result = new EnumMap<SysProp, String>(SysProp.class);
         for (SysProp type : SysProp.values()) {
             if (type != SysProp.Z_ERROR) {

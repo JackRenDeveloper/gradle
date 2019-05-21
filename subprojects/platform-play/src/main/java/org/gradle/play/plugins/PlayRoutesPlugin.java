@@ -53,12 +53,12 @@ import java.util.Map;
 public class PlayRoutesPlugin extends RuleSource {
 
     @ComponentType
-    void registerRoutesLanguageType(TypeBuilder<RoutesSourceSet> builder) {
+    static void registerRoutesLanguageType(TypeBuilder<RoutesSourceSet> builder) {
         SingleMessageLogger.nagUserOfPluginReplacedWithExternalOne("Play Routes", "org.gradle.playframework-routes");
     }
 
     @Mutate
-    void createGeneratedScalaSourceSets(@Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> binaries, final ObjectFactory objectFactory) {
+    static void createGeneratedScalaSourceSets(@Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> binaries, final ObjectFactory objectFactory) {
         binaries.all(playApplicationBinarySpec -> {
             for (LanguageSourceSet languageSourceSet : playApplicationBinarySpec.getInputs().withType(RoutesSourceSet.class)) {
                 playApplicationBinarySpec.addGeneratedScala(languageSourceSet, objectFactory);
@@ -67,7 +67,7 @@ public class PlayRoutesPlugin extends RuleSource {
     }
 
     @Mutate
-    void registerLanguageTransform(LanguageTransformContainer languages) {
+    static void registerLanguageTransform(LanguageTransformContainer languages) {
         languages.add(new Routes());
     }
 

@@ -25,7 +25,6 @@ import org.gradle.api.Task;
 import org.gradle.api.initialization.IncludedBuild;
 import org.gradle.api.internal.project.ProjectStateRegistry;
 import org.gradle.api.invocation.Gradle;
-import org.gradle.api.specs.Spec;
 import org.gradle.internal.build.IncludedBuildState;
 import org.gradle.internal.service.ServiceRegistry;
 import org.gradle.internal.xml.XmlTransformer;
@@ -144,7 +143,7 @@ public class EclipseModelBuilder implements ParameterizedToolingModelBuilder<Ecl
         }
     }
 
-    private void applyEclipsePlugin(Project root) {
+    private static void applyEclipsePlugin(Project root) {
         Set<Project> allProjects = root.getAllprojects();
         for (Project p : allProjects) {
             p.getPluginManager().apply(EclipsePlugin.class);
@@ -341,7 +340,7 @@ public class EclipseModelBuilder implements ParameterizedToolingModelBuilder<Ecl
         return new DefaultAccessRule(kindCode, accessRule.getPattern());
     }
 
-    private List<Project> collectAllProjects(List<Project> all, Gradle gradle) {
+    private static List<Project> collectAllProjects(List<Project> all, Gradle gradle) {
         all.addAll(gradle.getRootProject().getAllprojects());
         for (IncludedBuild includedBuild : gradle.getIncludedBuilds()) {
             collectAllProjects(all, ((IncludedBuildState) includedBuild).getConfiguredBuild());
@@ -349,14 +348,14 @@ public class EclipseModelBuilder implements ParameterizedToolingModelBuilder<Ecl
         return all;
     }
 
-    private Gradle getRootBuild(Gradle gradle) {
+    private static Gradle getRootBuild(Gradle gradle) {
         if (gradle.getParent() == null) {
             return gradle;
         }
         return gradle.getParent();
     }
 
-    private List<String> calculateReservedProjectNames(Project rootProject, EclipseRuntime parameter) {
+    private static List<String> calculateReservedProjectNames(Project rootProject, EclipseRuntime parameter) {
         if (parameter == null) {
             return Collections.emptyList();
         }

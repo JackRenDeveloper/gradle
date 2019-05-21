@@ -34,7 +34,7 @@ public class TaskNameResolver {
     /**
      * Non-exhaustively searches for at least one task with the given name, by not evaluating projects before searching.
      */
-    public boolean tryFindUnqualifiedTaskCheaply(String name, ProjectInternal project) {
+    public static boolean tryFindUnqualifiedTaskCheaply(String name, ProjectInternal project) {
         // don't evaluate children, see if we know it's without validating it
         for (Project project1 : project.getAllprojects()) {
             if (project1.getTasks().getNames().contains(name)) {
@@ -49,7 +49,7 @@ public class TaskNameResolver {
      * Finds tasks that will have exactly the given name, without necessarily creating or configuring the tasks. Returns null if no such match found.
      */
     @Nullable
-    public TaskSelectionResult selectWithName(final String taskName, final ProjectInternal project, boolean includeSubProjects) {
+    public static TaskSelectionResult selectWithName(final String taskName, final ProjectInternal project, boolean includeSubProjects) {
         if (includeSubProjects) {
             Set<Task> tasks = Sets.newLinkedHashSet();
             new MultiProjectTaskSelectionResult(taskName, project, false).collectTasks(tasks);
@@ -69,7 +69,7 @@ public class TaskNameResolver {
     /**
      * Finds the names of all tasks, without necessarily creating or configuring the tasks. Returns an empty map when none are found.
      */
-    public Map<String, TaskSelectionResult> selectAll(ProjectInternal project, boolean includeSubProjects) {
+    public static Map<String, TaskSelectionResult> selectAll(ProjectInternal project, boolean includeSubProjects) {
         Map<String, TaskSelectionResult> selected = Maps.newLinkedHashMap();
 
         if (includeSubProjects) {
@@ -112,7 +112,7 @@ public class TaskNameResolver {
         }
     }
 
-    private void collectTaskNames(ProjectInternal project, Set<String> result) {
+    private static void collectTaskNames(ProjectInternal project, Set<String> result) {
         discoverTasks(project);
         result.addAll(getTaskNames(project));
         for (Project subProject : project.getChildProjects().values()) {

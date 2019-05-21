@@ -81,13 +81,13 @@ public class PlayDistributionPlugin extends RuleSource {
     public static final String STAGE_LIFECYCLE_TASK_NAME = "stage";
 
     @Model
-    PlayDistributionContainer distributions(Instantiator instantiator, CollectionCallbackActionDecorator collectionCallbackActionDecorator) {
+    static PlayDistributionContainer distributions(Instantiator instantiator, CollectionCallbackActionDecorator collectionCallbackActionDecorator) {
         SingleMessageLogger.nagUserOfPluginReplacedWithExternalOne("Play Distribution", "org.gradle.playframework-distribution");
         return new DefaultPlayDistributionContainer(instantiator, collectionCallbackActionDecorator);
     }
 
     @Mutate
-    void createLifecycleTasks(ModelMap<Task> tasks) {
+    static void createLifecycleTasks(ModelMap<Task> tasks) {
         tasks.create(DIST_LIFECYCLE_TASK_NAME, task -> {
             task.setDescription("Assembles all Play distributions.");
             task.setGroup(DISTRIBUTION_GROUP);
@@ -100,7 +100,7 @@ public class PlayDistributionPlugin extends RuleSource {
     }
 
     @Defaults
-    void createDistributions(@Path("distributions") PlayDistributionContainer distributions, @Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> playBinaries, PlayPluginConfigurations configurations, ServiceRegistry serviceRegistry) {
+    static void createDistributions(@Path("distributions") PlayDistributionContainer distributions, @Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> playBinaries, PlayPluginConfigurations configurations, ServiceRegistry serviceRegistry) {
         FileOperations fileOperations = serviceRegistry.get(FileOperations.class);
         Instantiator instantiator = serviceRegistry.get(Instantiator.class);
         for (PlayApplicationBinarySpecInternal binary : playBinaries) {
@@ -179,7 +179,7 @@ public class PlayDistributionPlugin extends RuleSource {
     }
 
     @Mutate
-    void createDistributionZipTasks(ModelMap<Task> tasks, final @Path("buildDir") File buildDir, PlayDistributionContainer distributions) {
+    static void createDistributionZipTasks(ModelMap<Task> tasks, final @Path("buildDir") File buildDir, PlayDistributionContainer distributions) {
         for (final PlayDistribution distribution : distributions.withType(PlayDistribution.class)) {
             String capitalizedDistName = StringUtils.capitalize(distribution.getName());
             final String stageTaskName = "stage" + capitalizedDistName + "Dist";
@@ -221,7 +221,7 @@ public class PlayDistributionPlugin extends RuleSource {
 
     static class DistributionArchiveRules extends RuleSource {
         @Finalize
-        void fixupDistributionArchiveNames(final AbstractArchiveTask archiveTask) {
+        static void fixupDistributionArchiveNames(final AbstractArchiveTask archiveTask) {
             archiveTask.getArchiveFileName().set(archiveTask.getArchiveBaseName().map(baseName -> baseName + "." + archiveTask.getArchiveExtension().get()));
         }
     }

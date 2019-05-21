@@ -193,7 +193,7 @@ public class DefaultModuleRegistry implements ModuleRegistry, CachedJarFileStore
         return modules;
     }
 
-    private String[] split(String value) {
+    private static String[] split(String value) {
         if (value == null) {
             return new String[0];
         }
@@ -237,7 +237,7 @@ public class DefaultModuleRegistry implements ModuleRegistry, CachedJarFileStore
      * </ul>
      * <li>In both cases we also include the static and generated resources of the project.</li>
      */
-    private List<String> getClasspathSuffixesForProjectDir(String projectDirName) {
+    private static List<String> getClasspathSuffixesForProjectDir(String projectDirName) {
         List<String> suffixes = new ArrayList<String>();
 
         suffixes.add(("/" + projectDirName + "/out/production/classes").replace('/', File.separatorChar));
@@ -253,7 +253,7 @@ public class DefaultModuleRegistry implements ModuleRegistry, CachedJarFileStore
         return suffixes;
     }
 
-    private String toCamelCase(String name) {
+    private static String toCamelCase(String name) {
         StringBuffer result = new StringBuffer();
         Matcher matcher = Pattern.compile("-([^-])").matcher(name);
         while (matcher.find()) {
@@ -264,7 +264,7 @@ public class DefaultModuleRegistry implements ModuleRegistry, CachedJarFileStore
         return result.toString();
     }
 
-    private Properties loadModuleProperties(String name, File jarFile) {
+    private static Properties loadModuleProperties(String name, File jarFile) {
         try {
             ZipFile zipFile = new ZipFile(jarFile);
             try {
@@ -282,7 +282,7 @@ public class DefaultModuleRegistry implements ModuleRegistry, CachedJarFileStore
         }
     }
 
-    boolean hasModuleProperties(String name, File jarFile) {
+    static boolean hasModuleProperties(String name, File jarFile) {
         try {
             ZipFile zipFile = new ZipFile(jarFile);
             try {
@@ -297,7 +297,7 @@ public class DefaultModuleRegistry implements ModuleRegistry, CachedJarFileStore
         }
     }
 
-    private String getClasspathManifestName(String moduleName) {
+    private static String getClasspathManifestName(String moduleName) {
         return moduleName + "-classpath.properties";
     }
 

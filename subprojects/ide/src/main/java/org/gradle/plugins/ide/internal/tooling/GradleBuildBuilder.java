@@ -43,7 +43,7 @@ public class GradleBuildBuilder implements ToolingModelBuilder {
         return convert(gradle, new ArrayList<DefaultGradleBuild>());
     }
 
-    private DefaultGradleBuild convert(Gradle gradle, Collection<DefaultGradleBuild> all) {
+    private static DefaultGradleBuild convert(Gradle gradle, Collection<DefaultGradleBuild> all) {
         DefaultGradleBuild model = new DefaultGradleBuild();
         Map<Project, BasicGradleProject> convertedProjects = new LinkedHashMap<Project, BasicGradleProject>();
 
@@ -72,7 +72,7 @@ public class GradleBuildBuilder implements ToolingModelBuilder {
         return model;
     }
 
-    private BasicGradleProject convert(Project project, Map<Project, BasicGradleProject> convertedProjects) {
+    private static BasicGradleProject convert(Project project, Map<Project, BasicGradleProject> convertedProjects) {
         DefaultProjectIdentifier id = new DefaultProjectIdentifier(project.getRootDir(), project.getPath());
         BasicGradleProject converted = new BasicGradleProject().setName(project.getName()).setProjectIdentifier(id);
         converted.setProjectDirectory(project.getProjectDir());

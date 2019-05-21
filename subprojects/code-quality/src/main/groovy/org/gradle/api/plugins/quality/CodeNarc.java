@@ -93,7 +93,7 @@ public class CodeNarc extends SourceTask implements VerificationTask, Reporting<
     }
 
     @Inject
-    protected ObjectFactory getObjectFactory() {
+    protected static ObjectFactory getObjectFactory() {
         throw new UnsupportedOperationException();
     }
 

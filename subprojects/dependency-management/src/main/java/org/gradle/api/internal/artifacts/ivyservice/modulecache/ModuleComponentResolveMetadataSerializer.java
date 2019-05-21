@@ -85,7 +85,7 @@ public class ModuleComponentResolveMetadataSerializer extends AbstractSerializer
         }
     }
 
-    private void readPlatformOwners(Decoder decoder, MutableModuleComponentResolveMetadata mutable) throws IOException {
+    private static void readPlatformOwners(Decoder decoder, MutableModuleComponentResolveMetadata mutable) throws IOException {
         int len = decoder.readSmallInt();
         if (len>0) {
             for (int i=0; i<len; i++) {
@@ -95,7 +95,7 @@ public class ModuleComponentResolveMetadataSerializer extends AbstractSerializer
         }
     }
 
-    private ModuleComponentIdentifier readModuleIdentifier(Decoder decoder) throws IOException {
+    private static ModuleComponentIdentifier readModuleIdentifier(Decoder decoder) throws IOException {
         boolean virtual = decoder.readBoolean();
         String group = decoder.readString();
         String module = decoder.readString();
@@ -121,21 +121,21 @@ public class ModuleComponentResolveMetadataSerializer extends AbstractSerializer
         }
     }
 
-    private void writeOwners(Encoder encoder, ImmutableList<? extends ComponentIdentifier> platformOwners) throws IOException {
+    private static void writeOwners(Encoder encoder, ImmutableList<? extends ComponentIdentifier> platformOwners) throws IOException {
         encoder.writeSmallInt(platformOwners.size());
         for (ComponentIdentifier platformOwner : platformOwners) {
             writeComponentIdentifier(encoder, (ModuleComponentIdentifier)platformOwner);
         }
     }
 
-    private void writeComponentIdentifier(Encoder encoder, ModuleComponentIdentifier platformOwner) throws IOException {
+    private static void writeComponentIdentifier(Encoder encoder, ModuleComponentIdentifier platformOwner) throws IOException {
         encoder.writeBoolean(platformOwner instanceof VirtualComponentIdentifier);
         encoder.writeString(platformOwner.getGroup());
         encoder.writeString(platformOwner.getModule());
         encoder.writeString(platformOwner.getVersion());
     }
 
-    private AbstractRealisedModuleComponentResolveMetadata assertRealized(ModuleComponentResolveMetadata metadata) {
+    private static AbstractRealisedModuleComponentResolveMetadata assertRealized(ModuleComponentResolveMetadata metadata) {
         if (metadata instanceof AbstractRealisedModuleComponentResolveMetadata) {
             return (AbstractRealisedModuleComponentResolveMetadata) metadata;
         }

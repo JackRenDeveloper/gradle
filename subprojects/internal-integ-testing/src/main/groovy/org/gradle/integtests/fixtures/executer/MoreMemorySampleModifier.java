@@ -43,7 +43,7 @@ public class MoreMemorySampleModifier implements SampleModifier {
         return sample;
     }
 
-    private void giveMoreMemoryTo(File projectDir) {
+    private static void giveMoreMemoryTo(File projectDir) {
         File propertiesFile = new File(projectDir, "gradle.properties");
         Properties properties = propertiesFile.exists() ? GUtil.loadProperties(propertiesFile) : new Properties();
         String existingArgs = properties.getProperty(ORG_GRADLE_JVMARGS, "");

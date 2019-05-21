@@ -203,7 +203,7 @@ public class GradleModuleMetadataParser {
         }
     }
 
-    private void populateVariant(List<ModuleFile> files, List<ModuleDependency> dependencies, List<ModuleDependencyConstraint> dependencyConstraints, List<VariantCapability> capabilities, MutableComponentVariant variant) {
+    private static void populateVariant(List<ModuleFile> files, List<ModuleDependency> dependencies, List<ModuleDependencyConstraint> dependencyConstraints, List<VariantCapability> capabilities, MutableComponentVariant variant) {
         for (ModuleFile file : files) {
             variant.addFile(file.name, file.uri);
         }
@@ -218,7 +218,7 @@ public class GradleModuleMetadataParser {
         }
     }
 
-    private List<ModuleDependency> consumeVariantLocation(JsonReader reader) throws IOException {
+    private static List<ModuleDependency> consumeVariantLocation(JsonReader reader) throws IOException {
         String url = null;
         String group = null;
         String module = null;
@@ -306,7 +306,7 @@ public class GradleModuleMetadataParser {
         return dependencies;
     }
 
-    private List<VariantCapability> consumeCapabilities(JsonReader reader) throws IOException {
+    private static List<VariantCapability> consumeCapabilities(JsonReader reader) throws IOException {
         ImmutableList.Builder<VariantCapability> capabilities = ImmutableList.builder();
         reader.beginArray();
         while (reader.peek() != END_ARRAY) {
@@ -384,7 +384,7 @@ public class GradleModuleMetadataParser {
         return dependencies;
     }
 
-    private ImmutableVersionConstraint consumeVersion(JsonReader reader) throws IOException {
+    private static ImmutableVersionConstraint consumeVersion(JsonReader reader) throws IOException {
         String requiredVersion = "";
         String preferredVersion = "";
         String strictVersion = "";
@@ -452,7 +452,7 @@ public class GradleModuleMetadataParser {
         return builder.build();
     }
 
-    private List<ModuleFile> consumeFiles(JsonReader reader) throws IOException {
+    private static List<ModuleFile> consumeFiles(JsonReader reader) throws IOException {
         List<ModuleFile> files = new ArrayList<ModuleFile>();
         reader.beginArray();
         while (reader.peek() != END_ARRAY) {
@@ -506,11 +506,11 @@ public class GradleModuleMetadataParser {
         return attributes;
     }
 
-    private void consumeAny(JsonReader reader) throws IOException {
+    private static void consumeAny(JsonReader reader) throws IOException {
         reader.skipValue();
     }
 
-    private void assertDefined(JsonReader reader, String attribute, String value) {
+    private static void assertDefined(JsonReader reader, String attribute, String value) {
         if (StringUtils.isEmpty(value)) {
             String path = reader.getPath();
             // remove leading '$', remove last child segment, use '/' as separator

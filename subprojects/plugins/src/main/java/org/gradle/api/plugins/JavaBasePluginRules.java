@@ -17,7 +17,6 @@
 package org.gradle.api.plugins;
 
 import com.google.common.collect.Lists;
-import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -29,7 +28,6 @@ import org.gradle.api.internal.jvm.DefaultClassDirectoryBinarySpec;
 import org.gradle.api.internal.project.taskfactory.TaskInstantiator;
 import org.gradle.api.internal.tasks.SourceSetCompileClasspath;
 import org.gradle.api.provider.Provider;
-import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.compile.JavaCompile;
 import org.gradle.internal.reflect.Instantiator;
@@ -110,7 +108,7 @@ class JavaBasePluginRules implements Plugin<Project> {
         return new BridgedBinaries(binaries);
     }
 
-    void attachTasksToBinary(ClassDirectoryBinarySpecInternal binary, Provider<? extends Task> compileTask, Provider<? extends Task> resourcesTask, Provider<? extends Task> classesTask) {
+    static void attachTasksToBinary(ClassDirectoryBinarySpecInternal binary, Provider<? extends Task> compileTask, Provider<? extends Task> resourcesTask, Provider<? extends Task> classesTask) {
         binary.getTasks().addLater(compileTask);
         binary.getTasks().addLater(resourcesTask);
         binary.getTasks().addLater(classesTask);
@@ -119,14 +117,14 @@ class JavaBasePluginRules implements Plugin<Project> {
 
     static class Rules extends RuleSource {
         @Mutate
-        void attachBridgedSourceSets(ProjectSourceSet projectSourceSet, BridgedBinaries bridgedBinaries) {
+        static void attachBridgedSourceSets(ProjectSourceSet projectSourceSet, BridgedBinaries bridgedBinaries) {
             for (ClassDirectoryBinarySpecInternal binary : bridgedBinaries.binaries) {
                 projectSourceSet.addAll(binary.getInputs());
             }
         }
 
         @Mutate
-        void attachBridgedBinaries(BinaryContainer binaries, BridgedBinaries bridgedBinaries) {
+        static void attachBridgedBinaries(BinaryContainer binaries, BridgedBinaries bridgedBinaries) {
             for (BinarySpecInternal binary : bridgedBinaries.binaries) {
                 binaries.put(binary.getProjectScopedName(), binary);
             }

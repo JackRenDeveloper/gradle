@@ -48,7 +48,7 @@ public class DefaultBuildConfigurationActionExecuter implements BuildConfigurati
         this.taskSelectors = taskSelectors;
     }
 
-    void configure(final List<BuildConfigurationAction> processingConfigurationActions, final GradleInternal gradle, final int index) {
+    static void configure(final List<BuildConfigurationAction> processingConfigurationActions, final GradleInternal gradle, final int index) {
         if (index >= processingConfigurationActions.size()) {
             return;
         }

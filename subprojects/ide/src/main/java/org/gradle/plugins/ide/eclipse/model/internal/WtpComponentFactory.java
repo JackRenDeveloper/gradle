@@ -64,7 +64,7 @@ public class WtpComponentFactory {
         component.configure(wtp.getDeployName(), wtp.getContextPath(), entries);
     }
 
-    private Set<Configuration> configOrEmptySet(Set<Configuration> configuration) {
+    private static Set<Configuration> configOrEmptySet(Set<Configuration> configuration) {
         if (configuration == null) {
             return Collections.emptySet();
         } else {
@@ -72,7 +72,7 @@ public class WtpComponentFactory {
         }
     }
 
-    private List<WbResource> getEntriesFromSourceDirs(EclipseWtpComponent wtp) {
+    private static List<WbResource> getEntriesFromSourceDirs(EclipseWtpComponent wtp) {
         List<WbResource> result = Lists.newArrayList();
         if (wtp.getSourceDirs() != null) {
             for (File dir : wtp.getSourceDirs()) {

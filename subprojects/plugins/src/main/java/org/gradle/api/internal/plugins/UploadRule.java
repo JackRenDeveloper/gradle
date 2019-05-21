@@ -50,7 +50,7 @@ public class UploadRule extends AbstractRule {
         }
     }
 
-    private Upload createUploadTask(String name, final Configuration configuration, final Project project) {
+    private static Upload createUploadTask(String name, final Configuration configuration, final Project project) {
         Upload upload = project.getTasks().create(name, Upload.class);
         upload.setDescription("Uploads all artifacts belonging to " + configuration);
         upload.setGroup(BasePlugin.UPLOAD_GROUP);

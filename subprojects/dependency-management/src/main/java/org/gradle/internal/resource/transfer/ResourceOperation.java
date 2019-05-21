@@ -43,7 +43,7 @@ public class ResourceOperation {
         this.resourceName = resourceName;
     }
 
-    private String getLengthText(Long bytes) {
+    private static String getLengthText(Long bytes) {
         if (bytes == null) {
             return "unknown size";
         }

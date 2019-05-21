@@ -24,7 +24,6 @@ import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import org.gradle.api.Action;
 import org.gradle.api.JavaVersion;
-import org.gradle.api.Transformer;
 import org.gradle.api.UncheckedIOException;
 import org.gradle.api.internal.initialization.DefaultClassLoaderScope;
 import org.gradle.api.logging.Logger;
@@ -189,8 +188,8 @@ public abstract class AbstractGradleExecuter implements GradleExecuter {
         this.gradleVersion = gradleVersion;
         logger = Logging.getLogger(getClass());
         this.buildContext = buildContext;
-        gradleUserHomeDir = buildContext.getGradleUserHomeDir();
-        daemonBaseDir = buildContext.getDaemonBaseDir();
+        gradleUserHomeDir = IntegrationTestBuildContext.getGradleUserHomeDir();
+        daemonBaseDir = IntegrationTestBuildContext.getDaemonBaseDir();
     }
 
     protected Logger getLogger() {
@@ -530,7 +529,7 @@ public abstract class AbstractGradleExecuter implements GradleExecuter {
             buildJvmOpts.add("-XX:MaxMetaspaceSize=512m");
         }
         buildJvmOpts.add("-XX:+HeapDumpOnOutOfMemoryError");
-        buildJvmOpts.add("-XX:HeapDumpPath=" + buildContext.getGradleUserHomeDir());
+        buildJvmOpts.add("-XX:HeapDumpPath=" + IntegrationTestBuildContext.getGradleUserHomeDir());
         return buildJvmOpts;
     }
 
@@ -661,7 +660,7 @@ public abstract class AbstractGradleExecuter implements GradleExecuter {
         return this;
     }
 
-    protected String toJvmArgsString(Iterable<String> jvmArgs) {
+    protected static String toJvmArgsString(Iterable<String> jvmArgs) {
         StringBuilder result = new StringBuilder();
         for (String jvmArg : jvmArgs) {
             if (result.length() > 0) {
@@ -737,7 +736,7 @@ public abstract class AbstractGradleExecuter implements GradleExecuter {
     }
 
     protected boolean isSharedDaemons() {
-        return daemonBaseDir.equals(buildContext.getDaemonBaseDir());
+        return daemonBaseDir.equals(IntegrationTestBuildContext.getDaemonBaseDir());
     }
 
     @Override
@@ -939,7 +938,7 @@ public abstract class AbstractGradleExecuter implements GradleExecuter {
         workingDir.createFile("settings.gradle");
     }
 
-    private boolean hasSettingsFile(TestFile dir) {
+    private static boolean hasSettingsFile(TestFile dir) {
         if (dir.isDirectory()) {
             return dir.file("settings.gradle").isFile() || dir.file("settings.gradle.kts").isFile();
         }
@@ -963,12 +962,12 @@ public abstract class AbstractGradleExecuter implements GradleExecuter {
         }
         properties.put(LoggingDeprecatedFeatureHandler.ORG_GRADLE_DEPRECATION_TRACE_PROPERTY_NAME, Boolean.toString(fullDeprecationStackTrace));
 
-        boolean useCustomGradleUserHomeDir = gradleUserHomeDir != null && !gradleUserHomeDir.equals(buildContext.getGradleUserHomeDir());
+        boolean useCustomGradleUserHomeDir = gradleUserHomeDir != null && !gradleUserHomeDir.equals(IntegrationTestBuildContext.getGradleUserHomeDir());
         if (useOwnUserHomeServices || useCustomGradleUserHomeDir) {
             properties.put(REUSE_USER_HOME_SERVICES, "false");
         }
         if (!useCustomGradleUserHomeDir) {
-            TestFile generatedApiJarCacheDir = buildContext.getGradleGeneratedApiJarCacheDir();
+            TestFile generatedApiJarCacheDir = IntegrationTestBuildContext.getGradleGeneratedApiJarCacheDir();
             if (generatedApiJarCacheDir != null) {
                 properties.put(DefaultGeneratedGradleJarCache.BASE_DIR_OVERRIDE_PROPERTY, generatedApiJarCacheDir.getAbsolutePath());
             }
@@ -1242,7 +1241,7 @@ public abstract class AbstractGradleExecuter implements GradleExecuter {
     }
 
     protected TestFile getDefaultTmpDir() {
-        return buildContext.getTmpDir().createDir();
+        return IntegrationTestBuildContext.getTmpDir().createDir();
     }
 
     @Override

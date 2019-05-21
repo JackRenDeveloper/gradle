@@ -29,7 +29,6 @@ import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.LocalState;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
-import org.gradle.internal.Factory;
 import org.gradle.internal.jacoco.JacocoAgentJar;
 import org.gradle.process.JavaForkOptions;
 import org.gradle.util.DeprecationLogger;
@@ -151,7 +150,7 @@ public class JacocoTaskExtension {
         this.append = append;
     }
 
-    private void nagAboutDeprecatedAppendProperty() {
+    private static void nagAboutDeprecatedAppendProperty() {
         DeprecationLogger.nagUserOfDiscontinuedProperty("append", "Append should always be true.");
     }
 

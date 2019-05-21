@@ -77,7 +77,7 @@ public class JDepend extends DefaultTask implements Reporting<JDependReports> {
     }
 
     @Inject
-    protected ObjectFactory getObjectFactory() {
+    protected static ObjectFactory getObjectFactory() {
         throw new UnsupportedOperationException();
     }
 

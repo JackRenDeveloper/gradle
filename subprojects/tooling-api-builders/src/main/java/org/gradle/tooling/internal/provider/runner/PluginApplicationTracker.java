@@ -119,14 +119,14 @@ class PluginApplicationTracker implements BuildOperationListener {
         runningPluginApplications.remove(buildOperation.getId());
     }
 
-    private InternalBinaryPluginIdentifier toBinaryPluginIdentifier(ApplyPluginBuildOperationType.Details details) {
+    private static InternalBinaryPluginIdentifier toBinaryPluginIdentifier(ApplyPluginBuildOperationType.Details details) {
         String className = details.getPluginClass().getName();
         String pluginId = details.getPluginId();
         String displayName = MoreObjects.firstNonNull(pluginId, className);
         return new DefaultBinaryPluginIdentifier(displayName, className, pluginId);
     }
 
-    private InternalScriptPluginIdentifier toScriptPluginIdentifier(ApplyScriptPluginBuildOperationType.Details details) {
+    private static InternalScriptPluginIdentifier toScriptPluginIdentifier(ApplyScriptPluginBuildOperationType.Details details) {
         String fileString = details.getFile();
         if (fileString != null) {
             File file = new File(fileString);

@@ -88,7 +88,7 @@ public class TestEventLogger extends AbstractTestLogger implements TestListener,
         }
     }
 
-    private TestLogEvent getEvent(TestResult result) {
+    private static TestLogEvent getEvent(TestResult result) {
         switch (result.getResultType()) {
             case SUCCESS: return TestLogEvent.PASSED;
             case FAILURE: return TestLogEvent.FAILED;
@@ -112,7 +112,7 @@ public class TestEventLogger extends AbstractTestLogger implements TestListener,
             && (testLogging.getMaxGranularity() == -1 || level <= testLogging.getMaxGranularity());
     }
 
-    private int getLevel(TestDescriptor descriptor) {
+    private static int getLevel(TestDescriptor descriptor) {
         int level = 0;
         while (descriptor.getParent() != null) {
             level++;

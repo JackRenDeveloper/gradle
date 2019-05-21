@@ -22,7 +22,7 @@ import org.gradle.language.scala.tasks.BaseScalaCompileOptions;
 import java.util.List;
 
 public class ZincScalaCompilerArgumentsGenerator {
-    public List<String> generate(ScalaCompileSpec spec) {
+    public static List<String> generate(ScalaCompileSpec spec) {
         List<String> result = Lists.newArrayList();
 
         BaseScalaCompileOptions options = spec.getScalaCompileOptions();
@@ -45,20 +45,20 @@ public class ZincScalaCompilerArgumentsGenerator {
         return result;
     }
 
-    private void addFlag(String name, boolean value, List<String> result) {
+    private static void addFlag(String name, boolean value, List<String> result) {
         if (value) {
             result.add(name);
         }
     }
 
-    private void addOption(String name, Object value, List<String> result) {
+    private static void addOption(String name, Object value, List<String> result) {
         if (value != null) {
             result.add(name);
             result.add(value.toString());
         }
     }
 
-    private void addConcatenatedOption(String name, Object value, List<String> result) {
+    private static void addConcatenatedOption(String name, Object value, List<String> result) {
         if (value != null) {
             result.add(name + value.toString());
         }

@@ -70,7 +70,7 @@ public class IdeaDependenciesProvider {
         return result;
     }
 
-    private Set<SingleEntryModuleLibrary> getOutputLocations(IdeaModule ideaModule) {
+    private static Set<SingleEntryModuleLibrary> getOutputLocations(IdeaModule ideaModule) {
         if (ideaModule.getSingleEntryLibraries() == null) {
             return Collections.emptySet();
         }
@@ -125,17 +125,17 @@ public class IdeaDependenciesProvider {
         return getConfigurations(ideaModule, scope, SCOPE_MINUS);
     }
 
-    private Collection<Configuration> getConfigurations(IdeaModule ideaModule, GeneratedIdeaScope scope, String plusMinus) {
+    private static Collection<Configuration> getConfigurations(IdeaModule ideaModule, GeneratedIdeaScope scope, String plusMinus) {
         Map<String, Collection<Configuration>> plusMinusConfigurations = getPlusMinusConfigurations(ideaModule, scope);
         return plusMinusConfigurations.containsKey(plusMinus) ? plusMinusConfigurations.get(plusMinus) : Collections.<Configuration>emptyList();
     }
 
-    private Map<String, Collection<Configuration>> getPlusMinusConfigurations(IdeaModule ideaModule, GeneratedIdeaScope scope) {
+    private static Map<String, Collection<Configuration>> getPlusMinusConfigurations(IdeaModule ideaModule, GeneratedIdeaScope scope) {
         Map<String, Collection<Configuration>> plusMinusConfigurations = ideaModule.getScopes().get(scope.name());
         return plusMinusConfigurations != null ? plusMinusConfigurations : Collections.<String, Collection<Configuration>>emptyMap();
     }
 
-    FilePath toPath(IdeaModule ideaModule, File file) {
+    static FilePath toPath(IdeaModule ideaModule, File file) {
         return file != null ? ideaModule.getPathFactory().path(file) : null;
     }
 

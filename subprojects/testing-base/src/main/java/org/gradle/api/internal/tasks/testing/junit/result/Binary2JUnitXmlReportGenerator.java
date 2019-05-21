@@ -90,7 +90,7 @@ public class Binary2JUnitXmlReportGenerator {
         LOG.info("Finished generating test XML results ({}) into: {}", clock.getElapsed(), testResultsDir);
     }
 
-    String getReportFileName(TestClassResult result) {
+    static String getReportFileName(TestClassResult result) {
         return "TEST-" + FileUtils.toSafeFileName(result.getClassName()) + ".xml";
     }
 

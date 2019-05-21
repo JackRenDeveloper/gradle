@@ -16,15 +16,12 @@
 
 package org.gradle.api.plugins;
 
-import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.Task;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
-import org.gradle.api.artifacts.PublishArtifact;
 import org.gradle.api.artifacts.repositories.IvyArtifactRepository;
 import org.gradle.api.internal.artifacts.ImmutableModuleIdentifierFactory;
 import org.gradle.api.internal.artifacts.Module;
@@ -84,7 +81,7 @@ public class BasePlugin implements Plugin<Project> {
         configureAssemble((ProjectInternal) project);
     }
 
-    private void configureArchiveDefaults(final Project project, final BasePluginConvention pluginConvention) {
+    private static void configureArchiveDefaults(final Project project, final BasePluginConvention pluginConvention) {
         project.getTasks().withType(AbstractArchiveTask.class).configureEach(task -> {
 
             Callable<String> destinationDir;
@@ -107,11 +104,11 @@ public class BasePlugin implements Plugin<Project> {
         });
     }
 
-    private void configureBuildConfigurationRule(Project project) {
+    private static void configureBuildConfigurationRule(Project project) {
         project.getTasks().addRule(new BuildConfigurationRule(project.getConfigurations(), project.getTasks()));
     }
 
-    private void configureUploadRules(final Project project) {
+    private static void configureUploadRules(final Project project) {
         project.getTasks().addRule(new UploadRule(project));
     }
 
@@ -134,7 +131,7 @@ public class BasePlugin implements Plugin<Project> {
         });
     }
 
-    private void configureConfigurations(final Project project) {
+    private static void configureConfigurations(final Project project) {
         ConfigurationContainer configurations = project.getConfigurations();
         project.setStatus("integration");
 
@@ -159,7 +156,7 @@ public class BasePlugin implements Plugin<Project> {
         });
     }
 
-    private void configureAssemble(final ProjectInternal project) {
+    private static void configureAssemble(final ProjectInternal project) {
         project.getTasks().named(ASSEMBLE_TASK_NAME, task -> task.dependsOn(project.getConfigurations().getByName(Dependency.ARCHIVES_CONFIGURATION).getAllArtifacts().getBuildDependencies()));
     }
 }

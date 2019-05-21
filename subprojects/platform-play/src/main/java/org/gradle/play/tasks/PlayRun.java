@@ -192,7 +192,7 @@ public class PlayRun extends ConventionTask {
     }
 
     @Inject
-    public DeploymentRegistry getDeploymentRegistry() {
+    public static DeploymentRegistry getDeploymentRegistry() {
         throw new UnsupportedOperationException();
     }
 

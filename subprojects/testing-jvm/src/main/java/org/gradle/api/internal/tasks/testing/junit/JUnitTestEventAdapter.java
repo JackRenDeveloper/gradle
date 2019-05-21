@@ -103,7 +103,7 @@ public class JUnitTestEventAdapter extends RunListener {
     private void processIgnoredClass(Description description) throws Exception {
         IgnoredTestDescriptorProvider provider = new IgnoredTestDescriptorProvider();
         String className = className(description);
-        for (Description childDescription : provider.getAllDescriptions(description, className)) {
+        for (Description childDescription : IgnoredTestDescriptorProvider.getAllDescriptions(description, className)) {
             testIgnored(childDescription);
         }
     }
@@ -126,11 +126,11 @@ public class JUnitTestEventAdapter extends RunListener {
         resultProcessor.completed(testInternal.getId(), new TestCompleteEvent(endTime, resultType));
     }
 
-    private TestDescriptorInternal descriptor(Object id, Description description) {
+    private static TestDescriptorInternal descriptor(Object id, Description description) {
         return new DefaultTestDescriptor(id, className(description), methodName(description));
     }
 
-    private TestDescriptorInternal nullSafeDescriptor(Object id, Description description) {
+    private static TestDescriptorInternal nullSafeDescriptor(Object id, Description description) {
         String methodName = methodName(description);
         if (methodName != null) {
             return new DefaultTestDescriptor(id, className(description), methodName);

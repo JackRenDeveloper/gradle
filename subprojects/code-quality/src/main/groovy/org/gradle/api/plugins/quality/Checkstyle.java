@@ -88,12 +88,12 @@ public class Checkstyle extends SourceTask implements VerificationTask, Reportin
     }
 
     @Inject
-    protected ObjectFactory getObjectFactory() {
+    protected static ObjectFactory getObjectFactory() {
         throw new UnsupportedOperationException();
     }
 
     @Inject
-    public IsolatedAntBuilder getAntBuilder() {
+    public static IsolatedAntBuilder getAntBuilder() {
         throw new UnsupportedOperationException();
     }
 

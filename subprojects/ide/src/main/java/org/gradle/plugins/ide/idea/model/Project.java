@@ -199,7 +199,7 @@ public class Project extends XmlPersistableConfigurationObject {
         }
     }
 
-    private Set<File> collectRootUrlAsFiles(List<Node> nodes) {
+    private static Set<File> collectRootUrlAsFiles(List<Node> nodes) {
         Set<File> files = Sets.newLinkedHashSet();
         for (Node node : nodes) {
             for (Node root : getChildren(node, "root")) {

@@ -36,7 +36,6 @@ import org.gradle.util.GUtil;
 
 import javax.annotation.Nullable;
 import java.io.File;
-import java.util.concurrent.Callable;
 
 /**
  * {@code AbstractArchiveTask} is the base class for all archive tasks.

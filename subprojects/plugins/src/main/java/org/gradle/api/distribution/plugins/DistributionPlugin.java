@@ -17,7 +17,6 @@
 package org.gradle.api.distribution.plugins;
 
 import org.apache.commons.lang.StringUtils;
-import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
@@ -92,7 +91,7 @@ public class DistributionPlugin implements Plugin<ProjectInternal> {
         distributions.create(MAIN_DISTRIBUTION_NAME);
     }
 
-    <T extends AbstractArchiveTask> TaskProvider<T> configureArchiveTask(final Project project, String taskName, final Distribution distribution, Class<T> type) {
+    static <T extends AbstractArchiveTask> TaskProvider<T> configureArchiveTask(final Project project, String taskName, final Distribution distribution, Class<T> type) {
         final TaskProvider<T> archiveTask = project.getTasks().register(taskName, type, archiveTask1 -> {
             archiveTask1.setDescription("Bundles the project as a distribution.");
             archiveTask1.setGroup(DISTRIBUTION_GROUP);
@@ -116,7 +115,7 @@ public class DistributionPlugin implements Plugin<ProjectInternal> {
         return archiveTask;
     }
 
-    void addInstallTask(final Project project, final Distribution distribution) {
+    static void addInstallTask(final Project project, final Distribution distribution) {
         String taskName = TASK_INSTALL_NAME;
         if (!MAIN_DISTRIBUTION_NAME.equals(distribution.getName())) {
             taskName = "install" + StringUtils.capitalize(distribution.getName()) + "Dist";

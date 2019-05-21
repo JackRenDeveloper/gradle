@@ -27,7 +27,7 @@ public class DurationFormatter {
     public static final int MILLIS_PER_HOUR = 60 * MILLIS_PER_MINUTE;
     public static final int MILLIS_PER_DAY = 24 * MILLIS_PER_HOUR;
 
-    public String format(long duration) {
+    public static String format(long duration) {
         if (duration == 0) {
             return "0s";
         }

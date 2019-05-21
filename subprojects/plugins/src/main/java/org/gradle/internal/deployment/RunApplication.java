@@ -76,7 +76,7 @@ public class RunApplication extends DefaultTask {
     }
 
     @Inject
-    protected DeploymentRegistry getDeploymentRegistry() {
+    protected static DeploymentRegistry getDeploymentRegistry() {
         throw new UnsupportedOperationException();
     }
 

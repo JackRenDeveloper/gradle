@@ -133,7 +133,7 @@ public abstract class AbstractRealisedModuleResolveMetadataSerializationHelper {
         return excludes;
     }
 
-    protected ImmutableCapabilities readCapabilities(Decoder decoder) throws IOException {
+    protected static ImmutableCapabilities readCapabilities(Decoder decoder) throws IOException {
         int capabilitiesCount = decoder.readSmallInt();
         List<Capability> rawCapabilities = Lists.newArrayListWithCapacity(capabilitiesCount);
         for (int j = 0; j < capabilitiesCount; j++) {
@@ -149,7 +149,7 @@ public abstract class AbstractRealisedModuleResolveMetadataSerializationHelper {
 
     protected abstract void writeDependencies(Encoder encoder, ConfigurationMetadata configuration, Map<ExternalDependencyDescriptor, Integer> deduplicationDependencyCache) throws IOException;
 
-    private void writeCapabilities(Encoder encoder, List<? extends Capability> capabilities) throws IOException {
+    private static void writeCapabilities(Encoder encoder, List<? extends Capability> capabilities) throws IOException {
         encoder.writeSmallInt(capabilities.size());
         for (Capability capability: capabilities) {
             boolean shadowed = capability instanceof ShadowedCapability;
@@ -175,7 +175,7 @@ public abstract class AbstractRealisedModuleResolveMetadataSerializationHelper {
         encoder.writeNullableString(dependencyMetadata.getReason());
     }
 
-    protected void writeMavenExcludeRules(Encoder encoder, List<ExcludeMetadata> excludes) throws IOException {
+    protected static void writeMavenExcludeRules(Encoder encoder, List<ExcludeMetadata> excludes) throws IOException {
         encoder.writeSmallInt(excludes.size());
         for (ExcludeMetadata exclude : excludes) {
             encoder.writeString(exclude.getModuleId().getGroup());
@@ -196,7 +196,7 @@ public abstract class AbstractRealisedModuleResolveMetadataSerializationHelper {
         return artifactName;
     }
 
-    protected void writeNullableArtifact(Encoder encoder, IvyArtifactName artifact) throws IOException {
+    protected static void writeNullableArtifact(Encoder encoder, IvyArtifactName artifact) throws IOException {
         if (artifact == null) {
             encoder.writeBoolean(false);
         } else {

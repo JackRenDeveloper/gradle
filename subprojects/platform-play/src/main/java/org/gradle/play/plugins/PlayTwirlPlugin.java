@@ -59,13 +59,13 @@ import java.util.Map;
 public class PlayTwirlPlugin extends RuleSource {
 
     @ComponentType
-    void registerTwirlLanguageType(TypeBuilder<TwirlSourceSet> builder) {
+    static void registerTwirlLanguageType(TypeBuilder<TwirlSourceSet> builder) {
         SingleMessageLogger.nagUserOfPluginReplacedWithExternalOne("Play Twirl", "org.gradle.playframework-twirl");
         builder.defaultImplementation(DefaultTwirlSourceSet.class);
     }
 
     @Mutate
-    void createGeneratedScalaSourceSets(@Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> binaries, final ObjectFactory objectFactory) {
+    static void createGeneratedScalaSourceSets(@Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> binaries, final ObjectFactory objectFactory) {
         binaries.all(playApplicationBinarySpec -> {
             for (LanguageSourceSet languageSourceSet : playApplicationBinarySpec.getInputs().withType(TwirlSourceSet.class)) {
                 playApplicationBinarySpec.addGeneratedScala(languageSourceSet, objectFactory);
@@ -74,7 +74,8 @@ public class PlayTwirlPlugin extends RuleSource {
     }
 
     @Mutate
-    // TODO:LPTR This should be @Defaults @Each PlayApplicationBinarySpecInternal
+    static
+        // TODO:LPTR This should be @Defaults @Each PlayApplicationBinarySpecInternal
     void addPlayJavaDependencyIfNeeded(@Path("binaries") ModelMap<PlayApplicationBinarySpecInternal> binaries, final PlayPluginConfigurations configurations, final PlatformResolvers platforms) {
         binaries.beforeEach(binary -> {
             if (hasTwirlSourceSetsWithJavaImports(binary.getApplication())) {
@@ -85,7 +86,7 @@ public class PlayTwirlPlugin extends RuleSource {
     }
 
     @Mutate
-    void registerLanguageTransform(LanguageTransformContainer languages) {
+    static void registerLanguageTransform(LanguageTransformContainer languages) {
         languages.add(new Twirl());
     }
 

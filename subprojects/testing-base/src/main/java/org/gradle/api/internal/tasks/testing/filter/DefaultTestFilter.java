@@ -31,7 +31,7 @@ public class DefaultTestFilter implements TestFilter {
     private final Set<String> commandLineIncludeTestNames = new HashSet<String>();
     private boolean failOnNoMatching = true;
 
-    private void validateName(String name) {
+    private static void validateName(String name) {
         if (name == null || name.length() == 0) {
             throw new InvalidUserDataException("Selected test name cannot be null or empty.");
         }

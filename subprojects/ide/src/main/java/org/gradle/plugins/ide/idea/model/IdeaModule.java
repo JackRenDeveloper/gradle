@@ -16,7 +16,6 @@
 package org.gradle.plugins.ide.idea.model;
 
 import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -604,7 +603,7 @@ public class IdeaModule {
         iml.getWhenMerged().execute(xmlModule);
     }
 
-    private Set<File> existing(Set<File> files) {
+    private static Set<File> existing(Set<File> files) {
         return Sets.filter(files, File::exists);
     }
 

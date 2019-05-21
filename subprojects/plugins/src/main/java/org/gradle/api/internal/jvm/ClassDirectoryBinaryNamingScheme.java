@@ -57,7 +57,7 @@ public class ClassDirectoryBinaryNamingScheme {
         return GUtil.toLowerCamelCase(nullToEmpty(verb) + " " + name + " " + nullToEmpty(target));
     }
 
-    private String nullToEmpty(String input) {
+    private static String nullToEmpty(String input) {
         return input == null ? "" : input;
     }
 

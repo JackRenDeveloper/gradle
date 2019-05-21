@@ -97,7 +97,7 @@ public class WtpClasspathAttributeSupport {
         return singleEntryMap(AbstractClasspathEntry.COMPONENT_NON_DEPENDENCY_ATTRIBUTE, "");
     }
 
-    private Map<String, Object> createDeploymentAttribute(ProjectDependency entry) {
+    private static Map<String, Object> createDeploymentAttribute(ProjectDependency entry) {
         return singleEntryMap(AbstractClasspathEntry.COMPONENT_NON_DEPENDENCY_ATTRIBUTE, "");
     }
 

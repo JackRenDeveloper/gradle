@@ -16,13 +16,11 @@
 
 package org.gradle.plugins.javascript.coffeescript;
 
-import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.Dependency;
-import org.gradle.api.artifacts.DependencySet;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.internal.ConventionMapping;
@@ -58,7 +56,7 @@ public class CoffeeScriptBasePlugin implements Plugin<Project> {
         });
     }
 
-    private Configuration addJsConfiguration(ConfigurationContainer configurations, final DependencyHandler dependencies, final CoffeeScriptExtension extension) {
+    private static Configuration addJsConfiguration(ConfigurationContainer configurations, final DependencyHandler dependencies, final CoffeeScriptExtension extension) {
         Configuration configuration = configurations.create(CoffeeScriptExtension.JS_CONFIGURATION_NAME);
         configuration.defaultDependencies(configDependencies -> {
             String notation = CoffeeScriptExtension.DEFAULT_JS_DEPENDENCY_GROUP + ":" + CoffeeScriptExtension.DEFAULT_JS_DEPENDENCY_MODULE + ":" + extension.getVersion() + "@js";

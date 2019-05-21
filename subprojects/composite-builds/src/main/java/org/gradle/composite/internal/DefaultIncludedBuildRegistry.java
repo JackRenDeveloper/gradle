@@ -247,7 +247,7 @@ public class DefaultIncludedBuildRegistry implements BuildStateRegistry, Stoppab
         return buildIdentifier;
     }
 
-    private Path pathFor(BuildState owner, String name) {
+    private static Path pathFor(BuildState owner, String name) {
         return owner.getIdentityPath().append(Path.path(name));
     }
 

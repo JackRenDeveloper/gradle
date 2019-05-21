@@ -43,7 +43,7 @@ class ParallelForkingGradleExecuter extends DaemonGradleExecuter {
         return args;
     }
 
-    private void maybeSetMaxWorkers(List<String> args) {
+    private static void maybeSetMaxWorkers(List<String> args) {
         for (String arg : args) {
             if (arg.startsWith("--max-workers")) {
                 return;

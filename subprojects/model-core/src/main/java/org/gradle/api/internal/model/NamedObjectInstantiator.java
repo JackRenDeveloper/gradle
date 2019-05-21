@@ -107,7 +107,7 @@ public class NamedObjectInstantiator implements Managed.Factory {
         return named(Cast.uncheckedCast(type), (String) state);
     }
 
-    ClassGeneratingLoader loaderFor(Class<?> publicClass) {
+    static ClassGeneratingLoader loaderFor(Class<?> publicClass) {
         //
         // Generate implementation class
         //
@@ -276,7 +276,7 @@ public class NamedObjectInstantiator implements Managed.Factory {
         }
     }
 
-    private void visitFields(Class<?> type, ValidationProblemCollector collector) {
+    private static void visitFields(Class<?> type, ValidationProblemCollector collector) {
         if (type.equals(Object.class)) {
             return;
         }

@@ -480,7 +480,7 @@ public class Module extends XmlPersistableConfigurationObject {
         }
     }
 
-    protected boolean isDependencyOrderEntry(Object orderEntry) {
+    protected static boolean isDependencyOrderEntry(Object orderEntry) {
         return Arrays.asList("module-library", "module").contains(((Node) orderEntry).attribute("type"));
     }
 

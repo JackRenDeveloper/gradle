@@ -27,7 +27,7 @@ import java.util.List;
  * Eclipse calls them 'class folders' on java build path->libraries tab
  */
 public class ClassFoldersCreator {
-    public List<Library> create(EclipseClasspath classpath) {
+    public static List<Library> create(EclipseClasspath classpath) {
         List<Library> out = new LinkedList<Library>();
         FileReferenceFactory fileReferenceFactory = classpath.getFileReferenceFactory();
 

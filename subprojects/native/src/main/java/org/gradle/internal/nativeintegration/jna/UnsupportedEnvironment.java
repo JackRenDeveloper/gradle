@@ -42,7 +42,7 @@ public class UnsupportedEnvironment implements ProcessEnvironment {
      *
      * This works on Solaris and should work with any Java VM
      */
-    private Long extractPIDFromRuntimeMXBeanName() {
+    private static Long extractPIDFromRuntimeMXBeanName() {
         Long pid = null;
         String runtimeMXBeanName = ManagementFactory.getRuntimeMXBean().getName();
         int separatorPos = runtimeMXBeanName.indexOf('@');
@@ -121,7 +121,7 @@ public class UnsupportedEnvironment implements ProcessEnvironment {
         throw notSupported();
     }
 
-    private NativeIntegrationException notSupported() {
+    private static NativeIntegrationException notSupported() {
         return new NativeIntegrationUnavailableException("We don't support this operating system: " + OperatingSystem.current());
     }
 }

@@ -39,13 +39,13 @@ public class CacheRepositoryServices {
         return new DefaultCacheScopeMapping(gradleUserHomeDir, projectCacheDir, GradleVersion.current());
     }
 
-    protected CacheRepository createCacheRepository(CacheFactory factory, CacheScopeMapping scopeMapping) {
+    protected static CacheRepository createCacheRepository(CacheFactory factory, CacheScopeMapping scopeMapping) {
         return new DefaultCacheRepository(
             scopeMapping,
             factory);
     }
 
-    protected CacheKeyBuilder createCacheKeyBuilder(FileHasher fileHasher, ClasspathHasher classpathHasher, ClassLoaderHierarchyHasher classLoaderHierarchyHasher) {
+    protected static CacheKeyBuilder createCacheKeyBuilder(FileHasher fileHasher, ClasspathHasher classpathHasher, ClassLoaderHierarchyHasher classLoaderHierarchyHasher) {
         return new DefaultCacheKeyBuilder(Hashing.defaultFunction(), fileHasher, classpathHasher, classLoaderHierarchyHasher);
     }
 }

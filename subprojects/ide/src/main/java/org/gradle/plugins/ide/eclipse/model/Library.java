@@ -25,7 +25,7 @@ import org.gradle.plugins.ide.eclipse.model.internal.FileReferenceFactory;
 public class Library extends AbstractLibrary {
     public Library(Node node, FileReferenceFactory fileReferenceFactory) {
         super(node, fileReferenceFactory);
-        setSourcePath(fileReferenceFactory.fromPath((String) node.attribute("sourcepath")));
+        setSourcePath(FileReferenceFactory.fromPath((String) node.attribute("sourcepath")));
     }
 
     public Library(FileReference library) {

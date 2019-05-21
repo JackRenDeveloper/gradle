@@ -171,7 +171,7 @@ public class DefaultConfigurationMetadata extends AbstractConfigurationMetadata 
         };
     }
 
-    private ImmutableList<ModuleDependencyMetadata> force(ImmutableList<ModuleDependencyMetadata> configDependencies) {
+    private static ImmutableList<ModuleDependencyMetadata> force(ImmutableList<ModuleDependencyMetadata> configDependencies) {
         ImmutableList.Builder<ModuleDependencyMetadata> dependencies = new ImmutableList.Builder<ModuleDependencyMetadata>();
         for (ModuleDependencyMetadata configDependency : configDependencies) {
             if (configDependency instanceof ForcingDependencyMetadata) {
@@ -183,7 +183,7 @@ public class DefaultConfigurationMetadata extends AbstractConfigurationMetadata 
         return dependencies.build();
     }
 
-    private ImmutableList<ModuleDependencyMetadata> withConstraints(boolean constraint, ImmutableList<ModuleDependencyMetadata> configDependencies) {
+    private static ImmutableList<ModuleDependencyMetadata> withConstraints(boolean constraint, ImmutableList<ModuleDependencyMetadata> configDependencies) {
         if (configDependencies.isEmpty()) {
             return ImmutableList.of();
         }

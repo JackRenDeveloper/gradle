@@ -158,7 +158,7 @@ public class ClassSetAnalysis {
         return DependentsSet.dependents(Sets.union(dependents.getDependentClasses(), additionalClassDeps), Sets.union(dependents.getDependentResources(), additionalResourceDeps));
     }
 
-    private boolean isNestedClass(String d) {
+    private static boolean isNestedClass(String d) {
         return d.contains("$");
     }
 

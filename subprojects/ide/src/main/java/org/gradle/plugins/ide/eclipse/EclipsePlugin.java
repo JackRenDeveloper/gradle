@@ -135,7 +135,7 @@ public class EclipsePlugin extends IdePlugin {
             }
 
             projectModel.natures("org.eclipse.jdt.core.javanature");
-            convention.map("linkedResources", (Callable<Set<Link>>) () -> new LinkedResourcesCreator().links(project));
+            convention.map("linkedResources", (Callable<Set<Link>>) () -> LinkedResourcesCreator.links(project));
         });
 
         project.getPlugins().withType(GroovyBasePlugin.class, groovyBasePlugin -> projectModel.getNatures().add(projectModel.getNatures().indexOf("org.eclipse.jdt.core.javanature"), "org.eclipse.jdt.groovy.core.groovyNature"));

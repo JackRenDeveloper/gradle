@@ -81,39 +81,39 @@ public class ProjectExecutionServices extends DefaultServiceRegistry {
         super("Configured project services for '" + project.getPath() + "'", project.getServices());
     }
 
-    TaskActionListener createTaskActionListener(ListenerManager listenerManager) {
+    static TaskActionListener createTaskActionListener(ListenerManager listenerManager) {
         return listenerManager.getBroadcaster(TaskActionListener.class);
     }
 
-    TaskCacheabilityResolver createTaskCacheabilityResolver(RelativeFilePathResolver relativeFilePathResolver) {
+    static TaskCacheabilityResolver createTaskCacheabilityResolver(RelativeFilePathResolver relativeFilePathResolver) {
         return new DefaultTaskCacheabilityResolver(relativeFilePathResolver);
     }
 
-    ReservedFileSystemLocationRegistry createReservedFileLocationRegistry(List<ReservedFileSystemLocation> reservedFileSystemLocations) {
+    static ReservedFileSystemLocationRegistry createReservedFileLocationRegistry(List<ReservedFileSystemLocation> reservedFileSystemLocations) {
         return new DefaultReservedFileSystemLocationRegistry(reservedFileSystemLocations);
     }
 
-    TaskExecuter createTaskExecuter(TaskExecutionModeResolver repository,
-                                    BuildCacheController buildCacheController,
-                                    TaskInputsListener inputsListener,
-                                    TaskActionListener actionListener,
-                                    OutputChangeListener outputChangeListener,
-                                    ClassLoaderHierarchyHasher classLoaderHierarchyHasher,
-                                    ValueSnapshotter valueSnapshotter,
-                                    TaskFingerprinter taskFingerprinter,
-                                    BuildOperationExecutor buildOperationExecutor,
-                                    AsyncWorkTracker asyncWorkTracker,
-                                    BuildOutputCleanupRegistry cleanupRegistry,
-                                    ExecutionHistoryStore executionHistoryStore,
-                                    OutputFilesRepository outputFilesRepository,
-                                    BuildScanPluginApplied buildScanPlugin,
-                                    FileCollectionFactory fileCollectionFactory,
-                                    PropertyWalker propertyWalker,
-                                    TaskExecutionGraphInternal taskExecutionGraph,
-                                    TaskExecutionListener taskExecutionListener,
-                                    TaskCacheabilityResolver taskCacheabilityResolver,
-                                    WorkExecutor<IncrementalContext, CachingResult> workExecutor,
-                                    ReservedFileSystemLocationRegistry reservedFileSystemLocationRegistry
+    static TaskExecuter createTaskExecuter(TaskExecutionModeResolver repository,
+                                           BuildCacheController buildCacheController,
+                                           TaskInputsListener inputsListener,
+                                           TaskActionListener actionListener,
+                                           OutputChangeListener outputChangeListener,
+                                           ClassLoaderHierarchyHasher classLoaderHierarchyHasher,
+                                           ValueSnapshotter valueSnapshotter,
+                                           TaskFingerprinter taskFingerprinter,
+                                           BuildOperationExecutor buildOperationExecutor,
+                                           AsyncWorkTracker asyncWorkTracker,
+                                           BuildOutputCleanupRegistry cleanupRegistry,
+                                           ExecutionHistoryStore executionHistoryStore,
+                                           OutputFilesRepository outputFilesRepository,
+                                           BuildScanPluginApplied buildScanPlugin,
+                                           FileCollectionFactory fileCollectionFactory,
+                                           PropertyWalker propertyWalker,
+                                           TaskExecutionGraphInternal taskExecutionGraph,
+                                           TaskExecutionListener taskExecutionListener,
+                                           TaskCacheabilityResolver taskCacheabilityResolver,
+                                           WorkExecutor<IncrementalContext, CachingResult> workExecutor,
+                                           ReservedFileSystemLocationRegistry reservedFileSystemLocationRegistry
     ) {
 
         boolean buildCacheEnabled = buildCacheController.isEnabled();
@@ -151,7 +151,7 @@ public class ProjectExecutionServices extends DefaultServiceRegistry {
     }
 
     // Overrides the global ClasspathFingerPrinter, currently need to have the parent parameter
-    ClasspathFingerprinter createClasspathFingerprinter(ClasspathFingerprinter parent, ResourceSnapshotterCacheService resourceSnapshotterCacheService, FileSystemSnapshotter fileSystemSnapshotter, StringInterner stringInterner, InputNormalizationHandlerInternal inputNormalizationHandler) {
+    static ClasspathFingerprinter createClasspathFingerprinter(ClasspathFingerprinter parent, ResourceSnapshotterCacheService resourceSnapshotterCacheService, FileSystemSnapshotter fileSystemSnapshotter, StringInterner stringInterner, InputNormalizationHandlerInternal inputNormalizationHandler) {
         return new DefaultClasspathFingerprinter(
             resourceSnapshotterCacheService,
             fileSystemSnapshotter,
@@ -160,15 +160,15 @@ public class ProjectExecutionServices extends DefaultServiceRegistry {
         );
     }
 
-    TaskFingerprinter createTaskFingerprinter(FileCollectionFingerprinterRegistry fingerprinterRegistry) {
+    static TaskFingerprinter createTaskFingerprinter(FileCollectionFingerprinterRegistry fingerprinterRegistry) {
         return new DefaultTaskFingerprinter(fingerprinterRegistry);
     }
 
-    FileCollectionFingerprinterRegistry createFileCollectionFingerprinterRegistry(List<FileCollectionFingerprinter> fingerprinters) {
+    static FileCollectionFingerprinterRegistry createFileCollectionFingerprinterRegistry(List<FileCollectionFingerprinter> fingerprinters) {
         return new DefaultFileCollectionFingerprinterRegistry(fingerprinters);
     }
 
-    TaskExecutionModeResolver createExecutionModeResolver(
+    static TaskExecutionModeResolver createExecutionModeResolver(
         StartParameter startParameter
     ) {
         return new DefaultTaskExecutionModeResolver(startParameter);

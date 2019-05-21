@@ -70,7 +70,7 @@ public class ClientProvidedBuildActionRunner implements BuildActionRunner {
         return Result.of(listener.result);
     }
 
-    void forceFullConfiguration(GradleInternal gradle) {
+    static void forceFullConfiguration(GradleInternal gradle) {
         gradle.getServices().get(ProjectConfigurer.class).configureHierarchyFully(gradle.getRootProject());
         for (IncludedBuild includedBuild : gradle.getIncludedBuilds()) {
             GradleInternal build = ((IncludedBuildState) includedBuild).getConfiguredBuild();
@@ -78,7 +78,7 @@ public class ClientProvidedBuildActionRunner implements BuildActionRunner {
         }
     }
 
-    private PayloadSerializer getPayloadSerializer(GradleInternal gradle) {
+    private static PayloadSerializer getPayloadSerializer(GradleInternal gradle) {
         return gradle.getServices().get(PayloadSerializer.class);
     }
 

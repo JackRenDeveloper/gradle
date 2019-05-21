@@ -16,13 +16,11 @@
 
 package org.gradle.plugins.javascript.jshint;
 
-import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.Dependency;
-import org.gradle.api.artifacts.DependencySet;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.internal.ConventionMapping;
@@ -61,7 +59,7 @@ public class JsHintPlugin implements Plugin<Project> {
         });
     }
 
-    public Configuration addConfiguration(ConfigurationContainer configurations, final DependencyHandler dependencies, final JsHintExtension extension) {
+    public static Configuration addConfiguration(ConfigurationContainer configurations, final DependencyHandler dependencies, final JsHintExtension extension) {
         Configuration configuration = configurations.create(JsHintExtension.CONFIGURATION_NAME);
         configuration.defaultDependencies(configDependencies -> {
             String notation = JsHintExtension.DEFAULT_DEPENDENCY_GROUP + ":" + JsHintExtension.DEFAULT_DEPENDENCY_MODULE + ":" + extension.getVersion() + "@js";

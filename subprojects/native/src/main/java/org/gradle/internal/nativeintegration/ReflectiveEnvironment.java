@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class ReflectiveEnvironment {
 
-    public void unsetenv(String name) {
+    public static void unsetenv(String name) {
         Map<String, String> map = getEnv();
         map.remove(name);
         if (OperatingSystem.current().isWindows()) {
@@ -35,7 +35,7 @@ public class ReflectiveEnvironment {
         }
     }
 
-    public void setenv(String name, String value) {
+    public static void setenv(String name, String value) {
         Map<String, String> map = getEnv();
         map.put(name, value);
         if (OperatingSystem.current().isWindows()) {
@@ -47,7 +47,7 @@ public class ReflectiveEnvironment {
     /**
      * Windows keeps an extra map with case insensitive keys. The map is used when the user calls {@link System#getenv(String)}
      */
-    private Map<String, String> getWindowsEnv() {
+    private static Map<String, String> getWindowsEnv() {
         try {
             Class<?> sc = Class.forName("java.lang.ProcessEnvironment");
             Field caseinsensitive = sc.getDeclaredField("theCaseInsensitiveEnvironment");
@@ -60,7 +60,7 @@ public class ReflectiveEnvironment {
         }
     }
 
-    private Map<String, String> getEnv() {
+    private static Map<String, String> getEnv() {
         try {
             Map<String, String> theUnmodifiableEnvironment = System.getenv();
             Class<?> cu = theUnmodifiableEnvironment.getClass();

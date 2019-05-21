@@ -59,7 +59,7 @@ public abstract class JacocoReportBase extends JacocoBase {
     }
 
     @Inject
-    protected Instantiator getInstantiator() {
+    protected static Instantiator getInstantiator() {
         throw new UnsupportedOperationException();
     }
 
@@ -69,12 +69,12 @@ public abstract class JacocoReportBase extends JacocoBase {
      * @since 5.1
      */
     @Inject
-    protected CollectionCallbackActionDecorator getCallbackActionDecorator() {
+    protected static CollectionCallbackActionDecorator getCallbackActionDecorator() {
         throw new UnsupportedOperationException();
     }
 
     @Inject
-    protected IsolatedAntBuilder getAntBuilder() {
+    protected static IsolatedAntBuilder getAntBuilder() {
         throw new UnsupportedOperationException();
     }
 

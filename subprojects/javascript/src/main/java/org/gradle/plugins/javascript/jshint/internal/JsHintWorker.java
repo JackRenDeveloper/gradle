@@ -53,7 +53,7 @@ public class JsHintWorker implements JsHintProtocol {
         return new JsHintResult(results);
     }
 
-    private Map<String, Object> jsHint(Scriptable jsHintScope, final String source, final String sourceName) {
+    private static Map<String, Object> jsHint(Scriptable jsHintScope, final String source, final String sourceName) {
         return childScope(jsHintScope, new DefaultScopeOperation<Map<String, Object>>() {
             @Override
             public Map<String, Object> action(Scriptable scope, Context context) {

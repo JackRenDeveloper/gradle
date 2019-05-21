@@ -97,7 +97,7 @@ public class FullExceptionFormatter implements TestExceptionFormatter {
         return new AndSpec<StackTraceElement>(filters);
     }
 
-    private Spec<StackTraceElement> createFilter(TestDescriptor descriptor, TestStackTraceFilter filterType) {
+    private static Spec<StackTraceElement> createFilter(TestDescriptor descriptor, TestStackTraceFilter filterType) {
         switch (filterType) {
             case ENTRY_POINT:
                 return new ClassMethodNameStackTraceSpec(descriptor.getClassName(), descriptor.getName());
@@ -110,7 +110,7 @@ public class FullExceptionFormatter implements TestExceptionFormatter {
         }
     }
 
-    private int countCommonElements(List<StackTraceElement> stackTrace, @Nullable List<StackTraceElement> parentTrace) {
+    private static int countCommonElements(List<StackTraceElement> stackTrace, @Nullable List<StackTraceElement> parentTrace) {
         if (parentTrace == null) {
             return 0;
         }

@@ -51,7 +51,7 @@ public abstract class AbstractClasspathEntry implements ClasspathEntry {
         Preconditions.checkNotNull(accessRules);
     }
 
-    private boolean isNodeExported(Node node) {
+    private static boolean isNodeExported(Node node) {
         Object value = node.attribute("exported");
         if (value == null) {
             return false;
@@ -133,11 +133,11 @@ public abstract class AbstractClasspathEntry implements ClasspathEntry {
         return entryNode;
     }
 
-    protected String normalizePath(String path) {
+    protected static String normalizePath(String path) {
         return PathUtil.normalizePath(path);
     }
 
-    private Set<AccessRule> readAccessRules(Node node) {
+    private static Set<AccessRule> readAccessRules(Node node) {
         Set<AccessRule> accessRules = Sets.newLinkedHashSet();
         NodeList accessRulesNodes = (NodeList) node.get("accessrules");
         for (Object accessRulesNode : accessRulesNodes) {
@@ -169,7 +169,7 @@ public abstract class AbstractClasspathEntry implements ClasspathEntry {
         }
     }
 
-    private Map<String, Object> readEntryAttributes(Node node) {
+    private static Map<String, Object> readEntryAttributes(Node node) {
         Map<String, Object> attributes = Maps.newLinkedHashMap();
         NodeList attributesNodes = (NodeList) node.get("attributes");
         for (Object attributesEntry : attributesNodes) {

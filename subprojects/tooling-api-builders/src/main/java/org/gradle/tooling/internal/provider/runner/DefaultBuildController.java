@@ -90,10 +90,10 @@ class DefaultBuildController implements org.gradle.tooling.internal.protocol.Int
         return new ProviderBuildResult<Object>(model);
     }
 
-    private <T> Object getParameterizedModel(ProjectInternal project,
-                                             String modelName,
-                                             ParameterizedToolingModelBuilder<T> builder,
-                                             Object parameter)
+    private static <T> Object getParameterizedModel(ProjectInternal project,
+                                                    String modelName,
+                                                    ParameterizedToolingModelBuilder<T> builder,
+                                                    Object parameter)
         throws InternalUnsupportedModelException {
         Class<T> expectedParameterType = builder.getParameterType();
 
@@ -128,7 +128,7 @@ class DefaultBuildController implements org.gradle.tooling.internal.protocol.Int
         }
     }
 
-    private GradleInternal findBuild(GradleInternal rootBuild, GradleBuildIdentity buildIdentity) {
+    private static GradleInternal findBuild(GradleInternal rootBuild, GradleBuildIdentity buildIdentity) {
         if (rootBuild.getRootProject().getProjectDir().equals(buildIdentity.getRootDir())) {
             return rootBuild;
         }
@@ -141,11 +141,11 @@ class DefaultBuildController implements org.gradle.tooling.internal.protocol.Int
         return null;
     }
 
-    private ProjectInternal findProject(GradleInternal build, GradleProjectIdentity projectIdentity) {
+    private static ProjectInternal findProject(GradleInternal build, GradleProjectIdentity projectIdentity) {
         return build.getRootProject().project(projectIdentity.getProjectPath());
     }
 
-    private ToolingModelBuilder getToolingModelBuilder(ProjectInternal project, ModelIdentifier modelIdentifier) {
+    private static ToolingModelBuilder getToolingModelBuilder(ProjectInternal project, ModelIdentifier modelIdentifier) {
         ToolingModelBuilderRegistry modelBuilderRegistry = project.getServices().get(ToolingModelBuilderRegistry.class);
 
         ToolingModelBuilder builder;

@@ -111,7 +111,7 @@ public class GitVersionControlSystem implements VersionControlSystem {
         return null;
     }
 
-    private Collection<Ref> getRemoteRefs(GitVersionControlSpec gitSpec, boolean tags, boolean heads) {
+    private static Collection<Ref> getRemoteRefs(GitVersionControlSpec gitSpec, boolean tags, boolean heads) {
         try {
             return configureTransport(Git.lsRemoteRepository()).setRemote(normalizeUri(gitSpec.getUrl())).setTags(tags).setHeads(heads).call();
         } catch (URISyntaxException e) {

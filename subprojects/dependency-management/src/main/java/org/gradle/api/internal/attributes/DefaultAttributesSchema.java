@@ -141,7 +141,7 @@ public class DefaultAttributesSchema implements AttributesSchemaInternal, Attrib
 
         @Override
         public boolean isMatching(AttributeContainerInternal candidate, AttributeContainerInternal requested) {
-            return componentAttributeMatcher.isMatching(effectiveSchema, candidate, requested);
+            return ComponentAttributeMatcher.isMatching(effectiveSchema, candidate, requested);
         }
 
         @Override
@@ -161,7 +161,7 @@ public class DefaultAttributesSchema implements AttributesSchemaInternal, Attrib
 
         @Override
         public List<MatchingDescription> describeMatching(AttributeContainerInternal candidate, AttributeContainerInternal requested) {
-            return componentAttributeMatcher.describeMatching(effectiveSchema, candidate, requested);
+            return ComponentAttributeMatcher.describeMatching(effectiveSchema, candidate, requested);
         }
     }
 

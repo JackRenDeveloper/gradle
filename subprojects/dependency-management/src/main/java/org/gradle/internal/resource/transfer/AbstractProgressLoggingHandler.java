@@ -39,11 +39,11 @@ public class AbstractProgressLoggingHandler {
         return new ResourceOperation(progressLogger, operationType, contentLength, resourceName);
     }
 
-    private String createDescription(ResourceOperation.Type operationType, URI resource) {
+    private static String createDescription(ResourceOperation.Type operationType, URI resource) {
         return operationType.getCapitalized() + " " + resource.toString();
     }
 
-    private String createShortDescription(URI resource) {
+    private static String createShortDescription(URI resource) {
         String rawUri = resource.toString();
         int lastSlash = rawUri.lastIndexOf('/');
         return lastSlash == -1 ? rawUri : rawUri.substring(lastSlash + 1);

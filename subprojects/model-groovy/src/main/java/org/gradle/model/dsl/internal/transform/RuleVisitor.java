@@ -234,7 +234,7 @@ public class RuleVisitor extends ExpressionReplacingVisitorSupport {
         }
     }
 
-    private String isDollarPathExpression(PropertyExpression expr) {
+    private static String isDollarPathExpression(PropertyExpression expr) {
         if (expr.isSafe() || expr.isSpreadSafe()) {
             return null;
         }

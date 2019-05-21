@@ -57,7 +57,7 @@ class TestExecutionBuildConfigurationAction implements BuildConfigurationAction 
         gradle.getTaskGraph().addEntryTasks(allTestTasksToRun);
     }
 
-    private void configureTestTasks(Set<Test> allTestTasksToRun) {
+    private static void configureTestTasks(Set<Test> allTestTasksToRun) {
         for (Test task : allTestTasksToRun) {
             task.setIgnoreFailures(true);
             task.getFilter().setFailOnNoMatchingTests(false);
@@ -65,7 +65,7 @@ class TestExecutionBuildConfigurationAction implements BuildConfigurationAction 
         }
     }
 
-    private List<Test> configureBuildForTestDescriptors(GradleInternal gradle, TestExecutionRequestAction testExecutionRequest) {
+    private static List<Test> configureBuildForTestDescriptors(GradleInternal gradle, TestExecutionRequestAction testExecutionRequest) {
         final Collection<InternalTestDescriptor> testDescriptors = testExecutionRequest.getTestExecutionDescriptors();
 
         final List<String> testTaskPaths = org.gradle.util.CollectionUtils.collect(testDescriptors, (Transformer<String, InternalTestDescriptor>) testDescriptor -> ((DefaultTestDescriptor) testDescriptor).getTaskPath());
@@ -97,7 +97,7 @@ class TestExecutionBuildConfigurationAction implements BuildConfigurationAction 
         return testTasksToRun;
     }
 
-    private List<Test> configureBuildForInternalJvmTestRequest(GradleInternal gradle, TestExecutionRequestAction testExecutionRequest) {
+    private static List<Test> configureBuildForInternalJvmTestRequest(GradleInternal gradle, TestExecutionRequestAction testExecutionRequest) {
         final Collection<InternalJvmTestRequest> internalJvmTestRequests = testExecutionRequest.getInternalJvmTestRequests();
         if(internalJvmTestRequests.isEmpty()){
             return Collections.emptyList();

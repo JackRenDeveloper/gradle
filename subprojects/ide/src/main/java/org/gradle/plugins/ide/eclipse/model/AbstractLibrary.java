@@ -39,7 +39,7 @@ public abstract class AbstractLibrary extends AbstractClasspathEntry {
     public AbstractLibrary(Node node, FileReferenceFactory fileReferenceFactory) {
         super(node);
         String javadocLocation = (String) getEntryAttributes().get(ATTRIBUTE_JAVADOC_LOCATION);
-        javadocPath = fileReferenceFactory.fromJarURI(javadocLocation);
+        javadocPath = FileReferenceFactory.fromJarURI(javadocLocation);
     }
 
     public AbstractLibrary(FileReference library) {

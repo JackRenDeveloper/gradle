@@ -72,12 +72,12 @@ public class Pmd extends SourceTask implements VerificationTask, Reporting<PmdRe
     }
 
     @Inject
-    protected ObjectFactory getObjectFactory() {
+    protected static ObjectFactory getObjectFactory() {
         throw new UnsupportedOperationException();
     }
 
     @Inject
-    public IsolatedAntBuilder getAntBuilder() {
+    public static IsolatedAntBuilder getAntBuilder() {
         throw new UnsupportedOperationException();
     }
 
@@ -86,7 +86,7 @@ public class Pmd extends SourceTask implements VerificationTask, Reporting<PmdRe
         PmdInvoker.invoke(this);
     }
 
-    public boolean stdOutIsAttachedToTerminal() {
+    public static boolean stdOutIsAttachedToTerminal() {
         ConsoleDetector consoleDetector = NativeServices.getInstance().get(ConsoleDetector.class);
         ConsoleMetaData consoleMetaData = consoleDetector.getConsole();
         return consoleMetaData != null && consoleMetaData.isStdOut();

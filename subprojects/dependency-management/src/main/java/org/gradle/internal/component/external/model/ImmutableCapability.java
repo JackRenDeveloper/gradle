@@ -44,7 +44,7 @@ public class ImmutableCapability implements CapabilityInternal {
         this.cachedId = group + ":" + name;
     }
 
-    private int computeHashcode(String group, String name, String version) {
+    private static int computeHashcode(String group, String name, String version) {
         // Do NOT change the order of members used in hash code here, it's been empirically
         // tested to reduce the number of collisions on a large dependency graph (performance test)
         int hash = safeHash(version);

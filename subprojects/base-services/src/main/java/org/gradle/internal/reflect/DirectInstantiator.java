@@ -67,7 +67,7 @@ public class DirectInstantiator implements Instantiator {
         }
     }
 
-    private Class<?>[] wrapArgs(Object[] params) {
+    private static Class<?>[] wrapArgs(Object[] params) {
         Class<?>[] result = new Class<?>[params.length];
         for (int i = 0; i < result.length; i++) {
             Object param = params[i];
@@ -107,7 +107,7 @@ public class DirectInstantiator implements Instantiator {
             return new CachedConstructor(match);
         }
 
-        private String prettify(Class<?>[] argumentTypes) {
+        private static String prettify(Class<?>[] argumentTypes) {
             return Joiner.on(", ").join(Iterables.transform(Arrays.asList(argumentTypes), new Function<Class<?>, String>() {
                 @Override
                 public String apply(Class<?> input) {
@@ -119,7 +119,7 @@ public class DirectInstantiator implements Instantiator {
             }));
         }
 
-        private boolean isMatch(Class<?>[] argumentTypes, Class[] parameterTypes) {
+        private static boolean isMatch(Class<?>[] argumentTypes, Class[] parameterTypes) {
             for (int i = 0; i < argumentTypes.length; i++) {
                 Class<?> argumentType = argumentTypes[i];
                 Class<?> parameterType = parameterTypes[i];

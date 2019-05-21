@@ -20,7 +20,6 @@ import com.dd.plist.NSDictionary;
 import com.dd.plist.NSString;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
-import org.gradle.api.Action;
 import org.gradle.api.Incubating;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.provider.Provider;
@@ -140,7 +139,7 @@ public class GenerateXcodeProjectFileTask extends PropertyListGeneratorTask<Xcod
         return new XcodeProjectFile(getPropertyListTransformer());
     }
 
-    private PBXFileReference toFileReference(File file) {
+    private static PBXFileReference toFileReference(File file) {
         return new PBXFileReference(file.getName(), file.getAbsolutePath(), PBXReference.SourceTree.ABSOLUTE);
     }
 
@@ -151,7 +150,7 @@ public class GenerateXcodeProjectFileTask extends PropertyListGeneratorTask<Xcod
         return toToolAndLibraryPbxTarget(xcodeTarget);
     }
 
-    private PBXTarget toToolAndLibraryPbxTarget(XcodeTarget xcodeTarget) {
+    private static PBXTarget toToolAndLibraryPbxTarget(XcodeTarget xcodeTarget) {
         PBXLegacyTarget target = new PBXLegacyTarget(xcodeTarget.getName(), xcodeTarget.getProductType());
         target.setProductName(xcodeTarget.getProductName());
 
@@ -175,7 +174,7 @@ public class GenerateXcodeProjectFileTask extends PropertyListGeneratorTask<Xcod
         return target;
     }
 
-    private String buildGradleArgs(XcodeTarget xcodeTarget) {
+    private static String buildGradleArgs(XcodeTarget xcodeTarget) {
         return Joiner.on(' ').join(XcodePropertyAdapter.getAdapterCommandLine()) + " " + xcodeTarget.getTaskName();
     }
 
@@ -243,7 +242,7 @@ public class GenerateXcodeProjectFileTask extends PropertyListGeneratorTask<Xcod
         return target;
     }
 
-    private Consumer<XcodeBinary> configureBuildSettings(XcodeTarget xcodeTarget, PBXNativeTarget target) {
+    private static Consumer<XcodeBinary> configureBuildSettings(XcodeTarget xcodeTarget, PBXNativeTarget target) {
         return xcodeBinary -> {
             NSDictionary settings = newBuildSettings(xcodeTarget);
             settings.put("ARCHS", toXcodeArchitecture(xcodeBinary.getArchitectureName()));
@@ -261,7 +260,7 @@ public class GenerateXcodeProjectFileTask extends PropertyListGeneratorTask<Xcod
         return result;
     }
 
-    private NSDictionary newBuildSettings(XcodeTarget xcodeTarget) {
+    private static NSDictionary newBuildSettings(XcodeTarget xcodeTarget) {
         NSDictionary result = new NSDictionary();
         result.put("SWIFT_VERSION", toXcodeSwiftVersion(xcodeTarget.getSwiftSourceCompatibility()));
         result.put("PRODUCT_NAME", xcodeTarget.getProductName());  // Mandatory

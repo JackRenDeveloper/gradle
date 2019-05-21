@@ -34,7 +34,7 @@ public class FormattingDiagnosticsVisitor implements DiagnosticsVisitor {
         return format(candidates);
     }
 
-    private List<String> format(Map<String, Candidate> candidates) {
+    private static List<String> format(Map<String, Candidate> candidates) {
         List<String> formatted = new ArrayList<String>();
         for (Candidate candidate : candidates.values()) {
             if (candidate.examples.isEmpty()) {

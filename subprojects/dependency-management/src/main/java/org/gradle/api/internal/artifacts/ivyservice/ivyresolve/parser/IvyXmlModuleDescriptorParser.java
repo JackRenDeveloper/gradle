@@ -42,9 +42,7 @@ import org.apache.ivy.plugins.namespace.Namespace;
 import org.apache.ivy.plugins.parser.xml.XmlModuleDescriptorParser;
 import org.apache.ivy.util.extendable.DefaultExtendableItem;
 import org.apache.ivy.util.url.URLHandlerRegistry;
-import org.gradle.api.Action;
 import org.gradle.api.GradleException;
-import org.gradle.api.Transformer;
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
 import org.gradle.api.internal.artifacts.DefaultModuleIdentifier;
 import org.gradle.api.internal.artifacts.ImmutableModuleIdentifierFactory;
@@ -145,7 +143,7 @@ public class IvyXmlModuleDescriptorParser extends AbstractModuleDescriptorParser
         return "Ivy file";
     }
 
-    private Map<String, String> populateProperties() {
+    private static Map<String, String> populateProperties() {
         HashMap<String, String> properties = new HashMap<String, String>();
         String baseDir = new File(".").getAbsolutePath();
         properties.put("ivy.default.settings.dir", baseDir);
@@ -440,7 +438,7 @@ public class IvyXmlModuleDescriptorParser extends AbstractModuleDescriptorParser
             return metaData.build();
         }
 
-        private void replaceConfigurationWildcards(ModuleDescriptor md) {
+        private static void replaceConfigurationWildcards(ModuleDescriptor md) {
             Configuration[] configs = md.getConfigurations();
             for (int i = 0; i < configs.length; i++) {
                 configs[i].replaceWildcards(md);
@@ -822,7 +820,7 @@ public class IvyXmlModuleDescriptorParser extends AbstractModuleDescriptorParser
             }
         }
 
-        private boolean isOtherNamespace(String qName) {
+        private static boolean isOtherNamespace(String qName) {
             return qName.indexOf(':') != -1;
         }
 
@@ -984,7 +982,7 @@ public class IvyXmlModuleDescriptorParser extends AbstractModuleDescriptorParser
         /**
          * Handle the 'classifier' attribute in any namespace: different tools publish differently.
          */
-        private String readClassifierAttribute(Attributes attributes) {
+        private static String readClassifierAttribute(Attributes attributes) {
             for (int i = 0; i < attributes.getLength(); i++) {
                 if (attributes.getLocalName(i).equals("classifier")) {
                     return attributes.getValue(i);
@@ -1255,7 +1253,7 @@ public class IvyXmlModuleDescriptorParser extends AbstractModuleDescriptorParser
             return resource;
         }
 
-        private String elvis(String value, String defaultValue) {
+        private static String elvis(String value, String defaultValue) {
             return value != null ? value : defaultValue;
         }
 
@@ -1281,7 +1279,7 @@ public class IvyXmlModuleDescriptorParser extends AbstractModuleDescriptorParser
             }
         }
 
-        private PatternMatcher getMatcher(String matcherName) {
+        private static PatternMatcher getMatcher(String matcherName) {
             return PatternMatchers.getInstance().getMatcher(matcherName);
         }
 

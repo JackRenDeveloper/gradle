@@ -46,11 +46,11 @@ public class GradleProjectBuilder implements ToolingModelBuilder {
         return buildHierarchy(project.getRootProject());
     }
 
-    public DefaultGradleProject buildAll(Project project) {
+    public static DefaultGradleProject buildAll(Project project) {
         return buildHierarchy(project.getRootProject());
     }
 
-    private DefaultGradleProject buildHierarchy(Project project) {
+    private static DefaultGradleProject buildHierarchy(Project project) {
         List<DefaultGradleProject> children = new ArrayList<DefaultGradleProject>();
         for (Project child : project.getChildProjects().values()) {
             children.add(buildHierarchy(child));

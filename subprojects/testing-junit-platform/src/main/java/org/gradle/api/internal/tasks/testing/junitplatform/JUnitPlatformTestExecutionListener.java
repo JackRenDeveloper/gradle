@@ -205,7 +205,7 @@ public class JUnitPlatformTestExecutionListener implements TestExecutionListener
         return result;
     }
 
-    private boolean isClass(TestIdentifier test) {
+    private static boolean isClass(TestIdentifier test) {
         return test.getSource().isPresent() && test.getSource().get() instanceof ClassSource;
     }
 
@@ -223,7 +223,7 @@ public class JUnitPlatformTestExecutionListener implements TestExecutionListener
         return null;
     }
 
-    private String className(TestIdentifier testClassIdentifier) {
+    private static String className(TestIdentifier testClassIdentifier) {
         if (testClassIdentifier != null && isClass(testClassIdentifier)) {
             return ((ClassSource) testClassIdentifier.getSource().get()).getClassName();
         } else {
@@ -231,7 +231,7 @@ public class JUnitPlatformTestExecutionListener implements TestExecutionListener
         }
     }
 
-    private String classDisplayName(TestIdentifier testClassIdentifier) {
+    private static String classDisplayName(TestIdentifier testClassIdentifier) {
         if (testClassIdentifier != null) {
             return testClassIdentifier.getDisplayName();
         } else {

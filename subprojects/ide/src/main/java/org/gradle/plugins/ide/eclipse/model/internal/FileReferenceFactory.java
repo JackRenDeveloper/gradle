@@ -66,7 +66,7 @@ public class FileReferenceFactory {
     /**
      * Creates a reference to the given path. Returns null for null path
      */
-    public FileReference fromPath(String path) {
+    public static FileReference fromPath(String path) {
         if (path == null) {
             return null;
         }
@@ -76,7 +76,7 @@ public class FileReferenceFactory {
     /**
      * Creates a reference to the given path. Returns null for null path
      */
-    public FileReference fromJarURI(String jarURI) {
+    public static FileReference fromJarURI(String jarURI) {
         if (jarURI== null) {
             return null;
         }

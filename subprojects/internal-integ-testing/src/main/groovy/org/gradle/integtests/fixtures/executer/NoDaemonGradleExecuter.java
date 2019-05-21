@@ -121,7 +121,7 @@ public class NoDaemonGradleExecuter extends AbstractGradleExecuter {
         return args;
     }
 
-    private void addPropagatedSystemProperties(List<String> args) {
+    private static void addPropagatedSystemProperties(List<String> args) {
         for (String propName : PROPAGATED_SYSTEM_PROPERTIES) {
             String propValue = System.getProperty(propName);
             if (propValue != null) {

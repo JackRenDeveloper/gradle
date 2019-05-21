@@ -140,15 +140,15 @@ public class NativeServices extends DefaultServiceRegistry implements ServiceReg
         // Don't close
     }
 
-    protected OperatingSystem createOperatingSystem() {
+    protected static OperatingSystem createOperatingSystem() {
         return OperatingSystem.current();
     }
 
-    protected Jvm createJvm() {
+    protected static Jvm createJvm() {
         return Jvm.current();
     }
 
-    protected ProcessEnvironment createProcessEnvironment(OperatingSystem operatingSystem) {
+    protected static ProcessEnvironment createProcessEnvironment(OperatingSystem operatingSystem) {
         if (useNativeIntegrations) {
             try {
                 net.rubygrapefruit.platform.Process process = net.rubygrapefruit.platform.Native.get(Process.class);
@@ -161,7 +161,7 @@ public class NativeServices extends DefaultServiceRegistry implements ServiceReg
         return new UnsupportedEnvironment();
     }
 
-    protected ConsoleDetector createConsoleDetector(OperatingSystem operatingSystem) {
+    protected static ConsoleDetector createConsoleDetector(OperatingSystem operatingSystem) {
         if (useNativeIntegrations) {
             try {
                 Terminals terminals = net.rubygrapefruit.platform.Native.get(Terminals.class);
@@ -185,14 +185,14 @@ public class NativeServices extends DefaultServiceRegistry implements ServiceReg
         return new NoOpConsoleDetector();
     }
 
-    protected WindowsRegistry createWindowsRegistry(OperatingSystem operatingSystem) {
+    protected static WindowsRegistry createWindowsRegistry(OperatingSystem operatingSystem) {
         if (useNativeIntegrations && operatingSystem.isWindows()) {
             return net.rubygrapefruit.platform.Native.get(WindowsRegistry.class);
         }
         return notAvailable(WindowsRegistry.class);
     }
 
-    protected SystemInfo createSystemInfo() {
+    protected static SystemInfo createSystemInfo() {
         if (useNativeIntegrations) {
             try {
                 return net.rubygrapefruit.platform.Native.get(SystemInfo.class);
@@ -203,7 +203,7 @@ public class NativeServices extends DefaultServiceRegistry implements ServiceReg
         return notAvailable(SystemInfo.class);
     }
 
-    protected Memory createMemory() {
+    protected static Memory createMemory() {
         if (useNativeIntegrations) {
             try {
                 return net.rubygrapefruit.platform.Native.get(Memory.class);
@@ -214,7 +214,7 @@ public class NativeServices extends DefaultServiceRegistry implements ServiceReg
         return notAvailable(Memory.class);
     }
 
-    protected ProcessLauncher createProcessLauncher() {
+    protected static ProcessLauncher createProcessLauncher() {
         if (useNativeIntegrations) {
             try {
                 return net.rubygrapefruit.platform.Native.get(ProcessLauncher.class);
@@ -225,7 +225,7 @@ public class NativeServices extends DefaultServiceRegistry implements ServiceReg
         return new DefaultProcessLauncher();
     }
 
-    protected PosixFiles createPosixFiles() {
+    protected static PosixFiles createPosixFiles() {
         if (useNativeIntegrations) {
             try {
                 return net.rubygrapefruit.platform.Native.get(PosixFiles.class);
@@ -236,7 +236,7 @@ public class NativeServices extends DefaultServiceRegistry implements ServiceReg
         return notAvailable(UnavailablePosixFiles.class);
     }
 
-    protected FileMetadataAccessor createFileMetadataAccessor(OperatingSystem operatingSystem) {
+    protected static FileMetadataAccessor createFileMetadataAccessor(OperatingSystem operatingSystem) {
         // Based on the benchmark found in org.gradle.internal.nativeintegration.filesystem.FileMetadataAccessorBenchmark
         // and the results in the PR https://github.com/gradle/gradle/pull/1183
         // we're using "native platform" for Mac OS and a  mix of File and NIO API for Linux and Windows
@@ -258,7 +258,7 @@ public class NativeServices extends DefaultServiceRegistry implements ServiceReg
         return new FallbackFileMetadataAccessor();
     }
 
-    private <T> T notAvailable(Class<T> type) {
+    private static <T> T notAvailable(Class<T> type) {
         return (T) Proxy.newProxyInstance(type.getClassLoader(), new Class[]{type}, new BrokenService(type.getSimpleName()));
     }
 

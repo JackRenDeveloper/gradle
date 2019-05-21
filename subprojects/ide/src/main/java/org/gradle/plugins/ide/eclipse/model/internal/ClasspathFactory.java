@@ -71,6 +71,6 @@ public class ClasspathFactory {
     }
 
     private List<? extends ClasspathEntry> createClassFolders() {
-        return classpath.isProjectDependenciesOnly() ? Collections.<ClasspathEntry>emptyList() : new ClassFoldersCreator().create(classpath);
+        return classpath.isProjectDependenciesOnly() ? Collections.<ClasspathEntry>emptyList() : ClassFoldersCreator.create(classpath);
     }
 }

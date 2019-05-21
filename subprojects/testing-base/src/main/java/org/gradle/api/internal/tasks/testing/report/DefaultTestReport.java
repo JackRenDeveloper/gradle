@@ -59,7 +59,7 @@ public class DefaultTestReport implements TestReporter {
         LOG.info("Finished generating test html results ({}) into: {}", clock.getElapsed(), reportDir);
     }
 
-    private AllTestResults loadModelFromProvider(TestResultsProvider resultsProvider) {
+    private static AllTestResults loadModelFromProvider(TestResultsProvider resultsProvider) {
         final AllTestResults model = new AllTestResults();
         resultsProvider.visitClasses(new Action<TestClassResult>() {
             @Override
@@ -99,7 +99,7 @@ public class DefaultTestReport implements TestReporter {
                 }
             });
 
-            htmlRenderer.render(model, new ReportRenderer<AllTestResults, HtmlReportBuilder>() {
+            HtmlReportRenderer.render(model, new ReportRenderer<AllTestResults, HtmlReportBuilder>() {
                 @Override
                 public void render(final AllTestResults model, final HtmlReportBuilder output) throws IOException {
                     buildOperationExecutor.runAll(new Action<BuildOperationQueue<HtmlReportFileGenerator<? extends CompositeTestResults>>>() {

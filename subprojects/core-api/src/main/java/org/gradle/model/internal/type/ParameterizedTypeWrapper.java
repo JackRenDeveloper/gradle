@@ -36,7 +36,7 @@ class ParameterizedTypeWrapper implements TypeWrapper {
         this.hashCode = hashCode(actualTypeArguments, rawType, ownerType);
     }
 
-    private int hashCode(TypeWrapper[] actualTypeArguments, ClassTypeWrapper rawType, TypeWrapper ownerType) {
+    private static int hashCode(TypeWrapper[] actualTypeArguments, ClassTypeWrapper rawType, TypeWrapper ownerType) {
         int hashCode = rawType.hashCode();
         for (TypeWrapper actualTypeArgument : actualTypeArguments) {
             hashCode ^= actualTypeArgument.hashCode();

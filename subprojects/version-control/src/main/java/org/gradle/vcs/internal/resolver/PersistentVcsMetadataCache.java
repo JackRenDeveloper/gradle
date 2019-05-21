@@ -69,7 +69,7 @@ public class PersistentVcsMetadataCache implements Stoppable {
         cache.useCache(() -> workingDirCache.put(constraintCacheKey(repository, constraint), selectedVersion));
     }
 
-    String constraintCacheKey(VersionControlRepositoryConnection repository, VersionConstraint constraint) {
+    static String constraintCacheKey(VersionControlRepositoryConnection repository, VersionConstraint constraint) {
         if (constraint.getBranch() != null) {
             return repository.getUniqueId() + ":b:" + constraint.getBranch();
         }

@@ -70,7 +70,7 @@ public class JavaExec extends ConventionTask implements JavaExecSpec {
     }
 
     @Inject
-    protected ExecActionFactory getExecActionFactory() {
+    protected static ExecActionFactory getExecActionFactory() {
         throw new UnsupportedOperationException();
     }
 

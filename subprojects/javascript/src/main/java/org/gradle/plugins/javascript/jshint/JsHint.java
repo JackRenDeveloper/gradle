@@ -55,7 +55,7 @@ public class JsHint extends SourceTask {
     private Object jsonReport;
 
     @Inject
-    protected WorkerProcessFactory getWorkerProcessBuilderFactory() {
+    protected static WorkerProcessFactory getWorkerProcessBuilderFactory() {
         throw new UnsupportedOperationException();
     }
 

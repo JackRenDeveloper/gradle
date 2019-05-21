@@ -16,13 +16,11 @@
 
 package org.gradle.plugins.javascript.envjs;
 
-import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.Dependency;
-import org.gradle.api.artifacts.DependencySet;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.internal.ConventionMapping;
 import org.gradle.api.internal.IConventionAware;
@@ -73,7 +71,7 @@ public class EnvJsPlugin implements Plugin<Project> {
         }));
     }
 
-    public Configuration addConfiguration(ConfigurationContainer configurations, final DependencyHandler dependencies, final EnvJsExtension extension) {
+    public static Configuration addConfiguration(ConfigurationContainer configurations, final DependencyHandler dependencies, final EnvJsExtension extension) {
         Configuration configuration = configurations.create(EnvJsExtension.CONFIGURATION_NAME);
         configuration.defaultDependencies(configDependencies -> {
             String notation = EnvJsExtension.DEFAULT_DEPENDENCY_GROUP + ":" + EnvJsExtension.DEFAULT_DEPENDENCY_MODULE + ":" + extension.getVersion() + "@js";

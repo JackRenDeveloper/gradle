@@ -155,7 +155,7 @@ public class ProjectDependencyResolver implements ComponentMetaDataResolver, Dep
         }
     }
 
-    private boolean isProjectModule(ComponentIdentifier componentId) {
+    private static boolean isProjectModule(ComponentIdentifier componentId) {
         return componentId instanceof ProjectComponentIdentifier;
     }
 }

@@ -135,7 +135,7 @@ public class DefaultArtifactDependencyResolver implements ArtifactDependencyReso
         return new DependencyGraphBuilder(componentIdResolver, componentMetaDataResolver, requestResolver, conflictHandler, capabilitiesConflictHandler, edgeFilter, attributesSchema, moduleExclusions, buildOperationExecutor, globalRules.getModuleMetadataProcessor().getModuleReplacements(), applicator, componentSelectorConverter, attributesFactory, versionSelectorScheme, versionComparator.asVersionComparator(), versionParser);
     }
 
-    private DependencySubstitutionApplicator createDependencySubstitutionApplicator(ResolutionStrategyInternal resolutionStrategy) {
+    private static DependencySubstitutionApplicator createDependencySubstitutionApplicator(ResolutionStrategyInternal resolutionStrategy) {
         Action<DependencySubstitution> rule = resolutionStrategy.getDependencySubstitutionRule();
         DependencySubstitutionApplicator applicator;
         if (Actions.<DependencySubstitution>doNothing() == rule) {
@@ -157,7 +157,7 @@ public class DefaultArtifactDependencyResolver implements ArtifactDependencyReso
         return new ComponentResolversChain(resolvers, artifactTypeRegistry);
     }
 
-    private ResolveContextToComponentResolver createResolveContextConverter() {
+    private static ResolveContextToComponentResolver createResolveContextConverter() {
         return new DefaultResolveContextToComponentResolver();
     }
 
@@ -168,7 +168,7 @@ public class DefaultArtifactDependencyResolver implements ArtifactDependencyReso
         return new DefaultConflictHandler(conflictResolver, metadataHandler.getModuleMetadataProcessor().getModuleReplacements());
     }
 
-    private DefaultCapabilitiesConflictHandler createCapabilitiesConflictHandler() {
+    private static DefaultCapabilitiesConflictHandler createCapabilitiesConflictHandler() {
         DefaultCapabilitiesConflictHandler handler = new DefaultCapabilitiesConflictHandler();
         handler.registerResolver(new UpgradeCapabilityResolver());
         handler.registerResolver(new LastCandidateCapabilityResolver());

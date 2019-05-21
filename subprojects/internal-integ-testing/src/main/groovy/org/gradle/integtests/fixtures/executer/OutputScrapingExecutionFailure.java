@@ -121,7 +121,7 @@ public class OutputScrapingExecutionFailure extends OutputScrapingExecutionResul
         return mainContent;
     }
 
-    private Problem extract(String problem) {
+    private static Problem extract(String problem) {
         java.util.regex.Matcher matcher = CAUSE_PATTERN.matcher(problem);
         String description;
         List<String> causes = new ArrayList<String>();
@@ -146,7 +146,7 @@ public class OutputScrapingExecutionFailure extends OutputScrapingExecutionResul
         return new Problem(description, causes);
     }
 
-    private String toPrefixPattern(int prefix) {
+    private static String toPrefixPattern(int prefix) {
         StringBuilder builder = new StringBuilder("(?m)^");
         for (int i = 0; i < prefix; i++) {
             builder.append(' ');

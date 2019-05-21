@@ -46,7 +46,7 @@ public class CoffeeScriptCompile extends SourceTask {
     private CoffeeScriptCompileOptions options = new CoffeeScriptCompileOptions();
 
     @Inject
-    protected WorkerProcessFactory getWorkerProcessBuilderFactory() {
+    protected static WorkerProcessFactory getWorkerProcessBuilderFactory() {
         throw new UnsupportedOperationException();
     }
 

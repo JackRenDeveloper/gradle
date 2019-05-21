@@ -66,7 +66,7 @@ public class DefaultCompilationDetails implements Serializable {
         return headerDirs;
     }
 
-    public List<File> getFrameworkSearchPaths() {
+    public static List<File> getFrameworkSearchPaths() {
         return Collections.emptyList();
     }
 
@@ -82,7 +82,7 @@ public class DefaultCompilationDetails implements Serializable {
         return macroDefines;
     }
 
-    public List<String> getMacroUndefines() {
+    public static List<String> getMacroUndefines() {
         return Collections.emptyList();
     }
 

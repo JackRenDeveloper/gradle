@@ -17,7 +17,6 @@
 package org.gradle.play.tasks;
 
 import com.google.common.collect.Lists;
-import org.gradle.api.Action;
 import org.gradle.api.Incubating;
 import org.gradle.api.file.FileTree;
 import org.gradle.api.file.FileVisitDetails;
@@ -33,7 +32,6 @@ import org.gradle.api.tasks.SourceTask;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.compile.BaseForkOptions;
 import org.gradle.api.tasks.incremental.IncrementalTaskInputs;
-import org.gradle.api.tasks.incremental.InputFileDetails;
 import org.gradle.language.base.internal.compile.Compiler;
 import org.gradle.language.twirl.TwirlImports;
 import org.gradle.language.twirl.TwirlTemplateFormat;
@@ -178,7 +176,7 @@ public class TwirlCompile extends SourceTask {
      * @return The tool chain.
      */
     @Inject
-    public PlayToolChain getToolChain() {
+    public static PlayToolChain getToolChain() {
         // Implementation is generated
         throw new UnsupportedOperationException();
     }
@@ -188,7 +186,7 @@ public class TwirlCompile extends SourceTask {
      *
      * @param toolChain The tool chain.
      */
-    public void setToolChain(PlayToolChain toolChain) {
+    public static void setToolChain(PlayToolChain toolChain) {
         // Implementation is generated
         throw new UnsupportedOperationException();
     }

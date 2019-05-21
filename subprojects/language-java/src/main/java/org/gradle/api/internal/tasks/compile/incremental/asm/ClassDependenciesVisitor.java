@@ -123,7 +123,7 @@ public class ClassDependenciesVisitor extends ClassVisitor {
         return interner.intern(type);
     }
 
-    protected String typeOfFromSlashyString(String slashyStyleDesc) {
+    protected static String typeOfFromSlashyString(String slashyStyleDesc) {
         return Type.getObjectType(slashyStyleDesc).getClassName();
     }
 
@@ -135,7 +135,7 @@ public class ClassDependenciesVisitor extends ClassVisitor {
         return constants;
     }
 
-    private boolean isAnnotationType(String[] interfaces) {
+    private static boolean isAnnotationType(String[] interfaces) {
         return interfaces.length == 1 && interfaces[0].equals("java/lang/annotation/Annotation");
     }
 
@@ -155,7 +155,7 @@ public class ClassDependenciesVisitor extends ClassVisitor {
         return isConstant(access) && !isPrivate(access) && value != null;
     }
 
-    protected String descTypeOf(String desc) {
+    protected static String descTypeOf(String desc) {
         Type type = Type.getType(desc);
         if (type.getSort() == Type.ARRAY && type.getDimensions() > 0) {
             type = type.getElementType();
