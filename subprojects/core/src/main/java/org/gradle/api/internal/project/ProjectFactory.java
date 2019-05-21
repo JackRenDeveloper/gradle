@@ -16,8 +16,6 @@
 
 package org.gradle.api.internal.project;
 
-import org.gradle.api.Action;
-import org.gradle.api.Project;
 import org.gradle.api.initialization.ProjectDescriptor;
 import org.gradle.api.internal.GradleInternal;
 import org.gradle.api.internal.initialization.ClassLoaderScope;

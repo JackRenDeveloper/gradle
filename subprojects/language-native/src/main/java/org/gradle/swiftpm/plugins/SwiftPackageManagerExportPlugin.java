@@ -16,7 +16,6 @@
 
 package org.gradle.swiftpm.plugins;
 
-import org.gradle.api.Action;
 import org.gradle.api.Incubating;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.Plugin;

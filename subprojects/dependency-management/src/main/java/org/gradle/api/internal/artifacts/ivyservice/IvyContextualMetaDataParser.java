@@ -16,8 +16,6 @@
 
 package org.gradle.api.internal.artifacts.ivyservice;
 
-import org.apache.ivy.Ivy;
-import org.gradle.api.Transformer;
 import org.gradle.api.internal.artifacts.ivyservice.ivyresolve.parser.DescriptorParseContext;
 import org.gradle.api.internal.artifacts.ivyservice.ivyresolve.parser.MetaDataParseException;
 import org.gradle.api.internal.artifacts.ivyservice.ivyresolve.parser.MetaDataParser;

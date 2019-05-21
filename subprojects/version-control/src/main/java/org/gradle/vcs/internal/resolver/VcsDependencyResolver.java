@@ -29,7 +29,6 @@ import org.gradle.api.internal.artifacts.ivyservice.resolveengine.excludes.specs
 import org.gradle.api.internal.artifacts.type.ArtifactTypeRegistry;
 import org.gradle.api.internal.attributes.ImmutableAttributes;
 import org.gradle.api.internal.component.ArtifactType;
-import org.gradle.api.specs.Spec;
 import org.gradle.initialization.definition.InjectedPluginResolver;
 import org.gradle.internal.Pair;
 import org.gradle.internal.build.BuildState;

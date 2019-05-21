@@ -35,7 +35,6 @@ import org.gradle.plugins.ide.internal.IdePlugin;
 
 import javax.annotation.Nullable;
 import java.io.File;
-import java.util.concurrent.Callable;
 
 /**
  * Task for generating a Visual Studio project file (e.g. {@code foo.vcxproj}).

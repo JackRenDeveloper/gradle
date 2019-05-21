@@ -18,14 +18,12 @@ package org.gradle.play.plugins.ide.internal;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
-import org.gradle.api.Action;
 import org.gradle.api.JavaVersion;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.internal.ConventionMapping;
 import org.gradle.api.internal.file.FileResolver;
 import org.gradle.api.internal.plugins.DslObject;
-import org.gradle.language.base.LanguageSourceSet;
 import org.gradle.model.Mutate;
 import org.gradle.model.Path;
 import org.gradle.model.RuleSource;

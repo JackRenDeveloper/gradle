@@ -16,7 +16,6 @@
 
 package org.gradle.api.internal.tasks.properties;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import org.gradle.api.NonNullApi;

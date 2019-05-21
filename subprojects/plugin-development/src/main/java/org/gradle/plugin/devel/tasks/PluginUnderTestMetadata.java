@@ -18,7 +18,6 @@ package org.gradle.plugin.devel.tasks;
 
 import com.google.common.base.Joiner;
 import org.gradle.api.DefaultTask;
-import org.gradle.api.Transformer;
 import org.gradle.api.UncheckedIOException;
 import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.file.DirectoryProperty;

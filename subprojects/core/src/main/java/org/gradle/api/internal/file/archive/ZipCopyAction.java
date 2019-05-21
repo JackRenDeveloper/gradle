@@ -19,7 +19,6 @@ import org.apache.tools.zip.UnixStat;
 import org.apache.tools.zip.Zip64RequiredException;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipOutputStream;
-import org.gradle.api.Action;
 import org.gradle.api.GradleException;
 import org.gradle.api.UncheckedIOException;
 import org.gradle.api.file.FileCopyDetails;

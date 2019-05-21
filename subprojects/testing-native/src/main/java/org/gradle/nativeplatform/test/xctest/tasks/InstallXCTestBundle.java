@@ -18,10 +18,8 @@ package org.gradle.nativeplatform.test.xctest.tasks;
 
 import com.google.common.io.Files;
 import org.apache.commons.io.FilenameUtils;
-import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Incubating;
-import org.gradle.api.file.CopySpec;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.RegularFile;
 import org.gradle.api.file.RegularFileProperty;
@@ -38,7 +36,6 @@ import org.gradle.api.tasks.SkipWhenEmpty;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.internal.nativeintegration.filesystem.FileSystem;
 import org.gradle.nativeplatform.toolchain.internal.xcode.SwiftStdlibToolLocator;
-import org.gradle.process.ExecSpec;
 import org.gradle.util.GFileUtils;
 
 import javax.annotation.Nullable;

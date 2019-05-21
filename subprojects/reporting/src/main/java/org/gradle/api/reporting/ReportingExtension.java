@@ -17,13 +17,11 @@ package org.gradle.api.reporting;
 
 import org.gradle.api.Incubating;
 import org.gradle.api.Project;
-import org.gradle.api.file.Directory;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.internal.file.FileLookup;
 import org.gradle.api.internal.project.ProjectInternal;
 
 import java.io.File;
-import java.util.concurrent.Callable;
 
 /**
  * A project extension named "reporting" that provides basic reporting settings and utilities.

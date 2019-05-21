@@ -16,7 +16,6 @@
 
 package org.gradle.api.publish.maven.plugins;
 
-import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectFactory;
 import org.gradle.api.NamedDomainObjectList;
 import org.gradle.api.NamedDomainObjectSet;
@@ -66,7 +65,6 @@ import org.gradle.internal.typeconversion.NotationParser;
 
 import javax.inject.Inject;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
 import static org.apache.commons.lang.StringUtils.capitalize;
 

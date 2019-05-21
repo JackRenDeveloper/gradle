@@ -16,7 +16,6 @@
 
 package org.gradle.integtests.tooling.r48;
 
-import org.gradle.api.Action;
 import org.gradle.tooling.BuildAction;
 import org.gradle.tooling.BuildController;
 

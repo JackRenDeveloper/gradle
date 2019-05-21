@@ -16,7 +16,6 @@
 
 package org.gradle.api.internal.runtimeshaded;
 
-import org.gradle.api.Action;
 import org.gradle.api.internal.file.collections.DirectoryFileTreeFactory;
 import org.gradle.cache.internal.GeneratedGradleJarCache;
 import org.gradle.internal.logging.progress.ProgressLoggerFactory;

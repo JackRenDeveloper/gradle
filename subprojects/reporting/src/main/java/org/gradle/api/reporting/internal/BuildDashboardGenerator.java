@@ -28,7 +28,6 @@ import org.gradle.util.RelativePathUtil;
 import java.io.File;
 import java.io.Writer;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;

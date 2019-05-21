@@ -16,7 +16,6 @@
 
 package org.gradle.api.internal.file;
 
-import org.gradle.internal.Factory;
 import org.gradle.internal.FileUtils;
 import org.gradle.internal.SystemProperties;
 

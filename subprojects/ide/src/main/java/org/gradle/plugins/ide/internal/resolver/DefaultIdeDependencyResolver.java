@@ -16,8 +16,6 @@
 
 package org.gradle.plugins.ide.internal.resolver;
 
-import org.gradle.api.Action;
-import org.gradle.api.artifacts.ArtifactView;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.component.ComponentIdentifier;
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier;

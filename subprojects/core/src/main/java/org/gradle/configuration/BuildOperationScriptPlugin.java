@@ -16,7 +16,6 @@
 
 package org.gradle.configuration;
 
-import org.gradle.api.Action;
 import org.gradle.configuration.internal.UserCodeApplicationContext;
 import org.gradle.configuration.internal.UserCodeApplicationId;
 import org.gradle.groovy.scripts.ScriptSource;

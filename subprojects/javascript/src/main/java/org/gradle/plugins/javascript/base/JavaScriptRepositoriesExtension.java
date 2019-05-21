@@ -21,7 +21,6 @@ import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.api.artifacts.repositories.ArtifactRepository;
 import org.gradle.api.artifacts.repositories.IvyArtifactRepository;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
-import org.gradle.api.artifacts.repositories.IvyPatternRepositoryLayout;
 import org.gradle.internal.Actions;
 
 public class JavaScriptRepositoriesExtension {

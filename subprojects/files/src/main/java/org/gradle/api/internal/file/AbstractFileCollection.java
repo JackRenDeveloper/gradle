@@ -32,7 +32,6 @@ import org.gradle.api.tasks.TaskDependency;
 import org.gradle.util.CollectionUtils;
 import org.gradle.util.GUtil;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;

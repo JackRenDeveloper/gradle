@@ -15,14 +15,14 @@
  */
 package org.gradle.api.internal.tasks.testing.filter;
 
+import org.gradle.api.InvalidUserDataException;
+import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.testing.TestFilter;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.gradle.api.InvalidUserDataException;
-import org.gradle.api.tasks.Input;
-import org.gradle.api.tasks.testing.TestFilter;
 
 public class DefaultTestFilter implements TestFilter {
 

@@ -15,7 +15,6 @@
  */
 package org.gradle.api.internal.tasks;
 
-import org.gradle.api.Namer;
 import org.gradle.api.internal.AbstractValidatingNamedDomainObjectContainer;
 import org.gradle.api.internal.CollectionCallbackActionDecorator;
 import org.gradle.api.internal.file.FileCollectionFactory;

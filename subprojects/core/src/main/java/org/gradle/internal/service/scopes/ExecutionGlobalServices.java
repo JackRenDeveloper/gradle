@@ -82,9 +82,7 @@ import org.gradle.internal.reflect.annotations.impl.DefaultTypeAnnotationMetadat
 import org.gradle.internal.scripts.ScriptOrigin;
 import org.gradle.work.Incremental;
 
-import java.lang.reflect.Method;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class ExecutionGlobalServices {
     TypeAnnotationMetadataStore createAnnotationMetadataStore(CrossBuildInMemoryCacheFactory cacheFactory) {

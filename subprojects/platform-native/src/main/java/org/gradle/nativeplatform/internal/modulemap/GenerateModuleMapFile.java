@@ -19,9 +19,7 @@ package org.gradle.nativeplatform.internal.modulemap;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import org.apache.commons.io.FileUtils;
-import org.gradle.api.Transformer;
 import org.gradle.api.UncheckedIOException;
-import org.gradle.api.specs.Spec;
 
 import java.io.File;
 import java.io.IOException;

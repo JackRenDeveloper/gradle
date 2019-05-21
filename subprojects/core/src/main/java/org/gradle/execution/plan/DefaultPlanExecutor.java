@@ -18,7 +18,6 @@ package org.gradle.execution.plan;
 
 import org.gradle.api.Action;
 import org.gradle.api.NonNullApi;
-import org.gradle.api.Transformer;
 import org.gradle.concurrent.ParallelismConfiguration;
 import org.gradle.initialization.BuildCancellationToken;
 import org.gradle.internal.MutableBoolean;
@@ -26,7 +25,6 @@ import org.gradle.internal.MutableReference;
 import org.gradle.internal.concurrent.ExecutorFactory;
 import org.gradle.internal.concurrent.ManagedExecutor;
 import org.gradle.internal.resources.ResourceLockCoordinationService;
-import org.gradle.internal.resources.ResourceLockState;
 import org.gradle.internal.time.Time;
 import org.gradle.internal.time.TimeFormatting;
 import org.gradle.internal.time.Timer;

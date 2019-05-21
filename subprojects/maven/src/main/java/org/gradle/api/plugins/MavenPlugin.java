@@ -16,7 +16,6 @@
 package org.gradle.api.plugins;
 
 import org.apache.maven.project.MavenProject;
-import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;

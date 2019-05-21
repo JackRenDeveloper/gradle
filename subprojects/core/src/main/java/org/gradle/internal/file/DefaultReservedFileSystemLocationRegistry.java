@@ -16,7 +16,6 @@
 
 package org.gradle.internal.file;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 
 import java.io.File;

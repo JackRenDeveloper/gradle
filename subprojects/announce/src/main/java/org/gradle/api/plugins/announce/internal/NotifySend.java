@@ -15,11 +15,9 @@
  */
 package org.gradle.api.plugins.announce.internal;
 
-import org.gradle.api.Action;
 import org.gradle.api.internal.ProcessOperations;
 import org.gradle.api.plugins.announce.Announcer;
 import org.gradle.internal.os.OperatingSystem;
-import org.gradle.process.ExecSpec;
 
 import java.io.File;
 

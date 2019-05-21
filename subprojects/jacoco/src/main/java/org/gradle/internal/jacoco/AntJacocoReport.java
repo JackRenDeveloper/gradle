@@ -18,7 +18,6 @@ package org.gradle.internal.jacoco;
 
 import com.google.common.collect.ImmutableMap;
 import groovy.lang.GroovyObjectSupport;
-import org.gradle.api.Action;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.internal.project.IsolatedAntBuilder;
 import org.gradle.testing.jacoco.tasks.JacocoReportsContainer;

@@ -16,7 +16,11 @@
 
 package org.gradle.testing.internal.util;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 
 /**
  * This is used to launch Gradle from within IDEA. See gradle/idea.gradle.

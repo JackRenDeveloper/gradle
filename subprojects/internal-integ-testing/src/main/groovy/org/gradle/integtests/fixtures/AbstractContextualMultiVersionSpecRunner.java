@@ -18,7 +18,6 @@ package org.gradle.integtests.fixtures;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.gradle.api.specs.Spec;
 import org.gradle.util.CollectionUtils;
 
 import java.util.Collection;

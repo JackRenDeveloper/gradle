@@ -16,7 +16,6 @@
 
 package org.gradle.model.internal.core;
 
-import org.gradle.internal.BiAction;
 import org.gradle.internal.Cast;
 import org.gradle.model.ModelMap;
 import org.gradle.model.internal.registry.RuleContext;

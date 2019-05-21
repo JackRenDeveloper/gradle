@@ -18,7 +18,11 @@ package org.gradle.api.internal.tasks.testing.junit.result;
 
 import com.google.common.collect.Lists;
 import org.gradle.api.internal.tasks.testing.TestDescriptorInternal;
-import org.gradle.api.tasks.testing.*;
+import org.gradle.api.tasks.testing.TestDescriptor;
+import org.gradle.api.tasks.testing.TestListener;
+import org.gradle.api.tasks.testing.TestOutputEvent;
+import org.gradle.api.tasks.testing.TestOutputListener;
+import org.gradle.api.tasks.testing.TestResult;
 import org.gradle.internal.serialize.PlaceholderException;
 
 import java.io.PrintWriter;

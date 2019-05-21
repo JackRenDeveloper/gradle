@@ -16,7 +16,6 @@
 
 package org.gradle.internal.reflect;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import org.gradle.internal.Cast;

@@ -25,14 +25,12 @@ import org.gradle.api.Transformer;
 import org.gradle.api.internal.plugins.DslObject;
 import org.gradle.api.internal.tasks.options.OptionDescriptor;
 import org.gradle.api.internal.tasks.options.OptionReader;
-import org.gradle.api.specs.Spec;
 import org.gradle.execution.TaskSelector;
 import org.gradle.internal.logging.text.LinePrefixingStyledTextOutput;
 import org.gradle.internal.logging.text.StyledTextOutput;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;

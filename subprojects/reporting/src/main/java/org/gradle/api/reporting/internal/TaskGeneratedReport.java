@@ -17,7 +17,6 @@
 package org.gradle.api.reporting.internal;
 
 import org.gradle.api.Task;
-import org.gradle.internal.Factory;
 
 public abstract class TaskGeneratedReport extends SimpleReport {
 

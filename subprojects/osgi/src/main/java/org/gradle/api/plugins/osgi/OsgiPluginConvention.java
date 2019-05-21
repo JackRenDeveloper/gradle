@@ -27,8 +27,6 @@ import org.gradle.internal.Actions;
 import org.gradle.internal.reflect.Instantiator;
 import org.gradle.util.DeprecationLogger;
 
-import java.util.concurrent.Callable;
-
 import static org.gradle.util.ConfigureUtil.configure;
 
 /**

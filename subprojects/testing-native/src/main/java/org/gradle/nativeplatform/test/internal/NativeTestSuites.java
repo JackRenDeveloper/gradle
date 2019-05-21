@@ -16,7 +16,6 @@
 
 package org.gradle.nativeplatform.test.internal;
 
-import org.gradle.api.Action;
 import org.gradle.internal.service.ServiceRegistry;
 import org.gradle.model.ModelMap;
 import org.gradle.nativeplatform.NativeBinarySpec;

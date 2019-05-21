@@ -16,12 +16,10 @@
 
 package org.gradle.model.collection.internal;
 
-import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectCollection;
 import org.gradle.api.Namer;
 import org.gradle.api.Transformer;
 import org.gradle.api.internal.DefaultNamedDomainObjectCollection;
-import org.gradle.internal.Factory;
 import org.gradle.model.internal.core.ModelActionRole;
 import org.gradle.model.internal.core.ModelPath;
 import org.gradle.model.internal.core.ModelReference;

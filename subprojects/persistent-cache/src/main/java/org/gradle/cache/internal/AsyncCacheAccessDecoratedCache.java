@@ -20,7 +20,6 @@ import org.gradle.api.Transformer;
 import org.gradle.cache.AsyncCacheAccess;
 import org.gradle.cache.FileLock;
 import org.gradle.cache.MultiProcessSafePersistentIndexedCache;
-import org.gradle.internal.Factory;
 
 import javax.annotation.Nullable;
 

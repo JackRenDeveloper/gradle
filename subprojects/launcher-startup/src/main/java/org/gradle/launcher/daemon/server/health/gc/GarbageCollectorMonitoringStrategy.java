@@ -16,16 +16,12 @@
 
 package org.gradle.launcher.daemon.server.health.gc;
 
-import org.gradle.api.Transformer;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
-import org.gradle.api.specs.Spec;
 import org.gradle.internal.jvm.Jvm;
 import org.gradle.util.CollectionUtils;
 
-import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryPoolMXBean;
 import java.util.List;
 
 public enum GarbageCollectorMonitoringStrategy {

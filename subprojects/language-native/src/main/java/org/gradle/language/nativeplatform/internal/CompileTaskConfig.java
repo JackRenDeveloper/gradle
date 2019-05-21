@@ -17,7 +17,6 @@ package org.gradle.language.nativeplatform.internal;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Task;
-import org.gradle.api.Transformer;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.internal.file.FileCollectionFactory;
 import org.gradle.api.internal.file.collections.MinimalFileSet;

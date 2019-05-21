@@ -16,7 +16,9 @@
 
 package org.gradle.internal.nativeintegration.jansi;
 
-import static org.gradle.internal.nativeintegration.jansi.JansiOperatingSystemSupport.*;
+import static org.gradle.internal.nativeintegration.jansi.JansiOperatingSystemSupport.LINUX;
+import static org.gradle.internal.nativeintegration.jansi.JansiOperatingSystemSupport.MAC_OS_X;
+import static org.gradle.internal.nativeintegration.jansi.JansiOperatingSystemSupport.WINDOWS;
 
 /**
  * Portions of this class have been copied from org.fusesource.hawtjni.runtime.Library.java,

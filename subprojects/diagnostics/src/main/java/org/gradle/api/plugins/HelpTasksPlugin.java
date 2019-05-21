@@ -34,8 +34,6 @@ import org.gradle.api.tasks.diagnostics.PropertyReportTask;
 import org.gradle.api.tasks.diagnostics.TaskReportTask;
 import org.gradle.configuration.Help;
 
-import java.util.concurrent.Callable;
-
 /**
  * Adds various reporting tasks that provide information about the project.
  */

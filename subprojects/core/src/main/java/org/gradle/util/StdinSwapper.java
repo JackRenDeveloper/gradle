@@ -15,9 +15,6 @@
  */
 package org.gradle.util;
 
-import org.gradle.api.Action;
-import java.util.concurrent.Callable;
-
 import java.io.InputStream;
 
 public class StdinSwapper extends Swapper<InputStream> {

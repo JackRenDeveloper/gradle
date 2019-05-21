@@ -15,7 +15,6 @@
  */
 package org.gradle.api.plugins.osgi;
 
-import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.file.FileCollection;
@@ -25,7 +24,6 @@ import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.plugins.JavaPluginConvention;
 import org.gradle.api.tasks.Sync;
 import org.gradle.api.tasks.bundling.Jar;
-import org.gradle.internal.Factory;
 import org.gradle.util.DeprecationLogger;
 import org.gradle.util.SingleMessageLogger;
 

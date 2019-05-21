@@ -31,7 +31,6 @@ import org.gradle.language.base.internal.registry.LanguageTransformContainer;
 import org.gradle.platform.base.internal.BinarySpecInternal;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;

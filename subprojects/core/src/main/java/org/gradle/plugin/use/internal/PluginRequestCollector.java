@@ -17,7 +17,6 @@
 package org.gradle.plugin.use.internal;
 
 import com.google.common.annotations.VisibleForTesting;
-import org.gradle.api.Transformer;
 import org.gradle.groovy.scripts.ScriptSource;
 import org.gradle.internal.exceptions.LocationAwareException;
 import org.gradle.plugin.management.internal.DefaultPluginRequest;

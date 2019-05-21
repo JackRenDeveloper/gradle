@@ -17,7 +17,10 @@
 package org.gradle.api.internal.tasks.testing.logging;
 
 import org.gradle.api.logging.LogLevel;
-import org.gradle.api.tasks.testing.*;
+import org.gradle.api.tasks.testing.TestDescriptor;
+import org.gradle.api.tasks.testing.TestListener;
+import org.gradle.api.tasks.testing.TestOutputEvent;
+import org.gradle.api.tasks.testing.TestOutputListener;
 import org.gradle.api.tasks.testing.TestResult;
 import org.gradle.api.tasks.testing.logging.TestLogEvent;
 import org.gradle.api.tasks.testing.logging.TestLogging;

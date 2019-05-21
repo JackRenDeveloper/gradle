@@ -16,7 +16,6 @@
 
 package org.gradle.jvm.application.tasks;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.gradle.api.Incubating;

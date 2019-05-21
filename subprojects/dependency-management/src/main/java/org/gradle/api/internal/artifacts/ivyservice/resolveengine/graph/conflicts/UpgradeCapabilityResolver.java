@@ -20,7 +20,6 @@ import org.gradle.api.capabilities.Capability;
 import org.gradle.util.VersionNumber;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Set;
 
 /**

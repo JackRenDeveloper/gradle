@@ -18,8 +18,6 @@ package org.gradle.model.internal.manage.schema.extract;
 
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Multimap;
-import org.gradle.api.Action;
-import org.gradle.internal.BiAction;
 import org.gradle.model.internal.core.ChildNodeInitializerStrategy;
 import org.gradle.model.internal.core.ChildNodeInitializerStrategyAccessor;
 import org.gradle.model.internal.core.ChildNodeInitializerStrategyAccessors;
@@ -29,7 +27,6 @@ import org.gradle.model.internal.core.ModelAction;
 import org.gradle.model.internal.core.ModelActionRole;
 import org.gradle.model.internal.core.ModelMapModelProjection;
 import org.gradle.model.internal.core.ModelReference;
-import org.gradle.model.internal.core.MutableModelNode;
 import org.gradle.model.internal.core.NodeBackedModelMap;
 import org.gradle.model.internal.core.NodeInitializer;
 import org.gradle.model.internal.core.NodeInitializerRegistry;

@@ -17,7 +17,6 @@
 package org.gradle.initialization.buildsrc;
 
 import org.gradle.StartParameter;
-import org.gradle.api.Transformer;
 import org.gradle.api.internal.BuildDefinition;
 import org.gradle.api.internal.initialization.ClassLoaderScope;
 import org.gradle.cache.FileLock;
@@ -30,7 +29,6 @@ import org.gradle.internal.build.PublicBuildPath;
 import org.gradle.internal.build.StandAloneNestedBuild;
 import org.gradle.internal.classpath.CachedClasspathTransformer;
 import org.gradle.internal.classpath.ClassPath;
-import org.gradle.internal.invocation.BuildController;
 import org.gradle.internal.operations.BuildOperationContext;
 import org.gradle.internal.operations.BuildOperationDescriptor;
 import org.gradle.internal.operations.BuildOperationExecutor;

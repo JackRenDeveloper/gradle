@@ -29,10 +29,8 @@ import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.cache.internal.BinaryStore;
 import org.gradle.cache.internal.Store;
-import org.gradle.internal.Factory;
 import org.gradle.internal.operations.BuildOperationExecutor;
 import org.gradle.internal.serialize.Decoder;
-import org.gradle.internal.serialize.Encoder;
 import org.gradle.internal.time.Time;
 import org.gradle.internal.time.Timer;
 

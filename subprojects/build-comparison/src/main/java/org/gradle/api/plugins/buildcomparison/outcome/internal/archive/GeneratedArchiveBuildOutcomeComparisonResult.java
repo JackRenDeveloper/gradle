@@ -20,7 +20,6 @@ import org.gradle.api.plugins.buildcomparison.compare.internal.BuildOutcomeCompa
 import org.gradle.api.plugins.buildcomparison.compare.internal.ComparisonResultType;
 import org.gradle.api.plugins.buildcomparison.outcome.internal.BuildOutcomeAssociation;
 import org.gradle.api.plugins.buildcomparison.outcome.internal.archive.entry.ArchiveEntryComparison;
-import org.gradle.api.specs.Spec;
 import org.gradle.util.CollectionUtils;
 
 import java.util.SortedSet;

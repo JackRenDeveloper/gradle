@@ -15,11 +15,9 @@
  */
 package org.gradle.internal.jacoco;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import org.gradle.api.Project;
 import org.gradle.api.file.FileCollection;
-import org.gradle.api.specs.Spec;
 import org.gradle.util.VersionNumber;
 
 import java.io.File;

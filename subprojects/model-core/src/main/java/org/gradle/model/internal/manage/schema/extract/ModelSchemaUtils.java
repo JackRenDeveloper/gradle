@@ -17,7 +17,6 @@
 package org.gradle.model.internal.manage.schema.extract;
 
 import com.google.common.base.Equivalence;
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSortedMap;
@@ -26,7 +25,6 @@ import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 import groovy.lang.GroovyObject;
 import org.gradle.internal.reflect.GroovyMethods;
-import org.gradle.internal.reflect.Types.TypeVisitor;
 import org.gradle.model.Managed;
 
 import java.lang.reflect.Method;

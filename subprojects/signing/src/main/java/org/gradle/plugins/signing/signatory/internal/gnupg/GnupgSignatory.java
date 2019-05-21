@@ -15,13 +15,11 @@
  */
 package org.gradle.plugins.signing.signatory.internal.gnupg;
 
-import org.gradle.api.Action;
 import org.gradle.api.Incubating;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.plugins.signing.signatory.SignatorySupport;
-import org.gradle.process.ExecSpec;
 
 import java.io.File;
 import java.io.InputStream;

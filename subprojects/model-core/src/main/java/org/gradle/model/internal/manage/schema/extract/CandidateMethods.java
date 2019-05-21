@@ -17,9 +17,9 @@
 package org.gradle.model.internal.manage.schema.extract;
 
 import com.google.common.base.Equivalence;
-import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 import java.lang.reflect.Method;
 import java.util.Collection;

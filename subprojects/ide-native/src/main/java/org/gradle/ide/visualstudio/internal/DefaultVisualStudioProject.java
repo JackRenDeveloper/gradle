@@ -18,7 +18,6 @@ package org.gradle.ide.visualstudio.internal;
 
 import com.google.common.collect.ImmutableList;
 import org.gradle.api.Action;
-import org.gradle.api.Transformer;
 import org.gradle.api.XmlProvider;
 import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.internal.tasks.DefaultTaskDependency;

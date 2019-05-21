@@ -22,7 +22,6 @@ import org.gradle.api.NonNullApi;
 import org.gradle.api.internal.file.FileCollectionFactory;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 @NonNullApi
 public class GetOutputFilesVisitor extends PropertyVisitor.Adapter {

@@ -16,7 +16,6 @@
 
 package org.gradle.api.internal.artifacts.repositories;
 
-import org.gradle.api.Action;
 import org.gradle.api.Transformer;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.api.artifacts.repositories.ArtifactRepository;

@@ -15,7 +15,6 @@
  */
 package org.gradle.plugin.management.internal.autoapply;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

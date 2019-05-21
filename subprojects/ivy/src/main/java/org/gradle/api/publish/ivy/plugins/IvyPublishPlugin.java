@@ -16,7 +16,6 @@
 
 package org.gradle.api.publish.ivy.plugins;
 
-import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectFactory;
 import org.gradle.api.NamedDomainObjectList;
 import org.gradle.api.NamedDomainObjectSet;

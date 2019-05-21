@@ -17,7 +17,6 @@
 package org.gradle.ide.visualstudio.internal;
 
 import org.gradle.api.Action;
-import org.gradle.api.Transformer;
 import org.gradle.api.file.ProjectLayout;
 import org.gradle.api.file.RegularFile;
 import org.gradle.api.internal.tasks.DefaultTaskDependency;
@@ -39,7 +38,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 public class DefaultVisualStudioSolution implements VisualStudioSolutionInternal {

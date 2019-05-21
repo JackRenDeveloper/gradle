@@ -29,8 +29,6 @@ import org.gradle.internal.execution.history.AfterPreviousExecutionState;
 import org.gradle.internal.fingerprint.CurrentFileCollectionFingerprint;
 import org.gradle.internal.fingerprint.FileCollectionFingerprint;
 
-import java.util.function.Consumer;
-
 /**
  * Snapshot the task's inputs before execution.
  *

@@ -30,7 +30,6 @@ import org.gradle.nativeplatform.toolchain.internal.NativeToolChainInternal;
 import org.gradle.nativeplatform.toolchain.internal.PlatformToolProvider;
 
 import java.io.File;
-import java.util.concurrent.Callable;
 
 /**
  * Links a binary shared library from object files and imported libraries.

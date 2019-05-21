@@ -18,7 +18,6 @@ package org.gradle.language.nativeplatform.internal;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
-import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.util.PatternSet;
 import org.gradle.language.base.internal.LanguageSourceSetInternal;
 import org.gradle.language.nativeplatform.tasks.AbstractNativeCompileTask;

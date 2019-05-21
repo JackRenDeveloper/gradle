@@ -29,7 +29,6 @@ import org.gradle.api.tasks.compile.CompileOptions;
 import org.gradle.internal.Cast;
 
 import java.io.File;
-import java.util.concurrent.Callable;
 
 public class SourceSetUtil {
     private SourceSetUtil() {}

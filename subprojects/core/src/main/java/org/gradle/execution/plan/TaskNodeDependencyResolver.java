@@ -19,8 +19,6 @@ package org.gradle.execution.plan;
 import org.gradle.api.Action;
 import org.gradle.api.Task;
 
-import javax.annotation.Nonnull;
-
 /**
  * Resolves dependencies to {@link TaskNode} objects. Uses the same logic as {@link #TASK_AS_TASK}.
  */

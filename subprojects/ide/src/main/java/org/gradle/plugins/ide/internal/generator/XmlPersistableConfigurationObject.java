@@ -15,7 +15,6 @@
  */
 package org.gradle.plugins.ide.internal.generator;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import groovy.lang.Closure;

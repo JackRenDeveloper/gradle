@@ -16,8 +16,6 @@
 
 package org.gradle.integtests.fixtures.logging;
 
-import org.gradle.api.specs.Spec;
-
 import java.util.ArrayList;
 import java.util.List;
 

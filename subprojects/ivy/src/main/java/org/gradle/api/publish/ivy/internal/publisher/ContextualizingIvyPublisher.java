@@ -16,8 +16,6 @@
 
 package org.gradle.api.publish.ivy.internal.publisher;
 
-import org.apache.ivy.Ivy;
-import org.gradle.api.Action;
 import org.gradle.api.internal.artifacts.ivyservice.IvyContextManager;
 import org.gradle.api.internal.artifacts.repositories.PublicationAwareRepository;
 

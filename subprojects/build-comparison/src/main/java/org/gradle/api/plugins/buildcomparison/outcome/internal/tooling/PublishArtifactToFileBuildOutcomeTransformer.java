@@ -31,7 +31,13 @@ import org.gradle.tooling.model.internal.outcomes.GradleFileBuildOutcome;
 import java.net.URI;
 import java.util.Set;
 
-import static org.gradle.api.plugins.buildcomparison.outcome.internal.FileOutcomeIdentifier.*;
+import static org.gradle.api.plugins.buildcomparison.outcome.internal.FileOutcomeIdentifier.ARCHIVE_ARTIFACT;
+import static org.gradle.api.plugins.buildcomparison.outcome.internal.FileOutcomeIdentifier.EAR_ARTIFACT;
+import static org.gradle.api.plugins.buildcomparison.outcome.internal.FileOutcomeIdentifier.JAR_ARTIFACT;
+import static org.gradle.api.plugins.buildcomparison.outcome.internal.FileOutcomeIdentifier.TAR_ARTIFACT;
+import static org.gradle.api.plugins.buildcomparison.outcome.internal.FileOutcomeIdentifier.UNKNOWN_ARTIFACT;
+import static org.gradle.api.plugins.buildcomparison.outcome.internal.FileOutcomeIdentifier.WAR_ARTIFACT;
+import static org.gradle.api.plugins.buildcomparison.outcome.internal.FileOutcomeIdentifier.ZIP_ARTIFACT;
 
 public class PublishArtifactToFileBuildOutcomeTransformer {
 

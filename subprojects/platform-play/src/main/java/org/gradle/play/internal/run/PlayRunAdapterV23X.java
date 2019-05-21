@@ -16,7 +16,6 @@
 
 package org.gradle.play.internal.run;
 
-import org.gradle.api.Transformer;
 import org.gradle.util.CollectionUtils;
 
 import java.io.File;

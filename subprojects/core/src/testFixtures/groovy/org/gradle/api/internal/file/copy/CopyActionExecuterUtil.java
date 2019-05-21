@@ -16,7 +16,6 @@
 
 package org.gradle.api.internal.file.copy;
 
-import org.gradle.api.internal.file.CopyActionProcessingStreamAction;
 import org.gradle.api.tasks.WorkResult;
 
 import java.util.Arrays;

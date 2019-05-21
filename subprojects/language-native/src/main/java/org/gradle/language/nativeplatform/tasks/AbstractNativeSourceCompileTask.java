@@ -17,8 +17,6 @@
 package org.gradle.language.nativeplatform.tasks;
 
 import org.gradle.api.Incubating;
-import org.gradle.api.Task;
-import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.Nested;
 import org.gradle.api.tasks.Optional;
 import org.gradle.language.base.compile.CompilerVersion;

@@ -15,7 +15,6 @@
  */
 package org.gradle.api.internal.plugins;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
@@ -23,7 +22,6 @@ import org.gradle.api.internal.CollectionCallbackActionDecorator;
 import org.gradle.api.plugins.PluginCollection;
 import org.gradle.api.plugins.PluginContainer;
 import org.gradle.api.plugins.UnknownPluginException;
-import org.gradle.api.specs.Spec;
 import org.gradle.plugin.use.internal.DefaultPluginId;
 
 import java.util.Collection;

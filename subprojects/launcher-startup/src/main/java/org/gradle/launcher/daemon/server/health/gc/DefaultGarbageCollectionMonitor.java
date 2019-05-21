@@ -17,7 +17,6 @@
 package org.gradle.launcher.daemon.server.health.gc;
 
 import com.google.common.annotations.VisibleForTesting;
-import org.gradle.api.specs.Spec;
 import org.gradle.internal.time.Time;
 import org.gradle.util.CollectionUtils;
 

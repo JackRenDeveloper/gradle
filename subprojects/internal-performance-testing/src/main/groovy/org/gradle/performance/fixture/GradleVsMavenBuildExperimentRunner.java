@@ -18,10 +18,8 @@ package org.gradle.performance.fixture;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
-import org.gradle.api.Action;
 import org.gradle.api.UncheckedIOException;
 import org.gradle.internal.concurrent.CompositeStoppable;
-import org.gradle.performance.measure.MeasuredOperation;
 import org.gradle.performance.results.MeasuredOperationList;
 import org.gradle.process.internal.ExecAction;
 import org.gradle.process.internal.ExecActionFactory;

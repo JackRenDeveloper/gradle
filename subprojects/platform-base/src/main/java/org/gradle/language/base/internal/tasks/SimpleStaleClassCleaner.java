@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
-import java.util.function.Predicate;
 
 public class SimpleStaleClassCleaner extends StaleClassCleaner {
     private final Set<File> filesToDelete;

@@ -16,7 +16,6 @@
 
 package org.gradle.model.internal.manage.schema;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Maps;

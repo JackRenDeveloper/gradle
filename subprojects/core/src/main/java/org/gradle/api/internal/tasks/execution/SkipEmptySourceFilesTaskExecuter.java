@@ -37,9 +37,7 @@ import org.gradle.internal.fingerprint.FileCollectionFingerprint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.function.Predicate;
 
 /**
  * A {@link TaskExecuter} which skips tasks whose source file collection is empty.

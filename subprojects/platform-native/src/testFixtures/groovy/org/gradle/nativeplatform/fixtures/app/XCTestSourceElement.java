@@ -17,7 +17,6 @@
 package org.gradle.nativeplatform.fixtures.app;
 
 import com.google.common.collect.Lists;
-import org.gradle.api.Transformer;
 import org.gradle.integtests.fixtures.SourceFile;
 import org.gradle.integtests.fixtures.TestExecutionResult;
 import org.gradle.internal.os.OperatingSystem;

@@ -24,8 +24,6 @@ import org.gradle.api.internal.file.archive.compression.SimpleCompressor;
 import org.gradle.api.internal.file.copy.CopyAction;
 import org.gradle.api.tasks.Input;
 
-import java.util.concurrent.Callable;
-
 /**
  * Assembles a TAR archive.
  */

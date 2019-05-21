@@ -16,8 +16,6 @@
 
 package org.gradle.testkit.runner.internal;
 
-import org.gradle.api.Transformer;
-import org.gradle.api.specs.Spec;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.BuildTask;
 import org.gradle.testkit.runner.TaskOutcome;

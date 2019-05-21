@@ -23,7 +23,6 @@ import org.gradle.api.internal.PolymorphicNamedEntityInstantiator;
 import org.gradle.api.internal.rules.DefaultRuleAwarePolymorphicNamedEntityInstantiator;
 import org.gradle.api.internal.rules.RuleAwarePolymorphicNamedEntityInstantiator;
 import org.gradle.internal.Actions;
-import org.gradle.internal.BiAction;
 import org.gradle.internal.Factories;
 import org.gradle.internal.Factory;
 import org.gradle.model.ModelMap;

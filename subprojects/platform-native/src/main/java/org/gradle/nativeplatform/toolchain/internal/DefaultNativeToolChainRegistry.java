@@ -15,7 +15,6 @@
  */
 package org.gradle.nativeplatform.toolchain.internal;
 
-import org.gradle.api.Action;
 import org.gradle.api.GradleException;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.internal.CollectionCallbackActionDecorator;

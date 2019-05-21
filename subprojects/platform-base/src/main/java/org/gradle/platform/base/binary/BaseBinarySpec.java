@@ -16,7 +16,6 @@
 
 package org.gradle.platform.base.binary;
 
-import org.gradle.api.Action;
 import org.gradle.api.DomainObjectSet;
 import org.gradle.api.Incubating;
 import org.gradle.api.Task;

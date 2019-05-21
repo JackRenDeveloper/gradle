@@ -16,15 +16,17 @@
 
 package org.gradle.api.internal.artifacts.ivyservice;
 
-import javax.xml.namespace.QName;
-
 import com.google.common.base.Joiner;
 import org.gradle.api.InvalidUserDataException;
-import org.gradle.api.Transformer;
 import org.gradle.api.artifacts.ivy.IvyExtraInfo;
 import org.gradle.util.CollectionUtils;
 
-import java.util.*;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DefaultIvyExtraInfo implements IvyExtraInfo {
     protected Map<NamespaceId, String> extraInfo;

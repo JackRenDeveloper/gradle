@@ -17,7 +17,6 @@
 package org.gradle.platform.base.internal.registry;
 
 import com.google.common.collect.ImmutableList;
-import org.gradle.api.Action;
 import org.gradle.api.Task;
 import org.gradle.internal.Cast;
 import org.gradle.model.ModelMap;

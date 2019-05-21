@@ -17,7 +17,6 @@
 package org.gradle.api.plugins.buildcomparison.compare.internal;
 
 import org.gradle.api.plugins.buildcomparison.outcome.internal.BuildOutcome;
-import org.gradle.api.specs.Spec;
 import org.gradle.util.CollectionUtils;
 
 import java.util.List;

@@ -19,7 +19,6 @@ import com.android.builder.model.AndroidProject;
 import org.gradle.api.Action;
 import org.gradle.tooling.BuildActionExecuter;
 import org.gradle.tooling.ProjectConnection;
-import org.gradle.tooling.events.ProgressEvent;
 import org.gradle.tooling.events.ProgressListener;
 
 import java.util.Map;

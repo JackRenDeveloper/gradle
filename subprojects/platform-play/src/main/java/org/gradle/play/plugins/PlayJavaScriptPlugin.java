@@ -16,7 +16,6 @@
 
 package org.gradle.play.plugins;
 
-import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Incubating;
 import org.gradle.api.Plugin;

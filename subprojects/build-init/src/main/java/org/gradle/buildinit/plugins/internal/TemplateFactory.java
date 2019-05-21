@@ -19,7 +19,6 @@ package org.gradle.buildinit.plugins.internal;
 import org.gradle.api.Action;
 import org.gradle.api.internal.file.FileResolver;
 import org.gradle.buildinit.plugins.internal.modifiers.Language;
-import org.gradle.internal.Factory;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;

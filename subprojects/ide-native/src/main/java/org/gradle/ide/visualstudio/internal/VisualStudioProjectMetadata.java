@@ -17,7 +17,6 @@
 package org.gradle.ide.visualstudio.internal;
 
 import org.gradle.api.Task;
-import org.gradle.api.Transformer;
 import org.gradle.internal.Describables;
 import org.gradle.internal.DisplayName;
 import org.gradle.plugins.ide.internal.IdeProjectMetadata;

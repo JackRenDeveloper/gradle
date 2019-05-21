@@ -18,7 +18,6 @@ package org.gradle.launcher.daemon.configuration;
 
 import com.google.common.collect.ImmutableSet;
 import org.gradle.api.internal.file.FileCollectionFactory;
-import org.gradle.api.specs.Spec;
 import org.gradle.cache.internal.HeapProportionalCacheSizer;
 import org.gradle.process.internal.CurrentProcess;
 import org.gradle.process.internal.JvmOptions;

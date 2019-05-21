@@ -17,12 +17,10 @@
 package org.gradle.internal.resource.local;
 
 import org.gradle.api.Transformer;
-import org.gradle.internal.Factory;
 import org.gradle.util.CollectionUtils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 /**

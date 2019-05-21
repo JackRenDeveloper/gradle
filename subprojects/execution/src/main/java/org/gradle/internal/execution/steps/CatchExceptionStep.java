@@ -18,7 +18,6 @@ package org.gradle.internal.execution.steps;
 
 import org.gradle.internal.Try;
 import org.gradle.internal.execution.Context;
-import org.gradle.internal.execution.ExecutionOutcome;
 import org.gradle.internal.execution.Result;
 import org.gradle.internal.execution.Step;
 

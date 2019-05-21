@@ -16,15 +16,12 @@
 
 package org.gradle.nativeplatform.toolchain.internal.swift;
 
-import org.gradle.api.Action;
-import org.gradle.api.Transformer;
 import org.gradle.internal.IoActions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

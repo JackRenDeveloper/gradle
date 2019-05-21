@@ -16,7 +16,6 @@
 
 package org.gradle.model.internal.registry;
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang.StringUtils;

@@ -28,8 +28,6 @@ import org.gradle.internal.operations.BuildOperationDescriptor;
 import org.gradle.internal.operations.BuildOperationExecutor;
 import org.gradle.internal.operations.ExecutingBuildOperation;
 
-import java.util.function.Consumer;
-
 /**
  * The operation started here is finished in {@link MarkSnapshottingInputsFinishedStep}.
  *

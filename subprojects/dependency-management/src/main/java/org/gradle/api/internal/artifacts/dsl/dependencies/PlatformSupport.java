@@ -17,8 +17,6 @@ package org.gradle.api.internal.artifacts.dsl.dependencies;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
-import org.gradle.api.Action;
-import org.gradle.api.attributes.AttributeContainer;
 import org.gradle.api.attributes.AttributeDisambiguationRule;
 import org.gradle.api.attributes.AttributeMatchingStrategy;
 import org.gradle.api.attributes.AttributesSchema;

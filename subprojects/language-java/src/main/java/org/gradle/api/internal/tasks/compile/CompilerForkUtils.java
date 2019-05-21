@@ -16,8 +16,6 @@
 
 package org.gradle.api.internal.tasks.compile;
 
-import org.gradle.api.Task;
-import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.TaskOutputs;
 import org.gradle.api.tasks.compile.CompileOptions;
 

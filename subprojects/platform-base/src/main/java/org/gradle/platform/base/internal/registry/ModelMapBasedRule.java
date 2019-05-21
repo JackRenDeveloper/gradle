@@ -16,7 +16,6 @@
 
 package org.gradle.platform.base.internal.registry;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import org.gradle.model.ModelMap;

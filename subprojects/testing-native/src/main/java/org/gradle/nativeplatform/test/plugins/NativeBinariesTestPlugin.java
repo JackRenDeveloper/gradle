@@ -17,7 +17,6 @@
 package org.gradle.nativeplatform.test.plugins;
 
 import com.google.common.collect.Lists;
-import org.gradle.api.Action;
 import org.gradle.api.Incubating;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -25,7 +24,6 @@ import org.gradle.api.Task;
 import org.gradle.api.internal.resolve.ProjectModelResolver;
 import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.internal.service.ServiceRegistry;
-import org.gradle.language.base.LanguageSourceSet;
 import org.gradle.language.nativeplatform.DependentSourceSet;
 import org.gradle.model.Defaults;
 import org.gradle.model.Each;

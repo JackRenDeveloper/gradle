@@ -28,7 +28,6 @@ import org.gradle.cache.internal.HeapProportionalCacheSizer;
 import org.gradle.internal.UncheckedException;
 
 import java.util.Collection;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 public class CachingPatternSpecFactory extends PatternSpecFactory {

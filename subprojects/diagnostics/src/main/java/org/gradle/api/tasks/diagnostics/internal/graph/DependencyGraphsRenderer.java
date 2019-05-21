@@ -17,7 +17,6 @@
 package org.gradle.api.tasks.diagnostics.internal.graph;
 
 import com.google.common.collect.Sets;
-import org.gradle.api.Action;
 import org.gradle.api.tasks.diagnostics.internal.graph.nodes.RenderableDependency;
 import org.gradle.api.tasks.diagnostics.internal.graph.nodes.UnresolvableConfigurationResult;
 import org.gradle.internal.graph.GraphRenderer;

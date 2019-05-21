@@ -17,7 +17,6 @@
 package org.gradle.api.internal.artifacts.configurations;
 
 import com.google.common.collect.Maps;
-import org.gradle.api.Action;
 import org.gradle.api.artifacts.result.ResolutionResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.internal.artifacts.result.ResolvedComponentResultInternal;

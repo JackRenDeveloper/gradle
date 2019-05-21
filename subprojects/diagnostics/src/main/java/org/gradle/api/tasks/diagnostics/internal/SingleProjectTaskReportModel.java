@@ -22,7 +22,6 @@ import org.gradle.util.GUtil;
 import org.gradle.util.Path;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Set;
 
 public class SingleProjectTaskReportModel implements TaskReportModel {

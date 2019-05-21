@@ -16,8 +16,6 @@
 
 package org.gradle.internal.operations;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import org.gradle.api.Action;

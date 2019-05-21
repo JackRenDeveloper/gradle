@@ -26,7 +26,6 @@ import org.gradle.api.tasks.diagnostics.PropertyReportTask;
 import org.gradle.api.tasks.diagnostics.TaskReportTask;
 
 import java.io.File;
-import java.util.concurrent.Callable;
 
 /**
  * <p>A {@link Plugin} which adds some project visualization report tasks to a project.</p>

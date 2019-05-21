@@ -15,7 +15,6 @@
  */
 package org.gradle.plugins.ide.eclipse.internal;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Sets;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.JavaPluginConvention;

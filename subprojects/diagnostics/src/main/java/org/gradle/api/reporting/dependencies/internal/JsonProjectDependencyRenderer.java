@@ -19,7 +19,6 @@ package org.gradle.api.reporting.dependencies.internal;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import groovy.json.JsonBuilder;
-import org.gradle.api.Action;
 import org.gradle.api.Project;
 import org.gradle.api.Transformer;
 import org.gradle.api.artifacts.Configuration;
