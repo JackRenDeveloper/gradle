@@ -101,7 +101,7 @@ public abstract class ImmutableActionSet<T> implements Action<T>, InternalListen
         return fromActions(set);
     }
 
-    private static <T> ImmutableActionSet<T> plus(ImmutableActionSet<T> one, Action<? super T> two) {
+    static <T> ImmutableActionSet<T> plus(ImmutableActionSet<T> one, Action<? super T> two) {
         ImmutableSet.Builder<Action<? super T>> builder = ImmutableSet.builder();
         one.unpackInto(builder);
         builder.add(two);

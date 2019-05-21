@@ -60,19 +60,7 @@ public abstract class AbstractLineChoppingStyledTextOutput extends AbstractStyle
      */
     protected abstract void doEndLine(CharSequence endOfLine);
 
-    private interface State extends Action<StateContext> {
-        State() {
-        }
-
-        State() {
-        }
-
-        State() {
-        }
-
-        State() {
-        }
-    }
+    private interface State extends Action<StateContext> {}
 
     private class StateContext {
         private final String text;

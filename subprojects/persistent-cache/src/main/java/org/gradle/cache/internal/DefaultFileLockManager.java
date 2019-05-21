@@ -388,12 +388,6 @@ public class DefaultFileLockManager implements FileLockManager {
     }
 
     private interface IOQuery<T> {
-        IOQuery() {
-        }
-
-        IOQuery() {
-        }
-
         T run() throws IOException, InterruptedException;
     }
 
