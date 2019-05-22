@@ -27,6 +27,7 @@ import org.gradle.api.internal.collections.DefaultDomainObjectCollectionFactory;
 import org.gradle.api.internal.collections.DomainObjectCollectionFactory;
 import org.gradle.api.internal.file.DefaultFilePropertyFactory;
 import org.gradle.api.internal.file.FileCollectionFactory;
+import org.gradle.api.internal.file.FilePropertyFactory;
 import org.gradle.api.internal.file.FileResolver;
 import org.gradle.api.internal.file.TemporaryFileProvider;
 import org.gradle.api.internal.file.TmpDirTemporaryFileProvider;
@@ -119,6 +120,7 @@ public class GlobalScopeServices extends WorkerSharedGlobalScopeServices {
     public GlobalScopeServices(final boolean longLiving, ClassPath additionalModuleClassPath) {
         super(additionalModuleClassPath);
         this.environment = new GradleBuildEnvironment() {
+            @Override
             public boolean isLongLivingProcess() {
                 return longLiving;
             }
@@ -244,19 +246,18 @@ public class GlobalScopeServices extends WorkerSharedGlobalScopeServices {
         return new DefaultMemoryManager(osMemoryInfo, jvmMemoryInfo, listenerManager, executorFactory);
     }
 
-    ObjectFactory createObjectFactory(InstantiatorFactory instantiatorFactory, ServiceRegistry services, FileResolver fileResolver, DirectoryFileTreeFactory directoryFileTreeFactory, FileCollectionFactory fileCollectionFactory, DomainObjectCollectionFactory domainObjectCollectionFactory) {
+    FilePropertyFactory createFilePropertyFactory(FileResolver fileResolver) {
+        return new DefaultFilePropertyFactory(fileResolver);
+    }
+
+    ObjectFactory createObjectFactory(InstantiatorFactory instantiatorFactory, ServiceRegistry services, FileResolver fileResolver, DirectoryFileTreeFactory directoryFileTreeFactory, FileCollectionFactory fileCollectionFactory, FilePropertyFactory filePropertyFactory) {
         return new DefaultObjectFactory(
             instantiatorFactory.injectAndDecorate(services),
             NamedObjectInstantiator.INSTANCE,
             fileResolver,
             directoryFileTreeFactory,
-            new DefaultFilePropertyFactory(fileResolver),
-            fileCollectionFactory,
-            domainObjectCollectionFactory);
-    }
-
-    DomainObjectCollectionFactory createDomainObjectCollectionFactory(InstantiatorFactory instantiatorFactory, ServiceRegistry services) {
-        return new DefaultDomainObjectCollectionFactory(instantiatorFactory, services, CollectionCallbackActionDecorator.NOOP, MutationGuards.identity());
+            filePropertyFactory,
+            fileCollectionFactory);
     }
 
     ProviderFactory createProviderFactory() {
@@ -275,6 +276,7 @@ public class GlobalScopeServices extends WorkerSharedGlobalScopeServices {
         return new DefaultParallelismConfigurationManager(listenerManager);
     }
 
+    @Override
     PatternSpecFactory createPatternSpecFactory() {
         return new CachingPatternSpecFactory();
     }
