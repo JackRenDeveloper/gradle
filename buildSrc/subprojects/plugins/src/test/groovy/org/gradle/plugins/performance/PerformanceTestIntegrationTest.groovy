@@ -1,6 +1,9 @@
 package org.gradle.plugins.performance
 
+import spock.lang.Ignore
+
 class PerformanceTestIntegrationTest extends AbstractIntegrationTest {
+    @Ignore
     def "honors branch name in channel"() {
         buildFile << """
             plugins {
